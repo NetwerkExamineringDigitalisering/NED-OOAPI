@@ -24,6 +24,8 @@ sequenceDiagram
       Note right of Toetsplanning: endpoint /a/ooapi/resultaat (POST)
       Toetsplanning->>Toetsafname: 200 - Bedankt!
       deactivate Toetsplanning
+   end
+    loop voor elke student
       Toetsafname->>Toetsplanning: hier is het resultaat van de student voor deze examenzitting
       activate Toetsplanning
       Note right of Toetsplanning: endpoint /a/ooapi/resultaat (PUT)
