@@ -9,7 +9,7 @@ sequenceDiagram
       Toetsafname->>Toetsplanning: hier is het resultaat van de student voor deze examenzitting
       activate Toetsplanning
       Note right of Toetsplanning: endpoint /a/ooapi/resultaat (POST)
-      Toetsplanning->>Toetsafname: Bedankt!
+      Toetsplanning->>Toetsafname: 200 - Bedankt!
       deactivate Toetsplanning
     end
 ```
@@ -22,12 +22,12 @@ sequenceDiagram
       Toetsafname->>Toetsplanning: hier is aanwezigheid/afwezigheid van de student voor deze examenzitting
       activate Toetsplanning
       Note right of Toetsplanning: endpoint /a/ooapi/resultaat (POST)
-      Toetsplanning->>Toetsafname: Bedankt!
+      Toetsplanning->>Toetsafname: 200 - Bedankt!
       deactivate Toetsplanning
       Toetsafname->>Toetsplanning: hier is het resultaat van de student voor deze examenzitting
       activate Toetsplanning
       Note right of Toetsplanning: endpoint /a/ooapi/resultaat (PUT)
-      Toetsplanning->>Toetsafname: Bedankt!
+      Toetsplanning->>Toetsafname: 200 - Bedankt!
       deactivate Toetsplanning
    end
 ```
