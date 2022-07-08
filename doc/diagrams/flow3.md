@@ -5,6 +5,8 @@
 
 ```mermaid
 sequenceDiagram
+    participant Toetsplanning
+    participant Toetsafname
     loop voor elke student
       Toetsafname->>Toetsplanning: hier is het resultaat van de student voor deze examenzitting
       activate Toetsplanning
@@ -18,6 +20,8 @@ sequenceDiagram
 
 ```mermaid
 sequenceDiagram
+    participant Toetsplanning
+    participant Toetsafname
     loop voor elke student
       Toetsafname->>Toetsplanning: hier is aanwezigheid/afwezigheid van de student voor deze examenzitting
       activate Toetsplanning
