@@ -1,4 +1,7 @@
 # NED-OOAPI
+![](doc/diagrams/NED-logo.png)
+
+
 MBO standard to organise tests and exams based on OOAPI
 
 ## Note: Legal status of the specifications in this repository
@@ -8,7 +11,7 @@ MBO standard to organise tests and exams based on OOAPI
 ## Abstract
 
 A typical school uses a broad range of exam and testing tools..... bla bla babble.
-![Main](doc/diagrams/mainFlows.png)
+![Main](doc/diagrams/NED-Mainflow.png)
 
 - [flow 0 : Toets catalogus van toets afname naar sis en planning](doc/diagrams/flow0.md)
 - [flow 1 : SIS data for planning exams and tests](doc/diagrams/flow1.md)
