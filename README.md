@@ -10,6 +10,12 @@ MBO standard to organise tests and exams based on OOAPI
 A typical school uses a broad range of exam and testing tools..... bla bla babble.
 ![Main](doc/diagrams/mainFlows.png)
 
+- flow 0 
+- flow 1 : SIS data for planning exams and tests
+- [flow 2 : planned exams are send to the toestapplicatie](doc/diagrams/flow2.md)
+- [flow 3 : results are returned to the plannings application] (doc/diagrams/flow3.md)
+- flow 4
+- flow 5
 ## Structure of this repository
 
 This repository consists of the following elements:
