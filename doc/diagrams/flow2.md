@@ -93,6 +93,7 @@ sequenceDiagram
  - rollen: student, invilgator, coordinator, assessor (wat als er meerdere rolen zijn?)
 - remoteState : zelfde als State
 - offeringId is impliciet
+- extraTimeInMin en personalNeeds zijn optioneel en alleen by rol student
 
 ```
 {
@@ -143,13 +144,15 @@ sequenceDiagram
 ```
 
 
-## optie 5 later tijdstip: verwijderen van een zitting
+## optie 5 later tijdstip: vervallen van een zitting
 
 ```mermaid
 sequenceDiagram
     Toetsplanning->>Toetsafname: Deze zitting mag weg, gaan we niet meer gebruiken
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT status cancelled)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT offeringState cancelled)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
+
+Status change van cancelled naar active: blijven studenten dan actief? blijven associaties?
