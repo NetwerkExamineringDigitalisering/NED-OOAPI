@@ -1,6 +1,6 @@
 # Flow 2 : registreren van de zitting bij de toetsafname applicatie
 
-## optie 1 : Aanmaken van zitting  zonder studenten
+## Flow 2.1 : Aanmaken van zitting  zonder studenten
 
 ```mermaid
 sequenceDiagram
@@ -11,18 +11,55 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
+For the zitting the following entities and attributes are used:
+```mermaid
+classDiagram
+    class offering {
+    	string : offeringId
+	identifierEntity : primaryCode
+	offeringType : offeringType
+	String : component
+	LanguageTypedString[] : name
+	LanguageTypedString[] : Description
+	string : teachingLanguage
+	modeOfDeliveryType : modeOfDelivery
+	boolean : resultExpected
+	DateTime: startDateTime
+	DateTime : endDateTime
+    }
+    class consumers {
+    	consumerKey
+	int: duration
+	string:	safety
+	offeringStateType: offeringState
+	string : locationCode
+    }
+    offering o-- consumers
+```
+
+### Remarks
 - id worden door sender aangemaakt.
 - er moet een put endpoint gemaakt worden
+- offering has no state, so we add it in the consumer extention. we support "active", "cancelled"
 - velden: 
-- primaryCode-codeType ? hoeft niet unqiue zijn, moet herkenbaar zijn voor afname leider
-- nl-nl word ondersteund , rest /dev/null
-- primarycode, naam en description (not used) zijn allemaal verplicht (afhankelijk van afname systeem wat ze er mee doen)
-- teachingLanguage (standaard NLD, not used)
-- modeOfDelivery : situated, online, oncampus (beter omschrijving)
-- resultExpected verplicht op true
-- offeringState: cancelled, active
+	- primaryCode-codeType ? hoeft niet unqiue zijn, moet herkenbaar zijn voor afname leider
+	- For LanguageTypedString : nl-nl word ondersteund , rest word genegeerd
+	- primarycode, naam en description (not used) zijn allemaal verplicht (afhankelijk van afname systeem wat ze er mee doen)
+	- teachingLanguage (must be hardcoded NLD, not used)
+	- modeOfDelivery : we only support :situated, online, oncampus (beter omschrijving)
+	- resultExpected verplicht op true
+	- offeringState: we only support cancelled, active
+- consumers:
+	- add one of type "consumerKey": "MBO-toetsafname"
+	- duration: <to be decided>
+	- safety : <to be defined>
+	- offeringState : we support "active", "cancelled"
+	- locationCode : string met indicatie van locatie (voor herkenbaarheid, we will not use the location structure from OOAPI)
 
+### example of request	
 ```
+PUT /a/ooapi/offerings
+
 {
    "offeringId": "123e4567-e89b-12d3-a456-134564174000",
    "primaryCode": {
@@ -37,7 +74,6 @@ sequenceDiagram
          "value": "20220621-12:45-Remindo rekenen MBO-3"
       }
    ],
-   "abbreviation": null,
    "description": [
       {
          "language": "nl-NL",
@@ -51,12 +87,11 @@ sequenceDiagram
    "resultExpected": true,
    "consumers": [
       {
-         "consumerKey": "MBO-toetsafname",
-				 #je hebt duration nodig als je flexibele periodes hebt.
-				 "duration": 60,
-				 "safety": "schoolYear",
-				 "offeringState": "active",
-             "locationCode":"A-22"
+         	"consumerKey": "MBO-toetsafname",
+		"duration": 60,  #je hebt duration nodig als je flexibele periodes hebt.
+		"safety": "schoolYear",
+		"offeringState": "active",
+		"locationCode":"A-22"
       }
    ],
    "startDateTime": "2022-06-21T12:45:00",
@@ -66,7 +101,7 @@ sequenceDiagram
 
 
 
-## optie 2 : Aanmaken van zitting  met studenten
+## Flow 2.2 : Aanmaken van zitting  met studenten
 
 ```mermaid
 sequenceDiagram
@@ -119,7 +154,7 @@ sequenceDiagram
    "person": <expanded>
 }
 ```
-## optie 3 : later tijdstip: toevoegen van studenten aan aan zitting
+## Flow 2.3 : later tijdstip: toevoegen van studenten aan aan zitting
 
 ```mermaid
 sequenceDiagram
@@ -132,7 +167,7 @@ sequenceDiagram
 
 used status van association : associated, cancelled
 
-## optie 4 : later tijdstip: verwijderen van studenten aan aan zitting
+## Flow 2.4 : later tijdstip: verwijderen van studenten aan aan zitting
 
 ```mermaid
 sequenceDiagram
@@ -144,7 +179,7 @@ sequenceDiagram
 ```
 
 
-## optie 5 later tijdstip: vervallen van een zitting
+## Flow 2.5 later tijdstip: vervallen van een zitting
 
 ```mermaid
 sequenceDiagram
@@ -154,5 +189,22 @@ sequenceDiagram
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
+	
+Open Question : Status change van cancelled naar active: blijven studenten dan actief? blijven associaties?
 
-Status change van cancelled naar active: blijven studenten dan actief? blijven associaties?
+## Flow 2.6 Read current state of the offering
+To see the current state of the offering with its assocoations the following endpoint can be used
+```mermaid
+sequenceDiagram
+    Toetsplanning->>Toetsafname: Give me the latest
+    activate Toetsafname
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/<id> (GET)
+    Toetsafname->>Toetsplanning: 200 - here it is!
+    Toetsplanning->>Toetsafname: And give me the students
+    activate Toetsafname
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (GET)
+    Toetsafname->>Toetsplanning: 200 - here they are!
+    deactivate Toetsafname
+```
+	
+
