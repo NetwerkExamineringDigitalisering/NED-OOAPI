@@ -15,7 +15,7 @@ For the zitting the following entities and attributes are used:
 ```mermaid
 classDiagram
     class offering {
-    	string : offeringId
+    	UUID : offeringId
 	identifierEntity : primaryCode
 	offeringType : offeringType
 	String : component
@@ -28,7 +28,7 @@ classDiagram
 	DateTime : endDateTime
     }
     class consumers {
-    	consumerKey
+    	string: consumerKey
 	int: duration
 	string:	safety
 	offeringStateType: offeringState
@@ -44,15 +44,16 @@ classDiagram
 - velden: 
 	- primaryCode-codeType ? hoeft niet unqiue zijn, moet herkenbaar zijn voor afname leider
 	- For LanguageTypedString : nl-nl word ondersteund , rest word genegeerd
-	- primarycode, naam en description (not used) zijn allemaal verplicht (afhankelijk van afname systeem wat ze er mee doen)
-	- teachingLanguage (must be hardcoded NLD, not used)
+	- to comply to the standard we have mandatory fields :
+	 	- primarycode, naam en description (not used) zijn allemaal verplicht (afhankelijk van afname systeem wat ze er mee doen) (TO BE DECIDED)
+		- teachingLanguage (must be hardcoded NLD, not used)
 	- modeOfDelivery : we only support :situated, online, oncampus (beter omschrijving)
 	- resultExpected verplicht op true
 	- offeringState: we only support cancelled, active
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
-	- duration: <to be decided>
-	- safety : <to be defined>
+	- duration: < to be decided >
+	- safety : < to be defined >
 	- offeringState : we support "active", "cancelled"
 	- locationCode : string met indicatie van locatie (voor herkenbaarheid, we will not use the location structure from OOAPI)
 
@@ -119,18 +120,54 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
-- bij meerdere associaties : het vervangt de complete lijst
-- - 
-- voorstel attributen: personid, primaryCode (beter omschrijven - sso), givenName, surName, surnamePrefix, mail
-- voor standaard bevrediging : displayname (goed gevuld), activeEnrollment (true) , affilliations (guest)
-- gedrag : mag gebruiken om te updaten (geen verplichting ivm provisioning)
- - perosn is zelfde voor alle rollen 
- - rollen: student, invilgator, coordinator, assessor (wat als er meerdere rolen zijn?)
-- remoteState : zelfde als State
-- offeringId is impliciet
-- extraTimeInMin en personalNeeds zijn optioneel en alleen by rol student
-
+For the zitting the following entities and attributes are used:
+```mermaid
+classDiagram
+    class association {
+    	UUID : associationId
+	associationType : associationType
+	associationRole : role
+	state: state
+	remoteState: remoteState
+    }
+    class consumers {
+    	string: consumerKey
+	int: extraTimeInMin
+	string[]: personalNeeds
+    }
+    class person {
+	UUID: personId
+	identifierEntity : primaryCode
+	string: givenName
+	string: surnamePrefix
+	string: surname
+	string: displayname
+	boolean: activeEnrollment
+	personAffiliations: affiliations
+	string: mail
+    }
+    association o-- consumers
+    association -- person
 ```
+### Remarks
+- Association
+	- supported roles: student, invilgator, coordinator, assessor (wat als er meerdere rolen zijn?)
+	- remoteState : zelfde als state, but not used. (unfortunatelly: madatory)
+	- offeringId is impliciet, so no need to add
+- person
+	- voorstel attributen: personid, primaryCode (beter omschrijven - sso), givenName, surName, surnamePrefix, mail (not mandatory filled, avg/gdpr)
+	- to comply to the standard we have mandatory fields (which we wont use) : displayname (goed gevuld), activeEnrollment (true) , affilliations (guest)
+	- affilliations is not the role in the offering, but the a more generic role. can be ignored for this spec or set to "guest"
+	- primaryCode will be used for SSO purpose: uniquely identify a student : nlpersonrealid,eckid etc (details will follow), 
+ - consumers
+	- add one of type "consumerKey": "MBO-toetsafname"
+	- extraTimeInMin en personalNeeds zijn optioneel en alleen by rol student
+	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
+
+### example of request	
+```
+PUT endpoint /a/ooapi/offerings/<id>/associations
+
 {
    "associationId": "123e4567-e89b-12d3-a456-426614174000",
    "associationType": "componentOfferingAssociation",
@@ -151,9 +188,28 @@ sequenceDiagram
 				 ]
       }
    ],
-   "person": <expanded>
+   "person": {
+	"primaryCode": 
+	{
+		"codeType": "studentNumber",
+		"code": "1234567"
+	}
+	"givenName": "Maartje",
+	"surnamePrefix": "van",
+	"surname": "Damme"
+	"displayName": "Maartje van Damme",
+	"activeEnrollment": true,
+	"affiliations": [
+		"student"
+	],
+	"mail": "vandamme.mcw@student.roc.nl",
+	"languageOfChoice": [
+		"nl-NL"
+	]
+   }
 }
 ```
+
 ## Flow 2.3 : later tijdstip: toevoegen van studenten aan aan zitting
 
 ```mermaid
