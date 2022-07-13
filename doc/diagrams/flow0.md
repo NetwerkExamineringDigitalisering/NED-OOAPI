@@ -5,11 +5,13 @@ The deelnemer registratie(SIS) and toetsplanning can request to list of availabl
 ## Flow 0.1 Request whole catalogue
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: give me the catalogue
-    activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/components?type=test (GET)
-    Toetsafname->>Toetsplanning: 200 - Hier is de lijst!
-    deactivate Toetsafname
+    participant DR/TP as Deelnemerreg/Toetsplanning
+    participant TA as Toetsafname
+    DR/TP->>TA: give me the test catalogue
+    activate TA
+    Note right of TA: endpoint /a/ooapi/components?type=test (GET)
+    TA->>DR/TP: 200 - Here is the test catalogue!
+    deactivate TA
 ```
 
 ### Example of a request/response to read the whole catalogue
