@@ -189,6 +189,7 @@ PUT endpoint /a/ooapi/offerings/<id>/associations
       }
    ],
    "person": {
+   	"personId":"111-2222-33-4444-222"
 	"primaryCode": 
 	{
 		"codeType": "studentNumber",
