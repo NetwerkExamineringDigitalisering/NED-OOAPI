@@ -37,7 +37,7 @@ PATCH /associations/{associationId}
 		"assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
 		"assessorCode": "JAJE",
 		"attendance": "present",
-		"additionalInfo": "Jantje heeft gespiekt."
+		"irregularities": "Jantje heeft gespiekt."
 		"final": true,
 		"documents": [
 		 {
@@ -63,7 +63,7 @@ Remarks:
 	- documents: always via documents ooAPI endpoint. (TODO Explain why)
 	- documentTypes: supported : "assessmentForm", "assessmentFormWithAnswers", "assessmentModel", "other"
 	- attendence: "notPresent| notStarted | notFinished | present" (mandatory)
-	- additionalInfo: <to be added>
+	- irregularities: <to be added>
 
 ## Flow 3.2 : Send attendance first, send resultaat later
 ```mermaid
