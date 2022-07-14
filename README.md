@@ -17,7 +17,7 @@ A typical school uses a broad range of exam and testing tools..... bla bla babbl
 - flow 1 : Deelnemerregistratie data for planning exams and tests sent to Toetsplanning
 - [flow 2 : Planned exam/test is sent to Toetsafname](doc/diagrams/flow2.md)
 - [flow 3 : Test results are returned to Toetsplanning](doc/diagrams/flow3.md)
-- [flow 4 : Test sesion report (Procesverbaal and iregularities) back to Toetsplanning](doc/diagrams/flow4.md)
+- [flow 4 : Test sesion report (Procesverbaal and irregularities) back to Toetsplanning](doc/diagrams/flow4.md)
 - flow 5 : Test results to Deelnemerregistratie
 
 ## Structure of this repository
