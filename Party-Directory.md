@@ -10,5 +10,5 @@ Please contact MBO-Digitaal to be included in this directory.
 
 |  Name | Product | Role | Endpoint URl | Auth Url | Contatc info |
 |--|--|--|--|--|--|
-| Iddink group | Eduarte | SIS & AfnamePlanning | < tbd > | - | - | kees.vanginkel@iddinkgroup.nl |
-| Xebic | On Trac | AfnamePlanning |  < tbd > | - | - | rrutte@xebic.com |
+| Iddink group | Eduarte | SIS & AfnamePlanning | - | - | kees.vanginkel@iddinkgroup.nl |
+| Xebic | On Trac | AfnamePlanning | - | - | rrutte@xebic.com |
