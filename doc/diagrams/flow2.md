@@ -38,17 +38,17 @@ classDiagram
 ```
 
 ### Remarks
-- id of the offering (zitting) is created by sender(Toetsplanning).
-- Toetsafname makes a PUIT endpoint.
-- Object Offering has no state, so we add it in the consumer extention. We support "active", "cancelled"
+- id of the offering (zitting) is created by sender (Toetsplanning).
+- Toetsafname makes a PUT endpoint available.
+- Object Offering has no state, so we add the state in the consumer extention. We support "active", "cancelled"
 - attributes: 
-	- primaryCode-codeType ? doenn't have to be unqiue, must be recognised by afnameleider.
-	- For LanguageTypedString : nl-nl is valid and supported, all other will beignored.
+	- primaryCode.codeType is "identifier"? primaryCode.code doesn't have to be unqiue, must be recognised by afnameleider.
+	- For LanguageTypedString : value nl-nl is valid and supported, all other values will be ignored.
 	- To comply to the standard we have mandatory fields :
-	 	- primarycode, name and description (not used) are mandatory (depending on Toetsasfname system what to do with these data) (TO BE DECIDED)
+	 	- primarycode, name and description (not used) are mandatory (depending on Toetsafname system what to do with these data) (TO BE DECIDED)
+	 	- resultExpected is mandatory (always true)
 		- teachingLanguage (must be hardcoded NLD, not used)
-	- modeOfDelivery : we only support :situated, online, oncampus (beter omschrijving)
-	- resultExpected mandatory op true
+	- modeOfDelivery : we only support :situated, online, oncampus (TO BE DONE: better description of the meaning)
 	- offeringState: we only support cancelled and active
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
