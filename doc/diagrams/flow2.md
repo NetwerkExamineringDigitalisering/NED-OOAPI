@@ -40,7 +40,7 @@ classDiagram
 ### Remarks
 - id of the offering (zitting) is created by sender (Toetsplanning).
 - Toetsafname makes a PUT endpoint available.
-- Object Offering has no state, so we add the state in the consumer extention. We support "active", "cancelled"
+- Object Offering has no state, so we add the state in the consumer extention. We support "active", "canceled"
 - attributes: 
 	- primaryCode.codeType is "identifier"? primaryCode.code doesn't have to be unqiue, must be recognised by afnameleider.
 	- For LanguageTypedString : value nl-nl is valid and supported, all other values will be ignored.
@@ -48,13 +48,13 @@ classDiagram
 	 	- primarycode, name and description (not used) are mandatory (depending on Toetsafname system what to do with these data) (TO BE DECIDED)
 	 	- resultExpected is mandatory (always true)
 		- teachingLanguage (must be hardcoded NLD, not used)
-	- modeOfDelivery : we only support :situated, online, oncampus (TO BE DONE: better description of the meaning)
-	- offeringState: we only support cancelled and active
+	- modeOfDelivery : we only support :situated, online, oncampus (TO BE DONE: better description of the meaning https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/2)
+
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
 	- duration: < to be decided >
 	- safety : < to be defined >
-	- offeringState : we support "active", "cancelled" (TO BE DECIDED: "cancelled" [is English] or "canceled" [is American English and in OOAPI])
+	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
 	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
 
 ### example of request	
@@ -223,7 +223,7 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
-used status van association : associated, cancelled
+used status van association : associated, canceled
 
 ## Flow 2.4 : later moment: Delete van students to offering (zitting)
 
@@ -231,7 +231,7 @@ used status van association : associated, cancelled
 sequenceDiagram
     Toetsplanning->>Toetsafname: En deze studenten doen niet meer mee
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (PUT status cancelled)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (PUT status canceled)
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
 ```
@@ -243,12 +243,12 @@ sequenceDiagram
 sequenceDiagram
     Toetsplanning->>Toetsafname: Deze zitting mag weg, gaan we niet meer gebruiken
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT offeringState cancelled)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT offeringState canceled)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
 	
-Open Question : Status change from cancelledback to active: Will students remain active? Will associations remain?
+Open Question : Status change from canceled back to active: Will students remain active? Will associations remain?
 
 ## Flow 2.6 Read current state of the offering (zitting)
 To see/check the current state of the offering (zitting) with its associations the following endpoint can be used at Toetsafname
@@ -258,7 +258,7 @@ sequenceDiagram
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings/<id> (GET)
     Toetsafname->>Toetsplanning: 200 - here it is!
-    Toetsplanning->>Toetsafname: And give me the students
+    Toetsplanning->>Toetsafname: And give me the students and employees
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (GET)
     Toetsafname->>Toetsplanning: 200 - here they are!
