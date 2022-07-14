@@ -1,16 +1,16 @@
-# Flow 4 : Sturen van zittingsverslag when toets/examen is afgenomen
+# Flow 4 : Transfer offering report (zittingsverslag) when test is taken
 
-After the exam or test thas finished word het zittingsverslag met onrgelmatigheden gestuurd naar de toetsplanning.
-Dit is zowel gestructureerde informatie van verloop, als eventueel een geupload processverbaal, met handtekeningen
+After the test has finished the offering report (zittingsverslag) including irregularities is sent to Toetsplanning.
+This contains structured data as uploaded documents, e.g. session report (processverbaal), AAR with signatures, etc.
 
-## Flow 4.1 : Send attendance en resultaat directly (automated scored tests)
+## Flow 4.1 : Send attendance en offering report directly (automated scored tests)
 
 ```mermaid
 sequenceDiagram
     participant Toetsplanning
     participant Toetsafname
 
-    Toetsafname->>Toetsplanning: here is the zittingsverslag
+    Toetsafname->>Toetsplanning: here is the offering report (zittingsverslag)
     activate Toetsplanning
     Note right of Toetsplanning: endpoint /a/ooapi/offerings/{offeringID} (PATCH)
     Toetsplanning->>Toetsafname: 200 - OK!
@@ -39,12 +39,17 @@ sequenceDiagram
 Remarks:
 - documentTypes: supported : "sessionReport", "attendanceReport", "assessmentModel", "other"
 
+- Consumer attributes and values
+	- irregularities: textual information about the test, such as irregularities: <to be added>
+	- documents: data group for document specification (optional, multiple times). See flow 3; supported values for documentType here: "sessionReport" (written description of events occured during the test, procesverbaal), "attendanceReport" (filled presence form with signatures), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values). 
+
+
 ## Flow 4.2 Read current state of zittingsverslag
 To see the current state of the offering the following endpoint can be used
 
 ```mermaid
 sequenceDiagram
-  Toetsplanning->>Toetsafname: Give me the zittingsverslag
+  Toetsplanning->>Toetsafname: Give me the offering report (zittingsverslag)
   activate Toetsafname
   Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringID} (GET)
   Toetsafname->>Toetsplanning: 200 - here it is (and all other information as well)!
