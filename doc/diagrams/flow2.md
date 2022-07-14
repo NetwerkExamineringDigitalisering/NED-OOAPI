@@ -1,4 +1,4 @@
-# Flow 2 : Transfer zitting to Toetsafname application
+# Flow 2 : Transfer offering (zitting) to Toetsafname
 
 ## Flow 2.1 : Create offering (zitting) without students
 
