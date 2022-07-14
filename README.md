@@ -14,11 +14,11 @@ A typical school uses a broad range of exam and testing tools..... bla bla babbl
 
 ![Main](doc/diagrams/NED-Mainflow.png)
 
-- [flow 0 : Test catalogue from Toetsafname to Deelnemerregistratie and Toetsplanning](doc/diagrams/flow0.md)
+- [flow 0 : Test catalogue from Toetsafname to Deelnemerregistratie and Toetsplanning](doc/flow0.md)
 - flow 1 : Deelnemerregistratie data for planning exams and tests sent to Toetsplanning
-- [flow 2 : Planned exam/test is sent to Toetsafname](doc/diagrams/flow2.md)
-- [flow 3 : Test results are returned to Toetsplanning](doc/diagrams/flow3.md)
-- [flow 4 : Test session report (Procesverbaal and irregularities) back to Toetsplanning](doc/diagrams/flow4.md)
+- [flow 2 : Planned exam/test is sent to Toetsafname](doc/flow2.md)
+- [flow 3 : Test results are returned to Toetsplanning](doc/flow3.md)
+- [flow 4 : Test session report (Procesverbaal and irregularities) back to Toetsplanning](doc/flow4.md)
 - flow 5 : Test results to Deelnemerregistratie
 - flow 6 : analyse information
 
