@@ -60,7 +60,8 @@ Remarks:
 - Consumer values
 	- final : is vast gesteld door examen commissie. Can be done in toetsplanning or SIS. so most systems would send false. (optional, default false)
 	- assessorId en assessorCode is the identity of the assessor (optional)
-	- files: always via documents ooAPI endpoint. (TODO Explain why)
+	- documents: always via documents ooAPI endpoint. (TODO Explain why)
+	- documentTypes: supported : "assessmentForm", "assessmentFormWithAnswers", "assessmentModel", "other"
 	- attendence: "notPresent| notStarted | notFinished | present" (mandatory)
 	- additionalInfo: <to be added>
 
