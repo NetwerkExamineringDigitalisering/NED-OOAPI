@@ -1,5 +1,11 @@
 # Flow 2 : Transfer offering (zitting) to Toetsafname
 
+Used endpoints for this flow are:
+`PUT /offerings`
+`PUT /offerings/{offeringId}/associations`
+`GET /offerings/{offeringId}`
+`GET /offerings/{offeringId}/associations`
+
 ## Flow 2.1 : Create offering (zitting) without students
 
 ```mermaid
