@@ -1,6 +1,6 @@
 # Flow 2 : Transfer zitting to Toetsafname application
 
-## Flow 2.1 : Create zitting  without students
+## Flow 2.1 : Create offering (zitting) without students
 
 ```mermaid
 sequenceDiagram
@@ -11,7 +11,7 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
-For the zitting the following entities and attributes are used:
+For the offering (zitting) the following entities and attributes are used:
 ```mermaid
 classDiagram
     class offering {
@@ -38,9 +38,9 @@ classDiagram
 ```
 
 ### Remarks
-- id is created by sender(Toetsplanning).
+- id of the offering (zitting) is created by sender(Toetsplanning).
 - Toetsafname makes a PUIT endpoint.
-- Object Offering has no state, so we add it in the consumer extention. We support "active", "canceled"
+- Object Offering has no state, so we add it in the consumer extention. We support "active", "cancelled"
 - attributes: 
 	- primaryCode-codeType ? doenn't have to be unqiue, must be recognised by afnameleider.
 	- For LanguageTypedString : nl-nl is valid and supported, all other will beignored.
@@ -49,13 +49,13 @@ classDiagram
 		- teachingLanguage (must be hardcoded NLD, not used)
 	- modeOfDelivery : we only support :situated, online, oncampus (beter omschrijving)
 	- resultExpected mandatory op true
-	- offeringState: we only support cancelled, active
+	- offeringState: we only support cancelled and active
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
 	- duration: < to be decided >
 	- safety : < to be defined >
-	- offeringState : we support "active", "cancelled"
-	- locationCode : string met indicatie van locatie (voor herkenbaarheid, we will not use the location structure from OOAPI)
+	- offeringState : we support "active", "cancelled" (TO BE DECIDED: "cancelled" [is English] or "canceled" [is American English and in OOAPI])
+	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
 
 ### example of request	
 ```
@@ -102,7 +102,7 @@ PUT /a/ooapi/offerings
 
 
 
-## Flow 2.2 : Aanmaken van zitting  met studenten
+## Flow 2.2 : Create offering (zitting) with students
 
 ```mermaid
 sequenceDiagram
@@ -120,7 +120,7 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
-For the zitting the following entities and attributes are used:
+For the offering (zitting) the following entities and attributes are used:
 ```mermaid
 classDiagram
     class association {
@@ -151,17 +151,18 @@ classDiagram
 ```
 ### Remarks
 - Association
-	- supported roles: student, invilgator, coordinator, assessor (wat als er meerdere rolen zijn?)
-	- remoteState : zelfde als state, but not used. (unfortunatelly: madatory)
-	- offeringId is impliciet, so no need to add
+	- supported roles: student, invigilator, coordinator, assessor (If there are multiple roles then multiple associations).
+	- remoteState : same as state, but not used. (unfortunatelly: mandatory).
+	- offering (componentOffering) is sent before so no need to add all data, just the offeringId is enough.
+	- testID (comopnentId) is implicit in offering, so no need to add.
 - person
-	- voorstel attributen: personid, primaryCode (beter omschrijven - sso), givenName, surName, surnamePrefix, mail (not mandatory filled, avg/gdpr)
-	- to comply to the standard we have mandatory fields (which we wont use) : displayname (goed gevuld), activeEnrollment (true) , affilliations (guest)
-	- affilliations is not the role in the offering, but the a more generic role. can be ignored for this spec or set to "guest"
+	- Proposed attributes: personId, primaryCode (beter omschrijven - sso), givenName, surname, surnamePrefix, mail (not mandatory filled, avg/gdpr)
+	- to comply to the standard we have mandatory fields (which we wont use) : displayname (goed gevuld), activeEnrollment (true) , affiliations (guest)
+	- affiliations is not the role in the offering, but the a more generic role. can be ignored for this spec or set to "guest"
 	- primaryCode will be used for SSO purpose: uniquely identify a student : nlpersonrealid,eckid etc (details will follow), 
  - consumers
-	- add one of type "consumerKey": "MBO-toetsafname"
-	- extraTimeInMin en personalNeeds zijn optioneel en alleen by rol student
+	- add one of type "consumerKey": "MBO-toetsafname".
+	- attributesd extraTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
 
 ### example of request	
@@ -211,7 +212,7 @@ PUT endpoint /a/ooapi/offerings/<id>/associations
 }
 ```
 
-## Flow 2.3 : later tijdstip: toevoegen van studenten aan aan zitting
+## Flow 2.3 : later moment: Add students to offering (zitting)
 
 ```mermaid
 sequenceDiagram
@@ -224,7 +225,7 @@ sequenceDiagram
 
 used status van association : associated, cancelled
 
-## Flow 2.4 : later tijdstip: verwijderen van studenten aan aan zitting
+## Flow 2.4 : later moment: Delete van students to offering (zitting)
 
 ```mermaid
 sequenceDiagram
@@ -236,7 +237,7 @@ sequenceDiagram
 ```
 
 
-## Flow 2.5 later tijdstip: vervallen van een zitting
+## Flow 2.5 later moment: Delete offering (zitting)
 
 ```mermaid
 sequenceDiagram
@@ -247,10 +248,10 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 	
-Open Question : Status change van cancelled naar active: blijven studenten dan actief? blijven associaties?
+Open Question : Status change from cancelledback to active: Will students remain active? Will associations remain?
 
-## Flow 2.6 Read current state of the offering
-To see the current state of the offering with its assocoations the following endpoint can be used
+## Flow 2.6 Read current state of the offering (zitting)
+To see/check the current state of the offering (zitting) with its associations the following endpoint can be used at Toetsafname
 ```mermaid
 sequenceDiagram
     Toetsplanning->>Toetsafname: Give me the latest
