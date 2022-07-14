@@ -1,13 +1,13 @@
-# Flow 2 : registreren van de zitting bij de toetsafname applicatie
+# Flow 2 : Transfer zitting to Toetsafname application
 
-## Flow 2.1 : Aanmaken van zitting  zonder studenten
+## Flow 2.1 : Create zitting  without students
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: hier is mijn zitting met details
+    Toetsplanning->>Toetsafname: Here is my zitting with details
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT)
-    Toetsafname->>Toetsplanning: 200 - Bedankt!
+    Toetsafname->>Toetsplanning: 200 - Thanks!
     deactivate Toetsafname
 ```
 
@@ -38,17 +38,17 @@ classDiagram
 ```
 
 ### Remarks
-- id worden door sender aangemaakt.
-- er moet een put endpoint gemaakt worden
-- offering has no state, so we add it in the consumer extention. we support "active", "cancelled"
-- velden: 
-	- primaryCode-codeType ? hoeft niet unqiue zijn, moet herkenbaar zijn voor afname leider
-	- For LanguageTypedString : nl-nl word ondersteund , rest word genegeerd
-	- to comply to the standard we have mandatory fields :
-	 	- primarycode, naam en description (not used) zijn allemaal verplicht (afhankelijk van afname systeem wat ze er mee doen) (TO BE DECIDED)
+- id is created by sender(Toetsplanning).
+- Toetsafname makes a PUIT endpoint.
+- Object Offering has no state, so we add it in the consumer extention. We support "active", "canceled"
+- attributes: 
+	- primaryCode-codeType ? doenn't have to be unqiue, must be recognised by afnameleider.
+	- For LanguageTypedString : nl-nl is valid and supported, all other will beignored.
+	- To comply to the standard we have mandatory fields :
+	 	- primarycode, name and description (not used) are mandatory (depending on Toetsasfname system what to do with these data) (TO BE DECIDED)
 		- teachingLanguage (must be hardcoded NLD, not used)
 	- modeOfDelivery : we only support :situated, online, oncampus (beter omschrijving)
-	- resultExpected verplicht op true
+	- resultExpected mandatory op true
 	- offeringState: we only support cancelled, active
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
