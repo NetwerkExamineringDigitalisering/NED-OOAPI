@@ -13,12 +13,12 @@ MBO standard to organise tests and exams based on OOAPI
 A typical school uses a broad range of exam and testing tools..... bla bla babble.
 ![Main](doc/diagrams/NED-Mainflow.png)
 
-- [flow 0 : Toets catalogus van toets afname naar sis en planning](doc/diagrams/flow0.md)
-- flow 1 : SIS data for planning exams and tests
-- [flow 2 : planned exams are send to the toestapplicatie](doc/diagrams/flow2.md)
-- [flow 3 : results are returned to the plannings application](doc/diagrams/flow3.md)
-- [flow 4 : processverbaal en onregelmatigheden](doc/diagrams/flow4.md)
-- flow 5 : resultaten naar SIS
+- [flow 0 : Test catalogue from Toetsafname to Deelnemerregistratie and Toetsplanning](doc/diagrams/flow0.md)
+- flow 1 : Deelnemerregistratie data for planning exams and tests sent to Toetsplanning
+- [flow 2 : Planned exam/test is sent to Toetsafname](doc/diagrams/flow2.md)
+- [flow 3 : Test results are returned to Toetsplanning](doc/diagrams/flow3.md)
+- [flow 4 : Test sesion report (Procesverbaal and iregularities) back to Toetsplanning](doc/diagrams/flow4.md)
+- flow 5 : Test results to Deelnemerregistratie
 
 ## Structure of this repository
 
