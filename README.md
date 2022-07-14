@@ -1,8 +1,8 @@
-# NED-OOAPI
+# NED-OOAPI - MBO standard to organise tests and exams based on OOAPI
 ![](doc/diagrams/NED-logo.png)
 
 
-MBO standard to organise tests and exams based on OOAPI
+
 
 ## Note: Legal status of the specifications in this repository
  > All information in this repository is draft. No rigths can be claimed based on this information
@@ -11,6 +11,7 @@ MBO standard to organise tests and exams based on OOAPI
 ## Abstract
 
 A typical school uses a broad range of exam and testing tools..... bla bla babble.
+
 ![Main](doc/diagrams/NED-Mainflow.png)
 
 - [flow 0 : Test catalogue from Toetsafname to Deelnemerregistratie and Toetsplanning](doc/diagrams/flow0.md)
@@ -19,6 +20,9 @@ A typical school uses a broad range of exam and testing tools..... bla bla babbl
 - [flow 3 : Test results are returned to Toetsplanning](doc/diagrams/flow3.md)
 - [flow 4 : Test session report (Procesverbaal and irregularities) back to Toetsplanning](doc/diagrams/flow4.md)
 - flow 5 : Test results to Deelnemerregistratie
+- flow 6 : analyse information
+
+- [All flows - Authentication and scopes, error handling](doc/ErrorHandling.md)
 
 ## Structure of this repository
 
@@ -36,7 +40,8 @@ This repository consists of the following elements:
 
 | Version | Date | Status | Author | Comment |
 |---|---|---|---|---|
-| 0.1 | 1-31 mei 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) | |
+| 0.1 | 1-31 may 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) | |
+| 0.2 | 14 july 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) and many others | flow 0,2,3,4 defined |
 
 This repository is an initiative of the MBO Digitaal and NED.
 
