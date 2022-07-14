@@ -60,12 +60,12 @@ Remarks:
 - Consumer attributes and values
 	- attendence: indication of presence during the test (mandatory). Possible values are notPresent (niet aanwezig), notStarted (aanwezig maar niet gestart), notFinished (aanwezig en gestart maar niet afgerond/ingeleverd) en present (aanwezig en afgerond/ingeleverd)"
 	- assessorId en assessorCode: is the identity resp. code of the assessor (both optional).
+	- irregularities: textual information about the student test, such as irregularities: <to be added>
 	- final : indicates that the result has been finalised by the exam committee. Can be done in Toetsplanning (or even DR), so most Toetsafname applications will send false. (optional, default false).
 	- documents: data group for document specification (optional, multiple times). Document transfer is always via documents OOAPI endpoint because of security issues (TODO: Explain why). All next attributes are mandatory for each document:
 		- documentId: unique identifier for the document to be used in the document request.
 		- documentTypes: identifies the kind of document; supported values: "assessmentForm" (beoordelingformulier), "assessmentFormWithAnswers" (answers with assessment notes), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values). 
 		- documentName: name for the document that is specified by Toetsafname.
-	- irregularities: textual information about the student test, such as irregularities: <to be added>
 
 ## Flow 3.2 : Send attendance first, send resultaat later
 ```mermaid
