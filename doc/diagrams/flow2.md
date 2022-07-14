@@ -74,7 +74,7 @@ PUT /a/ooapi/offerings
       "code": "Remindo_rekenen_MBO-3_op_woendag_middag_21-jun-22_om_13:00_in_lokaal_13"
    },
    "offeringType": "component",
-   "component":"112-333-mooieguid-999-888",
+   "component":"c5fca27e-ccc1-430d-9888-90e005ad6a86",
    "name": [
       {
          "language": "nl-NL",
