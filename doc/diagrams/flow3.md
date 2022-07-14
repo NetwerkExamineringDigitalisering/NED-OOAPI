@@ -23,39 +23,46 @@ PATCH /associations/{associationId}
 
 {
 	
-   "consumers": [
-     {
-        "consumerKey": "MBO-toetsafname",
-        "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-        "assessorCode": "JAJE"
-         "attendance": "notPresent| notStarted | notFinished | present",
-        "documents": [
-         {
-           "documenitId": "123454"
-           "documentType": "assessmentForm",
-           "documentUrl": "https://acme.com/f72e34af-f8bc-4a09-bbf5-0cde8c3a656e.pdf",
-           "documentName": "Assessment form for Jake Doe.pdf",
-           "documentExtension": "pdf"
-         }
-        ]
-      }
-   ],
+
    "result": {
       "state": "completed",
-      "pass": "passed",
+      "pass": "unknown",
       "comment": "string",
       "score": "9",
       "resultDate": "2020-09-28T00:00:00.000Z",
-      "ext": null,
-      "weight": 100
+      "weight": 100,
+      "consumers": [
+	     {
+		"consumerKey": "MBO-toetsafname",
+		"assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+		"assessorCode": "JAJE",
+		"attendance": "present",
+		"additionalInfo": "Jantje heeft gespiekt."
+		"final": true,
+		"documents": [
+		 {
+		   "documentId": "123454",
+		   "documentType": "assessmentForm",
+		   "documentName": "Assessment form for Jake Doe.pdf"
+		 }
+		]
+	      }
+      ],
     }
 }
 ```
 Remarks:
-- officieel hoort het consumers object hier, maar ik zie bij results ook een ext object, dus daar zouden we dit object ook onder kunnen zetten. Het zijn per slot van rekening resultaatgegevens.
-- files: always via documents ooAPI endpoint or any place ?
-- file type : #Hebben we extra documenteigenschappen nodig zoals hieronder?
-- documentExtension: is it better to define a fixed set, so we know how to interpret ? or use mimetypes? (or only support pdf or other)
+- In the standard is the consumer not available for result, this is candidate to be added.
+- the result may be send with status "in progress", "postponed", "queued", but must be send when status changes to "completed".
+
+- Fields
+	- weight is mandatory, but is ignored in this interface. set to 100.
+- Consumer values
+	- final : is vast gesteld door examen commissie. Can be done in toetsplanning or SIS. so most systems would send false. (optional, default false)
+	- assessorId en assessorCode is the identity of the assessor (optional)
+	- files: always via documents ooAPI endpoint. (TODO Explain why)
+	- attendence: "notPresent| notStarted | notFinished | present" (mandatory)
+	- additionalInfo: <to be added>
 
 ## Flow 3.2 : Send attendance first, send resultaat later
 ```mermaid
@@ -83,12 +90,17 @@ sequenceDiagram
 PATCH /associations/{associationId}
 
 {
-   "consumers": [
-     {
-       "consumerKey": "MBO-toetsafname",
-       "attendance": "notPresent| notStarted | notFinished | present",
-     }
-   ]
+   "result": {
+      "state": "in progress",
+      "resultDate": "2020-09-27T00:00:00.000Z",
+      "weight": 100,
+      "consumers": [
+	     {
+		"consumerKey": "MBO-toetsafname",
+		"attendance": "present",
+	     }
+      ]
+    }
 }
 ```
  
