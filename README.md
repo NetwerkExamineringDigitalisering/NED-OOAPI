@@ -1,4 +1,4 @@
-# NED-OOAPI - MBO standard to organise tests and exams based on OOAPI
+# NED-OOAPI - Programma OKE - MBO standard to organise tests and exams based on OOAPI
 ![](doc/diagrams/NED-logo.png)
 
 
@@ -12,7 +12,7 @@
 
 A typical school uses a broad range of exam and testing tools..... bla bla babble.
 
-![Main](doc/diagrams/NED-Mainflow.png)
+![Main](doc/diagrams/ProgrammaOKE.png)
 
 - [flow 0 : Test catalogue from Toetsafname to Deelnemerregistratie and Toetsplanning](doc/flow0.md)
 - flow 1 : Deelnemerregistratie data for planning exams and tests sent to Toetsplanning
