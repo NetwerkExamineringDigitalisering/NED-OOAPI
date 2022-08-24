@@ -21,24 +21,24 @@ For the offering (zitting) the following entities and attributes are used:
 ```mermaid
 classDiagram
     class offering {
-    	UUID : offeringId
-	identifierEntity : primaryCode
+    	offeringId : UUID
+	primaryCode : identifierEntity
 	offeringType : offeringType
-	String : component
-	LanguageTypedString[] : name
-	LanguageTypedString[] : Description
-	string : teachingLanguage
-	modeOfDeliveryType : modeOfDelivery
-	boolean : resultExpected
-	DateTime: startDateTime
-	DateTime : endDateTime
+	component : string
+	name : languageTypedString[]
+	description : languageTypedString[]
+	teachingLanguage : string
+	modeOfDelivery : modeOfDeliveryType
+	resultExpected : boolean
+	startDateTime : datetime
+	endDateTime : datetime
     }
     class consumers {
-    	string: consumerKey
-	int: duration
-	string:	safety
-	offeringStateType: offeringState
-	string : locationCode
+    	consumerKey : string
+	duration : int
+	safety : string
+	offeringState : offeringStateType
+	string : locationCode : tring
     }
     offering o-- consumers
 ```
@@ -130,27 +130,27 @@ For the offering (zitting) the following entities and attributes are used:
 ```mermaid
 classDiagram
     class association {
-    	UUID : associationId
+    	associationId : UUID
 	associationType : associationType
-	associationRole : role
-	state: state
-	remoteState: remoteState
+	role : associationRole
+	state : state
+	remoteState : remoteState
     }
     class consumers {
-    	string: consumerKey
-	int: extraTimeInMin
-	string[]: personalNeeds
+    	consumerKey : string
+	extraTimeInMin : int
+	personalNeeds : string[]
     }
     class person {
-	UUID: personId
-	identifierEntity : primaryCode
-	string: givenName
-	string: surnamePrefix
-	string: surname
-	string: displayname
-	boolean: activeEnrollment
-	personAffiliations: affiliations
-	string: mail
+	personId : UUID
+	primaryCode : identifierEntity
+	givenName : string
+	surnamePrefix : string 
+	surname : string
+	displayname : string
+	activeEnrollment : boolean 
+	affiliations : personAffiliations
+	mail : string
     }
     association o-- consumers
     association -- person
