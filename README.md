@@ -42,6 +42,7 @@ This repository consists of the following elements:
 |---|---|---|---|---|
 | 0.1 | 1-31 may 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) | |
 | 0.2 | 14 july 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) and many others | flow 0,2,3,4 defined |
+| 0.3 | 13 sep 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) and many others | flow 6 added, technical refrence added |
 
 This repository is an initiative of the MBO Digitaal and NED.
 
