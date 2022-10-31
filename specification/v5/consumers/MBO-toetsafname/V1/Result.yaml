@@ -1,0 +1,50 @@
+type: object
+description: MBO-toetsafname add-on attributes to the result 
+required:
+  - attendance
+properties:
+  attendance:
+    type: string
+    description: |
+      attendance
+      indication of presence during the test (mandatory). 
+      Possible values are notPresent (niet aanwezig),
+      notStarted (aanwezig maar niet gestart),
+      notFinished (aanwezig en gestart maar niet afgerond/ingeleverd)
+      en present (aanwezig en afgerond/ingeleverd)"
+    enum:
+      - notPresent
+      - notStarted
+      - notFinished
+      - present
+  assessorId:
+    type: string
+    description: |
+      assessorId
+      the identity of the assessor. 
+  assessorCode:
+    type: string
+    description: |
+      assessorCode
+      the identity code of the assessor. 
+  irregularities:
+    type: string
+    description: |
+      irregularities: textual information about the student test, such as irregularities
+    example: student cheated and 15 min late
+  final:
+    type: boolean
+    description: |
+      final: indicates that the result has been finalised by the exam committee. 
+      Can be done in Toetsplanning (or even DR), so most Toetsafname applications will send false. (optional, default false) 
+  documents:
+    type: array
+    items:
+      type: string
+    minItems: 0
+    description: |
+      documents
+      documents to be added to this offering
+      TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
+ 
+

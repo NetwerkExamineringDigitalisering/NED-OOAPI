@@ -2,7 +2,6 @@ type: object
 description: MBO-toetsafname add-on attributes to the offerings 
 required:
   - offeringState
-  - requiredPermissionRegistration
 properties:
   duration:
     type: integer

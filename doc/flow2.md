@@ -54,12 +54,12 @@ classDiagram
 	 	- primarycode, name and description (not used) are mandatory (depending on Toetsafname system what to do with these data) (TO BE DECIDED)
 	 	- resultExpected is mandatory (always true)
 		- teachingLanguage (must be hardcoded NLD, not used)
-	- modeOfDelivery : we only support :situated, online, oncampus (TO BE DONE: better description of the meaning https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/2)
+	- modeOfDelivery : we only support :situated, online, oncampus (Situated: offline, on a specific location (could be a location in a company) Online: online on a specific location, Distance: everywhere, could also be from home )
 
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
-	- duration: < to be decided >
-	- safety : < to be defined >
+	- duration: < to be decided > (see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4)
+	- safety : array of safety measures : "Secured Computer", "Fixed Location", "Surveillance"
 	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
 	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
 
@@ -96,7 +96,7 @@ PUT /a/ooapi/offerings
       {
          	"consumerKey": "MBO-toetsafname",
 		"duration": 60,  #je hebt duration nodig als je flexibele periodes hebt.
-		"safety": "schoolYear",
+		"safety": ["Fixed Location", "Surveillance"]
 		"offeringState": "active",
 		"locationCode":"A-22"
       }
