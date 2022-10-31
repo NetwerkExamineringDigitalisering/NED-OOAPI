@@ -146,10 +146,10 @@ tags:
     x-displayName: ComponentOffering
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/ComponentOffering" />
-#  - name: association_model
-#    x-displayName: Association
-#    description: |
-#      <SchemaDefinition schemaRef="#/components/schemas/Association" />
+  - name: association_model
+    x-displayName: Association
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Association" />
   - name: person_model
     x-displayName: Person
     description: |
@@ -188,7 +188,7 @@ x-tagGroups:
     tags: 
 #      - service metadata
 #      - academic sessions
-#      - associations
+#     - associations
 #      - buildings
 #      - courses
       - components
@@ -204,7 +204,7 @@ x-tagGroups:
     tags:
 #      - service_model
 #      - academic_session_model
-#      - association_model
+      - association_model
 #      - building_model
       - component_model
       - component_offering_model
@@ -228,7 +228,7 @@ components:
     openId:
       type: openIdConnect
       openIdConnectUrl: https://example.nl/.well-known/openid-configuration
-  schemas:
+  #schemas:
     # allOf: 
     #   - $ref: 'schemas/Service.yaml'
     #   - $ref: schemas/AcademicSession.yaml

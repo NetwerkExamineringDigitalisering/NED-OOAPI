@@ -35,12 +35,63 @@ get:
         application/json:
           schema:
             oneOf:
+#              - $ref: '../schemas/CourseOffering.yaml'
+#                title: courseOffering
+              - $ref: '../schemas/ComponentOffering.yaml'
+                title: componentOffering
+#              - $ref: '../schemas/ProgramOffering.yaml'
+#                title: programOffering
+
+    '400':
+      $ref: '../schemas/ErrorBadRequest.yaml'
+    '401':
+      $ref: '../schemas/ErrorUnauthorized.yaml'
+    '403':
+      $ref: '../schemas/ErrorForbidden.yaml'
+    '404':
+      $ref: '../schemas/ErrorNotFound.yaml'
+    '405':
+      $ref: '../schemas/ErrorMethodNotAllowed.yaml'
+    '429':
+      $ref: '../schemas/ErrorTooManyRequests.yaml'
+    '500':
+      $ref: '../schemas/ErrorInternalServerError.yaml'
+
+
+put: 
+  summary: PUT /offerings/{offeringId}
+  description: |
+    PUT / create an offering  or update a single offering based on the offeringID provided. 
+    You want to PUT a resource to the same URI you intend to GET it from. also check RFC 72314.3.4 PUT.
+  security:
+    - openId:
+      - offerings.write
+  tags:
+    - offerings
+  parameters:
+    - name: offeringId
+      in: path
+      description: Offering ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  requestBody:
+    required: true
+    content:
+        application/json:
+          schema:
+            oneOf:
               - $ref: '../schemas/CourseOffering.yaml'
                 title: courseOffering
               - $ref: '../schemas/ComponentOffering.yaml'
                 title: componentOffering
               - $ref: '../schemas/ProgramOffering.yaml'
                 title: programOffering
+
+  responses:
+    '200':
+      description: OK
 
               
     '400':
@@ -57,3 +108,5 @@ get:
       $ref: '../schemas/ErrorTooManyRequests.yaml'
     '500':
       $ref: '../schemas/ErrorInternalServerError.yaml'
+
+
