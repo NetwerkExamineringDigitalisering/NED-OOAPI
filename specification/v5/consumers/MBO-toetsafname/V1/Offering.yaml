@@ -1,0 +1,52 @@
+type: object
+description: MBO-toetsafname add-on attributes to the offerings 
+required:
+  - offeringState
+  - requiredPermissionRegistration
+properties:
+  duration:
+    type: integer
+    format: int32
+    example: 60
+    description: |
+      To be documented see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4
+  safety:
+    type: string
+    description: |
+      safety
+      See https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/5.
+      TODO : make list
+    enum:
+      - SecuredComputer
+      - Fixed Location
+      - Surveillance
+  offeringState:
+    type: string
+    description: |
+      offeringState
+      enum to indicate the state of the offering
+    enum:
+      - active
+      - cancelled
+  locationCode:
+    type: string
+    example: A-12a
+    description: |
+      locationCode
+      string to indicate test room/space (for recognition, we will not use the location structure from OOAPI)
+  irregularities:
+    type: string
+    example: There was a lot of noise from the construction site nearby
+    description: |
+      irregularities
+      string with information about irragularies that effected all students in this offering
+  documents:
+    type: array
+    items:
+      type: string
+    minItems: 0
+    description: |
+      documents
+      documents to be added to this offering
+      TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
+ 
