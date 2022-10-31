@@ -54,7 +54,7 @@ classDiagram
 	 	- primarycode, name and description (not used) are mandatory (depending on Toetsafname system what to do with these data) (TO BE DECIDED)
 	 	- resultExpected is mandatory (always true)
 		- teachingLanguage (must be hardcoded NLD, not used)
-	- modeOfDelivery : we only support :situated, online, oncampus (TO BE DONE: better description of the meaning https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/2)
+	- modeOfDelivery : we only support :situated, online, oncampus (Situated: offline, on a specific location (could be a location in a company) Online: online on a specific location, Distance: everywhere, could also be from home )
 
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
