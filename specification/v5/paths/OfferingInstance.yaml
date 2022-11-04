@@ -115,7 +115,7 @@ put:
                   locationCode: A-22
                 startDateTime: 2022-06-21T12:45:00
                 endDateTime: 2022-06-21T13:45:00
-            Minimaal example:
+            Minimal example:
               value:
                 primaryCode:
                   codeType: identifier
