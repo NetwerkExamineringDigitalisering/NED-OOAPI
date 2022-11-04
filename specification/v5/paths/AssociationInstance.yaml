@@ -82,8 +82,28 @@ patch:
             result:
               oneOf:
                 - $ref: '../schemas/ComponentResult.yaml'
-                - $ref: '../schemas/CourseResult.yaml'
-                - $ref: '../schemas/ProgramResult.yaml'  
+#                - $ref: '../schemas/CourseResult.yaml'
+#                - $ref: '../schemas/ProgramResult.yaml'  
+          examples:
+            Send attendance and result directly (flow 3.1):
+              value:
+                state: completed
+                pass: unknown
+                comment: string
+                score: "9"
+                resultDate: 2022-06-21
+                weight: 100
+                consumers:
+                - consumerKey: MBO-toetsafname
+                  attendance: present
+                  assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
+                  assessorCode: JAJE
+                  irregularities: Jantje heeft gespiekt
+                  final: true
+                  documents:
+                  - documentId: 123454
+                    documentType: assessmentForm
+                    documentName: Assessment form for Jake Doe.pdf
 
   responses:
     '200':
