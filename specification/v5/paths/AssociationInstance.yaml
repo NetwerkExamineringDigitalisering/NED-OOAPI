@@ -91,7 +91,7 @@ patch:
                 pass: unknown
                 comment: string
                 score: "9"
-                resultDate: 2022-06-21
+                resultDate: 2022-09-28
                 weight: 100
                 consumers:
                 - consumerKey: MBO-toetsafname
@@ -104,6 +104,14 @@ patch:
                   - documentId: 123454
                     documentType: assessmentForm
                     documentName: Assessment form for Jake Doe.pdf
+            Send attendance first, send result later (flow 3.2):
+              value:
+                state: in progress
+                resultDate: 2022-09-27
+                weight: 100
+                consumers:
+                - consumerKey: MBO-toetsafname
+                  attendance: present
 
   responses:
     '200':
