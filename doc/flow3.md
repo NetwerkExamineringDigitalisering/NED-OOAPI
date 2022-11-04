@@ -95,7 +95,7 @@ PATCH /associations/{associationId}
 {
    "result": {
       "state": "in progress",
-      "resultDate": "2020-09-27T00:00:00.000Z",
+      "resultDate": "2020-09-27",
       "weight": 100,
       "consumers": [
 	     {
