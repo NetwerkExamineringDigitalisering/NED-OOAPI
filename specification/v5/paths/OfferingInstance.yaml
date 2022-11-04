@@ -82,12 +82,55 @@ put:
         application/json:
           schema:
             oneOf:
-              - $ref: '../schemas/CourseOffering.yaml'
-                title: courseOffering
+#              - $ref: '../schemas/CourseOffering.yaml'
+#                title: courseOffering
               - $ref: '../schemas/ComponentOffering.yaml'
                 title: componentOffering
-              - $ref: '../schemas/ProgramOffering.yaml'
-                title: programOffering
+#              - $ref: '../schemas/ProgramOffering.yaml'
+#                title: programOffering
+          examples:
+            Our example:
+              value:
+                primaryCode:
+                  codeType: identifier
+                  code: 1234qwe12
+                offeringType: component
+                academicSession: 937983ad-cc0f-45a6-95ca-a8f60b7cf125
+                name:
+                - language: en-GB
+                  value: Final written test for INFOMQNM for fall semester 2020
+                abbreviation: Test-INFOMQNM-20FS
+                description:
+                - language: en-GB
+                  value: Prove in writing knowledge of research methods, including:\nAcquire knowledge of HCI research paradigms\nAble to design suitable research studies (e.g., choose between within and between subject designs)\nDefine/apply/design metrics and scales\nDefine/produce materials (e.g., stimuli and questionnaires)\nDefine protocols for research studies\nUnderstands and take in account concepts of reliability and validity\nAnalyze and improve methods and analysis of published scientific articles\nAble to deliver scientific reports\nProve in writing knowledge of ­­­statistics, including:\nHandle hypothesis testing with complex designs (e.g., including , dependent, independent, and co variates)\nData preparation (e.g., coding and feature selection)\nReason towards adequate techniques to ensure valid outcomes (e.g., be aware of type I, type II errors)\nSelect an appropriate sampling method (e.g., stratified)\nPerform parametric tests (e.g., repeated measures (M)ANOVA)\nPerform non-parametric tests (e.g., Chi-square, Mann-Whitney, and Kruskal-Wallis)\n
+                teachingLanguage: nld
+                modeOfDelivery:
+                - situated
+                resultExpected: true
+                consumers:
+                - consumerKey: MBO-toetsafname
+                  duration: 60
+                  safety: ["Fixed Location", "Surveillance"]
+                  offeringState: active
+                  locationCode: A-22
+                startDateTime: 2022-06-21T12:45:00
+                endDateTime: 2022-06-21T13:45:00
+            Minimaal example:
+              value:
+                primaryCode:
+                  codeType: identifier
+                  code: 1234qwe12
+                offeringType: component
+                name:
+                - language: en-GB
+                  value: Final written test for INFOMQNM for fall semester 2020
+                description:
+                - language: en-GB
+                  value: Prove in writing knowledge of research methods, including:\nAcquire knowledge of HCI research paradigms\nAble to design suitable research studies (e.g., choose between within and between subject designs)\nDefine/apply/design metrics and scales\nDefine/produce materials (e.g., stimuli and questionnaires)\nDefine protocols for research studies\nUnderstands and take in account concepts of reliability and validity\nAnalyze and improve methods and analysis of published scientific articles\nAble to deliver scientific reports\nProve in writing knowledge of ­­­statistics, including:\nHandle hypothesis testing with complex designs (e.g., including , dependent, independent, and co variates)\nData preparation (e.g., coding and feature selection)\nReason towards adequate techniques to ensure valid outcomes (e.g., be aware of type I, type II errors)\nSelect an appropriate sampling method (e.g., stratified)\nPerform parametric tests (e.g., repeated measures (M)ANOVA)\nPerform non-parametric tests (e.g., Chi-square, Mann-Whitney, and Kruskal-Wallis)\n
+                teachingLanguage: nld
+                resultExpected: true
+                startDateTime: 2022-06-21T12:45:00
+                endDateTime: 2022-06-21T13:45:00
 
   responses:
     '200':
