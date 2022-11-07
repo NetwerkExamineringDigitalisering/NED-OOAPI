@@ -74,7 +74,6 @@ PUT /a/ooapi/offerings/{offeringId}
       "code": "Remindo_rekenen_MBO-3_op_woendag_middag_21-jun-22_om_13:00_in_lokaal_13"
    },
    "offeringType": "component",
-   "component":"c5fca27e-ccc1-430d-9888-90e005ad6a86",
    "name": [
       {
          "language": "nl-NL",
@@ -84,7 +83,7 @@ PUT /a/ooapi/offerings/{offeringId}
    "description": [
       {
          "language": "nl-NL",
-         "value": "20220621-12:45-Remindo rekenen MBO-3"
+         "value": "Beschrijving van 20220621-12:45-Remindo rekenen MBO-3"
       }
    ],
    "teachingLanguage": "nld",
@@ -103,6 +102,7 @@ PUT /a/ooapi/offerings/{offeringId}
    ],
    "startDateTime": "2022-06-21T12:45:00",
    "endDateTime": "2022-06-21T13:45:00"
+   "component":"c5fca27e-ccc1-430d-9888-90e005ad6a86",
 }
 ```
 
