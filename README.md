@@ -31,6 +31,7 @@ This repository consists of the following elements:
 - [Technical reference](doc/technical-reference.md) with information about the architecture, used standards and links to the reference files.
 - [Glossary](glossary.md) describing all terms and definitions used within the ecosystem.
 - [Party directory](Party-Directory.md) with all Parties that are currently active in the ecosystem.
+- [OOAPI Specification relevant to this project](specification/v5/docs.html)
 
 # Working Documents
 - [uitwerking terugkomdag 23 mei 2022](doc/documents/Examinering%20mbo%20-%20terugkomdag%2023mei%20-%20verwerkt.pdf)
