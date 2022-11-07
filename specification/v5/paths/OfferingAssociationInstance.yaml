@@ -1,0 +1,41 @@
+put:
+  summary: PUT offerings/{offeringId}/associations/{associationId}
+  description: |
+    PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
+  tags:
+    - associations
+  parameters:
+    - name: offeringId
+      in: path
+      description: Offering ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../schemas/ComponentOfferingAssociationExpandedWrite.yaml'
+
+  responses:
+    '200':
+      description: OK
+
+              
+    '400':
+      $ref: '../schemas/ErrorBadRequest.yaml'
+    '401':
+      $ref: '../schemas/ErrorUnauthorized.yaml'
+    '403':
+      $ref: '../schemas/ErrorForbidden.yaml'
+    '404':
+      $ref: '../schemas/ErrorNotFound.yaml'
+    '405':
+      $ref: '../schemas/ErrorMethodNotAllowed.yaml'
+    '429':
+      $ref: '../schemas/ErrorTooManyRequests.yaml'
+    '500':
+      $ref: '../schemas/ErrorInternalServerError.yaml'

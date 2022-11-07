@@ -81,13 +81,8 @@ put:
     content:
         application/json:
           schema:
-            oneOf:
-#              - $ref: '../schemas/CourseOffering.yaml'
-#                title: courseOffering
-              - $ref: '../schemas/ComponentOffering.yaml'
-                title: componentOffering
-#              - $ref: '../schemas/ProgramOffering.yaml'
-#                title: programOffering
+            $ref: '../schemas/ComponentOffering.yaml'
+            title: componentOffering
           examples:
             Create offering (zitting) without students (flow 2.1):
               value:
