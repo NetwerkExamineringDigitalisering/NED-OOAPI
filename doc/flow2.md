@@ -175,46 +175,52 @@ classDiagram
 ```
 PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 
+# offeringId = "123e4567-e89b-12d3-a456-134564174000"
+# associationId = "123e4567-e89b-12d3-a456-426614174000"
+
 {
-   "associationId": "123e4567-e89b-12d3-a456-426614174000",
-   "associationType": "componentOfferingAssociation",
-   "role": "student",
-   "state": "associated",
-   "remoteState": "associated",
-   "consumers": [
-      {
-         "consumerKey": "MBO-toetsafname",
-				 "userName": "1234321@student.roc.nl",
-				 #je hebt extra time nodig om te weten hoeveel extra tijd.
-				 "extraTimeInMin": 30,
-				 #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
-				 "personalNeeds": [
-				 	"extraTime",
-					"spoken", 
-					"spell-checker-on-screen"
-				 ]
-      }
-   ],
-   "person": {
-   	"personId":"111-2222-33-4444-222"
+    "associationType": "componentOfferingAssociation",
+    "role": "student",
+    "state": "completed",
+    "remoteState": "associated",
+    "consumers": 
+      [
+	{
+    	"consumerKey": "MBO-toetsafname",
+    	"userName": "1234321@student.roc.nl",
+    	"extraTimeInMin": 30,
+    	"personalNeeds": 
+	  [
+            "extraTime",
+            "spoken",
+            "spell-checker-on-screen"
+	  ]
+	}
+      ],
+    "person": {
+	"personId": "111-2222-33-4444-222",
 	"primaryCode": 
 	{
-		"codeType": "studentNumber",
-		"code": "1234567"
-	}
+	    "codeType": "studentNumber",
+	    "code": "1234567"
+	},
 	"givenName": "Maartje",
 	"surnamePrefix": "van",
-	"surname": "Damme"
+	"surname": "Damme",
 	"displayName": "Maartje van Damme",
 	"activeEnrollment": true,
-	"affiliations": [
-		"student"
-	],
+	"affiliations": 
+	  [
+	    "student"
+	  ],
 	"mail": "vandamme.mcw@student.roc.nl",
-	"languageOfChoice": [
-		"nl-NL"
-	]
-   }
+	"languageOfChoice": 
+          [
+            "nl-NL"
+          ]
+    },
+    "offering": "123e4567-e89b-12d3-a456-134564174000"
+
 }
 ```
 
