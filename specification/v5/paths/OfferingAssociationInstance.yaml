@@ -12,6 +12,13 @@ put:
       schema:
         type: string
         format: uuid
+    - name: associationId
+      in: path
+      description: Association ID
+      required: true
+      schema:
+        type: string
+        format: uuid
 
   requestBody:
     required: true
