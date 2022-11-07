@@ -1,8 +1,8 @@
 # Flow 2 : Transfer offering (zitting) to Toetsafname
 
 Used endpoints for this flow are:
-`PUT /offerings`
-`PUT /offerings/{offeringId}/associations`
+`PUT /offerings/{offeringId}`
+`PUT /offerings/{offeringId}/associations/{associationId}`
 `GET /offerings/{offeringId}`
 `GET /offerings/{offeringId}/associations`
 
@@ -12,7 +12,7 @@ Used endpoints for this flow are:
 sequenceDiagram
     Toetsplanning->>Toetsafname: Here is my zitting with details
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT)
     Toetsafname->>Toetsplanning: 200 - Thanks!
     deactivate Toetsafname
 ```
@@ -65,7 +65,7 @@ classDiagram
 
 ### example of request	
 ```
-PUT /a/ooapi/offerings
+PUT /a/ooapi/offerings/{offeringId}
 
 {
    "offeringId": "123e4567-e89b-12d3-a456-134564174000",
@@ -114,13 +114,13 @@ PUT /a/ooapi/offerings
 sequenceDiagram
     Toetsplanning->>Toetsafname: hier is mijn zitting met details
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT)
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
     loop voor elke student/medewerker
         Toetsplanning->>Toetsafname: En dit is een student/medewerker die mee doen
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (PUT)
+        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
     end
     deactivate Toetsafname
@@ -173,7 +173,7 @@ classDiagram
 
 ### example of request	
 ```
-PUT endpoint /a/ooapi/offerings/<id>/associations
+PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 
 {
    "associationId": "123e4567-e89b-12d3-a456-426614174000",
@@ -224,12 +224,12 @@ PUT endpoint /a/ooapi/offerings/<id>/associations
 sequenceDiagram
     Toetsplanning->>Toetsafname: En dit is een  student/medewerker die mee doen
     activate Toetsafname
-    Note right of Toetsafname: endpoint endpoint /a/ooapi/offerings/<id>/associations (PUT)
+    Note right of Toetsafname: endpoint endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
 
-used status van association : associated, canceled
+used state van association : associated, canceled
 
 ## Flow 2.4 : later moment: Delete van students to offering (zitting)
 
@@ -237,7 +237,7 @@ used status van association : associated, canceled
 sequenceDiagram
     Toetsplanning->>Toetsafname: En deze studenten doen niet meer mee
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (PUT status canceled)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT state canceled)
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
 ```
@@ -249,12 +249,12 @@ sequenceDiagram
 sequenceDiagram
     Toetsplanning->>Toetsafname: Deze zitting mag weg, gaan we niet meer gebruiken
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings (PUT offeringState canceled)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT offeringState canceled)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
 	
-Open Question : Status change from canceled back to active: Will students remain active? Will associations remain?
+Open Question : State change from canceled back to active: Will students remain active? Will associations remain?
 
 ## Flow 2.6 Read current state of the offering (zitting)
 To see/check the current state of the offering (zitting) with its associations the following endpoint can be used at Toetsafname
@@ -262,11 +262,11 @@ To see/check the current state of the offering (zitting) with its associations t
 sequenceDiagram
     Toetsplanning->>Toetsafname: Give me the latest
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/<id> (GET)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings//{offeringId} (GET)
     Toetsafname->>Toetsplanning: 200 - here it is!
     Toetsplanning->>Toetsafname: And give me the students and employees
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (GET)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings//{offeringId}/associations (GET)
     Toetsafname->>Toetsplanning: 200 - here they are!
     deactivate Toetsafname
 ```
