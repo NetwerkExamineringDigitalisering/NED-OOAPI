@@ -4,7 +4,9 @@ info:
   title: Open Education API
   description: |
     OpenAPI (fka Swagger) specification for the Open Education API.
-
+    <br/>
+    NOTE:This is a subset of the OOAPI that is used in the "MBO-Toetsafname" project (sponsored by mbo-digitaal in the netherlands) 
+    <br/>
     <figure>
     	<a target="_blank" href="OOAPIv5_model.png">
       <img src="OOAPIv5_model.png" alt="OOAPI information model that feeds OOAPI specification" width="70%" class="img-responsive">
