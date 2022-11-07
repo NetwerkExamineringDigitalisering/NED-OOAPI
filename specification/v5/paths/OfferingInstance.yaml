@@ -110,30 +110,20 @@ put:
                 startDateTime: 2022-06-21T12:45:00
                 endDateTime: 2022-06-21T13:45:00
                 component: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
-            Create offering (zitting) without students (OLD flow 2.1):
+            Create offering (zitting) without students (flow 2.1 minimal):
               value:
                 primaryCode:
-                  codeType: identifier
-                  code: 1234qwe12
+                  codeType: offeringCode
+                  code: "Remindo_rekenen_MBO-3_op_woendag_middag_21-jun-22_om_13:00_in_lokaal_13"
                 offeringType: component
-                academicSession: 937983ad-cc0f-45a6-95ca-a8f60b7cf125
                 name:
-                - language: en-GB
-                  value: Final written test for INFOMQNM for fall semester 2020
-                abbreviation: Test-INFOMQNM-20FS
+                - language: nl-NL
+                  value: "20220621-12:45-Remindo rekenen MBO-3"
                 description:
-                - language: en-GB
-                  value: Prove in writing knowledge of research methods, including:\nAcquire knowledge of HCI research paradigms\nAble to design suitable research studies (e.g., choose between within and between subject designs)\nDefine/apply/design metrics and scales\nDefine/produce materials (e.g., stimuli and questionnaires)\nDefine protocols for research studies\nUnderstands and take in account concepts of reliability and validity\nAnalyze and improve methods and analysis of published scientific articles\nAble to deliver scientific reports\nProve in writing knowledge of ­­­statistics, including:\nHandle hypothesis testing with complex designs (e.g., including , dependent, independent, and co variates)\nData preparation (e.g., coding and feature selection)\nReason towards adequate techniques to ensure valid outcomes (e.g., be aware of type I, type II errors)\nSelect an appropriate sampling method (e.g., stratified)\nPerform parametric tests (e.g., repeated measures (M)ANOVA)\nPerform non-parametric tests (e.g., Chi-square, Mann-Whitney, and Kruskal-Wallis)\n
+                - language: nl-NL
+                  value: "Beschrijving van 20220621-12:45-Remindo rekenen MBO-3"
                 teachingLanguage: nld
-                modeOfDelivery:
-                - situated
                 resultExpected: true
-                consumers:
-                - consumerKey: MBO-toetsafname
-                  duration: 60
-                  safety: ["Fixed Location", "Surveillance"]
-                  offeringState: active
-                  locationCode: A-22
                 startDateTime: 2022-06-21T12:45:00
                 endDateTime: 2022-06-21T13:45:00
 
