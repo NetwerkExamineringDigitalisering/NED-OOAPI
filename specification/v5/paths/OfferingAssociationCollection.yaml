@@ -2,7 +2,7 @@ get:
   summary: GET /offerings/{offeringId}/associations
   description: Get a list of all offering associations.
   tags:
-    - offerings
+    - associations
   parameters:
     - name: offeringId
       in: path

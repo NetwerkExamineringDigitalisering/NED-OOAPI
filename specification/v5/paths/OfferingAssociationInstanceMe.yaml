@@ -6,7 +6,7 @@ post:
     - openId:
       - associations:me.write
   tags:
-    - offerings
+    - associations
   parameters:
     - name: offeringId
       in: path
