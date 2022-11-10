@@ -59,6 +59,8 @@ patch:
   security:
     - openId:
       - associations.write
+    - oAuth:  
+      - test-admin-flow
   tags:
     - associations
 
@@ -84,7 +86,7 @@ patch:
                 - $ref: '../schemas/ComponentResult.yaml'
 #                - $ref: '../schemas/CourseResult.yaml'
 #                - $ref: '../schemas/ProgramResult.yaml'  
-          examples:
+        examples:
             Send attendance and result directly (flow 3.1):
               value:
                 state: completed
