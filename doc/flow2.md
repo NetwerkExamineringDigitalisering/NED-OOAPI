@@ -230,7 +230,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 sequenceDiagram
     Toetsplanning->>Toetsafname: En dit is een  student/medewerker die mee doen
     activate Toetsafname
-    Note right of Toetsafname: endpoint endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
