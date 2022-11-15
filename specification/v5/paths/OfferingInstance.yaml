@@ -58,6 +58,65 @@ get:
       $ref: '../schemas/ErrorInternalServerError.yaml'
 
 
+patch:
+  summary: PATCH /offerings/{offeringId}
+  description: |
+    PATCH update a single offering based on the offeringID provided. 
+    
+  security:
+    - openId:
+      - offerings.write
+  tags:
+    - offerings
+  parameters:
+    - name: offeringId
+      in: path
+      description: Offering ID
+      required: true
+      schema:
+        type: string
+        format: uuid
+  requestBody:
+    required: true
+    content:
+        application/json:
+          schema:
+            $ref: '../schemas/ComponentOffering.yaml'
+            title: componentOffering
+          examples:
+            Send attendance en offering report directly (Flow 4.1):
+              value:
+                consumers:
+                - consumerKey: MBO-toetsafname
+                  irregularities: "There was a lot of noise from the construction site nearby."
+                  documents: [
+                    {
+                      documentId: "454566464665355545",
+                      documentType: "sessionReport",
+                      documentName: "Session report on Session tbd.pdf",
+                    }
+                  ]
+
+
+  responses:
+    '200':
+      description: OK
+
+    '400':
+      $ref: '../schemas/ErrorBadRequest.yaml'
+    '401':
+      $ref: '../schemas/ErrorUnauthorized.yaml'
+    '403':
+      $ref: '../schemas/ErrorForbidden.yaml'
+    '404':
+      $ref: '../schemas/ErrorNotFound.yaml'
+    '405':
+      $ref: '../schemas/ErrorMethodNotAllowed.yaml'
+    '429':
+      $ref: '../schemas/ErrorTooManyRequests.yaml'
+    '500':
+      $ref: '../schemas/ErrorInternalServerError.yaml'
+
 put: 
   summary: PUT /offerings/{offeringId}
   description: |
