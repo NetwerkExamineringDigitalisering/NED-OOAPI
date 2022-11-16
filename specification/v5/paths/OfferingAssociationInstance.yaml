@@ -27,7 +27,7 @@ put:
         schema:
           $ref: '../schemas/ComponentOfferingAssociationExpandedWrite.yaml'
         examples:
-          Create offering (zitting) with students (flow 2.2):
+          Add student to created offering (zitting) (flow 2.2.B):
             value:
               #associationId is padparameter
               #volgorde conform ooapi-v5
@@ -56,11 +56,35 @@ put:
                 languageOfChoice: [nl-NL]
               #id van offering op volgende regel is redendant want ook als padparameter
               offering: "123e4567-e89b-12d3-a456-134564174000"
-          Create offering (zitting) with students (flow 2.2 minimal):
+          Add student to existing offering (zitting) (flow 2.3):
             value:
+              #associationId is padparameter
+              #volgorde conform ooapi-v5
+              #associationType op volgende regel ontbreekt in endpoint-definitie
               associationType: componentOfferingAssociation
               role: student
               state: completed
+              remoteState: associated
+              consumers:
+              - consumerKey: MBO-toetsafname
+                userName: 1234322@student.roc.nl
+                extraTimeInMin: 0
+                personalNeeds: []
+              person:
+                personId: "111-2222-33-4444-3333"
+                primaryCode:
+                  codeType: studentNumber
+                  code: "1234568"
+                givenName: Klaas
+                surnamePrefix: van
+                surname: Dijk
+                displayName: "Klaas van Dijk"
+                activeEnrollment: true
+                affiliations: [student]
+                mail: vandijk.mcw@student.roc.nl
+                languageOfChoice: [nl-NL]
+              #id van offering op volgende regel is redendant want ook als padparameter
+              offering: "123e4567-e89b-12d3-a456-134564174000"
 
   responses:
     '200':
