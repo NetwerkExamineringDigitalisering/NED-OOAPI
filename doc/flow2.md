@@ -10,7 +10,7 @@ Used endpoints for this flow are:
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: Here is my zitting with details
+    Toetsplanning->>Toetsafname: Create offering (zitting)
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT)
     Toetsafname->>Toetsplanning: 200 - Thanks!
@@ -112,13 +112,13 @@ PUT /a/ooapi/offerings/{offeringId}
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: hier is mijn zitting met details
+    Toetsplanning->>Toetsafname: A. Create offering (zitting)
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT)
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
     loop voor elke student/medewerker
-        Toetsplanning->>Toetsafname: En dit is een student/medewerker die mee doen
+        Toetsplanning->>Toetsafname: B. Add student to created offering (zitting)
         activate Toetsafname
         Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
@@ -171,7 +171,14 @@ classDiagram
 	- attributesd extraTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
 
-### example of request	
+### example of request A	
+```
+PUT endpoint /a/ooapi/offerings/{offeringId}
+
+(see flow 2.1)
+```
+
+### example of request B	
 ```
 PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 
@@ -228,11 +235,59 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: En dit is een  student/medewerker die mee doen
+    Toetsplanning->>Toetsafname: Add student to existing offering (zitting)
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
+```
+
+### example of request	
+```
+PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
+
+# offeringId = "123e4567-e89b-12d3-a456-134564174000"
+# associationId = "123e4567-e89b-12d3-a456-426614174001"
+
+{
+    "associationType": "componentOfferingAssociation",
+    "role": "student",
+    "state": "completed",
+    "remoteState": "associated",
+    "consumers": 
+      [
+	{
+    	"consumerKey": "MBO-toetsafname",
+    	"userName": "1234322@student.roc.nl",
+    	"extraTimeInMin": 0,
+    	"personalNeeds": [ ]
+	}
+      ],
+    "person": {
+	"personId": "111-2222-33-4444-333",
+	"primaryCode": 
+	{
+	    "codeType": "studentNumber",
+	    "code": "1234568"
+	},
+	"givenName": "Klaas",
+	"surnamePrefix": "van",
+	"surname": "Dijk",
+	"displayName": "Klaas van Dijk",
+	"activeEnrollment": true,
+	"affiliations": 
+	  [
+	    "student"
+	  ],
+	"mail": "vandijk.mcw@student.roc.nl",
+	"languageOfChoice": 
+          [
+            "nl-NL"
+          ]
+    },
+    "offering": "123e4567-e89b-12d3-a456-134564174000"
+
+}
 ```
 
 used state van association : associated, canceled
