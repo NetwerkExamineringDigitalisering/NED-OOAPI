@@ -63,7 +63,7 @@ classDiagram
 	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
 	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
 
-### example of request	
+### example of request Create offering (zitting)	
 ```
 PUT /a/ooapi/offerings/{offeringId}
 
@@ -171,14 +171,14 @@ classDiagram
 	- attributesd extraTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
 
-### example of request A	
+### example of request A. Create offering (zitting)	
 ```
 PUT endpoint /a/ooapi/offerings/{offeringId}
 
 (see flow 2.1)
 ```
 
-### example of request B	
+### example of request B. Add student to created offering (zitting)	
 ```
 PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 
@@ -186,24 +186,6 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 # associationId = "123e4567-e89b-12d3-a456-426614174000"
 
 {
-    "associationType": "componentOfferingAssociation",
-    "role": "student",
-    "state": "completed",
-    "remoteState": "associated",
-    "consumers": 
-      [
-	{
-    	"consumerKey": "MBO-toetsafname",
-    	"userName": "1234321@student.roc.nl",
-    	"extraTimeInMin": 30,
-    	"personalNeeds": 
-	  [
-            "extraTime",
-            "spoken",
-            "spell-checker-on-screen"
-	  ]
-	}
-      ],
     "person": {
 	"personId": "111-2222-33-4444-222",
 	"primaryCode": 
@@ -226,12 +208,30 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
             "nl-NL"
           ]
     },
-    "offering": "123e4567-e89b-12d3-a456-134564174000"
+    "offering": "123e4567-e89b-12d3-a456-134564174000",
+    "associationType": "componentOfferingAssociation",
+    "role": "student",
+    "state": "completed",
+    "remoteState": "associated",
+    "consumers": 
+      [
+	{
+    	"consumerKey": "MBO-toetsafname",
+    	"userName": "1234321@student.roc.nl",
+    	"extraTimeInMin": 30,
+    	"personalNeeds": 
+	  [
+            "extraTime",
+            "spoken",
+            "spell-checker-on-screen"
+	  ]
+	}
+      ]
 
 }
 ```
 
-## Flow 2.3 : later moment: Add students to offering (zitting)
+## Flow 2.3 : later moment: Add students to existing offering (zitting)
 
 ```mermaid
 sequenceDiagram
@@ -242,7 +242,7 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
-### example of request	
+### example of request Add student to existing offering (zitting)	
 ```
 PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 
@@ -250,19 +250,6 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 # associationId = "123e4567-e89b-12d3-a456-426614174001"
 
 {
-    "associationType": "componentOfferingAssociation",
-    "role": "student",
-    "state": "completed",
-    "remoteState": "associated",
-    "consumers": 
-      [
-	{
-    	"consumerKey": "MBO-toetsafname",
-    	"userName": "1234322@student.roc.nl",
-    	"extraTimeInMin": 0,
-    	"personalNeeds": [ ]
-	}
-      ],
     "person": {
 	"personId": "111-2222-33-4444-333",
 	"primaryCode": 
@@ -285,23 +272,48 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
             "nl-NL"
           ]
     },
-    "offering": "123e4567-e89b-12d3-a456-134564174000"
+    "offering": "123e4567-e89b-12d3-a456-134564174000",
+    "associationType": "componentOfferingAssociation",
+    "role": "student",
+    "state": "completed",
+    "remoteState": "associated",
+    "consumers": 
+      [
+	{
+    	"consumerKey": "MBO-toetsafname",
+    	"userName": "1234322@student.roc.nl",
+    	"extraTimeInMin": 0,
+    	"personalNeeds": [ ]
+	}
+      ]
 
 }
 ```
 
 used state van association : associated, canceled
 
-## Flow 2.4 : later moment: Delete van students to offering (zitting)
+## Flow 2.4 : later moment: Delete students from offering (zitting)
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: En deze studenten doen niet meer mee
+    Toetsplanning->>Toetsafname: Delete student from offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT state canceled)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PATCH state canceled)
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
 ```
+### example of request Delete student from offering (zitting)	
+```
+PATCH endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
+
+# offeringId = "123e4567-e89b-12d3-a456-134564174000"
+# associationId = "123e4567-e89b-12d3-a456-426614174001"
+
+{
+    "remoteState": "canceled"
+}
+```
+
 
 
 ## Flow 2.5 later moment: Delete offering (zitting)
