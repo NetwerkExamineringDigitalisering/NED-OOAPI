@@ -158,6 +158,7 @@ classDiagram
 ### Remarks
 - Association
 	- supported roles: student, invigilator, coordinator, assessor (If there are multiple roles then multiple associations).
+	- state : use the value "associated" from the enum.
 	- remoteState : same as state, but not used. (unfortunatelly: mandatory).
 	- offering (componentOffering) is sent before so no need to add all data, just the offeringId is enough.
 	- testID (comopnentId) is implicit in offering, so no need to add.
@@ -211,7 +212,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
     "role": "student",
-    "state": "completed",
+    "state": "associated",
     "remoteState": "associated",
     "consumers": 
       [
@@ -275,7 +276,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
     "role": "student",
-    "state": "completed",
+    "state": "associated",
     "remoteState": "associated",
     "consumers": 
       [
@@ -302,6 +303,11 @@ sequenceDiagram
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
 ```
+
+### Remarks
+- Association
+	- remoteState : use the value "canceled" from the enum.
+
 ### example of request Delete student from offering (zitting)	
 ```
 PATCH endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
