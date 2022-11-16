@@ -3,7 +3,7 @@
 After the test has finished the offering report (zittingsverslag) including irregularities is sent to Toetsplanning.
 This contains structured data as uploaded documents, e.g. session report (processverbaal), AAR with signatures, etc.
 
-## Flow 4.1 : Send attendance en offering report directly (automated scored tests)
+## Flow 4.1 : Send attendance and offering report directly (automated scored tests)
 
 ```mermaid
 sequenceDiagram
