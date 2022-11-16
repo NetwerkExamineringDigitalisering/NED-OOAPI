@@ -31,8 +31,8 @@ put:
             value:
               #associationId is padparameter
               #volgorde conform ooapi-v5
-              #associationType op volgende regel ontbreekt in endpoint-definitie
-              associationType: componentOfferingAssociation
+              #associationType op volgende regel ontbreekt in endpoint-definitie daarom weggelaten
+              #associationType: componentOfferingAssociation
               role: student
               state: completed
               remoteState: associated
@@ -60,8 +60,8 @@ put:
             value:
               #associationId is padparameter
               #volgorde conform ooapi-v5
-              #associationType op volgende regel ontbreekt in endpoint-definitie
-              associationType: componentOfferingAssociation
+              #associationType op volgende regel ontbreekt in endpoint-definitie daarom weggelaten
+              #associationType: componentOfferingAssociation
               role: student
               state: completed
               remoteState: associated
