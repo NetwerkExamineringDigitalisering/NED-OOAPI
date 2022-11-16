@@ -117,7 +117,7 @@ sequenceDiagram
     Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT)
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
-    loop voor elke student/medewerker
+    loop for each student/medewerker
         Toetsplanning->>Toetsafname: B. Add student to created offering (zitting)
         activate Toetsafname
         Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
@@ -169,7 +169,7 @@ classDiagram
 	- primaryCode will be used for SSO purpose: uniquely identify a student : nlpersonrealid,eckid etc (details will follow), 
  - consumers
 	- add one of type "consumerKey": "MBO-toetsafname".
-	- attributesd extraTimeInMin and personalNeeds are optional and used only for student role.
+	- attributes extraTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
 
 ### example of request A. Create offering (zitting)	
@@ -232,14 +232,16 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 }
 ```
 
-## Flow 2.3 : later moment: Add students to existing offering (zitting)
+## Flow 2.3 : Add students to existing offering (zitting)
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: Add student to existing offering (zitting)
-    activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
-    Toetsafname->>Toetsplanning: 200 Bedankt!
+    loop for each student
+        Toetsplanning->>Toetsafname: Add student to existing offering (zitting)
+        activate Toetsafname
+        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
+        Toetsafname->>Toetsplanning: 200 - Bedankt!
+    end
     deactivate Toetsafname
 ```
 
@@ -291,20 +293,21 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 }
 ```
 
-used state van association : associated, canceled
-
-## Flow 2.4 : later moment: Delete students from offering (zitting)
+## Flow 2.4 : Delete students from offering (zitting)
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: Delete student from offering (zitting)
-    activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PATCH state canceled)
-    Toetsafname->>Toetsplanning: 200 -Bedankt!
+    loop for each student
+        Toetsplanning->>Toetsafname: Delete student from offering (zitting)
+        activate Toetsafname
+        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PATCH state canceled)
+        Toetsafname->>Toetsplanning: 200 - Bedankt!
+    end
     deactivate Toetsafname
 ```
 
 ### Remarks
+- Not high priority (could be defined and used later)
 - Association
 	- remoteState : use the value "canceled" from the enum.
 
@@ -322,18 +325,36 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 
 
 
-## Flow 2.5 later moment: Delete offering (zitting)
+## Flow 2.5 Delete offering (zitting)
 
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: Deze zitting mag weg, gaan we niet meer gebruiken
+    Toetsplanning->>Toetsafname: Delete offering (zitting)
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT offeringState canceled)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
 	
-Open Question : State change from canceled back to active: Will students remain active? Will associations remain?
+Open Question 1 : How to change state to canceled if there is no state attribute in Offering?
+
+Open Question 2 : State change from canceled back to active: Will students remain active? Will associations remain?
+
+### Remarks
+- Not high priority (could be defined and used later)
+- Association
+	- remoteState : use the value "canceled" from the enum.
+
+### example of request Delete offering (zitting)	
+```
+PATCH endpoint /a/ooapi/offerings/{offeringId}
+
+# offeringId = "123e4567-e89b-12d3-a456-134564174000"
+
+{
+    "state": "canceled"
+}
+```
 
 ## Flow 2.6 Read current state of the offering (zitting)
 To see/check the current state of the offering (zitting) with its associations the following endpoint can be used at Toetsafname
