@@ -30,6 +30,7 @@ description: |
     - `uuid`: A universally unique identifier
     - `schacHome`: Home organization using the domain name of the organization
     - `identifier`: Generic Identifier
+    - `eckid`: ID used in the education content chain
 x-ooapi-extensible-enum:
   - brin
   - crohoCreboCode
@@ -56,4 +57,5 @@ x-ooapi-extensible-enum:
   - uuid
   - schacHome
   - identifier
+  - eckid
 example: identifier

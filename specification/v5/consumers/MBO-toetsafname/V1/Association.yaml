@@ -1,12 +1,13 @@
 type: object
 description: MBO-toetsafname add-on attributes to the Association 
 properties:
-  userName:
+  startUpURL:
     type: string
     description: |
-      safety
-      See https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/3.
-      TODO : more details
+      URL to be used to start this assocation by the user
+    format: uri
+    maxLength: 2048
+    example: https://surf.nl
   additionalTimeInMin:
     type: integer
     format: int32
