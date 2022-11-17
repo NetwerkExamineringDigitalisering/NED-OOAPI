@@ -370,5 +370,48 @@ sequenceDiagram
     Toetsafname->>Toetsplanning: 200 - here they are!
     deactivate Toetsafname
 ```
+### example of request Read current state of the offering (zitting)	
+```
+GET /a/ooapi/offerings/{offeringId}
+
+{
+   "offeringId": "123e4567-e89b-12d3-a456-134564174000",
+   "primaryCode": {
+      "codeType": "offeringCode",
+      "code": "Remindo_rekenen_MBO-3_op_woendag_middag_21-jun-22_om_13:00_in_lokaal_13"
+   },
+   "offeringType": "component",
+   "name": [
+      {
+         "language": "nl-NL",
+         "value": "20220621-12:45-Remindo rekenen MBO-3"
+      }
+   ],
+   "description": [
+      {
+         "language": "nl-NL",
+         "value": "Beschrijving van 20220621-12:45-Remindo rekenen MBO-3"
+      }
+   ],
+   "teachingLanguage": "nld",
+   "modeOfDelivery": [
+      "situated"
+   ],
+   "resultExpected": true,
+   "consumers": [
+      {
+         	"consumerKey": "MBO-toetsafname",
+		"duration": 60,  #je hebt duration nodig als je flexibele periodes hebt.
+		"safety": ["Fixed Location", "Surveillance"]
+		"offeringState": "active",
+		"locationCode":"A-22"
+      }
+   ],
+   "startDateTime": "2022-06-21T12:45:00",
+   "endDateTime": "2022-06-21T13:45:00"
+   "component":"c5fca27e-ccc1-430d-9888-90e005ad6a86",
+}
+```
+
 	
 
