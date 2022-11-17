@@ -360,17 +360,17 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}
 To see/check the current state of the offering (zitting) with its associations the following endpoint can be used at Toetsafname
 ```mermaid
 sequenceDiagram
-    Toetsplanning->>Toetsafname: Give me the latest
+    Toetsplanning->>Toetsafname: A. Read current state of the offering (zitting)
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings//{offeringId} (GET)
     Toetsafname->>Toetsplanning: 200 - here it is!
-    Toetsplanning->>Toetsafname: And give me the students and employees
+    Toetsplanning->>Toetsafname: B. Read the students and employees for offering (zitting)
     activate Toetsafname
     Note right of Toetsafname: endpoint /a/ooapi/offerings//{offeringId}/associations (GET)
     Toetsafname->>Toetsplanning: 200 - here they are!
     deactivate Toetsafname
 ```
-### example of request Read current state of the offering (zitting)	
+### example of request A. Read current state of the offering (zitting)	
 ```
 GET /a/ooapi/offerings/{offeringId}
 
@@ -410,6 +410,66 @@ GET /a/ooapi/offerings/{offeringId}
    "startDateTime": "2022-06-21T12:45:00",
    "endDateTime": "2022-06-21T13:45:00"
    "component":"c5fca27e-ccc1-430d-9888-90e005ad6a86",
+}
+```
+
+### example of request B. Read the students and employees for offering (zitting)	
+```
+GET /a/ooapi/offerings/{offeringId}/associations
+
+{
+   "pageSize": 10,
+   "pageNumber": 1,
+   "hasPreviousPage": false,
+   "hasNextPage": false,
+   "totalPages": 8,
+   "items": [
+      {
+	associationId: "123e4567-e89b-12d3-a456-426614174000"
+    	"associationType": "componentOfferingAssociation",
+    	"role": "student",
+    	"state": "associated",
+    	"remoteState": "associated",
+    	"consumers": 
+      	[
+	{
+    	"consumerKey": "MBO-toetsafname",
+    	"userName": "1234321@student.roc.nl",
+    	"extraTimeInMin": 30,
+    	"personalNeeds": 
+	  [
+            "extraTime",
+            "spoken",
+            "spell-checker-on-screen"
+	  ]
+	}
+      	]
+    	"person": {
+		"personId": "111-2222-33-4444-222",
+		"primaryCode": 
+		{
+	    		"codeType": "studentNumber",
+	    		"code": "1234567"
+		},
+		"givenName": "Maartje",
+		"surnamePrefix": "van",
+		"surname": "Damme",
+		"displayName": "Maartje van Damme",
+		"activeEnrollment": true,
+		"affiliations": 
+	  	[
+	    		"student"
+	  	],
+		"mail": "vandamme.mcw@student.roc.nl",
+		"languageOfChoice": 
+          	[
+            		"nl-NL"
+          	]
+    	},
+    	"offering": "123e4567-e89b-12d3-a456-134564174000",
+
+      }
+    ],
 }
 ```
 
