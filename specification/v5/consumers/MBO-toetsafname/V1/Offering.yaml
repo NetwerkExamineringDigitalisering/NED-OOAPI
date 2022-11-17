@@ -4,11 +4,40 @@ required:
   - offeringState
 properties:
   duration:
-    type: integer
-    format: int32
-    example: 60
+    type: string
     description: |
       To be documented see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4
+      The duration of this component. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
+      For easy info https://en.wikipedia.org/wiki/ISO_8601#Durations
+    pattern: '^(-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$'
+    example: P1DT30H4S
+  lastPossibleStartDateTime:
+    type: string
+    description: The moment on which this offering starts, RFC3339 (date-time)
+    format: date-time
+    example: 2020-12-15T08:50:00 
+  startOptions:
+    type: string
+    description: |
+      type of start that is allowed
+    enum:
+      - individualStart
+      - triggeredSart
+  durationFrom:
+    type: string
+    description: |
+      determine how to determine the start moment for the component
+    enum:
+      - startDateTime 
+      - individualStartDateTime
+      - triggeredStartDateTime
+  durationUntil:
+    type: string
+    description: |
+      determine how the length of the component should be determined (fixed endpoint or based on the duration)
+    enum:
+      - testDuration 
+      - endDateTime
   safety:
     type: string
     description: |

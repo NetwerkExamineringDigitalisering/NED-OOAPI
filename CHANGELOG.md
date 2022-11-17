@@ -18,6 +18,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Changed examples to follow the flows from MBO-Toetsafname
+- changed tags to reflect resource exposed by endpoints in stead of first name of endpoint for endpoints:
+    - GET /offerings/{offeringId}/associations
+    - GET /offerings/{offeringId}/groups
+
 
 
 ## [5.0.0] - 2022-07-19

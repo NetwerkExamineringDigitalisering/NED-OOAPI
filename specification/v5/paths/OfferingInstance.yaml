@@ -61,7 +61,11 @@ get:
                 resultExpected: true
                 consumers:
                 - consumerKey: MBO-toetsafname
-                  duration: 60
+                  duration: P60M
+                  lastPossibleStartDateTime: 2020-12-15T08:50:00
+                  startOptions: individualStart
+                  durationFrom: individualStartDateTime
+                  durationUntil: testDuration 
                   safety: ["Fixed Location", "Surveillance"]
                   offeringState: active
                   locationCode: A-22
@@ -205,7 +209,11 @@ put:
                 resultExpected: true
                 consumers:
                 - consumerKey: MBO-toetsafname
-                  duration: 60
+                  duration: P60M
+                  lastPossibleStartDateTime: 2020-12-15T08:50:00
+                  startOptions: individualStart
+                  durationFrom: individualStartDateTime
+                  durationUntil: testDuration 
                   safety: ["Fixed Location", "Surveillance"]
                   offeringState: active
                   locationCode: A-22
