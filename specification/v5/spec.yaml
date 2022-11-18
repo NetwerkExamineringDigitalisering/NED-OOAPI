@@ -185,7 +185,7 @@ tags:
 #      <SchemaDefinition schemaRef="#/components/schemas/NewsItem" />
 
 x-tagGroups:
-  - name: Requests and respones
+  - name: Requests and responses
     tags: 
 #      - service metadata
 #      - academic sessions
