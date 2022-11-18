@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - POST endpoint for persons
 - PUT offerings/{offeringId}/associations/{associationId}
 - security for server to server communication based on oauth2 clientcredentials flow
+- documentType.yaml as part of the types of documents allowed
 
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
