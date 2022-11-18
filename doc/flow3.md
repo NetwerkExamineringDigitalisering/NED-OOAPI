@@ -8,8 +8,8 @@ After a test is taken the results for each participant are returned to the Toets
 sequenceDiagram
     participant Toetsplanning
     participant Toetsafname
-    loop voor elke student
-      Toetsafname->>Toetsplanning: here are the complete results for this student
+    loop for each student
+      Toetsafname->>Toetsplanning: Send attendance and result directly
       activate Toetsplanning
       Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PATCH)
       Toetsplanning->>Toetsafname: 200 - OK!
@@ -17,13 +17,11 @@ sequenceDiagram
     end
 ```
    
-### example of result message for one student
+### example of request Send attendance and result directly
 ```
 PATCH /associations/{associationId}
 
 {
-	
-
    "result": {
       "state": "completed",
       "pass": "unknown",
@@ -73,14 +71,14 @@ sequenceDiagram
     participant Toetsplanning
     participant Toetsafname
     loop for each student
-      Toetsafname->>Toetsplanning: here is the attendance info for this student
+      Toetsafname->>Toetsplanning: A. Send attendance for student directly
       activate Toetsplanning
       Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (POST)
       Toetsplanning->>Toetsafname: 200 - OK!
       deactivate Toetsplanning
    end
-    loop voor elke student
-      Toetsafname->>Toetsplanning: Here are the complete test results for this student
+    loop for each student
+      Toetsafname->>Toetsplanning: B. Send result for student
       activate Toetsplanning
       Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PUT)
       Toetsplanning->>Toetsafname: 200 - OK!
@@ -88,7 +86,7 @@ sequenceDiagram
    end
 ```
 
-### example of a message with only attendance information
+### example of request A. Send attendance for student directly
 ```json
 PATCH /associations/{associationId}
 
@@ -106,7 +104,39 @@ PATCH /associations/{associationId}
     }
 }
 ```
- 
+### example of request A. B. Send result for student
+```json
+PATCH /associations/{associationId}
+
+{
+   "result": {
+      "state": "completed",
+      "pass": "unknown",
+      "comment": "string",
+      "score": "9",
+      "resultDate": "2020-09-28",
+      "weight": 100,
+      "consumers": [
+	     {
+		"consumerKey": "MBO-toetsafname",
+		"attendance": "present",
+		"assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+		"assessorCode": "JAJE",
+		"irregularities": "Jantje heeft gespiekt."
+		"final": true,
+		"documents": [
+		 {
+		   "documentId": "123454",
+		   "documentType": "assessmentForm",
+		   "documentName": "Assessment form for Jake Doe.pdf"
+		 }
+		]
+	      }
+      ],
+    }
+}
+``` 
+
 ## Flow 3.3 : Retrieve supporting result documents
 when a result message contains a document reference the file can be downloaded
 ```mermaid
