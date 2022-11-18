@@ -111,7 +111,7 @@ patch:
                     - documentId: 123454
                       documentType: assessmentForm
                       documentName: Assessment form for Jake Doe.pdf
-            Send attendance first, send result later (flow 3.2):
+            Send attendance for student directly (flow 3.2.A):
               value:
                 result:
                   state: in progress
@@ -120,7 +120,26 @@ patch:
                   consumers:
                   - consumerKey: MBO-toetsafname
                     attendance: present
-
+            Send result for student (flow 3.2.B):
+              value:
+                result:
+                  state: completed
+                  pass: unknown
+                  comment: string
+                  score: "9"
+                  resultDate: 2022-11-18
+                  weight: 100
+                  consumers:
+                  - consumerKey: MBO-toetsafname
+                    attendance: present
+                    assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
+                    assessorCode: JAJE
+                    irregularities: Jantje heeft gespiekt
+                    final: true
+                    documents:
+                    - documentId: 123454
+                      documentType: assessmentForm
+                      documentName: Assessment form for Jake Doe.pdf
   responses:
     '200':
       description: OK
