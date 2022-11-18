@@ -2,6 +2,9 @@ put:
   summary: PUT offerings/{offeringId}/associations/{associationId}
   description: |
     PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
     - associations
   parameters:

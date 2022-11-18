@@ -1,8 +1,11 @@
 get:
   summary: GET /persons/{personId}/associations
   description: Get a list of all associations for an individual person.
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
-    - persons
+    - associations
   parameters:
     - name: personId
       in: path

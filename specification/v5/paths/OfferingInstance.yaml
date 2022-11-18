@@ -1,6 +1,9 @@
 get:
   summary: GET /offerings/{offeringId}
   description: Get a single offering.
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
     - offerings
   parameters:
@@ -109,10 +112,11 @@ patch:
   summary: PATCH /offerings/{offeringId}
   description: |
     PATCH update a single offering based on the offeringID provided. 
-    
   security:
     - openId:
       - offerings.write
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
     - offerings
   parameters:
@@ -172,7 +176,8 @@ put:
   security:
     - openId:
       - offerings.write
-  tags:
+    - oAuthFlows:  
+      - test-admin-flow  tags:
     - offerings
   parameters:
     - name: offeringId

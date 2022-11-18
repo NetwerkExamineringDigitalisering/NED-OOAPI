@@ -1,5 +1,8 @@
 get:
   summary: GET /persons
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   description: Get an ordered list of all persons.
   tags:
     - persons
@@ -71,6 +74,9 @@ get:
 post:
   summary: POST /persons
   description: POST a single person.
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
     - persons
   requestBody:

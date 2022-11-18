@@ -1,6 +1,10 @@
 get:
   summary: GET /associations/{associationId}
-  description: Get a single association.
+  description: |
+    Get a single association.
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
     - associations
   parameters:
@@ -59,7 +63,7 @@ patch:
   security:
     - openId:
       - associations.write
-    - oAuth:  
+    - oAuthFlows:  
       - test-admin-flow
   tags:
     - associations
@@ -138,6 +142,9 @@ put:
   summary: PUT associations/{associationId}
   description: |
     PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
     - associations
   parameters:

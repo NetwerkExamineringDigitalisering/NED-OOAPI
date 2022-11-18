@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PUT endpoint for associations/{associationId}
 - POST endpoint for persons
 - PUT offerings/{offeringId}/associations/{associationId}
+- security for server to server communication based on oauth2 clientcredentials flow
 
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
@@ -21,6 +22,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - changed tags to reflect resource exposed by endpoints in stead of first name of endpoint for endpoints:
     - GET /offerings/{offeringId}/associations
     - GET /offerings/{offeringId}/groups
+    - GET /components/{componentId}/offerings
+    - GET /persons/{personId}/associations
 
 
 

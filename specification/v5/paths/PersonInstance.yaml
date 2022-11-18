@@ -1,6 +1,9 @@
 get:
   summary: GET /persons/{personId}
   description: Get a single person.
+  security:
+    - oAuthFlows:  
+      - test-admin-flow
   tags:
     - persons
   parameters:

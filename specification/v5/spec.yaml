@@ -229,6 +229,16 @@ components:
     openId:
       type: openIdConnect
       openIdConnectUrl: https://example.nl/.well-known/openid-configuration
+    oAuthFlows:
+      type: oauth2
+      description: |
+        This API uses oauth Cleint credentials for server to server #/components/schemas/EducationSpecification
+      flows: 
+        clientCredentials:
+          tokenUrl: https://example.nl/oauth2/authorize
+          scopes:
+            test-admin-flow: functions needed to allow the transfer of enrollments, persons and offerings between systems in MBO
+
   #schemas:
     # allOf: 
     #   - $ref: 'schemas/Service.yaml'
@@ -254,14 +264,14 @@ paths:
     $ref: paths/Service.yaml
   /persons:
     $ref: paths/PersonCollection.yaml
-  /persons/me:
-    $ref: paths/PersonMe.yaml
+  # /persons/me:
+  #   $ref: paths/PersonMe.yaml
   /persons/{personId}:
     $ref: paths/PersonInstance.yaml
   /persons/{personId}/associations:
     $ref: paths/PersonAssociationCollection.yaml
-  /persons/{personId}/groups:
-    $ref: paths/PersonGroupCollection.yaml
+  # /persons/{personId}/groups:
+  #   $ref: paths/PersonGroupCollection.yaml
   /organizations:
     $ref: paths/OrganizationCollection.yaml
   /organizations/{organizationId}:
@@ -320,8 +330,8 @@ paths:
     $ref: paths/AssociationInstance.yaml
   # /associations/me:
   #   $ref: paths/AssociationInstanceMe.yaml
-  /associations/external/me:
-    $ref: paths/AssociationInstanceExternalMe.yaml
+  # /associations/external/me:
+  #   $ref: paths/AssociationInstanceExternalMe.yaml
   /buildings:
     $ref: paths/BuildingCollection.yaml
   /buildings/{buildingId}:
