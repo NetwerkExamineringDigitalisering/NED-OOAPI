@@ -153,11 +153,12 @@ sequenceDiagram
 
 ```
 
+	
 ## Flow 3.4 Read current state of the attendance and results
 To see/check the current state of the offering with its associations the following endpoint can be used
 ```mermaid
 sequenceDiagram
-    alt for all students
+    alt for all students at once
         Toetsplanning->>Toetsafname: A. Read results for all students
         activate Toetsafname
         Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
