@@ -73,14 +73,14 @@ sequenceDiagram
     loop for each student
       Toetsafname->>Toetsplanning: A. Send attendance for student directly
       activate Toetsplanning
-      Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (POST)
+      Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PATCH)
       Toetsplanning->>Toetsafname: 200 - OK!
       deactivate Toetsplanning
    end
     loop for each student
       Toetsafname->>Toetsplanning: B. Send result for student
       activate Toetsplanning
-      Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PUT)
+      Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PATCH)
       Toetsplanning->>Toetsafname: 200 - OK!
       deactivate Toetsplanning
    end
@@ -160,13 +160,13 @@ sequenceDiagram
     alt for all students
         Toetsplanning->>Toetsafname: A. Read results for all students
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (GET)
+        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
         Toetsafname->>Toetsplanning: 200 - here they all are!
         deactivate Toetsafname
     else just one student
         Toetsplanning->>Toetsafname: B. Read result for student
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations/<associationId> (GET)
+        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (GET)
         Toetsafname->>Toetsplanning: 200 - here it is!
         deactivate Toetsafname
     end
@@ -263,7 +263,7 @@ GET /offerings/{offeringId}/associations
 
 ### example of response B. Read result for student
 ```
-GET /offerings/{offeringId}/associations/{associationId}
+GET /associations/{associationId}
 
 {
     "associationId": "123e4567-e89b-12d3-a456-426614174000",
