@@ -87,7 +87,7 @@ sequenceDiagram
 ```
 
 ### example of request A. Send attendance for student directly
-```json
+```
 PATCH /associations/{associationId}
 
 {
@@ -104,8 +104,8 @@ PATCH /associations/{associationId}
     }
 }
 ```
-### example of request A. B. Send result for student
-```json
+### example of request B. Send result for student
+```
 PATCH /associations/{associationId}
 
 {
@@ -158,16 +158,139 @@ To see/check the current state of the offering with its associations the followi
 ```mermaid
 sequenceDiagram
     alt for all students
-        Toetsplanning->>Toetsafname: Give me the students with their results
+        Toetsplanning->>Toetsafname: A. Read results for all students
         activate Toetsafname
         Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations (GET)
         Toetsafname->>Toetsplanning: 200 - here they all are!
         deactivate Toetsafname
     else just one student
-        Toetsplanning->>Toetsafname: And give me the student results
+        Toetsplanning->>Toetsafname: B. Read result for student
         activate Toetsafname
         Note right of Toetsafname: endpoint /a/ooapi/offerings/<id>/associations/<associationId> (GET)
         Toetsafname->>Toetsplanning: 200 - here it is!
         deactivate Toetsafname
     end
 ```
+
+### example of response A. Read results for all students
+```
+GET /offerings/{offeringId}/associations
+
+{
+  "pageSize": 10,
+  "pageNumber": 1,
+  "hasPreviousPage": false,
+  "hasNextPage": true,
+  "totalPages": 8,
+  "items": [
+  {
+    "associationId": "123e4567-e89b-12d3-a456-426614174000",
+    "associationType": "componentOfferingAssociation",
+    "role": "student",
+    "state": "associated",
+    "remoteState": "associated",
+    "consumers": [
+    {
+      "consumerKey": "MBO-toetsafname",
+      "startUpURL": "https://myComponent.nl?test",
+      "extraTimeInMin": 30,
+      "personalNeeds": 
+	[
+            "extraTime",
+            "spoken",
+            "spell-checker-on-screen"
+        ]
+    }
+    ],
+    "result": {
+      "state": "completed",
+      "pass": "unknown",
+      "comment": "string",
+      "score": "9",
+      "resultDate": "2020-09-28",
+      "weight": 100,
+      "consumers": [
+	{
+	  "consumerKey": "MBO-toetsafname",
+	  "attendance": "present",
+	  "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+	  "assessorCode": "JAJE",
+	  "irregularities": "Jantje heeft gespiekt."
+	  "final": true,
+	  "documents": [
+	  {
+	    "documentId": "123454",
+	    "documentType": "assessmentForm",
+	    "documentName": "Assessment form for Jake Doe.pdf"
+	  }
+        ]
+      }
+    }
+    "person": 
+    {
+      "personId": "111-2222-33-4444-222",
+      "primaryCode": 
+      {
+        "codeType": "studentNumber",
+        "code": "1234567"
+      },
+      "givenName": "Maartje",
+      "surnamePrefix": "van",
+      "surname": "Damme",
+      "displayName": "Maartje van Damme",
+      "activeEnrollment": true,
+      "affiliations": [
+        "student"
+      ],
+      "mail": "vandamme.mcw@student.roc.nl",
+      "languageOfChoice": ["nl-NL"],
+      "otherCodes": [
+      {
+        "codeType": "accountId",
+        "code": "s1234567@student.roc.nl"
+      },
+      {
+         "codeType": "eckid",
+         "code": "https://roc.nl/8078d3...28bc85"
+      }
+      ]
+    },
+    "offering": "123e4567-e89b-12d3-a456-134564174000"
+  }
+  ]
+}
+``` 
+
+### example of response B. Read result for student
+```
+GET /offerings/{offeringId}/associations/{associationId}
+
+{
+   "result": {
+      "state": "completed",
+      "pass": "unknown",
+      "comment": "string",
+      "score": "9",
+      "resultDate": "2020-09-28",
+      "weight": 100,
+      "consumers": [
+	     {
+		"consumerKey": "MBO-toetsafname",
+		"attendance": "present",
+		"assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+		"assessorCode": "JAJE",
+		"irregularities": "Jantje heeft gespiekt."
+		"final": true,
+		"documents": [
+		 {
+		   "documentId": "123454",
+		   "documentType": "assessmentForm",
+		   "documentName": "Assessment form for Jake Doe.pdf"
+		 }
+		]
+	      }
+      ],
+    }
+}
+``` 
+
