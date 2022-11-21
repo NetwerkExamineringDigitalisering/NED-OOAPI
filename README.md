@@ -10,7 +10,7 @@
 
 ## Abstract
 
-A typical school uses a broad range of exam and testing tools..... bla bla babble.
+A typical school uses a broad range of exam and testing tools. The aim of this specification is to abstract these tools and focus on the messages that are interchanged between these tools. An over all example can be found in the folowing image.
 
 ![Main](doc/diagrams/ProgrammaOKE.png)
 
@@ -32,6 +32,9 @@ This repository consists of the following elements:
 - [Glossary](glossary.md) describing all terms and definitions used within the ecosystem.
 - [Party directory](Party-Directory.md) with all Parties that are currently active in the ecosystem.
 - [OOAPI Specification relevant to this project](specification/v5/docs.html)
+
+The specification and the relevant information can be found in the link: [OOAPI Specification relevant to this project](specification/v5/docs.html)
+An adapted and shortend version of the yaml file for the MBO-OKE can be found [here](specification/ooapiv5_MBO.yaml)
 
 # Working Documents
 - [uitwerking terugkomdag 23 mei 2022](doc/documents/Examinering%20mbo%20-%20terugkomdag%2023mei%20-%20verwerkt.pdf)
