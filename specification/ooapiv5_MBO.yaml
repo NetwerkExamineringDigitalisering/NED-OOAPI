@@ -7066,7 +7066,8 @@ paths:
         - openId:
             - offerings.write
         - oAuthFlows:
-            - test-admin-flow  tags: null
+            - test-admin-flow
+      tags:
         - offerings
       parameters:
         - name: offeringId

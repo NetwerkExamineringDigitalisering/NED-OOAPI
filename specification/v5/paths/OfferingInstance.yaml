@@ -177,7 +177,8 @@ put:
     - openId:
       - offerings.write
     - oAuthFlows:  
-      - test-admin-flow  tags:
+      - test-admin-flow
+  tags:
     - offerings
   parameters:
     - name: offeringId
