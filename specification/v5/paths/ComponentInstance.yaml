@@ -37,6 +37,23 @@ get:
             Request details of one test (Flow 0.2):
               value:
                 componentId: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
+                primaryCode: 
+                  codeType: testID
+                  code: "5"
+                componentType: test
+                name:
+                - language: "nl-NL"
+                  value: "Rekenen 2F voor technische opleidingen"
+                abbreviation: "REK2F-TECH"
+                modeOfDelivery: ["situated"]
+                duration: "PT60M"
+                description:
+                - language: "nl-NL"
+                  value: "Rekentest MBO op niveau 2F toegespitst op technische opleidingen zoals procestechniek/machinebouw"
+                teachingLanguage: "nld"
+                assessment:
+                - language: "nl-NL"
+                  value: "Digitale toetsing"
     '400':
       $ref: '../schemas/ErrorBadRequest.yaml'
     '401':
