@@ -91,6 +91,9 @@ patch:
 #                - $ref: '../schemas/CourseResult.yaml'
 #                - $ref: '../schemas/ProgramResult.yaml'  
         examples:
+            Delete student from offering (flow 2.4):
+              value:
+                state: canceled
             Send attendance and result directly (flow 3.1):
               value:
                 result:
