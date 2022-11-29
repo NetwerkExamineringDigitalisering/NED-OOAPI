@@ -54,6 +54,16 @@ get:
                 assessment:
                 - language: "nl-NL"
                   value: "Digitale toetsing"
+                organization: "452c1a86-a0af-475b-b03f-724878b0f387"
+                consumers:
+                - consumerKey: MBO-toetsafname
+                  extraTime: P60M
+                  availablePersonalNeeds: ["extraTime", "spoken", "spell-checker-on-screen"]
+                  exam: true
+                  resultValueType: "1.0-10.0"
+                  passFrom: "5.5"
+                  retries: 2
+                  status: active
     '400':
       $ref: '../schemas/ErrorBadRequest.yaml'
     '401':
