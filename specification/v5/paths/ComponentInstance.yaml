@@ -36,7 +36,6 @@ get:
           examples:
             Request details of one test (Flow 0.2):
               value:
-                componentId: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
                 primaryCode: 
                   codeType: testID
                   code: "5"
