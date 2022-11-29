@@ -33,8 +33,6 @@ get:
         application/json:
           schema:
             $ref: '../schemas/Component.yaml'
-              value:
-                state: canceled
           examples:
             Request details of one test (Flow 0.2):
               value:
