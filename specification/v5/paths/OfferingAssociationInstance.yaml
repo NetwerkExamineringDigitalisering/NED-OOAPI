@@ -39,7 +39,10 @@ put:
               associationType: componentOfferingAssociation
               role: student
               state: associated
+<<<<<<< HEAD
               remoteState: associated
+=======
+>>>>>>> f6f9c8898b342776f162e5dd0dcaeda3d6ef8731
               consumers:
               - consumerKey: MBO-toetsafname
                 startUpURL: https://myComponent.nl?test
@@ -72,7 +75,26 @@ put:
                 ]
               #id van offering op volgende regel is redendant want ook als padparameter
               offering: "123e4567-e89b-12d3-a456-134564174000"
+<<<<<<< HEAD
               associationId: "123e4567-e89b-12d3-a456-134564174000"
+=======
+          Change student enrollment to offering (zitting) (flow 2.x):
+            value:
+              #associationId is padparameter
+              #volgorde conform ooapi-v5
+              #associationType op volgende regel ontbreekt in endpoint-definitie
+              associationType: componentOfferingAssociation
+              role: student
+              state: completed
+              consumers:
+              - consumerKey: MBO-toetsafname
+                startUpURL: https://myComponent.nl?test
+                extraTimeInMin: 30
+                personalNeeds: [extraTime,spoken,spell-checker-on-screen]
+              person: "111-2222-33-4444-222"
+              #id van offering op volgende regel is redendant want ook als padparameter
+              offering: "123e4567-e89b-12d3-a456-134564174000"
+>>>>>>> f6f9c8898b342776f162e5dd0dcaeda3d6ef8731
 
 
   responses:

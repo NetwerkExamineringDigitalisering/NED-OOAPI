@@ -54,7 +54,10 @@ classDiagram
 	 	- primarycode, name and description (not used) are mandatory (depending on Toetsafname system what to do with these data) (TO BE DECIDED)
 	 	- resultExpected is mandatory (always true)
 		- teachingLanguage (must be hardcoded NLD, not used)
-	- modeOfDelivery : we only support :situated, online, oncampus (Situated: offline, on a specific location (could be a location in a company) Online: online on a specific location, Distance: everywhere, could also be from home )
+	- modeOfDelivery : we only support :situated, online, distance-learning 
+		- situated (op locatie): offline, on a specific location (could be a location in a company) 
+		- online: online on a specific location
+		- distance-learning (afstandsleren): everywhere, could also be from home )
 
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
@@ -309,7 +312,7 @@ sequenceDiagram
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- remoteState : use the value "canceled" from the enum.
+	- state : use the value "canceled" from the enum.
 
 ### example of request Delete student from offering (zitting)	
 ```
