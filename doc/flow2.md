@@ -312,7 +312,7 @@ sequenceDiagram
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- remoteState : use the value "canceled" from the enum.
+	- state : use the value "canceled" from the enum.
 
 ### example of request Delete student from offering (zitting)	
 ```
