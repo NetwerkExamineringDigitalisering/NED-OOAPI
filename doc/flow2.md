@@ -139,7 +139,7 @@ classDiagram
 	role : associationRole
 	state : state
 	consumers : Consumer
-	result : Result
+#	result : Result
 	person : personId or Person
 	offering : offeringId
     }
@@ -148,9 +148,6 @@ classDiagram
 	userName : string
 	extraTimeInMin : int
 	personalNeeds : string[]
-    }
-    class Result {
-    	TBD : string
     }
     class Person {
 	personId : UUID
@@ -163,10 +160,10 @@ classDiagram
 	affiliations : personAffiliations
 	mail : string
     }
-    Association o-- Result
     Association o-- Consumer
     Association -- Person
 ```
+
 ### Remarks
 - Association
 	- supported roles: student, invigilator, coordinator, assessor (If there are multiple roles then multiple associations).
