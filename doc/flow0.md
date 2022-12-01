@@ -40,6 +40,7 @@ classDiagram
 	passFromn : string
 	retires : int
 	status : TestStatusType
+	licensed : boolean
     }
     Component o-- Consumer
 ```
