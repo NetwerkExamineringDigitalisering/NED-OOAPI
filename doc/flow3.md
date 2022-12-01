@@ -16,7 +16,41 @@ sequenceDiagram
       deactivate Toetsplanning
     end
 ```
-   
+
+For the result of the association (deelname) the following entities and attributes are used:
+```mermaid
+classDiagram
+    class Association {
+	result : Result
+    }
+    class Result {
+    	state : string
+	pass : string
+	comment : string
+	score : string
+	resultDate : date-time
+	weight : int
+	consumers : Consumer
+    }
+    class Consumer {
+	consumerKey : string
+	attendance : string
+	assessorId : string
+	assessorCode : string 
+	iregularities : string
+	final : boolean 
+	documents : Document[]
+    }
+    class document {
+	documentId : string
+	documentType : string
+	documentName : string
+    }
+    Association o-- Result
+    Result o-- Consumer
+    Consumer o-- Document
+```
+
 ### example of request Send attendance and result directly
 ```
 PATCH /associations/{associationId}
