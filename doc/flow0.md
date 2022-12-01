@@ -29,7 +29,7 @@ classDiagram
 	assessment : languageTypedString[]
 	otherCodes : (codeType,code)[]
 	organization : organisationId or Organization object
-    consumers: Consumer{}
+    consumers: Consumer[]
     }
     class Consumer {
     	consumerKey : string
