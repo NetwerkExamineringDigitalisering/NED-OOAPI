@@ -2697,7 +2697,6 @@ paths:
   /persons/{personId}:
     get:
       summary: GET /persons/{personId}
-      operationId: get-persons
       description: Get a single person.
       security:
         - oAuthFlows:
@@ -2769,6 +2768,41 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Component'
+              examples:
+                Request details of one test (Flow 0.2):
+                  value:
+                    componentId: c5fca27e-ccc1-430d-9888-90e005ad6a86
+                    primaryCode:
+                      codeType: testID
+                      code: '5'
+                    componentType: test
+                    name:
+                      - language: nl-NL
+                        value: Rekenen 2F voor technische opleidingen
+                    abbreviation: REK2F-TECH
+                    modeOfDelivery:
+                      - situated
+                    duration: PT60M
+                    description:
+                      - language: nl-NL
+                        value: Rekentest MBO op niveau 2F toegespitst op technische opleidingen zoals procestechniek/machinebouw
+                    teachingLanguage: nld
+                    assessment:
+                      - language: nl-NL
+                        value: Digitale toetsing
+                    organization: 452c1a86-a0af-475b-b03f-724878b0f387
+                    consumers:
+                      - consumerKey: MBO-toetsafname
+                        extraTime: P60M
+                        availablePersonalNeeds:
+                          - extraTime
+                          - spoken
+                          - spell-checker-on-screen
+                        exam: true
+                        resultValueType: 1.0-10.0
+                        passFrom: '5.5'
+                        retries: 2
+                        status: active
         '400':
           $ref: '#/components/responses/ErrorBadRequest'
         '401':
@@ -3013,6 +3047,9 @@ paths:
               $ref: '#/components/schemas/ComponentOffering'
               title: componentOffering
             examples:
+              Delete offering (Flow 2.5):
+                value:
+                  state: canceled
               Send attendance and offering report directly (Flow 4.1):
                 value:
                   consumers:
@@ -3269,7 +3306,6 @@ paths:
                   associationType: componentOfferingAssociation
                   role: student
                   state: associated
-                  remoteState: associated
                   consumers:
                     - consumerKey: MBO-toetsafname
                       startUpURL: https://myComponent.nl?test
@@ -3299,7 +3335,21 @@ paths:
                       - codeType: eckid
                         code: https://roc.nl/8078d3...28bc85
                   offering: 123e4567-e89b-12d3-a456-134564174000
-                  associationId: 123e4567-e89b-12d3-a456-134564174000
+              Change student enrollment to offering (zitting) (flow 2.x):
+                value:
+                  associationType: componentOfferingAssociation
+                  role: student
+                  state: associated
+                  consumers:
+                    - consumerKey: MBO-toetsafname
+                      startUpURL: https://myComponent.nl?test
+                      extraTimeInMin: 30
+                      personalNeeds:
+                        - extraTime
+                        - spoken
+                        - spell-checker-on-screen
+                  person: 111-2222-33-4444-222
+                  offering: 123e4567-e89b-12d3-a456-134564174000
       responses:
         '200':
           description: OK
@@ -3403,6 +3453,9 @@ paths:
                   oneOf:
                     - $ref: '#/components/schemas/ComponentResult'
             examples:
+              Delete student from offering (flow 2.4):
+                value:
+                  state: canceled
               Send attendance and result directly (flow 3.1):
                 value:
                   result:
