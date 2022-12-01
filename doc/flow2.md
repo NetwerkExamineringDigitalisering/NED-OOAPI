@@ -43,7 +43,6 @@ classDiagram
     }
     Offering o-- Consumer
 ```
-Class diagram 2.1.A
 
 ### Remarks
 - id of the offering (zitting) is created by sender (Toetsplanning).
@@ -164,13 +163,11 @@ classDiagram
     Association o-- Consumer
     Association -- Person
 ```
-Class diagram 2.2.A
 
 ### Remarks
 - Association
 	- supported roles: student, invigilator, coordinator, assessor (If there are multiple roles then multiple associations).
 	- state : use the value "associated" from the enum.
-	- remoteState : same as state, but not used. (unfortunatelly: mandatory).
 	- offering (componentOffering) is sent before so no need to add all data, just the offeringId is enough.
 	- testID (comopnentId) is implicit in offering, so no need to add.
 - person
@@ -187,9 +184,9 @@ Class diagram 2.2.A
 ```
 PUT endpoint /a/ooapi/offerings/{offeringId}
 
-(see flow 2.1)
+(see Sequence diagram in Flow 2.1)
 
-(see Class diagram 2.1.A)
+(see Class diagram in Flow 2.1)
 
 ```
 
@@ -227,7 +224,6 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
     "associationType": "componentOfferingAssociation",
     "role": "student",
     "state": "associated",
-    "remoteState": "associated",
     "consumers": 
       [
 	{
@@ -258,7 +254,8 @@ sequenceDiagram
     end
     deactivate Toetsafname
 ```
-(see Class diagram 2.2.A)
+
+(see Class diagram in Flow 2.2)
 
 ### example of request Add student to existing offering (zitting)	
 ```
@@ -294,7 +291,6 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
     "associationType": "componentOfferingAssociation",
     "role": "student",
     "state": "associated",
-    "remoteState": "associated",
     "consumers": 
       [
 	{
@@ -328,9 +324,6 @@ classDiagram
 	state : string = "canceled"
 	}
 ```
-Class diagram 2.4.A
-
-
 
 ### Remarks
 - Not high priority (could be defined and used later)
@@ -380,16 +373,14 @@ classDiagram
     }
     Offering o-- Consumer
 ```
-Class diagram 2.5.A
-
-Open Question 1 : How to change state to canceled if there is no state attribute in Offering?
-
-Open Question 2 : State change from canceled back to active: Will students remain active? Will associations remain?
+### Questions
+- Question 1 : How to change state to canceled if there is no state attribute in Offering? For now solved by adding state attribute in consumer.
+- Question 2 : State change from canceled back to active: Will students remain active? Will associations remain?
 
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- remoteState : use the value "canceled" from the enum.
+	- state : use the value "canceled" from the enum.
 
 ### example of request Delete offering (zitting)	
 ```
@@ -475,7 +466,6 @@ GET /a/ooapi/offerings/{offeringId}/associations
     	"associationType": "componentOfferingAssociation",
     	"role": "student",
     	"state": "associated",
-    	"remoteState": "associated",
     	"consumers": 
       	[
 	{
