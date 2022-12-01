@@ -376,7 +376,7 @@ classDiagram
     }
     class Consumer {
     	consumerKey : string
-	offeringState : OfferingStateType
+	offeringState : OfferingStateType = "canceled"
     }
     Offering o-- Consumer
 ```
