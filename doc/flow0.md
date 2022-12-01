@@ -14,6 +14,36 @@ sequenceDiagram
     deactivate TA
 ```
 
+For each component (toets) the following entities and attributes are used:
+```mermaid
+classDiagram
+    class Component {
+    	componentId : UUID
+	primaryCode : identifierEntity
+	comonentType : string
+	name : languageTypedString[]
+	modeOfDelivery : modeOfDeliveryType
+    duration: timeperiod
+	description : languageTypedString[]
+	teachingLanguage : string
+	assessment : languageTypedString[]
+	otherCodes : (codeType,code)[]
+	organization : organisationId or Organization object
+    consumers: Consumer{}
+    }
+    class Consumer {
+    	consumerKey : string
+	extraTime : int
+	availablePersonalNeeds : PersonalNeedsType
+	exam : boolean
+	resultValuType : ResultValueType
+	passFromn : ResultValueType
+	retires : ResultValueType
+	status : TestStatusType
+    }
+    Component o-- Consumer
+```
+
 ### Example of a request/response to read the whole catalogue
 ```json
 #GET/components?type=test
