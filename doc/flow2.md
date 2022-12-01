@@ -43,6 +43,7 @@ classDiagram
     }
     Offering o-- Consumer
 ```
+Class diagram 2.1.A
 
 ### Remarks
 - id of the offering (zitting) is created by sender (Toetsplanning).
@@ -163,6 +164,7 @@ classDiagram
     Association o-- Consumer
     Association -- Person
 ```
+Class diagram 2.2.A
 
 ### Remarks
 - Association
@@ -186,6 +188,9 @@ classDiagram
 PUT endpoint /a/ooapi/offerings/{offeringId}
 
 (see flow 2.1)
+
+(see Class diagram 2.1.A)
+
 ```
 
 ### example of request B. Add student to created offering (zitting)	
@@ -253,6 +258,7 @@ sequenceDiagram
     end
     deactivate Toetsafname
 ```
+(see Class diagram 2.2.A)
 
 ### example of request Add student to existing offering (zitting)	
 ```
@@ -315,6 +321,16 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
+For the deletion of a association (deelname) from the offering (zitting) the following entities and attributes are used:
+```mermaid
+classDiagram
+    class Association {
+	state : state = "canceled"
+```
+Class diagram 2.4.A
+
+
+
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
@@ -350,7 +366,21 @@ sequenceDiagram
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
-	
+
+For the deletion of the offering (zitting) the following entities and attributes are used:
+```mermaid
+classDiagram
+    class Offering {
+	consumers : Consumer
+    }
+    class Consumer {
+    	consumerKey : string
+	offeringState : OfferingStateType
+    }
+    Offering o-- Consumer
+```
+Class diagram 2.5.A
+
 Open Question 1 : How to change state to canceled if there is no state attribute in Offering?
 
 Open Question 2 : State change from canceled back to active: Will students remain active? Will associations remain?
