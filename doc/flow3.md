@@ -41,7 +41,7 @@ classDiagram
 	final : boolean 
 	documents : Document[]
     }
-    class document {
+    class Document {
 	documentId : string
 	documentType : string
 	documentName : string
