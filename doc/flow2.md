@@ -20,27 +20,28 @@ sequenceDiagram
 For the offering (zitting) the following entities and attributes are used:
 ```mermaid
 classDiagram
-    class offering {
+    class Offering {
     	offeringId : UUID
 	primaryCode : identifierEntity
-	offeringType : offeringType
-	component : string
+	offeringType : OfferingType = "component"
 	name : languageTypedString[]
 	description : languageTypedString[]
 	teachingLanguage : string
-	modeOfDelivery : modeOfDeliveryType
+	modeOfDelivery : string
 	resultExpected : boolean
+	consumers : Consumer
 	startDateTime : datetime
 	endDateTime : datetime
+	component : string
     }
-    class consumers {
+    class Consumer {
     	consumerKey : string
 	duration : int
 	safety : string
-	offeringState : offeringStateType
-	string : locationCode : tring
+	offeringState : OfferingStateType
+	locationCode : string
     }
-    offering o-- consumers
+    Offering o-- Consumer
 ```
 
 ### Remarks
@@ -48,13 +49,13 @@ classDiagram
 - Toetsafname makes a PUT endpoint available.
 - Object Offering has no state, so we add the state in the consumer extention. We support "active", "canceled"
 - attributes: 
-	- primaryCode.codeType is "identifier"? primaryCode.code doesn't have to be unqiue, must be recognised by afnameleider.
-	- For LanguageTypedString : value nl-nl is valid and supported, all other values will be ignored.
+	- primaryCode.codeType is "offeringCode"; primaryCode.code doesn't have to be unqiue, must be recognised by afnameleider.
+	- For LanguageTypedString : array of groups language and value; value nl-nl for language is valid and supported, all other values will be ignored.
 	- To comply to the standard we have mandatory fields :
 	 	- primarycode, name and description (not used) are mandatory (depending on Toetsafname system what to do with these data) (TO BE DECIDED)
 	 	- resultExpected is mandatory (always true)
 		- teachingLanguage (must be hardcoded NLD, not used)
-	- modeOfDelivery : we only support :situated, online, distance-learning 
+	- modeOfDelivery: we only support :situated, online, distance-learning 
 		- situated (op locatie): offline, on a specific location (could be a location in a company) 
 		- online: online on a specific location
 		- distance-learning (afstandsleren): everywhere, could also be from home )
