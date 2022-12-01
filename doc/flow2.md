@@ -133,19 +133,26 @@ sequenceDiagram
 For the offering (zitting) the following entities and attributes are used:
 ```mermaid
 classDiagram
-    class association {
+    class Association {
     	associationId : UUID
 	associationType : associationType
 	role : associationRole
 	state : state
-	remoteState : remoteState
+	consumers : Consumer
+	result : Result
+	person : personId or Person
+	offering : offeringId
     }
-    class consumers {
+    class Consumer {
     	consumerKey : string
+	userName : string
 	extraTimeInMin : int
 	personalNeeds : string[]
     }
-    class person {
+    class Result {
+    	TBD : string
+    }
+    class Person {
 	personId : UUID
 	primaryCode : identifierEntity
 	givenName : string
@@ -156,8 +163,9 @@ classDiagram
 	affiliations : personAffiliations
 	mail : string
     }
-    association o-- consumers
-    association -- person
+    Association o-- Result
+    Association o-- Consumer
+    Association -- Person
 ```
 ### Remarks
 - Association
