@@ -325,7 +325,8 @@ For the deletion of a association (deelname) from the offering (zitting) the fol
 ```mermaid
 classDiagram
     class Association {
-	state : state = "canceled"
+	state : string = "canceled"
+	}
 ```
 Class diagram 2.4.A
 
