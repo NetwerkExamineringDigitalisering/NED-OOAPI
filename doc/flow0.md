@@ -23,7 +23,7 @@ response:
   {
      "componentId": "c5fca27e-ccc1-430d-9888-90e005ad6a86",
      "primaryCode": {
-        "codeType": "testID",
+        "codeType": "componentCode",
         "code": "5"
      },
      "componentType": "test",
@@ -107,7 +107,7 @@ response:
 {
      "componentId": "c5fca27e-ccc1-430d-9888-90e005ad6a86",
      "primaryCode": {
-        "codeType": "testID",
+        "codeType": "componentCode",
         "code": "5"
      },
      "componentType": "test",
