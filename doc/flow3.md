@@ -4,6 +4,7 @@ After a test is taken the results for each participant are returned to the Toets
 
 ## Flow 3.1 : Send attendance and result directly (automated scored tests)
 
+### Sequence diagram of request Send attendance and result directly
 ```mermaid
 sequenceDiagram
     participant Toetsplanning
@@ -17,7 +18,7 @@ sequenceDiagram
     end
 ```
 
-For the result of the association (deelname) the following entities and attributes are used:
+### Class diagram of request Send attendance and result directly
 ```mermaid
 classDiagram
     class Association {
@@ -51,7 +52,7 @@ classDiagram
     Consumer o-- Document
 ```
 
-### example of request Send attendance and result directly
+### Example of request Send attendance and result directly
 ```
 PATCH /associations/{associationId}
 
@@ -99,7 +100,9 @@ Remarks:
 		- documentTypes: identifies the kind of document; supported values: "assessmentForm" (beoordelingformulier), "assessmentFormWithAnswers" (answers with assessment notes), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values). 
 		- documentName: name for the document that is specified by Toetsafname.
 
-## Flow 3.2 : Send attendance first, send resultaat later
+## Flow 3.2 : Send attendance first, send result later
+
+### Sequence diagram of request A. Send attendance for student directly
 ```mermaid
 sequenceDiagram
     participant Toetsplanning
@@ -120,7 +123,26 @@ sequenceDiagram
    end
 ```
 
-### example of request A. Send attendance for student directly
+### Class diagram of request A. Send attendance for student directly
+```mermaid
+classDiagram
+    class Association {
+	result : Result
+    }
+    class Result {
+    	state : string = "in progress"
+	resultDate : date-time
+	consumers : Consumer
+    }
+    class Consumer {
+	consumerKey : string
+	attendance : string
+    }
+    Association o-- Result
+    Result o-- Consumer
+```
+
+### Example of request A. Send attendance for student directly
 ```
 PATCH /associations/{associationId}
 
@@ -128,7 +150,6 @@ PATCH /associations/{associationId}
    "result": {
       "state": "in progress",
       "resultDate": "2020-09-27",
-      "weight": 100,
       "consumers": [
 	     {
 		"consumerKey": "MBO-toetsafname",
@@ -138,7 +159,11 @@ PATCH /associations/{associationId}
     }
 }
 ```
-### example of request B. Send result for student
+
+### Class diagram of request B. Send result for student
+(see Class diagram in Flow 3.1)
+
+### Example of request B. Send result for student
 ```
 PATCH /associations/{associationId}
 
@@ -149,7 +174,6 @@ PATCH /associations/{associationId}
       "comment": "string",
       "score": "9",
       "resultDate": "2020-09-28",
-      "weight": 100,
       "consumers": [
 	     {
 		"consumerKey": "MBO-toetsafname",
