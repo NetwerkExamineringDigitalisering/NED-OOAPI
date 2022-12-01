@@ -62,7 +62,7 @@ classDiagram
 
 - consumers:
 	- add one of type "consumerKey": "MBO-toetsafname"
-	- duration: < to be decided > (see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4)
+	- duration: int for duration in minutes < to be decided > (see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4)
 	- safety : array of safety measures : "Secured Computer", "Fixed Location", "Surveillance"
 	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
 	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
