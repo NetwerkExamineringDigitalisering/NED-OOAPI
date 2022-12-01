@@ -27,7 +27,7 @@ classDiagram
 	description : languageTypedString[]
 	teachingLanguage : string
 	assessment : languageTypedString[]
-	otherCodes : (codeType,code)[]
+	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
     consumers: Consumer[]
     }
@@ -37,8 +37,8 @@ classDiagram
 	availablePersonalNeeds : PersonalNeedsType
 	exam : boolean
 	resultValuType : ResultValueType
-	passFromn : ResultValueType
-	retires : ResultValueType
+	passFromn : string
+	retires : int
 	status : TestStatusType
     }
     Component o-- Consumer
