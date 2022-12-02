@@ -113,13 +113,13 @@ components:
   schemas:
     PersonId:
       type: object
-      properties:
+      properties: &ref_14
         personId:
           type: string
           description: Unique id of this person
           format: uuid
           example: 123e4567-e89b-12d3-a456-426614174000
-      required:
+      required: &ref_15
         - personId
     codeType:
       type: string
@@ -155,7 +155,7 @@ components:
           - `schacHome`: Home organization using the domain name of the organization
           - `identifier`: Generic Identifier
           - `eckid`: ID used in the education content chain
-      x-ooapi-extensible-enum:
+      x-ooapi-extensible-enum: &ref_0
         - brin
         - crohoCreboCode
         - programCode
@@ -185,17 +185,51 @@ components:
       example: identifier
     IdentifierEntry:
       type: object
-      properties:
+      properties: &ref_4
         codeType:
-          $ref: '#/components/schemas/codeType'
+          type: string
+          description: |
+            The code/identifier type. 
+
+            This is an *extensible enumeration*. Use `x-` to prefix custom values
+
+            The predefined values are:
+              - `brin`: The registration number for a Dutch educational institution that is issued by the Dutch Ministry of Education, Culture and Science
+              - `crohoCreboCode`: programs with a CREBO and CROHO number are accredited by the Dutch Ministry of Education, Culture and Science (OCW)
+              - `programCode`: Identifier for the program (collection of courses)
+              - `componentCode`: The code for a component (part of a course)
+              - `offeringCode`: The code to identify a specific offering (program, course or component offering)
+              - `organizationId`: The identifier for the organization
+              - `buildingId`: The number or code to identify a building
+              - `bagId`: The identification of a building as it is known in the Dutch Building Administration (BAG)
+              - `roomCode`: The code for a room
+              - `systemId`: Identifier assigned to an entity in context of a specific system
+              - `productId`: Identifier assigned to a specific product
+              - `nationalIdentityNumber`: Identifier assigned by the governement of the person. e.g. a social security number in the USA
+              - `studentNumber`: Identifier for the student
+              - `studielinkNumber`: Identifier for the person as determined by Studielink
+              - `esi`: European Student Identifier
+              - `userName`: The name of a user
+              - `accountId`: Identifier assigned to a specific account
+              - `emailAdress`: An email address
+              - `groupCode`: The identifier for a group (of persons)
+              - `isbn`: International Standard Book Number that serve as product identifiers for Books
+              - `issn`: International Standard Book Number that serve as product identifiers for periodicals
+              - `orcId`: Open Researcher and Contributor ID
+              - `uuid`: A universally unique identifier
+              - `schacHome`: Home organization using the domain name of the organization
+              - `identifier`: Generic Identifier
+              - `eckid`: ID used in the education content chain
+          x-ooapi-extensible-enum: *ref_0
+          example: identifier
         code:
           description: Human readable value for the code/identifier
           type: string
-      required:
+      required: &ref_5
         - codeType
         - code
       additionalProperties: false
-      example:
+      example: &ref_11
         codeType: identifier
         code: 1234qwe12
     personAffiliations:
@@ -205,7 +239,7 @@ components:
         - student: student
         - employee: medewerker
         - guest: gast
-      items:
+      items: &ref_6
         type: string
         enum:
           - student
@@ -215,7 +249,7 @@ components:
     gender:
       type: string
       description: The gender of this person
-      enum:
+      enum: &ref_7
         - M
         - F
         - U
@@ -230,7 +264,7 @@ components:
         - deliveries: bezorg
         - billing: factuur
         - teaching: the address where education takes place
-      enum:
+      enum: &ref_1
         - postal
         - visit
         - deliveries
@@ -239,7 +273,7 @@ components:
     LanguageTypedString:
       type: object
       description: A String with an associated language code.
-      properties:
+      properties: &ref_2
         language:
           description: The language used in the described entity. A string formatted according to RFC3066.
           type: string
@@ -247,7 +281,7 @@ components:
         value:
           description: String to describe the entity.
           type: string
-      example:
+      example: &ref_3
         language: en-GB
         value: program that is a place holder for all courses that are made available for student mobility
     Ext:
@@ -256,11 +290,19 @@ components:
     Address:
       type: object
       description: The full street address
-      required:
+      required: &ref_8
         - addressType
-      properties:
+      properties: &ref_9
         addressType:
-          $ref: '#/components/schemas/addressType'
+          type: string
+          description: |
+            Address type
+            - postal: post
+            - visit: bezoek
+            - deliveries: bezorg
+            - billing: factuur
+            - teaching: the address where education takes place
+          enum: *ref_1
         street:
           type: string
           description: The street name
@@ -274,7 +316,10 @@ components:
           description: Further details like building name, suite, apartment number, etc.
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: On the other side of the road
@@ -306,11 +351,12 @@ components:
               format: double
               example: 5.113337
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     ICERelationType:
       type: string
       description: Type of relation between person and In Case of Emergency contact
-      enum:
+      enum: &ref_10
         - partner
         - parent
         - other
@@ -318,9 +364,9 @@ components:
     Consumer:
       type: object
       description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-      required:
+      required: &ref_12
         - consumerKey
-      properties:
+      properties: &ref_13
         consumerKey:
           description: The key of the consumer (destination) for which this information is intended. See the [consumer registry](https://open-education-api.github.io/specification/#/consumers) for more information.
           type: string
@@ -328,7 +374,7 @@ components:
     PersonProperties:
       type: object
       description: A person that has a relationship with this institution
-      required:
+      required: &ref_16
         - givenName
         - surname
         - displayName
@@ -336,14 +382,17 @@ components:
         - mail
         - primaryCode
         - activeEnrollment
-      properties:
+      properties: &ref_17
         primaryCode:
           description: The primary human readable identifier for the person. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
           example:
             codeType: studentNumber
             code: 0
           readOnly: true
+          type: object
+          properties: *ref_4
+          required: *ref_5
+          additionalProperties: false
         givenName:
           type: string
           description: The first name of this person
@@ -394,7 +443,13 @@ components:
           format: date
           example: '2003-09-30'
         affiliations:
-          $ref: '#/components/schemas/personAffiliations'
+          type: array
+          description: |
+            The affiliations of this person, the relations a person has with the organization providing this endpoint
+            - student: student
+            - employee: medewerker
+            - guest: gast
+          items: *ref_6
         mail:
           type: string
           description: The primary e-mailaddress of this person
@@ -430,7 +485,10 @@ components:
           maxLength: 2048
           example: https://upload.wikimedia.org/wikipedia/commons/6/66/Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg
         gender:
-          $ref: '#/components/schemas/gender'
+          type: string
+          description: The gender of this person
+          enum: *ref_7
+          example: F
         titlePrefix:
           type: string
           description: A title prefix to be used for this person
@@ -443,7 +501,10 @@ components:
           type: string
           description: The name of the office where this person is located
         address:
-          $ref: '#/components/schemas/Address'
+          type: object
+          description: The full street address
+          required: *ref_8
+          properties: *ref_9
         ICEName:
           type: string
           description: Full name of In Case of Emergency contact
@@ -455,7 +516,10 @@ components:
           maxLength: 256
           example: +31 623 456 789
         ICERelation:
-          $ref: '#/components/schemas/ICERelationType'
+          type: string
+          description: Type of relation between person and In Case of Emergency contact
+          enum: *ref_10
+          example: partner
         languageOfChoice:
           type: array
           description: The language(s) of choice for this person, RFC3066
@@ -466,7 +530,11 @@ components:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
           items:
-            $ref: '#/components/schemas/IdentifierEntry'
+            type: object
+            properties: *ref_4
+            required: *ref_5
+            additionalProperties: false
+            example: *ref_11
           example:
             - codeType: nationalIdentityNumber
               code: '00000'
@@ -474,24 +542,34 @@ components:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
-          example:
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          example: &ref_30
             - consumerKey: x-test-consumer
               additional: custom
               attributes: here
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     Person:
-      allOf:
-        - $ref: '#/components/schemas/PersonId'
-        - $ref: '#/components/schemas/PersonProperties'
+      allOf: &ref_41
+        - type: object
+          properties: *ref_14
+          required: *ref_15
+        - type: object
+          description: A person that has a relationship with this institution
+          required: *ref_16
+          properties: *ref_17
     Problem:
       type: object
       description: A system message including the error code and an explanation
-      required:
+      required: &ref_90
         - status
         - title
-      properties:
+      properties: &ref_91
         status:
           type: string
           description: The HTTP status code
@@ -518,7 +596,7 @@ components:
         - independent study: zelfstudie
         - external: extern
         - skills training: vaardighedentraining
-      enum:
+      enum: &ref_48
         - test
         - lecture
         - practical
@@ -540,7 +618,7 @@ components:
         - online: online
         - hybrid: hybride
         - situated: op locatie
-      items:
+      items: &ref_39
         type: string
         enum:
           - distance-learning
@@ -556,9 +634,9 @@ components:
     CourseId:
       type: object
       description: An object describing the metadata of a course
-      required:
+      required: &ref_44
         - courseId
-      properties:
+      properties: &ref_45
         courseId:
           type: string
           description: Unique id of this course
@@ -568,7 +646,7 @@ components:
     StudyLoadDescriptor:
       type: object
       description: The amount of effort to complete this education in the specified unit.
-      properties:
+      properties: &ref_25
         studyLoadUnit:
           description: "The unit in which the studyload is specfied\n- contacttime: CONTACTUUR\tamount of time spent in classes\n- ects: ECTS_PUNT\tEuropean Credit Transfer System\n- sbu: SBU\tstudentloadhours\n- sp: STUDIEPUNT studentpoints\n- hour: UUR\thours\n"
           type: string
@@ -583,7 +661,7 @@ components:
           description: The amount of load depicted in numbers
           type: number
           example: 3
-      example:
+      example: &ref_26
         studyLoadUnit: ects
         value: 3
     level:
@@ -603,7 +681,7 @@ components:
         - undivided: ongedeeld
         - nt2-1: NT2 niveau 1
         - nt2-2: NT2 niveau 2
-      enum:
+      enum: &ref_22
         - secondary vocational education
         - secondary vocational education 1
         - secondary vocational education 2
@@ -620,13 +698,13 @@ components:
       example: master
     EducationSpecificationId:
       type: object
-      properties:
+      properties: &ref_18
         educationSpecificationId:
           type: string
           description: Unique id for this education specification
           format: uuid
           example: 123e4567-e89b-12d3-a456-426614174000
-      required:
+      required: &ref_19
         - educationSpecificationId
     educationSpecificationType:
       type: string
@@ -636,7 +714,7 @@ components:
           - privateProgram: PARTICULIEREOPLEIDING
           - programCluster: HOONDERWIJSEENHEDENCLUSTER
           - course: HOONDERWIJSEENHEID
-      enum:
+      enum: &ref_20
         - program
         - privateProgram
         - cluster
@@ -651,7 +729,7 @@ components:
           - no official document: GEEN OFFICIEEL DOCUMENT
           - testimonial: GETUIGSCHRIFT
           - school advice: SCHOOLADVIES
-      enum:
+      enum: &ref_21
         - diploma
         - certificate
         - no official document
@@ -665,7 +743,7 @@ components:
         - secondary vocational education: middelbaar beroepsonderwijs
         - higher professional education: hoger beroepsonderwijs
         - university education: universitair onderwijs
-      enum:
+      enum: &ref_23
         - secondary vocational education
         - higher professional education
         - university education
@@ -673,7 +751,7 @@ components:
     levelOfQualification:
       type: string
       description: Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.
-      enum:
+      enum: &ref_24
         - '1'
         - '2'
         - '3'
@@ -685,9 +763,352 @@ components:
         - '8'
       example: '6'
     EducationSpecification:
-      allOf:
-        - $ref: '#/components/schemas/EducationSpecificationId'
-        - $ref: '#/components/schemas/EducationSpecificationProperties'
+      allOf: &ref_27
+        - type: object
+          properties: *ref_18
+          required: *ref_19
+        - type: object
+          description: |
+            The specification of an education object. This specification allows for other education objects to be derived from it.
+            It is used to aggregate education objects from a supplying institution.
+            It clusters programs to a main educationSpecification that is used in registries such as RIO. 
+          required: &ref_32
+            - primaryCode
+            - educationSpecificationType
+            - name
+          properties: &ref_33
+            primaryCode:
+              description: |
+                The primary human readable identifier for the entity. 
+                This will often take the form of a human readable code as defined by the institution or region
+              type: object
+              properties: *ref_4
+              required: *ref_5
+              additionalProperties: false
+              example: *ref_11
+            otherCodes:
+              type: array
+              description: An array of additional human readable codes/identifiers for the entity being described.
+              items:
+                type: object
+                properties: *ref_4
+                required: *ref_5
+                additionalProperties: false
+                example: *ref_11
+              example:
+                - codeType: crohoCreboCode
+                  code: '1234123'
+            educationSpecificationType:
+              type: string
+              description: |
+                The type of education specification
+                  - program: HOOPLEIDING
+                  - privateProgram: PARTICULIEREOPLEIDING
+                  - programCluster: HOONDERWIJSEENHEDENCLUSTER
+                  - course: HOONDERWIJSEENHEID
+              enum: *ref_20
+              example: program
+            name:
+              type: array
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+              description: The name of this education specification
+              example:
+                - language: en-GB
+                  value: Bachelor Chemical technology
+            abbreviation:
+              type: string
+              description: The abbreviation of this program
+              maxLength: 256
+              example: B Scheikundige Technologie
+            description:
+              type: array
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+              description: The description of this program. [The limited implementation of Git Hub Markdown syntax](#tag/formatting-and-displaying-results-from-API) MAY be used for rich text representation.
+              example:
+                - language: en-GB
+                  value: program that is a place holder for all courses that are made available for student mobility
+            formalDocument:
+              type: string
+              description: |
+                The type of formal document obtained after completion of this education
+                  - diploma: DIPLOMA
+                  - certificate: CERTIFICAAT
+                  - no official document: GEEN OFFICIEEL DOCUMENT
+                  - testimonial: GETUIGSCHRIFT
+                  - school advice: SCHOOLADVIES
+              enum: *ref_21
+              example: diploma
+            level:
+              type: string
+              description: |
+                The level of this course (ECTS-year of study if applicable)
+                - secondary vocational education: mbo
+                - secondary vocational education 1: mbo 1, corresponds to levelOfQualification 1
+                - secondary vocational education 2: mbo 2, corresponds to levelOfQualification 2
+                - secondary vocational education 3: mbo 3, corresponds to levelOfQualification 3
+                - secondary vocational education 4: mbo 4, corresponds to levelOfQualification 4
+                - associate degree: associate degree, corresponds to levelOfQualification 5
+                - bachelor: bachelor, corresponds to levelOfQualification 6
+                - master: master, corresponds to levelOfQualification 7
+                - doctoral: doctoraal, corresponds to levelOfQualification 8
+                - undefined: onbepaald
+                - undivided: ongedeeld
+                - nt2-1: NT2 niveau 1
+                - nt2-2: NT2 niveau 2
+              enum: *ref_22
+              example: master
+            sector:
+              type: string
+              description: |
+                The sector for this program
+                - secondary vocational education: middelbaar beroepsonderwijs
+                - higher professional education: hoger beroepsonderwijs
+                - university education: universitair onderwijs
+              enum: *ref_23
+              example: university education
+            levelOfQualification:
+              type: string
+              description: Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.
+              enum: *ref_24
+              example: '6'
+            fieldsOfStudy:
+              type: string
+              description: Field(s) of study (e.g. ISCED-F) (http://uis.unesco.org/sites/default/files/documents/isced-fields-of-education-and-training-2013-en.pdf.
+              maxLength: 4
+              example: '0732'
+            studyLoad:
+              type: object
+              description: The amount of effort to complete this education in the specified unit.
+              properties: *ref_25
+              example: *ref_26
+            learningOutcomes:
+              type: array
+              description: Statements that describe the knowledge or skills students should acquire by the end of a particular course or program (ECTS-learningoutcome).
+              items:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  description: A String with an associated language code.
+                  properties: *ref_2
+                  example: *ref_3
+                example:
+                  - language: en-GB
+                    value: 'Executable knowledge of Chemical technology, including: Acquire knowledge of research paradigms.'
+            link:
+              type: string
+              description: URL of the program's website
+              format: uri
+              maxLength: 2048
+              example: https://bijvak.nl
+            parent:
+              description: The educationSpecification that is the parent of this educationSpecification if it exists. [`expandable`](#tag/education_specification_model)
+              oneOf:
+                - title: educationSpecificationId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: EducationSpecification
+                  allOf: *ref_27
+            children:
+              type: array
+              description: The EducationSpecifications that have this EducationSpecification as their parent. [`expandable`](#tag/education_specification_model)
+              items:
+                oneOf:
+                  - title: educationSpecificationId
+                    type: string
+                    description: An identifier of another resource.
+                    format: uuid
+                  - title: EducationSpecification
+                    allOf: *ref_27
+            organization:
+              description: |
+                The organization that manages this group. [`expandable`](#tag/organization_model)
+                By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
+              oneOf:
+                - title: organizationId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Organization object
+                  type: object
+                  description: A description of a group of people working together to achieve a goal
+                  required: &ref_28
+                    - organizationId
+                    - organizationType
+                    - name
+                    - shortName
+                    - primaryCode
+                  properties: &ref_29
+                    organizationId:
+                      type: string
+                      description: Unique id of this organization
+                      format: uuid
+                      example: 123e4567-e89b-12d3-a456-123514174000
+                      readOnly: true
+                    primaryCode:
+                      description: The primary human readable identifier for the organization. This is often the source identifier as defined by the institution.
+                      example:
+                        codeType: orgId
+                        code: Org01-Root
+                      readOnly: true
+                      type: object
+                      properties: *ref_4
+                      required: *ref_5
+                      additionalProperties: false
+                    organizationType:
+                      type: string
+                      description: |
+                        The type of this organization. Each OOAPI endpoint should have a single organization with type `root`, describing the root organization.
+                        - root: the root of this organization, representing the Educational Institution itself
+                        - institute: instituut
+                        - department: departement
+                        - faculty: faculteit
+                        - branch: vestiging
+                        - academy: academie
+                        - school: school
+                      enum: &ref_31
+                        - root
+                        - institute
+                        - department
+                        - faculty
+                        - branch
+                        - academy
+                        - school
+                      example: root
+                    name:
+                      type: array
+                      description: The name of the organization
+                      minItems: 1
+                      items:
+                        type: object
+                        description: A String with an associated language code.
+                        properties: *ref_2
+                        example: *ref_3
+                      example:
+                        - language: nl-NL
+                          value: Coöperatie SURF U.A.
+                    shortName:
+                      type: string
+                      description: Short name of the organization
+                      maxLength: 256
+                      example: SURF
+                    description:
+                      type: array
+                      description: Any general description of the organization should clearly mention the type of higher education organization, especially in the case of a binary system. In Dutch; universiteit (university) or hogeschool (university of applied sciences).
+                      minItems: 1
+                      items:
+                        type: object
+                        description: A String with an associated language code.
+                        properties: *ref_2
+                        example: *ref_3
+                      example:
+                        - language: nl-NL
+                          value: SURF is een coöperatieve vereniging van Nederlandse onderwijs- en onderzoeksinstellingen waarin de leden hun krachten bundelen. De leden zijn eigenaar van SURF.
+                    addresses:
+                      type: array
+                      description: Addresses of this organization
+                      items:
+                        type: object
+                        description: The full street address
+                        required: *ref_8
+                        properties: *ref_9
+                    link:
+                      type: string
+                      description: URL of the organization's website
+                      format: uri
+                      maxLength: 2048
+                      example: https://surf.nl
+                    logo:
+                      type: string
+                      description: Logo of this organization
+                      format: uri
+                      maxLength: 2048
+                      example: https://www.surf.nl/themes/surf/logo.svg
+                    otherCodes:
+                      type: array
+                      description: An array of additional human readable codes/identifiers for the entity being described.
+                      minItems: 1
+                      items:
+                        type: object
+                        properties: *ref_4
+                        required: *ref_5
+                        additionalProperties: false
+                        example: *ref_11
+                      example:
+                        - codeType: brin
+                          code: 00AA
+                        - codeType: kvk
+                          code: '12345678'
+                    parent:
+                      description: |
+                        The organizational unit which is the parent of this organization. [`expandable`](#tag/organization_model)
+                        By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
+                      oneOf:
+                        - title: organizationId
+                          type: string
+                          description: An identifier of another resource.
+                          format: uuid
+                        - title: Organization object
+                          type: object
+                          description: A description of a group of people working together to achieve a goal
+                          required: *ref_28
+                          properties: *ref_29
+                    children:
+                      type: array
+                      description: |
+                        All the organizational units for which this organization is the parent. [`expandable`](#tag/organization_model)
+                        By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
+                      items:
+                        oneOf:
+                          - title: organizationId
+                            type: string
+                            description: An identifier of another resource.
+                            format: uuid
+                          - title: Organization object
+                            type: object
+                            description: A description of a group of people working together to achieve a goal
+                            required: *ref_28
+                            properties: *ref_29
+                    consumers:
+                      description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+                      type: array
+                      items:
+                        type: object
+                        description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+                        required: *ref_12
+                        properties: *ref_13
+                        additionalProperties: true
+                      example: *ref_30
+                    ext:
+                      type: object
+                      description: Object for additional non-standard attributes
+            consumers:
+              description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+              type: array
+              items:
+                type: object
+                description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+                required: *ref_12
+                properties: *ref_13
+                additionalProperties: true
+              example:
+                - consumerKey: rio
+                  educationSpecificationSubType: variant
+                  category:
+                    - business_and_project_support
+                    - economy
+            ext:
+              type: object
+              description: Object for additional non-standard attributes
         - properties:
             validFrom:
               description: The first day this EducationSpecification is valid (inclusive).
@@ -708,245 +1129,27 @@ components:
         - branch: vestiging
         - academy: academie
         - school: school
-      enum:
-        - root
-        - institute
-        - department
-        - faculty
-        - branch
-        - academy
-        - school
+      enum: *ref_31
       example: root
     Organization:
       type: object
       description: A description of a group of people working together to achieve a goal
-      required:
-        - organizationId
-        - organizationType
-        - name
-        - shortName
-        - primaryCode
-      properties:
-        organizationId:
-          type: string
-          description: Unique id of this organization
-          format: uuid
-          example: 123e4567-e89b-12d3-a456-123514174000
-          readOnly: true
-        primaryCode:
-          description: The primary human readable identifier for the organization. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
-          example:
-            codeType: orgId
-            code: Org01-Root
-          readOnly: true
-        organizationType:
-          $ref: '#/components/schemas/organizationType'
-        name:
-          type: array
-          description: The name of the organization
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          example:
-            - language: nl-NL
-              value: Coöperatie SURF U.A.
-        shortName:
-          type: string
-          description: Short name of the organization
-          maxLength: 256
-          example: SURF
-        description:
-          type: array
-          description: Any general description of the organization should clearly mention the type of higher education organization, especially in the case of a binary system. In Dutch; universiteit (university) or hogeschool (university of applied sciences).
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          example:
-            - language: nl-NL
-              value: SURF is een coöperatieve vereniging van Nederlandse onderwijs- en onderzoeksinstellingen waarin de leden hun krachten bundelen. De leden zijn eigenaar van SURF.
-        addresses:
-          type: array
-          description: Addresses of this organization
-          items:
-            $ref: '#/components/schemas/Address'
-        link:
-          type: string
-          description: URL of the organization's website
-          format: uri
-          maxLength: 2048
-          example: https://surf.nl
-        logo:
-          type: string
-          description: Logo of this organization
-          format: uri
-          maxLength: 2048
-          example: https://www.surf.nl/themes/surf/logo.svg
-        otherCodes:
-          type: array
-          description: An array of additional human readable codes/identifiers for the entity being described.
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/IdentifierEntry'
-          example:
-            - codeType: brin
-              code: 00AA
-            - codeType: kvk
-              code: '12345678'
-        parent:
-          description: |
-            The organizational unit which is the parent of this organization. [`expandable`](#tag/organization_model)
-            By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
-          oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: organizationId
-            - $ref: '#/components/schemas/Organization'
-              title: Organization object
-        children:
-          type: array
-          description: |
-            All the organizational units for which this organization is the parent. [`expandable`](#tag/organization_model)
-            By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/Identifier'
-                title: organizationId
-              - $ref: '#/components/schemas/Organization'
-                title: Organization object
-        consumers:
-          description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-          type: array
-          items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: x-test-consumer
-              additional: custom
-              attributes: here
-        ext:
-          $ref: '#/components/schemas/Ext'
+      required: *ref_28
+      properties: *ref_29
     EducationSpecificationProperties:
       type: object
       description: |
         The specification of an education object. This specification allows for other education objects to be derived from it.
         It is used to aggregate education objects from a supplying institution.
         It clusters programs to a main educationSpecification that is used in registries such as RIO. 
-      required:
-        - primaryCode
-        - educationSpecificationType
-        - name
-      properties:
-        primaryCode:
-          description: |
-            The primary human readable identifier for the entity. 
-            This will often take the form of a human readable code as defined by the institution or region
-          $ref: '#/components/schemas/IdentifierEntry'
-        otherCodes:
-          type: array
-          description: An array of additional human readable codes/identifiers for the entity being described.
-          items:
-            $ref: '#/components/schemas/IdentifierEntry'
-          example:
-            - codeType: crohoCreboCode
-              code: '1234123'
-        educationSpecificationType:
-          $ref: '#/components/schemas/educationSpecificationType'
-        name:
-          type: array
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          description: The name of this education specification
-          example:
-            - language: en-GB
-              value: Bachelor Chemical technology
-        abbreviation:
-          type: string
-          description: The abbreviation of this program
-          maxLength: 256
-          example: B Scheikundige Technologie
-        description:
-          type: array
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          description: The description of this program. [The limited implementation of Git Hub Markdown syntax](#tag/formatting-and-displaying-results-from-API) MAY be used for rich text representation.
-          example:
-            - language: en-GB
-              value: program that is a place holder for all courses that are made available for student mobility
-        formalDocument:
-          $ref: '#/components/schemas/formalDocument'
-        level:
-          $ref: '#/components/schemas/level'
-        sector:
-          $ref: '#/components/schemas/sector'
-        levelOfQualification:
-          $ref: '#/components/schemas/levelOfQualification'
-        fieldsOfStudy:
-          type: string
-          description: Field(s) of study (e.g. ISCED-F) (http://uis.unesco.org/sites/default/files/documents/isced-fields-of-education-and-training-2013-en.pdf.
-          maxLength: 4
-          example: '0732'
-        studyLoad:
-          $ref: '#/components/schemas/StudyLoadDescriptor'
-        learningOutcomes:
-          type: array
-          description: Statements that describe the knowledge or skills students should acquire by the end of a particular course or program (ECTS-learningoutcome).
-          items:
-            type: array
-            minItems: 1
-            items:
-              $ref: '#/components/schemas/LanguageTypedString'
-            example:
-              - language: en-GB
-                value: 'Executable knowledge of Chemical technology, including: Acquire knowledge of research paradigms.'
-        link:
-          type: string
-          description: URL of the program's website
-          format: uri
-          maxLength: 2048
-          example: https://bijvak.nl
-        parent:
-          description: The educationSpecification that is the parent of this educationSpecification if it exists. [`expandable`](#tag/education_specification_model)
-          oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: educationSpecificationId
-            - $ref: '#/components/schemas/EducationSpecification'
-              title: EducationSpecification
-        children:
-          type: array
-          description: The EducationSpecifications that have this EducationSpecification as their parent. [`expandable`](#tag/education_specification_model)
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/Identifier'
-                title: educationSpecificationId
-              - $ref: '#/components/schemas/EducationSpecification'
-                title: EducationSpecification
-        organization:
-          description: |
-            The organization that manages this group. [`expandable`](#tag/organization_model)
-            By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
-          oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: organizationId
-            - $ref: '#/components/schemas/Organization'
-              title: Organization object
-        consumers:
-          description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-          type: array
-          items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: rio
-              educationSpecificationSubType: variant
-              category:
-                - business_and_project_support
-                - economy
-        ext:
-          $ref: '#/components/schemas/Ext'
+      required: *ref_32
+      properties: *ref_33
     ProgramId:
       type: object
       description: A collection of courses that lead to a certifiable learning outcome
-      required:
+      required: &ref_34
         - programId
-      properties:
+      properties: &ref_35
         programId:
           type: string
           description: Unique id for this program
@@ -962,7 +1165,7 @@ components:
         - honours: honours
         - specialization: specialisatie
         - track: track
-      enum:
+      enum: &ref_36
         - program
         - minor
         - honours
@@ -972,7 +1175,7 @@ components:
     qualificationAwarded:
       type: string
       description: Type of qualificaton that can be obtained on finishing the program
-      enum:
+      enum: &ref_37
         - AD
         - BA
         - BSc
@@ -991,15 +1194,332 @@ components:
           - part-time: parttime
           - dual training: duaal
           - self-paced: eigen tempo
-      enum:
+      enum: &ref_38
         - full-time
         - part-time
         - dual training
         - self-paced
     Program:
-      allOf:
-        - $ref: '#/components/schemas/ProgramId'
-        - $ref: '#/components/schemas/ProgramProperties'
+      allOf: &ref_40
+        - type: object
+          description: A collection of courses that lead to a certifiable learning outcome
+          required: *ref_34
+          properties: *ref_35
+        - type: object
+          description: A collection of courses that lead to a certifiable learning outcome
+          required: &ref_42
+            - programType
+            - name
+            - abbreviation
+            - description
+            - primaryCode
+            - teachingLanguage
+          properties: &ref_43
+            primaryCode:
+              description: The primary human readable identifier for the program. This is often the source identifier as defined by the institution.
+              example:
+                codeType: programCode
+                code: BIO
+              readOnly: true
+              type: object
+              properties: *ref_4
+              required: *ref_5
+              additionalProperties: false
+            programType:
+              type: string
+              description: |
+                The type of this program
+                - program: opleiding
+                - minor: minor
+                - honours: honours
+                - specialization: specialisatie
+                - track: track
+              enum: *ref_36
+              example: program
+            name:
+              description: The name of this program
+              type: array
+              minItems: 1
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+              example:
+                - language: en-GB
+                  value: Biology
+            abbreviation:
+              type: string
+              description: The abbreviation of this program
+              maxLength: 256
+              example: BIO
+            description:
+              type: array
+              description: The description of this program
+              minItems: 1
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+              example:
+                - language: en-GB
+                  value: The study of life
+            teachingLanguage:
+              type: string
+              description: The (primary) teaching language in which this program is given, should be a three-letter language code as specified by ISO 639-2.
+              minLength: 3
+              maxLength: 3
+              pattern: ^[a-z]{3}$
+              example: nld
+            studyLoad:
+              type: object
+              description: The amount of effort to complete this education in the specified unit.
+              properties: *ref_25
+              example: *ref_26
+            qualificationAwarded:
+              type: string
+              description: Type of qualificaton that can be obtained on finishing the program
+              enum: *ref_37
+              example: None
+            modeOfStudy:
+              type: string
+              description: |
+                Indicates whether the education is full-time, part-time, dual or self-paced.
+                  - full-time: fulltime
+                  - part-time: parttime
+                  - dual training: duaal
+                  - self-paced: eigen tempo
+              enum: *ref_38
+            modeOfDelivery:
+              type: array
+              description: |
+                The mode of delivery of the component (ECTS-mode of delivery)
+                - distance-learning: afstandsleren
+                - on campus: op de campus
+                - online: online
+                - hybrid: hybride
+                - situated: op locatie
+              items: *ref_39
+            duration:
+              type: string
+              description: The duration of this program. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
+              pattern: ^(-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$
+              example: P1DT30H4S
+            firstStartDate:
+              type: string
+              description: The date when participants can follow this program for the first time.
+              format: date
+            levelOfQualification:
+              type: string
+              description: Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.
+              enum: *ref_24
+              example: '6'
+            level:
+              type: string
+              description: |
+                The level of this course (ECTS-year of study if applicable)
+                - secondary vocational education: mbo
+                - secondary vocational education 1: mbo 1, corresponds to levelOfQualification 1
+                - secondary vocational education 2: mbo 2, corresponds to levelOfQualification 2
+                - secondary vocational education 3: mbo 3, corresponds to levelOfQualification 3
+                - secondary vocational education 4: mbo 4, corresponds to levelOfQualification 4
+                - associate degree: associate degree, corresponds to levelOfQualification 5
+                - bachelor: bachelor, corresponds to levelOfQualification 6
+                - master: master, corresponds to levelOfQualification 7
+                - doctoral: doctoraal, corresponds to levelOfQualification 8
+                - undefined: onbepaald
+                - undivided: ongedeeld
+                - nt2-1: NT2 niveau 1
+                - nt2-2: NT2 niveau 2
+              enum: *ref_22
+              example: master
+            sector:
+              type: string
+              description: |
+                The sector for this program
+                - secondary vocational education: middelbaar beroepsonderwijs
+                - higher professional education: hoger beroepsonderwijs
+                - university education: universitair onderwijs
+              enum: *ref_23
+              example: university education
+            fieldsOfStudy:
+              type: string
+              description: Field(s) of study (e.g. ISCED-F) (http://uis.unesco.org/sites/default/files/documents/isced-fields-of-education-and-training-2013-en.pdf.
+              maxLength: 4
+              example: '0732'
+            enrollment:
+              type: array
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+              description: The extra information that is provided for enrollment
+              example:
+                - language: en-GB
+                  value: enrollment through SIS. [The limited implementation of Git Hub Markdown syntax](#tag/formatting-and-displaying-results-from-API) MAY be used for rich text representation.
+            resources:
+              type: array
+              description: An overview of the literature and other resources that is used in this course (ECTS-recommended reading and other sources)
+              items:
+                type: string
+              example:
+                - book to be announced
+                - on-line resource x
+            learningOutcomes:
+              type: array
+              description: List of learning outcomes at program level. It is advisable to limit the number of learning outcomes to approximately 20. It is also advisable to make sure that the program learning outcomes in the course catalogue correspond with those on the Diploma Supplement.
+              items:
+                type: array
+                minItems: 1
+                items:
+                  type: object
+                  description: A String with an associated language code.
+                  properties: *ref_2
+                  example: *ref_3
+                example:
+                  - language: en-GB
+                    value: 'Executable knowledge of research methods, including: Acquire knowledge of HCI research paradigms.'
+            assessment:
+              type: array
+              description: A description of the way exams for this course are taken (ECTS-assessment method and criteria).
+              minItems: 1
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+              example:
+                - language: en-GB
+                  value: Exam on campus
+            admissionRequirements:
+              type: array
+              description: This information may be given at an institutional level and/or at the level of individual programmes. Make sure that it is clear whether the information applies to fee-paying students (national and/or international) or to exchange students.
+              example:
+                - language: en-GB
+                  value: Students need to be enrolled at qualifying institutions of higher education that participate in this alliance
+              minItems: 1
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+            qualificationRequirements:
+              type: array
+              description: Normally, students will receive a diploma when they have completed the (official) study program and have obtained the required number of credits. If there are any other specific requirements that students need to have fulfilled, mention them here.
+              minItems: 1
+              items:
+                type: object
+                description: A String with an associated language code.
+                properties: *ref_2
+                example: *ref_3
+            link:
+              type: string
+              description: URL of the program's website
+              format: uri
+              maxLength: 2048
+              example: https://bijvak.nl
+            educationSpecification:
+              description: The educationSpecification of which this program is a more concrete implementation. [`expandable`](#tag/education_specification_model)
+              oneOf:
+                - title: educationSpecificationId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: EducationSpecification
+                  allOf: *ref_27
+            otherCodes:
+              type: array
+              description: An array of additional human readable codes/identifiers for the entity being described.
+              items:
+                type: object
+                properties: *ref_4
+                required: *ref_5
+                additionalProperties: false
+                example: *ref_11
+              example:
+                - codeType: crohoCreboCode
+                  code: '59312'
+            addresses:
+              type: array
+              description: Addresses for this program
+              items:
+                type: object
+                description: The full street address
+                required: *ref_8
+                properties: *ref_9
+            parent:
+              description: Parent program of which the current program is a child. This object is [`expandable`](#tag/program_model)
+              oneOf:
+                - title: programId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Expanded Program
+                  allOf: *ref_40
+            children:
+              type: array
+              description: Programs which are a part of this program (e.g specializations). This object is [`expandable`](#tag/program_model)
+              items:
+                oneOf:
+                  - title: programId
+                    type: string
+                    description: An identifier of another resource.
+                    format: uuid
+                  - title: Expanded Program
+                    allOf: *ref_40
+            coordinators:
+              description: The person(s) responsible for this program. This object is [`expandable`](#tag/person_model)
+              type: array
+              items:
+                oneOf:
+                  - title: personId
+                    type: string
+                    description: An identifier of another resource.
+                    format: uuid
+                  - title: Person object
+                    allOf: *ref_41
+            organization:
+              description: |
+                The organization providing this program. [`expandable`](#tag/organization_model)
+                By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
+              oneOf:
+                - title: organizationId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Organization object
+                  type: object
+                  description: A description of a group of people working together to achieve a goal
+                  required: *ref_28
+                  properties: *ref_29
+            consumers:
+              description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+              type: array
+              items:
+                type: object
+                description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+                required: *ref_12
+                properties: *ref_13
+                additionalProperties: true
+              example:
+                - consumerKey: rio
+                  educationOffererCode: 122A112
+                  educationLocationCode: 123X122
+                  consentParticipationSTAP: permission_granted
+                  jointPartnerCodes:
+                    - 122A113
+                  foreignPartners:
+                    - Harvard University
+                  deficiency: deficiencies
+                  requirementsActivities: requirements
+                  propaedeuticPhase: no_propaedeutic_phase
+                  studyChoiceCheck: no_study_choice_check
+                  acceleratedRoute: accelerated_route
+            ext:
+              type: object
+              description: Object for additional non-standard attributes
         - properties:
             validFrom:
               description: The first day this program is valid (inclusive).
@@ -1012,234 +1532,36 @@ components:
     ProgramProperties:
       type: object
       description: A collection of courses that lead to a certifiable learning outcome
-      required:
-        - programType
-        - name
-        - abbreviation
-        - description
-        - primaryCode
-        - teachingLanguage
-      properties:
-        primaryCode:
-          description: The primary human readable identifier for the program. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
-          example:
-            codeType: programCode
-            code: BIO
-          readOnly: true
-        programType:
-          $ref: '#/components/schemas/programType'
-        name:
-          description: The name of this program
-          type: array
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          example:
-            - language: en-GB
-              value: Biology
-        abbreviation:
-          type: string
-          description: The abbreviation of this program
-          maxLength: 256
-          example: BIO
-        description:
-          type: array
-          description: The description of this program
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          example:
-            - language: en-GB
-              value: The study of life
-        teachingLanguage:
-          type: string
-          description: The (primary) teaching language in which this program is given, should be a three-letter language code as specified by ISO 639-2.
-          minLength: 3
-          maxLength: 3
-          pattern: ^[a-z]{3}$
-          example: nld
-        studyLoad:
-          $ref: '#/components/schemas/StudyLoadDescriptor'
-        qualificationAwarded:
-          $ref: '#/components/schemas/qualificationAwarded'
-        modeOfStudy:
-          $ref: '#/components/schemas/modeOfStudy'
-        modeOfDelivery:
-          $ref: '#/components/schemas/modesOfDelivery'
-        duration:
-          type: string
-          description: The duration of this program. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
-          pattern: ^(-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$
-          example: P1DT30H4S
-        firstStartDate:
-          type: string
-          description: The date when participants can follow this program for the first time.
-          format: date
-        levelOfQualification:
-          $ref: '#/components/schemas/levelOfQualification'
-        level:
-          $ref: '#/components/schemas/level'
-        sector:
-          $ref: '#/components/schemas/sector'
-        fieldsOfStudy:
-          type: string
-          description: Field(s) of study (e.g. ISCED-F) (http://uis.unesco.org/sites/default/files/documents/isced-fields-of-education-and-training-2013-en.pdf.
-          maxLength: 4
-          example: '0732'
-        enrollment:
-          type: array
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          description: The extra information that is provided for enrollment
-          example:
-            - language: en-GB
-              value: enrollment through SIS. [The limited implementation of Git Hub Markdown syntax](#tag/formatting-and-displaying-results-from-API) MAY be used for rich text representation.
-        resources:
-          type: array
-          description: An overview of the literature and other resources that is used in this course (ECTS-recommended reading and other sources)
-          items:
-            type: string
-          example:
-            - book to be announced
-            - on-line resource x
-        learningOutcomes:
-          type: array
-          description: List of learning outcomes at program level. It is advisable to limit the number of learning outcomes to approximately 20. It is also advisable to make sure that the program learning outcomes in the course catalogue correspond with those on the Diploma Supplement.
-          items:
-            type: array
-            minItems: 1
-            items:
-              $ref: '#/components/schemas/LanguageTypedString'
-            example:
-              - language: en-GB
-                value: 'Executable knowledge of research methods, including: Acquire knowledge of HCI research paradigms.'
-        assessment:
-          type: array
-          description: A description of the way exams for this course are taken (ECTS-assessment method and criteria).
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-          example:
-            - language: en-GB
-              value: Exam on campus
-        admissionRequirements:
-          type: array
-          description: This information may be given at an institutional level and/or at the level of individual programmes. Make sure that it is clear whether the information applies to fee-paying students (national and/or international) or to exchange students.
-          example:
-            - language: en-GB
-              value: Students need to be enrolled at qualifying institutions of higher education that participate in this alliance
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-        qualificationRequirements:
-          type: array
-          description: Normally, students will receive a diploma when they have completed the (official) study program and have obtained the required number of credits. If there are any other specific requirements that students need to have fulfilled, mention them here.
-          minItems: 1
-          items:
-            $ref: '#/components/schemas/LanguageTypedString'
-        link:
-          type: string
-          description: URL of the program's website
-          format: uri
-          maxLength: 2048
-          example: https://bijvak.nl
-        educationSpecification:
-          description: The educationSpecification of which this program is a more concrete implementation. [`expandable`](#tag/education_specification_model)
-          oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: educationSpecificationId
-            - $ref: '#/components/schemas/EducationSpecification'
-              title: EducationSpecification
-        otherCodes:
-          type: array
-          description: An array of additional human readable codes/identifiers for the entity being described.
-          items:
-            $ref: '#/components/schemas/IdentifierEntry'
-          example:
-            - codeType: crohoCreboCode
-              code: '59312'
-        addresses:
-          type: array
-          description: Addresses for this program
-          items:
-            $ref: '#/components/schemas/Address'
-        parent:
-          description: Parent program of which the current program is a child. This object is [`expandable`](#tag/program_model)
-          oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: programId
-            - $ref: '#/components/schemas/Program'
-              title: Expanded Program
-        children:
-          type: array
-          description: Programs which are a part of this program (e.g specializations). This object is [`expandable`](#tag/program_model)
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/Identifier'
-                title: programId
-              - $ref: '#/components/schemas/Program'
-                title: Expanded Program
-        coordinators:
-          description: The person(s) responsible for this program. This object is [`expandable`](#tag/person_model)
-          type: array
-          items:
-            oneOf:
-              - $ref: '#/components/schemas/Identifier'
-                title: personId
-              - $ref: '#/components/schemas/Person'
-                title: Person object
-        organization:
-          description: |
-            The organization providing this program. [`expandable`](#tag/organization_model)
-            By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
-          oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: organizationId
-            - $ref: '#/components/schemas/Organization'
-              title: Organization object
-        consumers:
-          description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-          type: array
-          items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: rio
-              educationOffererCode: 122A112
-              educationLocationCode: 123X122
-              consentParticipationSTAP: permission_granted
-              jointPartnerCodes:
-                - 122A113
-              foreignPartners:
-                - Harvard University
-              deficiency: deficiencies
-              requirementsActivities: requirements
-              propaedeuticPhase: no_propaedeutic_phase
-              studyChoiceCheck: no_study_choice_check
-              acceleratedRoute: accelerated_route
-        ext:
-          $ref: '#/components/schemas/Ext'
+      required: *ref_42
+      properties: *ref_43
     CourseProperties:
       type: object
       description: An object describing the metadata of a course
-      required:
+      required: &ref_46
         - name
         - abbreviation
         - description
         - teachingLanguage
         - level
         - primaryCode
-      properties:
+      properties: &ref_47
         primaryCode:
           description: The primary human readable identifier for this course. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
           readOnly: true
+          type: object
+          properties: *ref_4
+          required: *ref_5
+          additionalProperties: false
+          example: *ref_11
         name:
           type: array
           description: The name of this course (ECTS-title)
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Academic and Professional Writing
@@ -1249,9 +1571,20 @@ components:
           maxLength: 256
           example: INFOMQNM
         studyLoad:
-          $ref: '#/components/schemas/StudyLoadDescriptor'
+          type: object
+          description: The amount of effort to complete this education in the specified unit.
+          properties: *ref_25
+          example: *ref_26
         modeOfDelivery:
-          $ref: '#/components/schemas/modesOfDelivery'
+          type: array
+          description: |
+            The mode of delivery of the component (ECTS-mode of delivery)
+            - distance-learning: afstandsleren
+            - on campus: op de campus
+            - online: online
+            - hybrid: hybride
+            - situated: op locatie
+          items: *ref_39
         duration:
           type: string
           description: The duration of this course. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
@@ -1266,7 +1599,10 @@ components:
           description: The description of this course (ECTS-description).
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: As with all empirical sciences, to assure valid outcomes, HCI studies heavily rely on research methods and statistics. This holds for the design of user interfaces, personalized recommender systems, and interaction paradigms for the internet of things. This course prepares you to do so by learning you to collect data, design experiments, and analyze the results. By the end of the course, you will have a detailed understanding of how to select and apply quantitative research methods and analysis to address virtually all HCI challenges. Quantitative research and data analysis will be taught in the context of state-of-the-art HCI challenges. Lectures will be alternated with hands-on learning, including work with predefined datasets (e.g., addressing facial features, cognitive load, and emotion). Additionally, students will set up their own research (e.g., using eye tracking). Data processing and analysis will be executed using R.
@@ -1289,7 +1625,10 @@ components:
             type: array
             minItems: 1
             items:
-              $ref: '#/components/schemas/LanguageTypedString'
+              type: object
+              description: A String with an associated language code.
+              properties: *ref_2
+              example: *ref_3
             example:
               - language: en-GB
                 value: 'Executable knowledge of research methods, including: Acquire knowledge of HCI research paradigms.'
@@ -1301,19 +1640,45 @@ components:
               value: Students need to be enrolled at qualifying institutions of higher education that participate in this alliance
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
         qualificationRequirements:
           type: array
           description: Normally, students will receive a diploma when they have completed the (official) study program and have obtained the required number of credits. If there are any other specific requirements that students need to have fulfilled, mention them here.
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
         level:
-          $ref: '#/components/schemas/level'
+          type: string
+          description: |
+            The level of this course (ECTS-year of study if applicable)
+            - secondary vocational education: mbo
+            - secondary vocational education 1: mbo 1, corresponds to levelOfQualification 1
+            - secondary vocational education 2: mbo 2, corresponds to levelOfQualification 2
+            - secondary vocational education 3: mbo 3, corresponds to levelOfQualification 3
+            - secondary vocational education 4: mbo 4, corresponds to levelOfQualification 4
+            - associate degree: associate degree, corresponds to levelOfQualification 5
+            - bachelor: bachelor, corresponds to levelOfQualification 6
+            - master: master, corresponds to levelOfQualification 7
+            - doctoral: doctoraal, corresponds to levelOfQualification 8
+            - undefined: onbepaald
+            - undivided: ongedeeld
+            - nt2-1: NT2 niveau 1
+            - nt2-2: NT2 niveau 2
+          enum: *ref_22
+          example: master
         enrollment:
           type: array
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           description: The extra information that is provided for enrollment
           example:
             - language: en-GB
@@ -1331,7 +1696,10 @@ components:
           description: A description of the way exams for this course are taken (ECTS-assessment method and criteria).
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Exam on campus
@@ -1344,25 +1712,38 @@ components:
         educationSpecification:
           description: The educationSpecification of which this course is a more concrete implementation. [`expandable`](#tag/education_specification_model)
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: educationSpecificationId
-            - $ref: '#/components/schemas/EducationSpecification'
-              title: EducationSpecification
+            - title: educationSpecificationId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: EducationSpecification
+              allOf: *ref_27
         addresses:
           type: array
           description: Addresses for this course
           items:
-            $ref: '#/components/schemas/Address'
+            type: object
+            description: The full street address
+            required: *ref_8
+            properties: *ref_9
         otherCodes:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
           items:
-            $ref: '#/components/schemas/IdentifierEntry'
+            type: object
+            properties: *ref_4
+            required: *ref_5
+            additionalProperties: false
+            example: *ref_11
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
           example:
             - consumerKey: rio
               educationOffererCode: 123A321
@@ -1373,38 +1754,54 @@ components:
               foreignPartners:
                 - Harvard University
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
         programs:
           description: The program of which this course is a part of. This object is [`expandable`](#tag/program_model)
           type: array
           items:
             oneOf:
-              - $ref: '#/components/schemas/Identifier'
-                title: programId
-              - $ref: '#/components/schemas/Program'
-                title: Program object
+              - title: programId
+                type: string
+                description: An identifier of another resource.
+                format: uuid
+              - title: Program object
+                allOf: *ref_40
         coordinators:
           description: The person(s) responsible for this course. This object is [`expandable`](#tag/person_model)
           type: array
           items:
             oneOf:
-              - $ref: '#/components/schemas/Identifier'
-                title: personId
-              - $ref: '#/components/schemas/Person'
-                title: Person object
+              - title: personId
+                type: string
+                description: An identifier of another resource.
+                format: uuid
+              - title: Person object
+                allOf: *ref_41
         organization:
           description: |
             The organization that manages this group. [`expandable`](#tag/organization_model)
             By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: organizationId
-            - $ref: '#/components/schemas/Organization'
-              title: Organization object
+            - title: organizationId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Organization object
+              type: object
+              description: A description of a group of people working together to achieve a goal
+              required: *ref_28
+              properties: *ref_29
     Course:
-      allOf:
-        - $ref: '#/components/schemas/CourseId'
-        - $ref: '#/components/schemas/CourseProperties'
+      allOf: &ref_49
+        - type: object
+          description: An object describing the metadata of a course
+          required: *ref_44
+          properties: *ref_45
+        - type: object
+          description: An object describing the metadata of a course
+          required: *ref_46
+          properties: *ref_47
         - properties:
             validFrom:
               description: The first day this course is valid (inclusive).
@@ -1417,14 +1814,14 @@ components:
     Component:
       type: object
       description: A component is a part of a course
-      required:
+      required: &ref_68
         - componentId
         - componentType
         - name
         - teachingLanguage
         - abbreviation
         - primaryCode
-      properties:
+      properties: &ref_69
         componentId:
           type: string
           description: Unique id of this component
@@ -1433,19 +1830,40 @@ components:
           readOnly: true
         primaryCode:
           description: The primary human readable identifier for this component. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
           example:
             codeType: componentCode
             code: INFOMQNM-WRKCLG-1
           readOnly: true
+          type: object
+          properties: *ref_4
+          required: *ref_5
+          additionalProperties: false
         componentType:
-          $ref: '#/components/schemas/componentType'
+          type: string
+          description: |
+            The component type
+            - test: tentamen
+            - lecture: college
+            - practical: practicum
+            - tutorial: werkcollege
+            - consultation: consultatie
+            - project: project
+            - workshop: workshop
+            - excursion: excursie
+            - independent study: zelfstudie
+            - external: extern
+            - skills training: vaardighedentraining
+          enum: *ref_48
+          example: test
         name:
           type: array
           description: The name of this component
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Written test for INFOMQNM
@@ -1455,7 +1873,15 @@ components:
           maxLength: 256
           example: Test-INFOMQNM
         modeOfDelivery:
-          $ref: '#/components/schemas/modesOfDelivery'
+          type: array
+          description: |
+            The mode of delivery of the component (ECTS-mode of delivery)
+            - distance-learning: afstandsleren
+            - on campus: op de campus
+            - online: online
+            - hybrid: hybride
+            - situated: op locatie
+          items: *ref_39
         duration:
           type: string
           description: The duration of this component. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
@@ -1466,7 +1892,10 @@ components:
           description: The description of this component.
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: |
@@ -1486,14 +1915,20 @@ components:
             type: array
             minItems: 1
             items:
-              $ref: '#/components/schemas/LanguageTypedString'
+              type: object
+              description: A String with an associated language code.
+              properties: *ref_2
+              example: *ref_3
             example:
               - language: en-GB
                 value: 'Executable knowledge of research methods, including: Acquire knowledge of HCI research paradigms.'
         enrollment:
           type: array
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           description: The extra information that is provided for enrollment
           example:
             - language: en-GB
@@ -1511,7 +1946,10 @@ components:
           description: A description of the way exams for this course are taken (ECTS-assessment method and criteria).
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Exam on campus
@@ -1519,50 +1957,66 @@ components:
           type: array
           description: Addresses for this component
           items:
-            $ref: '#/components/schemas/Address'
+            type: object
+            description: The full street address
+            required: *ref_8
+            properties: *ref_9
         otherCodes:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
           items:
-            $ref: '#/components/schemas/IdentifierEntry'
+            type: object
+            properties: *ref_4
+            required: *ref_5
+            additionalProperties: false
+            example: *ref_11
         course:
           description: |
             The course of which this component is a part. [`expandable`](#tag/course_model)
             By default only the `courseId` (a string) is returned. If the client requested an expansion of `course` the full course object should be returned.
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: courseId
-            - $ref: '#/components/schemas/Course'
-              title: Course object
+            - title: courseId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Course object
+              allOf: *ref_49
         organization:
           description: |
             The organization which provides this component. [`expandable`](#tag/organization_model)
             By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: organizationId
-            - $ref: '#/components/schemas/Organization'
-              title: Organization object
+            - title: organizationId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Organization object
+              type: object
+              description: A description of a group of people working together to achieve a goal
+              required: *ref_28
+              properties: *ref_29
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: x-test-consumer
-              additional: custom
-              attributes: here
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          example: *ref_30
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     Pagination:
       type: object
-      required:
+      required: &ref_104
         - pageSize
         - pageNumber
         - hasPreviousPage
         - hasNextPage
         - items
-      properties:
+      properties: &ref_105
         pageSize:
           type: integer
           format: int32
@@ -1590,9 +2044,9 @@ components:
     OfferingId:
       type: object
       description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
-      required:
+      required: &ref_54
         - offeringId
-      properties:
+      properties: &ref_55
         offeringId:
           type: string
           description: Unique id of this offering
@@ -1612,7 +2066,7 @@ components:
 
         Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
       example: semester
-      x-ooapi-extensible-enum:
+      x-ooapi-extensible-enum: &ref_50
         - academic year
         - semester
         - trimester
@@ -1624,12 +2078,12 @@ components:
       description: |
         A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
         Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-      required:
+      required: &ref_51
         - academicSessionId
         - name
         - startDate
         - endDate
-      properties:
+      properties: &ref_52
         academicSessionId:
           type: string
           description: Unique id for this academic session
@@ -1637,19 +2091,37 @@ components:
           example: 123e4567-e89b-12d3-a456-426614174000
           readOnly: true
         academicSessionType:
-          $ref: '#/components/schemas/academicSessionType'
+          type: string
+          description: |
+            The type of this Academic Session This is an *extensible enumeration*.
+            - academic year: academic year
+            - semester: semester, typically there are two semesters per academic year
+            - trimester: trimester, typically there are three semesters per academic year
+            - quarter: quarter, typically there are four quarters per academic year
+            - testing period: a period in which tests take place
+            - period: any other period in an academic year
+
+            Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
+          example: semester
+          x-ooapi-extensible-enum: *ref_50
         primaryCode:
           description: The primary human readable identifier for this academic session. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
           example:
             codeType: identifier
             code: 2012-Q1
+          type: object
+          properties: *ref_4
+          required: *ref_5
+          additionalProperties: false
         name:
           type: array
           description: The name of this academic session
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Fall semester 2020
@@ -1666,46 +2138,73 @@ components:
         parent:
           description: The parent Academicsession of this session (e.g. fall semester 20xx where the current session is a week 40). This object is [`expandable`](#tag/academic_sessions_model)
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: academicSessionId
-            - $ref: '#/components/schemas/AcademicSession'
-              title: Expanded AcademicSession
+            - title: academicSessionId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Expanded AcademicSession
+              type: object
+              description: |
+                A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+                Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+              required: *ref_51
+              properties: *ref_52
         children:
           type: array
           description: The list of Academicsession children of this Session (e.g. all academic sessions in fall semester 20xx). This object is [`expandable`](#tag/academic_sessions_model)
           items:
             oneOf:
-              - $ref: '#/components/schemas/Identifier'
-                title: academicSessionId
-              - $ref: '#/components/schemas/AcademicSession'
-                title: Expanded AcademicSession
+              - title: academicSessionId
+                type: string
+                description: An identifier of another resource.
+                format: uuid
+              - title: Expanded AcademicSession
+                type: object
+                description: |
+                  A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+                  Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+                required: *ref_51
+                properties: *ref_52
         year:
           description: The top level year of this session (e.g. 20xx where the current session is a week 40 of a semester). This object is [`expandable`](#tag/academic_sessions_model)
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: academicSessionId
-            - $ref: '#/components/schemas/AcademicSession'
-              title: Expanded AcademicSession
+            - title: academicSessionId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Expanded AcademicSession
+              type: object
+              description: |
+                A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+                Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+              required: *ref_51
+              properties: *ref_52
         otherCodes:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
           items:
-            $ref: '#/components/schemas/IdentifierEntry'
+            type: object
+            properties: *ref_4
+            required: *ref_5
+            additionalProperties: false
+            example: *ref_11
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: x-test-consumer
-              additional: custom
-              attributes: here
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          example: *ref_30
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     resultValueType:
       type: string
       description: The result value type for this offering
-      enum:
+      enum: &ref_53
         - pass-or-fail
         - US letter
         - UK letter
@@ -1715,21 +2214,24 @@ components:
     OfferingProperties:
       type: object
       description: Either a program, course or component offering which descrbes the program, course or offering in time
-      required:
+      required: &ref_56
         - primaryCode
         - offeringType
         - name
         - description
         - teachingLanguage
         - resultExpected
-      properties:
+      properties: &ref_57
         primaryCode:
           description: The primary human readable identifier for this offering. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
           example:
             codeType: offeringCode
             code: INFOMQNM-20FS
           readOnly: true
+          type: object
+          properties: *ref_4
+          required: *ref_5
+          additionalProperties: false
         offeringType:
           type: string
           description: The type of this offering
@@ -1739,13 +2241,21 @@ components:
             - component
           example: component
         academicSession:
-          $ref: '#/components/schemas/AcademicSession'
+          type: object
+          description: |
+            A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+            Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+          required: *ref_51
+          properties: *ref_52
         name:
           type: array
           description: The name of this offering
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Final written test for INFOMQNM for fall semseter 2020
@@ -1759,7 +2269,10 @@ components:
           description: The description of this offering.
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: |
@@ -1787,7 +2300,15 @@ components:
           pattern: ^[a-z]{3}$
           example: nld
         modeOfDelivery:
-          $ref: '#/components/schemas/modesOfDelivery'
+          type: array
+          description: |
+            The mode of delivery of the component (ECTS-mode of delivery)
+            - distance-learning: afstandsleren
+            - on campus: op de campus
+            - online: online
+            - hybrid: hybride
+            - situated: op locatie
+          items: *ref_39
         maxNumberStudents:
           type: number
           description: The maximum number of students allowed to enroll for this offering
@@ -1820,7 +2341,10 @@ components:
             If there is a result expected from a programOffering/courseOffering/componentOffering the is resultExpected field should parse true
           example: true
         resultValueType:
-          $ref: '#/components/schemas/resultValueType'
+          type: string
+          description: The result value type for this offering
+          enum: *ref_53
+          example: 1-10
         link:
           type: string
           description: URL of this offering's webpage.
@@ -1831,23 +2355,38 @@ components:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
           items:
-            $ref: '#/components/schemas/IdentifierEntry'
+            type: object
+            properties: *ref_4
+            required: *ref_5
+            additionalProperties: false
+            example: *ref_11
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
           example:
             - consumerKey: rio
               explanationRequiredPermission: Toestemming is vereist omdat we daarom vragen.
               requiredPermissionRegistration: 'yes'
               registrationStatus: open
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     Offering:
-      allOf:
-        - $ref: '#/components/schemas/OfferingId'
-        - $ref: '#/components/schemas/OfferingProperties'
+      allOf: &ref_62
+        - type: object
+          description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
+          required: *ref_54
+          properties: *ref_55
+        - type: object
+          description: Either a program, course or component offering which descrbes the program, course or offering in time
+          required: *ref_56
+          properties: *ref_57
     costType:
       type: string
       description: |
@@ -1859,16 +2398,26 @@ components:
 
         Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
       example: total costs
-      x-ooapi-extensible-enum:
+      x-ooapi-extensible-enum: &ref_58
         - STAP eligible
         - total costs
     Cost:
       type: object
-      required:
+      required: &ref_63
         - costType
-      properties:
+      properties: &ref_64
         costType:
-          $ref: '#/components/schemas/costType'
+          type: string
+          description: |
+            The type of the cost. This is an *extensible enumeration*.
+
+            The following values have been defined in the specification:
+              - `STAP eligible`: the costs that a student can get STAP subsidy for
+              - `total costs`: the total costs that a student is to pay to follow this offering
+
+            Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
+          example: total costs
+          x-ooapi-extensible-enum: *ref_58
         amount:
           type: string
           pattern: ^\d+(?:\.\d+)?$
@@ -1891,7 +2440,10 @@ components:
         displayAmount:
           type: array
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           description: An array of optional pre-formatted strings in different locales. Clients can choose to use this string instead of rendering their own based on the current locale of the user.
           example:
             - language: nl-NL
@@ -1899,7 +2451,8 @@ components:
             - language: en-US
               value: $401.17
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
       additionalProperties: false
     roomType:
       type: string
@@ -1915,7 +2468,7 @@ components:
         - study room: studieruimte
         - examination room: onderzoekskamer
         - conference room: vergaderkamer
-      enum:
+      enum: &ref_59
         - general purpose
         - lecture room
         - computer room
@@ -1930,12 +2483,12 @@ components:
     Building:
       type: object
       description: An object describing a building and the properties of a building.
-      required:
+      required: &ref_60
         - buildingId
         - name
         - address
         - primaryCode
-      properties:
+      properties: &ref_61
         buildingId:
           type: string
           description: Unique id of this building
@@ -1943,10 +2496,13 @@ components:
           example: 123e4567-e89b-12d3-a456-331214174000
         primaryCode:
           description: The primary human readable identifier for this building. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
           example:
             codeType: buildingId
             code: '45'
+          type: object
+          properties: *ref_4
+          required: *ref_5
+          additionalProperties: false
         abbreviation:
           type: string
           description: The abbreviation of the name of this building
@@ -1957,7 +2513,10 @@ components:
           description: The name of this building
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Beatrix building
@@ -1966,17 +2525,27 @@ components:
           description: The description of this building.
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: external rooms location for exams
         address:
-          $ref: '#/components/schemas/Address'
+          type: object
+          description: The full street address
+          required: *ref_8
+          properties: *ref_9
         otherCodes:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
           items:
-            $ref: '#/components/schemas/IdentifierEntry'
+            type: object
+            properties: *ref_4
+            required: *ref_5
+            additionalProperties: false
+            example: *ref_11
           example:
             - codeType: bagId
               code: '0344100000139910'
@@ -1984,22 +2553,24 @@ components:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: x-test-consumer
-              additional: custom
-              attributes: here
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          example: *ref_30
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     Room:
       type: object
       description: An area within a building where education can take place
-      required:
+      required: &ref_66
         - roomId
         - roomType
         - name
         - primaryCode
-      properties:
+      properties: &ref_67
         roomId:
           type: string
           description: Unique id for this room
@@ -2007,12 +2578,29 @@ components:
           example: 123e4567-e89b-12d3-a456-332114174000
         primaryCode:
           description: The primary human readable identifier for the room. This is often the source identifier as defined by the institution.
-          $ref: '#/components/schemas/IdentifierEntry'
           example:
             codeType: roomCode
             code: Bb4.54
+          type: object
+          properties: *ref_4
+          required: *ref_5
+          additionalProperties: false
         roomType:
-          $ref: '#/components/schemas/roomType'
+          type: string
+          description: |
+            The type of this room
+            - general purpose: algemeen
+            - lecture room: collegezaal
+            - computer room: computerruimte
+            - laboratory: laboratorium
+            - office: kantoor
+            - workspace: werkruimte
+            - exam location: tentamenruimte
+            - study room: studieruimte
+            - examination room: onderzoekskamer
+            - conference room: vergaderkamer
+          enum: *ref_59
+          example: exam location
         abbreviation:
           type: string
           description: The abbreviation of the name of this room
@@ -2023,7 +2611,10 @@ components:
           description: The name of this room
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Beatrix building room 4.54
@@ -2032,7 +2623,10 @@ components:
           description: The description of this room. [The limited implementation of Git Hub Markdown syntax](#tag/formatting-and-displaying-results-from-API) MAY be used for rich text representation.
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: External education and exam room 4.54
@@ -2073,30 +2667,41 @@ components:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
           items:
-            $ref: '#/components/schemas/IdentifierEntry'
+            type: object
+            properties: *ref_4
+            required: *ref_5
+            additionalProperties: false
+            example: *ref_11
         building:
           description: |
             The building in which the room is located. [`expandable`](#tag/building_model)
             By default only the `buildingId` (a string) is returned. If the client requested an expansion of `building` the full building object should be returned.
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: buildingId
-            - $ref: '#/components/schemas/Building'
-              title: Building object
+            - title: buildingId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Building object
+              type: object
+              description: An object describing a building and the properties of a building.
+              required: *ref_60
+              properties: *ref_61
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: x-test-consumer
-              additional: custom
-              attributes: here
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          example: *ref_30
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     ProgramOffering:
-      allOf:
-        - $ref: '#/components/schemas/Offering'
+      allOf: &ref_65
+        - allOf: *ref_62
         - type: object
           required:
             - modeOfStudy
@@ -2135,43 +2740,63 @@ components:
               type: array
               description: Addresses for this offering
               items:
-                $ref: '#/components/schemas/Address'
+                type: object
+                description: The full street address
+                required: *ref_8
+                properties: *ref_9
             priceInformation:
               type: array
               description: Price information for this offering.
               items:
-                $ref: '#/components/schemas/Cost'
+                type: object
+                required: *ref_63
+                properties: *ref_64
+                additionalProperties: false
               minItems: 1
             program:
               description: |
                 The Program that is offered in this programoffering. [`expandable`](#tag/program_model)
                 By default only the `programId` (a string) is returned. If the client requested an expansion of `program` the full program object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: programId
-                - $ref: '#/components/schemas/Program'
-                  title: Program object
+                - title: programId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Program object
+                  allOf: *ref_40
             organization:
               description: |
                 The organization that manages this programeoffering. [`expandable`](#tag/organization_model)
                 By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: organizationId
-                - $ref: '#/components/schemas/Organization'
-                  title: Organization object
+                - title: organizationId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Organization object
+                  type: object
+                  description: A description of a group of people working together to achieve a goal
+                  required: *ref_28
+                  properties: *ref_29
             academicSession:
               description: |
                 The academicsession during which this programoffering takes place. [`expandable`](#tag/academic_session_model)
                 By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: academicSessionId
-                - $ref: '#/components/schemas/AcademicSession'
-                  title: AcademicSession object
+                - title: academicSessionId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: AcademicSession object
+                  type: object
+                  description: |
+                    A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+                    Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+                  required: *ref_51
+                  properties: *ref_52
     CourseOffering:
-      allOf:
-        - $ref: '#/components/schemas/Offering'
+      allOf: &ref_70
+        - allOf: *ref_62
         - type: object
           required:
             - modeOfStudy
@@ -2210,51 +2835,73 @@ components:
               type: array
               description: Addresses for this offering
               items:
-                $ref: '#/components/schemas/Address'
+                type: object
+                description: The full street address
+                required: *ref_8
+                properties: *ref_9
             priceInformation:
               type: array
               description: Price information for this offering.
               items:
-                $ref: '#/components/schemas/Cost'
+                type: object
+                required: *ref_63
+                properties: *ref_64
+                additionalProperties: false
             course:
               description: |
                 The course that is offered in this courseoffering. [`expandable`](#tag/course_model)
                 By default only the `courseId` (a string) is returned. If the client requested an expansion of `course` the full course object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: courseId
-                - $ref: '#/components/schemas/Course'
-                  title: Course object
+                - title: courseId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Course object
+                  allOf: *ref_49
             programOffering:
               description: |
                 The programoffering where this courseoffering is related to. [`expandable`](#tag/program_offering_model)
                 By default only the `programOfferingId` (a string) is returned. If the client requested an expansion of `programOffering` the full programOffering object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: programOfferingId
-                - $ref: '#/components/schemas/ProgramOffering'
-                  title: ProgramOffering object
+                - title: programOfferingId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: ProgramOffering object
+                  allOf: *ref_65
             organization:
               description: |
                 The organization that manages this courseoffering. [`expandable`](#tag/organization_model)
                 By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: organizationId
-                - $ref: '#/components/schemas/Organization'
-                  title: Organization object
+                - title: organizationId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Organization object
+                  type: object
+                  description: A description of a group of people working together to achieve a goal
+                  required: *ref_28
+                  properties: *ref_29
             academicSession:
               description: |
                 The academicsession during which this courseoffering takes place. [`expandable`](#tag/academic_session_model)
                 By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: academicSessionId
-                - $ref: '#/components/schemas/AcademicSession'
-                  title: AcademicSession object
+                - title: academicSessionId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: AcademicSession object
+                  type: object
+                  description: |
+                    A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+                    Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+                  required: *ref_51
+                  properties: *ref_52
     ComponentOffering:
-      allOf:
-        - $ref: '#/components/schemas/Offering'
+      allOf: &ref_87
+        - allOf: *ref_62
         - type: object
           required:
             - startDateTime
@@ -2288,50 +2935,78 @@ components:
               type: array
               description: Addresses for this offering
               items:
-                $ref: '#/components/schemas/Address'
+                type: object
+                description: The full street address
+                required: *ref_8
+                properties: *ref_9
             priceInformation:
               type: array
               description: Price information for this offering.
               items:
-                $ref: '#/components/schemas/Cost'
+                type: object
+                required: *ref_63
+                properties: *ref_64
+                additionalProperties: false
             room:
-              $ref: '#/components/schemas/Room'
+              type: object
+              description: An area within a building where education can take place
+              required: *ref_66
+              properties: *ref_67
             component:
               description: |
                 The component that is offered in this componentoffering. [`expandable`](#tag/component_model)
                 By default only the `componentId` (a string) is returned. If the client requested an expansion of `component` the full component object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: componentId
-                - $ref: '#/components/schemas/Component'
-                  title: Component object
+                - title: componentId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Component object
+                  type: object
+                  description: A component is a part of a course
+                  required: *ref_68
+                  properties: *ref_69
             courseOffering:
               description: |
                 The courseoffering where this componentoffering is related to. [`expandable`](#tag/course_offering_model)
                 By default only the `courseOfferingId` (a string) is returned. If the client requested an expansion of `courseOffering` the full courseOffering object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: courseOfferingId
-                - $ref: '#/components/schemas/CourseOffering'
-                  title: CourseOffering object
+                - title: courseOfferingId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: CourseOffering object
+                  allOf: *ref_70
             organization:
               description: |
                 The organization that manages this componentoffering. [`expandable`](#tag/organization_model)
                 By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: organizationId
-                - $ref: '#/components/schemas/Organization'
-                  title: Organization object
+                - title: organizationId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: Organization object
+                  type: object
+                  description: A description of a group of people working together to achieve a goal
+                  required: *ref_28
+                  properties: *ref_29
             academicSession:
               description: |
                 The academicsession during which this componentoffering takes place. [`expandable`](#tag/academic_session_model)
                 By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
               oneOf:
-                - $ref: '#/components/schemas/Identifier'
-                  title: academicSessionId
-                - $ref: '#/components/schemas/AcademicSession'
-                  title: AcademicSession object
+                - title: academicSessionId
+                  type: string
+                  description: An identifier of another resource.
+                  format: uuid
+                - title: AcademicSession object
+                  type: object
+                  description: |
+                    A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+                    Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+                  required: *ref_51
+                  properties: *ref_52
     associationRole:
       type: string
       description: |
@@ -2341,7 +3016,7 @@ components:
           - teaching assistant: studentassistent
           - coordinator: coördinator
           - guest: gast
-      enum:
+      enum: &ref_71
         - student
         - lecturer
         - teaching assistant
@@ -2351,7 +3026,7 @@ components:
     associationState:
       type: string
       description: The state of this association
-      enum:
+      enum: &ref_72
         - pending
         - canceled
         - denied
@@ -2361,7 +3036,7 @@ components:
     resultState:
       type: string
       description: The state of this result
-      enum:
+      enum: &ref_78
         - in progress
         - postponed
         - completed
@@ -2369,19 +3044,19 @@ components:
       example: completed
     AssociationId:
       type: object
-      properties:
+      properties: &ref_74
         associationId:
           type: string
           description: Unique id of this association
           format: uuid
           example: 123e4567-e89b-12d3-a456-426614174000
           readOnly: true
-      required:
+      required: &ref_75
         - associationId
     remoteAssociationState:
       type: string
       description: The state of this association for the institution performing the request.
-      enum:
+      enum: &ref_73
         - pending
         - canceled
         - denied
@@ -2391,11 +3066,11 @@ components:
     AssociationProperties:
       type: object
       description: A relationship between a person object and an offering
-      required:
+      required: &ref_76
         - associationType
         - role
         - state
-      properties:
+      properties: &ref_77
         associationType:
           type: string
           description: The type of this association
@@ -2406,32 +3081,54 @@ components:
           example: componentOfferingAssociation
           readOnly: true
         role:
-          $ref: '#/components/schemas/associationRole'
+          type: string
+          description: |
+            The role of this person associated with the offering
+              - student: student
+              - lecturer: docent
+              - teaching assistant: studentassistent
+              - coordinator: coördinator
+              - guest: gast
+          enum: *ref_71
+          example: student
         state:
-          $ref: '#/components/schemas/associationState'
           readOnly: true
+          type: string
+          description: The state of this association
+          enum: *ref_72
+          example: associated
         remoteState:
-          $ref: '#/components/schemas/remoteAssociationState'
           writeOnly: true
+          type: string
+          description: The state of this association for the institution performing the request.
+          enum: *ref_73
+          example: associated
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
           items:
-            $ref: '#/components/schemas/Consumer'
-          example:
-            - consumerKey: x-test-consumer
-              additional: custom
-              attributes: here
+            type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          example: *ref_30
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     Association:
-      allOf:
-        - $ref: '#/components/schemas/AssociationId'
-        - $ref: '#/components/schemas/AssociationProperties'
+      allOf: &ref_82
+        - type: object
+          properties: *ref_74
+          required: *ref_75
+        - type: object
+          description: A relationship between a person object and an offering
+          required: *ref_76
+          properties: *ref_77
     passState:
       type: string
       description: The state of this result
-      enum:
+      enum: &ref_79
         - unknown
         - passed
         - failed
@@ -2439,14 +3136,20 @@ components:
     Result:
       type: object
       description: A result as part of an association
-      required:
+      required: &ref_80
         - state
         - resultDate
-      properties:
+      properties: &ref_81
         state:
-          $ref: '#/components/schemas/resultState'
+          type: string
+          description: The state of this result
+          enum: *ref_78
+          example: completed
         pass:
-          $ref: '#/components/schemas/passState'
+          type: string
+          description: The state of this result
+          enum: *ref_79
+          example: passed
         comment:
           type: string
           description: The comment on this result
@@ -2460,46 +3163,66 @@ components:
           format: date
           example: '2020-09-28'
         ext:
-          $ref: '#/components/schemas/Ext'
+          type: object
+          description: Object for additional non-standard attributes
     ProgramResult:
-      allOf:
-        - $ref: '#/components/schemas/Result'
+      allOf: &ref_83
+        - type: object
+          description: A result as part of an association
+          required: *ref_80
+          properties: *ref_81
         - type: object
           required:
             - studyLoad
           properties:
             studyLoad:
-              $ref: '#/components/schemas/StudyLoadDescriptor'
+              type: object
+              description: The amount of effort to complete this education in the specified unit.
+              properties: *ref_25
+              example: *ref_26
     ProgramOfferingAssociationExpandable:
-      allOf:
-        - $ref: '#/components/schemas/Association'
+      allOf: &ref_106
+        - allOf: *ref_82
         - type: object
           properties:
             result:
-              $ref: '#/components/schemas/ProgramResult'
+              allOf: *ref_83
             person:
-              $ref: '#/components/schemas/PersonId'
+              type: object
+              properties: *ref_14
+              required: *ref_15
     CourseResult:
-      allOf:
-        - $ref: '#/components/schemas/Result'
+      allOf: &ref_84
+        - type: object
+          description: A result as part of an association
+          required: *ref_80
+          properties: *ref_81
         - type: object
           required:
             - studyLoad
           properties:
             studyLoad:
-              $ref: '#/components/schemas/StudyLoadDescriptor'
+              type: object
+              description: The amount of effort to complete this education in the specified unit.
+              properties: *ref_25
+              example: *ref_26
     CourseOfferingAssociationExpandable:
-      allOf:
-        - $ref: '#/components/schemas/Association'
+      allOf: &ref_107
+        - allOf: *ref_82
         - type: object
           properties:
             result:
-              $ref: '#/components/schemas/CourseResult'
+              allOf: *ref_84
             person:
-              $ref: '#/components/schemas/PersonId'
+              type: object
+              properties: *ref_14
+              required: *ref_15
     ComponentResult:
-      allOf:
-        - $ref: '#/components/schemas/Result'
+      allOf: &ref_85
+        - type: object
+          description: A result as part of an association
+          required: *ref_80
+          properties: *ref_81
         - type: object
           required:
             - weight
@@ -2512,86 +3235,99 @@ components:
               maximum: 100
               example: 100
     ComponentOfferingAssociationExpandable:
-      allOf:
-        - $ref: '#/components/schemas/Association'
+      allOf: &ref_108
+        - allOf: *ref_82
         - type: object
           properties:
             result:
-              $ref: '#/components/schemas/ComponentResult'
+              allOf: *ref_85
             person:
-              $ref: '#/components/schemas/PersonId'
+              type: object
+              properties: *ref_14
+              required: *ref_15
     ComponentOfferingAssociation:
-      allOf:
-        - $ref: '#/components/schemas/Association'
+      allOf: &ref_86
+        - allOf: *ref_82
         - type: object
           properties:
             result:
-              $ref: '#/components/schemas/ComponentResult'
+              allOf: *ref_85
     ComponentOfferingAssociationExpandedWrite:
-      allOf:
-        - $ref: '#/components/schemas/ComponentOfferingAssociation'
-      properties:
+      allOf: &ref_109
+        - allOf: *ref_86
+      properties: &ref_110
         person:
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: personId
-            - $ref: '#/components/schemas/Person'
-              title: Person
+            - title: personId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Person
+              allOf: *ref_41
         offering:
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: offeringId
-            - $ref: '#/components/schemas/ComponentOffering'
-              title: ComponentOffering
+            - title: offeringId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: ComponentOffering
+              allOf: *ref_87
     ProgramOfferingAssociation:
-      allOf:
-        - $ref: '#/components/schemas/Association'
+      allOf: &ref_88
+        - allOf: *ref_82
         - type: object
           properties:
             result:
-              $ref: '#/components/schemas/ProgramResult'
+              allOf: *ref_83
     CourseOfferingAssociation:
-      allOf:
-        - $ref: '#/components/schemas/Association'
+      allOf: &ref_89
+        - allOf: *ref_82
         - type: object
           properties:
             result:
-              $ref: '#/components/schemas/CourseResult'
+              allOf: *ref_84
     AssociationFull:
-      oneOf:
-        - $ref: '#/components/schemas/ProgramOfferingAssociation'
-        - $ref: '#/components/schemas/CourseOfferingAssociation'
-        - $ref: '#/components/schemas/ComponentOfferingAssociation'
-      properties:
+      oneOf: &ref_111
+        - allOf: *ref_88
+        - allOf: *ref_89
+        - allOf: *ref_86
+      properties: &ref_112
         person:
           readOnly: true
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: personId
-            - $ref: '#/components/schemas/Person'
-              title: Person
+            - title: personId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Person
+              allOf: *ref_41
         offering:
           oneOf:
-            - $ref: '#/components/schemas/Identifier'
-              title: offeringId
-            - $ref: '#/components/schemas/ComponentOffering'
-              title: ComponentOffering
-            - $ref: '#/components/schemas/CourseOffering'
-              title: CourseOffering
-            - $ref: '#/components/schemas/ProgramOffering'
-              title: ProgramOffering
+            - title: offeringId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: ComponentOffering
+              allOf: *ref_87
+            - title: CourseOffering
+              allOf: *ref_70
+            - title: ProgramOffering
+              allOf: *ref_65
     PostResponse:
       type: object
       description: A system message as a response to a POST message
-      required:
+      required: &ref_113
         - message
-      properties:
+      properties: &ref_114
         message:
           description: information displayed to user
           type: array
           minItems: 1
           items:
-            $ref: '#/components/schemas/LanguageTypedString'
+            type: object
+            description: A String with an associated language code.
+            properties: *ref_2
+            example: *ref_3
           example:
             - language: en-GB
               value: Your enrollment was partly succesful, you have been placed on the waitinglist
@@ -2602,53 +3338,74 @@ components:
   responses:
     ErrorBadRequest:
       description: Bad request
-      content:
+      content: &ref_92
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_90
+            properties: *ref_91
     ErrorUnauthorized:
       description: Unauthorized
-      content:
+      content: &ref_93
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_90
+            properties: *ref_91
     ErrorForbidden:
       description: Forbidden
-      content:
+      content: &ref_94
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_90
+            properties: *ref_91
     ErrorNotFound:
       description: Not Found
-      content:
+      content: &ref_95
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_90
+            properties: *ref_91
     ErrorMethodNotAllowed:
       description: Method not allowed
-      content:
+      content: &ref_96
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_90
+            properties: *ref_91
     ErrorTooManyRequests:
       description: Too many requests
-      content:
+      content: &ref_97
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_90
+            properties: *ref_91
     ErrorInternalServerError:
       description: Internal Server Error
-      content:
+      content: &ref_98
         application/problem+json:
           schema:
-            $ref: '#/components/schemas/Problem'
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_90
+            properties: *ref_91
   parameters:
     pageSize:
       name: pageSize
       in: query
       description: The number of items per page
       required: false
-      schema:
+      schema: &ref_99
         type: integer
         format: int32
         default: 10
@@ -2663,7 +3420,7 @@ components:
       in: query
       description: The page number to get. Page numbers start at 1.
       required: false
-      schema:
+      schema: &ref_100
         type: integer
         format: int32
         example: 1
@@ -2673,21 +3430,21 @@ components:
       in: query
       description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
       required: false
-      schema:
+      schema: &ref_101
         type: string
     search:
       name: q
       in: query
       description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
       required: false
-      schema:
+      schema: &ref_102
         type: string
     teachingLanguage:
       name: teachingLanguage
       in: query
       description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
       required: false
-      schema:
+      schema: &ref_103
         type: string
         pattern: ^[a-z]{3}$
         minLength: 3
@@ -2717,21 +3474,28 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Person'
+                allOf: *ref_41
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
   /components/{componentId}:
     get:
       summary: GET /components/{componentId}
@@ -2767,7 +3531,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Component'
+                type: object
+                description: A component is a part of a course
+                required: *ref_68
+                properties: *ref_69
               examples:
                 Request details of one test (Flow 0.2):
                   value:
@@ -2804,19 +3571,26 @@ paths:
                         retries: 2
                         status: active
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
   /components/{componentId}/offerings:
     get:
       summary: GET /components/{componentId}/offerings
@@ -2834,11 +3608,32 @@ paths:
           schema:
             type: string
             format: uuid
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-        - $ref: '#/components/parameters/consumer'
-        - $ref: '#/components/parameters/search'
-        - $ref: '#/components/parameters/teachingLanguage'
+        - name: pageSize
+          in: query
+          description: The number of items per page
+          required: false
+          schema: *ref_99
+        - name: pageNumber
+          in: query
+          description: The page number to get. Page numbers start at 1.
+          required: false
+          schema: *ref_100
+        - name: consumer
+          in: query
+          description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+          required: false
+          schema: *ref_101
+        - name: q
+          in: query
+          description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
+          required: false
+          schema: *ref_102
+        - name: teachingLanguage
+          in: query
+          description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
+          required: false
+          schema: *ref_103
+          example: nld
         - name: resultExpected
           in: query
           description: Filter by resultExpected
@@ -2889,7 +3684,9 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    required: *ref_104
+                    properties: *ref_105
                   - type: object
                     required:
                       - items
@@ -2897,23 +3694,31 @@ paths:
                       items:
                         type: array
                         items:
-                          $ref: '#/components/schemas/ComponentOffering'
+                          allOf: *ref_87
                       ext:
-                        $ref: '#/components/schemas/Ext'
+                        type: object
+                        description: Object for additional non-standard attributes
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
   /offerings/{offeringId}:
     get:
       summary: GET /offerings/{offeringId}
@@ -2955,8 +3760,8 @@ paths:
             application/json:
               schema:
                 oneOf:
-                  - $ref: '#/components/schemas/ComponentOffering'
-                    title: componentOffering
+                  - title: componentOffering
+                    allOf: *ref_87
               examples:
                 Read current state of offering (flow 2.6):
                   value:
@@ -3007,19 +3812,26 @@ paths:
                     startDateTime: '2022-06-21T12:45:00'
                     endDateTime: '2022-06-21T13:45:00'
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
     patch:
       summary: PATCH /offerings/{offeringId}
       description: |
@@ -3044,8 +3856,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ComponentOffering'
               title: componentOffering
+              allOf: *ref_87
             examples:
               Delete offering (Flow 2.5):
                 value:
@@ -3063,19 +3875,26 @@ paths:
         '200':
           description: OK
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
     put:
       summary: PUT /offerings/{offeringId}
       description: |
@@ -3101,8 +3920,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ComponentOffering'
               title: componentOffering
+              allOf: *ref_87
             examples:
               Create offering (zitting) without students (flow 2.1):
                 value:
@@ -3156,19 +3975,26 @@ paths:
         '200':
           description: OK
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
   /offerings/{offeringId}/associations:
     get:
       summary: GET /offerings/{offeringId}/associations
@@ -3186,9 +4012,21 @@ paths:
           schema:
             type: string
             format: uuid
-        - $ref: '#/components/parameters/pageSize'
-        - $ref: '#/components/parameters/pageNumber'
-        - $ref: '#/components/parameters/consumer'
+        - name: pageSize
+          in: query
+          description: The number of items per page
+          required: false
+          schema: *ref_99
+        - name: pageNumber
+          in: query
+          description: The page number to get. Page numbers start at 1.
+          required: false
+          schema: *ref_100
+        - name: consumer
+          in: query
+          description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+          required: false
+          schema: *ref_101
         - name: associationType
           in: query
           description: Filter by association type
@@ -3204,19 +4042,34 @@ paths:
           description: Filter by role
           required: false
           schema:
-            $ref: '#/components/schemas/associationRole'
+            type: string
+            description: |
+              The role of this person associated with the offering
+                - student: student
+                - lecturer: docent
+                - teaching assistant: studentassistent
+                - coordinator: coördinator
+                - guest: gast
+            enum: *ref_71
+            example: student
         - name: state
           in: query
           description: Filter by state
           required: false
           schema:
-            $ref: '#/components/schemas/associationState'
+            type: string
+            description: The state of this association
+            enum: *ref_72
+            example: associated
         - name: result-state
           in: query
           description: Filter by result state
           required: false
           schema:
-            $ref: '#/components/schemas/resultState'
+            type: string
+            description: The state of this result
+            enum: *ref_78
+            example: completed
         - name: sort
           in: query
           explode: false
@@ -3240,7 +4093,9 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/Pagination'
+                  - type: object
+                    required: *ref_104
+                    properties: *ref_105
                   - type: object
                     required:
                       - items
@@ -3249,25 +4104,33 @@ paths:
                         type: array
                         items:
                           oneOf:
-                            - $ref: '#/components/schemas/ProgramOfferingAssociationExpandable'
-                            - $ref: '#/components/schemas/CourseOfferingAssociationExpandable'
-                            - $ref: '#/components/schemas/ComponentOfferingAssociationExpandable'
+                            - allOf: *ref_106
+                            - allOf: *ref_107
+                            - allOf: *ref_108
                       ext:
-                        $ref: '#/components/schemas/Ext'
+                        type: object
+                        description: Object for additional non-standard attributes
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
   /offerings/{offeringId}/associations{associationId}:
     put:
       summary: PUT offerings/{offeringId}/associations/{associationId}
@@ -3299,7 +4162,8 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ComponentOfferingAssociationExpandedWrite'
+              allOf: *ref_109
+              properties: *ref_110
             examples:
               Add student to created offering (zitting) (flow 2.2.B and 2.3):
                 value:
@@ -3354,19 +4218,26 @@ paths:
         '200':
           description: OK
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
   /associations/{associationId}:
     get:
       summary: GET /associations/{associationId}
@@ -3403,21 +4274,29 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AssociationFull'
+                oneOf: *ref_111
+                properties: *ref_112
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
     patch:
       summary: PATCH /associations/{associationId}
       description: |
@@ -3448,10 +4327,13 @@ paths:
             schema:
               properties:
                 remoteState:
-                  $ref: '#/components/schemas/remoteAssociationState'
+                  type: string
+                  description: The state of this association for the institution performing the request.
+                  enum: *ref_73
+                  example: associated
                 result:
                   oneOf:
-                    - $ref: '#/components/schemas/ComponentResult'
+                    - allOf: *ref_85
             examples:
               Delete student from offering (flow 2.4):
                 value:
@@ -3512,13 +4394,22 @@ paths:
             application/json:
               schema:
                 allOf:
-                  - $ref: '#/components/schemas/AssociationId'
-                  - $ref: '#/components/schemas/PostResponse'
+                  - type: object
+                    properties: *ref_74
+                    required: *ref_75
+                  - type: object
+                    description: A system message as a response to a POST message
+                    required: *ref_113
+                    properties: *ref_114
                   - properties:
                       state:
-                        $ref: '#/components/schemas/associationState'
+                        type: string
+                        description: The state of this association
+                        enum: *ref_72
+                        example: associated
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
     put:
       summary: PUT associations/{associationId}
       description: |
@@ -3541,21 +4432,29 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ComponentOfferingAssociationExpandedWrite'
+              allOf: *ref_109
+              properties: *ref_110
       responses:
         '200':
           description: OK
         '400':
-          $ref: '#/components/responses/ErrorBadRequest'
+          description: Bad request
+          content: *ref_92
         '401':
-          $ref: '#/components/responses/ErrorUnauthorized'
+          description: Unauthorized
+          content: *ref_93
         '403':
-          $ref: '#/components/responses/ErrorForbidden'
+          description: Forbidden
+          content: *ref_94
         '404':
-          $ref: '#/components/responses/ErrorNotFound'
+          description: Not Found
+          content: *ref_95
         '405':
-          $ref: '#/components/responses/ErrorMethodNotAllowed'
+          description: Method not allowed
+          content: *ref_96
         '429':
-          $ref: '#/components/responses/ErrorTooManyRequests'
+          description: Too many requests
+          content: *ref_97
         '500':
-          $ref: '#/components/responses/ErrorInternalServerError'
+          description: Internal Server Error
+          content: *ref_98
