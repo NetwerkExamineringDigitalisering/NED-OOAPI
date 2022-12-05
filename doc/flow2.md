@@ -339,13 +339,7 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 # associationId = "123e4567-e89b-12d3-a456-426614174001"
 
 {
-  "consumers": 
-    [
-	{
-    	"consumerKey": "MBO-toetsafname",
-        "state": "canceled"
-	}
-    ]
+    "state": "canceled"
 }
 ```
 
