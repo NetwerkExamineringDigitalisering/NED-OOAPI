@@ -3,6 +3,8 @@
 The deelnemer registratie(SIS) and toetsplanning can request to list of available exams/test from the toetsafname applications. This is input for those applications to plan and schedule exams/tests.
 
 ## Flow 0.1 Request whole catalogue
+
+### Sequence diagram of Request whole catalogue
 ```mermaid
 sequenceDiagram
     participant DR/TP as Deelnemerreg/Toetsplanning
@@ -14,6 +16,7 @@ sequenceDiagram
     deactivate TA
 ```
 
+### Class diagram of response of Request whole catalogue	
 For each component (toets) the following entities and attributes are used:
 ```mermaid
 classDiagram
@@ -45,7 +48,7 @@ classDiagram
     Component o-- Consumer
 ```
 
-### Example of a request/response to read the whole catalogue
+### Example of response Request whole catalogue
 ```json
 #GET/components?type=test
 
@@ -118,9 +121,19 @@ response:
   ,{..}
   ]
 ```
+### Remarks
+- id of the component (toets/examen) is created by owner of the catalogue (Toetsafname).
+- Toetsafname makes the GET endpoint available.
+- various filters coul be used:
+	- type=test for filtering on components (toets/examens) only
+	- q=rekenen for filtering on components (toets/examens) with text "rekenen" in the name or description
+	- since=2022-01-01 for filtering on components that have a startdate from January 1st, 2022
+	- licended=true for filtering on components (toets/examens) for which the requesting education organisation (or organisational unit) has a valid license
+
 
 ## Flow 0.2 Request details of one test
  
+### Sequence diagram of Request details of one test
 ```mermaid
 sequenceDiagram
     Toetsplanning->>Toetsafname: give me the details of test with id componentId
@@ -130,7 +143,10 @@ sequenceDiagram
     deactivate Toetsafname
 ```
 
-### Example of a request/response to reuest the details of a specific test from the catalogue
+### Class diagram of response for Request whole catalogue	
+(see Class diagram in Flow 0.1)
+
+### Example of response for Request details of one test
 ```json
 #GET/components/{componentId}
 
