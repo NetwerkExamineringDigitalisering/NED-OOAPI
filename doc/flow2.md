@@ -37,7 +37,7 @@ classDiagram
 	component : string
     }
     class Consumer {
-    	consumerKey : string
+    	consumerKey : string = "MBO-toetsafname"
 	duration : int
 	safety : string
 	offeringState : OfferingStateType
@@ -154,7 +154,7 @@ classDiagram
 	offering : offeringId
     }
     class Consumer {
-    	consumerKey : string
+    	consumerKey : string = "MBO-toetsafname"
 	userName : string
 	extraTimeInMin : int
 	personalNeeds : string[]
@@ -316,7 +316,7 @@ sequenceDiagram
     loop for each student
         Toetsplanning->>Toetsafname: Delete student from offering (zitting)
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PATCH state canceled)
+        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (PATCH state canceled)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
     end
     deactivate Toetsafname
@@ -333,7 +333,7 @@ classDiagram
 
 ### Example of request Delete student from offering (zitting)	
 ```
-PATCH endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
+PATCH endpoint /a/ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 # associationId = "123e4567-e89b-12d3-a456-426614174001"
@@ -346,7 +346,8 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- state : use the value "canceled" from the enum.
+	- Attribute state : use the value "canceled" from the enum.
+	- Add no values for other attributes within Association because they will be ignored.
 
 
 ## Flow 2.5 Delete offering (zitting)
@@ -368,7 +369,7 @@ classDiagram
 	consumers : Consumer
     }
     class Consumer {
-    	consumerKey : string
+    	consumerKey : string = "MBO-toetsafname"
 	offeringState : OfferingStateType = "canceled"
     }
     Offering o-- Consumer
@@ -381,7 +382,13 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 
 {
-    "state": "canceled"
+    "consumers": 
+      [
+	{
+    	  "consumerKey": "MBO-toetsafname",
+    	  "offeringState": "canceled"
+	}
+      ]
 }
 ```
 
@@ -392,7 +399,8 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- state : use the value "canceled" from the enum.
+	- Attribute offeringState within consumers of Offering: use the value "canceled" from the enum.
+	- Add no values for other attributes within Offering because they will be ignored.
 
 ## Flow 2.6 Read current state of the offering (zitting)
 To see/check the current state of the offering (zitting) with its associations the following endpoint can be used at Toetsafname
