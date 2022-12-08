@@ -25,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - GET /offerings/{offeringId}/groups
     - GET /components/{componentId}/offerings
     - GET /persons/{personId}/associations
-
+- changed date-time to include timezones (to improve date-time transfer between countries)
 
 
 ## [5.0.0] - 2022-07-19

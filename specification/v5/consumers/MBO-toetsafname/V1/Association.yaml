@@ -1,6 +1,10 @@
 type: object
 description: MBO-toetsafname add-on attributes to the Association 
+required:
+ - consumerKey
 properties:
+  consumerKey:
+    type: string
   startUpURL:
     type: string
     description: |

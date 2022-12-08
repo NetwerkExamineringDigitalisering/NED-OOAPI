@@ -65,15 +65,15 @@ get:
                 consumers:
                 - consumerKey: MBO-toetsafname
                   duration: P60M
-                  lastPossibleStartDateTime: 2020-12-15T08:50:00
+                  lastPossibleStartDateTime: 2020-12-15T08:50:00+01:00
                   startOptions: individualStart
                   durationFrom: individualStartDateTime
                   durationUntil: testDuration 
                   safety: ["Fixed Location", "Surveillance"]
                   offeringState: active
                   locationCode: A-22
-                startDateTime: 2022-06-21T12:45:00
-                endDateTime: 2022-06-21T13:45:00
+                startDateTime: 2022-06-21T12:45:00+01:00
+                endDateTime: 2022-06-21T13:45:00+01:00
                 component: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
             Read current state of offering (flow 2.6 minimal):
               value:
@@ -89,8 +89,8 @@ get:
                   value: "Beschrijving van 20220621-12:45-Remindo rekenen MBO-3"
                 teachingLanguage: nld
                 resultExpected: true
-                startDateTime: 2022-06-21T12:45:00
-                endDateTime: 2022-06-21T13:45:00
+                startDateTime: 2022-06-21T12:45:00+01:00
+                endDateTime: 2022-06-21T13:45:00+01:00
 
     '400':
       $ref: '../schemas/ErrorBadRequest.yaml'
@@ -219,15 +219,15 @@ put:
                 consumers:
                 - consumerKey: MBO-toetsafname
                   duration: P60M
-                  lastPossibleStartDateTime: 2020-12-15T08:50:00
+                  lastPossibleStartDateTime: 2020-12-15T08:50:00+01:00
                   startOptions: individualStart
                   durationFrom: individualStartDateTime
                   durationUntil: testDuration 
                   safety: ["Fixed Location", "Surveillance"]
                   offeringState: active
                   locationCode: A-22
-                startDateTime: 2022-06-21T12:45:00
-                endDateTime: 2022-06-21T13:45:00
+                startDateTime: 2022-06-21T12:45:00+01:00
+                endDateTime: 2022-06-21T13:45:00+01:00
                 component: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
             Create offering (zitting) without students (flow 2.1 minimal):
               value:
@@ -243,8 +243,8 @@ put:
                   value: "Beschrijving van 20220621-12:45-Remindo rekenen MBO-3"
                 teachingLanguage: nld
                 resultExpected: true
-                startDateTime: 2022-06-21T12:45:00
-                endDateTime: 2022-06-21T13:45:00
+                startDateTime: 2022-06-21T12:45:00+01:00
+                endDateTime: 2022-06-21T13:45:00+01:00
 
   responses:
     '200':
