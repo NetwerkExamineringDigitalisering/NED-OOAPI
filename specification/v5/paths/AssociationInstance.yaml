@@ -161,7 +161,7 @@ patch:
 
 
 put:
-  summary: PUT associations/{associationId}
+  summary: PUT /associations/{associationId}
   description: |
     PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
   security:
@@ -188,6 +188,8 @@ put:
   responses:
     '200':
       description: OK
+    '201':
+      description: Created
 
               
     '400':

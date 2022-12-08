@@ -1,5 +1,5 @@
 put:
-  summary: PUT offerings/{offeringId}/associations/{associationId}
+  summary: PUT /offerings/{offeringId}/associations/{associationId}
   operationId: replace-association  
   description: |
     PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
@@ -93,7 +93,8 @@ put:
   responses:
     '200':
       description: OK
-
+    '201':
+      description: Created
               
     '400':
       $ref: '../schemas/ErrorBadRequest.yaml'
