@@ -2,10 +2,7 @@ type: object
 description: MBO-toetsafname add-on attributes to the result 
 required:
   - attendance
-  - consumerKey
 properties:
-  consumerKey:
-    type: string
   attendance:
     type: string
     description: |

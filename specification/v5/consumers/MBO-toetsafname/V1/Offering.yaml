@@ -1,11 +1,8 @@
 type: object
 description: MBO-toetsafname add-on attributes to the offerings 
 required:
-  - consumerKey
   - offeringState
 properties:
-  consumerKey:
-    type: string
   duration:
     type: string
     description: |

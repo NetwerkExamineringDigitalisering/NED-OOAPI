@@ -34,6 +34,8 @@ properties:
     example:
     - language: en-GB
       value: Final written test for INFOMQNM for fall semseter 2020
+    - language: nl-NL
+      values: Eindtoets vor het vak  
   abbreviation:
     type: string
     description: The abbreviation or internal code used to identify this offering
@@ -122,8 +124,7 @@ properties:
     type: array
     items:
       $ref: './Consumer.yaml'
-    examples:
-       - $ref: '../consumers/RIO/V1/examples/Offering.yaml'
-       - $ref: '../consumers//V1/examples/Offering.yaml'
+    example:
+      $ref: '../consumers/RIO/V1/examples/Offering.yaml'
   ext:
     $ref: './Ext.yaml'

@@ -2259,6 +2259,8 @@ components:
           example:
             - language: en-GB
               value: Final written test for INFOMQNM for fall semseter 2020
+            - language: nl-NL
+              values: Eindtoets vor het vak
         abbreviation:
           type: string
           description: The abbreviation or internal code used to identify this offering
@@ -3783,7 +3785,7 @@ paths:
                     consumers:
                       - consumerKey: MBO-toetsafname
                         duration: P60M
-                        lastPossibleStartDateTime: '2020-12-15T08:50:00'
+                        lastPossibleStartDateTime: '2020-12-15T08:50:00+01:00'
                         startOptions: individualStart
                         durationFrom: individualStartDateTime
                         durationUntil: testDuration
@@ -3792,8 +3794,8 @@ paths:
                           - Surveillance
                         offeringState: active
                         locationCode: A-22
-                    startDateTime: '2022-06-21T12:45:00'
-                    endDateTime: '2022-06-21T13:45:00'
+                    startDateTime: '2022-06-21T12:45:00+01:00'
+                    endDateTime: '2022-06-21T13:45:00+01:00'
                     component: c5fca27e-ccc1-430d-9888-90e005ad6a86
                 Read current state of offering (flow 2.6 minimal):
                   value:
@@ -3809,8 +3811,8 @@ paths:
                         value: Beschrijving van 20220621-12:45-Remindo rekenen MBO-3
                     teachingLanguage: nld
                     resultExpected: true
-                    startDateTime: '2022-06-21T12:45:00'
-                    endDateTime: '2022-06-21T13:45:00'
+                    startDateTime: '2022-06-21T12:45:00+01:00'
+                    endDateTime: '2022-06-21T13:45:00+01:00'
         '400':
           description: Bad request
           content: *ref_92
@@ -3943,7 +3945,7 @@ paths:
                   consumers:
                     - consumerKey: MBO-toetsafname
                       duration: P60M
-                      lastPossibleStartDateTime: '2020-12-15T08:50:00'
+                      lastPossibleStartDateTime: '2020-12-15T08:50:00+01:00'
                       startOptions: individualStart
                       durationFrom: individualStartDateTime
                       durationUntil: testDuration
@@ -3952,8 +3954,8 @@ paths:
                         - Surveillance
                       offeringState: active
                       locationCode: A-22
-                  startDateTime: '2022-06-21T12:45:00'
-                  endDateTime: '2022-06-21T13:45:00'
+                  startDateTime: '2022-06-21T12:45:00+01:00'
+                  endDateTime: '2022-06-21T13:45:00+01:00'
                   component: c5fca27e-ccc1-430d-9888-90e005ad6a86
               Create offering (zitting) without students (flow 2.1 minimal):
                 value:
@@ -3969,11 +3971,13 @@ paths:
                       value: Beschrijving van 20220621-12:45-Remindo rekenen MBO-3
                   teachingLanguage: nld
                   resultExpected: true
-                  startDateTime: '2022-06-21T12:45:00'
-                  endDateTime: '2022-06-21T13:45:00'
+                  startDateTime: '2022-06-21T12:45:00+01:00'
+                  endDateTime: '2022-06-21T13:45:00+01:00'
       responses:
         '200':
           description: OK
+        '201':
+          description: Created
         '400':
           description: Bad request
           content: *ref_92
@@ -4133,7 +4137,7 @@ paths:
           content: *ref_98
   /offerings/{offeringId}/associations{associationId}:
     put:
-      summary: PUT offerings/{offeringId}/associations/{associationId}
+      summary: PUT /offerings/{offeringId}/associations/{associationId}
       operationId: replace-association
       description: |
         PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
@@ -4217,6 +4221,8 @@ paths:
       responses:
         '200':
           description: OK
+        '201':
+          description: Created
         '400':
           description: Bad request
           content: *ref_92
@@ -4411,7 +4417,7 @@ paths:
           description: Bad request
           content: *ref_92
     put:
-      summary: PUT associations/{associationId}
+      summary: PUT /associations/{associationId}
       description: |
         PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
       security:
@@ -4437,6 +4443,8 @@ paths:
       responses:
         '200':
           description: OK
+        '201':
+          description: Created
         '400':
           description: Bad request
           content: *ref_92
