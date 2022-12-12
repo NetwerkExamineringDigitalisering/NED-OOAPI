@@ -29,6 +29,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - GET /persons/{personId}/associations
 - changed date-time to include timezones (to improve date-time transfer between countries)
 - consumer object changed to be array in examples and allow for multiple arrays
+- removed readonly status of offeringId to allow complete offering object to be part of associations
 
 
 ## [5.0.0] - 2022-07-19

@@ -2052,7 +2052,6 @@ components:
           description: Unique id of this offering
           format: uuid
           example: 123e4567-e89b-12d3-a456-134564174000
-          readOnly: true
     academicSessionType:
       type: string
       description: |
@@ -2265,7 +2264,7 @@ components:
           type: string
           description: The moment on which this offering starts, RFC3339 (date-time)
           format: date-time
-          example: '2020-12-15T08:50:00'
+          example: '2020-12-15T08:50:00.000Z'
         startOptions:
           type: string
           description: |
@@ -3057,12 +3056,12 @@ components:
               type: string
               description: The moment on which this offering starts, RFC3339 (date-time)
               format: date-time
-              example: '2020-12-15'
+              example: '2020-12-15T20:00:00.000Z'
             endDateTime:
               type: string
               description: The moment on which this offering ends, RFC3339 (date-time)
               format: date-time
-              example: '2020-12-16'
+              example: '2020-12-16T20:00:00.000Z'
             enrollStartDate:
               type: string
               description: The first day on which a student can enroll for this course.
