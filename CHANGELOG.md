@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PUT offerings/{offeringId}/associations/{associationId}
 - security for server to server communication based on oauth2 clientcredentials flow
 - documentType.yaml as part of the types of documents allowed
+- consumer attribute in result
+
 
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
@@ -26,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - GET /components/{componentId}/offerings
     - GET /persons/{personId}/associations
 - changed date-time to include timezones (to improve date-time transfer between countries)
+- consumer object changed to be array in examples and allow for multiple arrays
 
 
 ## [5.0.0] - 2022-07-19

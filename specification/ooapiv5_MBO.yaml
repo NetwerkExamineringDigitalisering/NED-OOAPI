@@ -566,10 +566,10 @@ components:
     Problem:
       type: object
       description: A system message including the error code and an explanation
-      required: &ref_90
+      required: &ref_104
         - status
         - title
-      properties: &ref_91
+      properties: &ref_105
         status:
           type: string
           description: The HTTP status code
@@ -1814,14 +1814,14 @@ components:
     Component:
       type: object
       description: A component is a part of a course
-      required: &ref_68
+      required: &ref_74
         - componentId
         - componentType
         - name
         - teachingLanguage
         - abbreviation
         - primaryCode
-      properties: &ref_69
+      properties: &ref_75
         componentId:
           type: string
           description: Unique id of this component
@@ -2010,13 +2010,13 @@ components:
           description: Object for additional non-standard attributes
     Pagination:
       type: object
-      required: &ref_104
+      required: &ref_118
         - pageSize
         - pageNumber
         - hasPreviousPage
         - hasNextPage
         - items
-      properties: &ref_105
+      properties: &ref_119
         pageSize:
           type: integer
           format: int32
@@ -2044,9 +2044,9 @@ components:
     OfferingId:
       type: object
       description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
-      required: &ref_54
+      required: &ref_60
         - offeringId
-      properties: &ref_55
+      properties: &ref_61
         offeringId:
           type: string
           description: Unique id of this offering
@@ -2204,24 +2204,177 @@ components:
     resultValueType:
       type: string
       description: The result value type for this offering
-      enum: &ref_53
+      enum: &ref_57
         - pass-or-fail
         - US letter
         - UK letter
         - 0-100
         - 1-10
       example: 1-10
+    RIO-Offering:
+      type: object
+      description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
+      required: &ref_53
+        - registrationStatus
+        - requiredPermissionRegistration
+        - consumerKey
+      properties: &ref_54
+        consumerKey:
+          type: string
+        explanationRequiredPermission:
+          type: string
+          description: |
+            toelichtingVereisteToestemming
+            Is een tekstuele toelichting op de voor aanmelding vereiste toestemming van de onderwijsaanbieder
+        requiredPermissionRegistration:
+          type: string
+          description: |
+            toestemmingVereistVoorAanmelding
+            Geeft aan of een aspirant-student voor een bepaald cohort van een aangeboden opleiding toestemming van de onderwijsaanbieder nodig heeft om zich aan te mogen melden.
+            - yes: JA
+            - no: NEE
+          enum:
+            - 'yes'
+            - 'no'
+        registrationStatus:
+          type: string
+          description: |
+            cohortStatus
+            De toegestane waarden voor de status van een cohort van een aangeboden opleiding. Hiermee kan bijvoorbeeld worden aangegeven of een bepaald cohort open staat voor aanmelding, of dat het gesloten is.
+          enum:
+            - open
+            - closed
+    MBO-Offering:
+      type: object
+      description: MBO-toetsafname add-on attributes to the offerings
+      required: &ref_55
+        - offeringState
+        - consumerKey
+      properties: &ref_56
+        consumerKey:
+          type: string
+        duration:
+          type: string
+          description: |
+            To be documented see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4
+            The duration of this component. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
+            For easy info https://en.wikipedia.org/wiki/ISO_8601#Durations
+          pattern: ^(-?)P(?=\d|T\d)(?:(\d+)Y)?(?:(\d+)M)?(?:(\d+)([DW]))?(?:T(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?)?$
+          example: P1DT30H4S
+        lastPossibleStartDateTime:
+          type: string
+          description: The moment on which this offering starts, RFC3339 (date-time)
+          format: date-time
+          example: '2020-12-15T08:50:00'
+        startOptions:
+          type: string
+          description: |
+            type of start that is allowed
+          enum:
+            - individualStart
+            - triggeredSart
+        durationFrom:
+          type: string
+          description: |
+            determine how to determine the start moment for the component
+          enum:
+            - startDateTime
+            - individualStartDateTime
+            - triggeredStartDateTime
+        durationUntil:
+          type: string
+          description: |
+            determine how the length of the component should be determined (fixed endpoint or based on the duration)
+          enum:
+            - testDuration
+            - endDateTime
+        safety:
+          type: array
+          description: |
+            safety
+            See https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/5.
+            TODO : make list
+          items:
+            type: string
+            enum:
+              - SecuredComputer
+              - Fixed Location
+              - Surveillance
+        offeringState:
+          type: string
+          description: |
+            offeringState
+            enum to indicate the state of the offering
+          enum:
+            - active
+            - cancelled
+        locationCode:
+          type: string
+          example: A-12a
+          description: |
+            locationCode
+            string to indicate test room/space (for recognition, we will not use the location structure from OOAPI)
+        irregularities:
+          type: string
+          example: There was a lot of noise from the construction site nearby
+          description: |
+            irregularities
+            string with information about irragularies that effected all students in this offering
+        documents:
+          type: array
+          items:
+            type: string
+          minItems: 0
+          description: |
+            documents
+            documents to be added to this offering
+            TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
+    ConsumerOnOffering:
+      type: array
+      description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+      items: &ref_58
+        anyOf:
+          - type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          - type: object
+            description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
+            required: *ref_53
+            properties: *ref_54
+          - type: object
+            description: MBO-toetsafname add-on attributes to the offerings
+            required: *ref_55
+            properties: *ref_56
+      example: &ref_59
+        - consumerKey: MBO-toetsafname
+          duration: P1DT30H4S
+          lastPossibleStartDateTime: '2020-12-15T08:50:00'
+          startOptions: individualStart
+          durationFrom: individualStartDateTime
+          durationUntil: testDuration
+          safety:
+            - SecuredComputer
+            - Fixed Location
+          offeringState: active
+          locationCode: A-12a
+          irregularities: There was a lot of noise from the construction site nearby
+          documents:
+            - documentId: 454566464665355500
+              documentType: sessionReport
+              documentName: Session report on Session tbd.pdf
     OfferingProperties:
       type: object
       description: Either a program, course or component offering which descrbes the program, course or offering in time
-      required: &ref_56
+      required: &ref_62
         - primaryCode
         - offeringType
         - name
         - description
         - teachingLanguage
         - resultExpected
-      properties: &ref_57
+      properties: &ref_63
         primaryCode:
           description: The primary human readable identifier for this offering. This is often the source identifier as defined by the institution.
           example:
@@ -2345,7 +2498,7 @@ components:
         resultValueType:
           type: string
           description: The result value type for this offering
-          enum: *ref_53
+          enum: *ref_57
           example: 1-10
         link:
           type: string
@@ -2363,32 +2516,23 @@ components:
             additionalProperties: false
             example: *ref_11
         consumers:
-          description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
-          items:
-            type: object
-            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-            required: *ref_12
-            properties: *ref_13
-            additionalProperties: true
-          example:
-            - consumerKey: rio
-              explanationRequiredPermission: Toestemming is vereist omdat we daarom vragen.
-              requiredPermissionRegistration: 'yes'
-              registrationStatus: open
+          description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+          items: *ref_58
+          example: *ref_59
         ext:
           type: object
           description: Object for additional non-standard attributes
     Offering:
-      allOf: &ref_62
+      allOf: &ref_68
         - type: object
           description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
-          required: *ref_54
-          properties: *ref_55
+          required: *ref_60
+          properties: *ref_61
         - type: object
           description: Either a program, course or component offering which descrbes the program, course or offering in time
-          required: *ref_56
-          properties: *ref_57
+          required: *ref_62
+          properties: *ref_63
     costType:
       type: string
       description: |
@@ -2400,14 +2544,14 @@ components:
 
         Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
       example: total costs
-      x-ooapi-extensible-enum: &ref_58
+      x-ooapi-extensible-enum: &ref_64
         - STAP eligible
         - total costs
     Cost:
       type: object
-      required: &ref_63
+      required: &ref_69
         - costType
-      properties: &ref_64
+      properties: &ref_70
         costType:
           type: string
           description: |
@@ -2419,7 +2563,7 @@ components:
 
             Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
           example: total costs
-          x-ooapi-extensible-enum: *ref_58
+          x-ooapi-extensible-enum: *ref_64
         amount:
           type: string
           pattern: ^\d+(?:\.\d+)?$
@@ -2470,7 +2614,7 @@ components:
         - study room: studieruimte
         - examination room: onderzoekskamer
         - conference room: vergaderkamer
-      enum: &ref_59
+      enum: &ref_65
         - general purpose
         - lecture room
         - computer room
@@ -2485,12 +2629,12 @@ components:
     Building:
       type: object
       description: An object describing a building and the properties of a building.
-      required: &ref_60
+      required: &ref_66
         - buildingId
         - name
         - address
         - primaryCode
-      properties: &ref_61
+      properties: &ref_67
         buildingId:
           type: string
           description: Unique id of this building
@@ -2567,12 +2711,12 @@ components:
     Room:
       type: object
       description: An area within a building where education can take place
-      required: &ref_66
+      required: &ref_72
         - roomId
         - roomType
         - name
         - primaryCode
-      properties: &ref_67
+      properties: &ref_73
         roomId:
           type: string
           description: Unique id for this room
@@ -2601,7 +2745,7 @@ components:
             - study room: studieruimte
             - examination room: onderzoekskamer
             - conference room: vergaderkamer
-          enum: *ref_59
+          enum: *ref_65
           example: exam location
         abbreviation:
           type: string
@@ -2686,8 +2830,8 @@ components:
             - title: Building object
               type: object
               description: An object describing a building and the properties of a building.
-              required: *ref_60
-              properties: *ref_61
+              required: *ref_66
+              properties: *ref_67
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
@@ -2702,8 +2846,8 @@ components:
           type: object
           description: Object for additional non-standard attributes
     ProgramOffering:
-      allOf: &ref_65
-        - allOf: *ref_62
+      allOf: &ref_71
+        - allOf: *ref_68
         - type: object
           required:
             - modeOfStudy
@@ -2751,8 +2895,8 @@ components:
               description: Price information for this offering.
               items:
                 type: object
-                required: *ref_63
-                properties: *ref_64
+                required: *ref_69
+                properties: *ref_70
                 additionalProperties: false
               minItems: 1
             program:
@@ -2797,8 +2941,8 @@ components:
                   required: *ref_51
                   properties: *ref_52
     CourseOffering:
-      allOf: &ref_70
-        - allOf: *ref_62
+      allOf: &ref_76
+        - allOf: *ref_68
         - type: object
           required:
             - modeOfStudy
@@ -2846,8 +2990,8 @@ components:
               description: Price information for this offering.
               items:
                 type: object
-                required: *ref_63
-                properties: *ref_64
+                required: *ref_69
+                properties: *ref_70
                 additionalProperties: false
             course:
               description: |
@@ -2870,7 +3014,7 @@ components:
                   description: An identifier of another resource.
                   format: uuid
                 - title: ProgramOffering object
-                  allOf: *ref_65
+                  allOf: *ref_71
             organization:
               description: |
                 The organization that manages this courseoffering. [`expandable`](#tag/organization_model)
@@ -2902,8 +3046,8 @@ components:
                   required: *ref_51
                   properties: *ref_52
     ComponentOffering:
-      allOf: &ref_87
-        - allOf: *ref_62
+      allOf: &ref_101
+        - allOf: *ref_68
         - type: object
           required:
             - startDateTime
@@ -2946,14 +3090,14 @@ components:
               description: Price information for this offering.
               items:
                 type: object
-                required: *ref_63
-                properties: *ref_64
+                required: *ref_69
+                properties: *ref_70
                 additionalProperties: false
             room:
               type: object
               description: An area within a building where education can take place
-              required: *ref_66
-              properties: *ref_67
+              required: *ref_72
+              properties: *ref_73
             component:
               description: |
                 The component that is offered in this componentoffering. [`expandable`](#tag/component_model)
@@ -2966,8 +3110,8 @@ components:
                 - title: Component object
                   type: object
                   description: A component is a part of a course
-                  required: *ref_68
-                  properties: *ref_69
+                  required: *ref_74
+                  properties: *ref_75
             courseOffering:
               description: |
                 The courseoffering where this componentoffering is related to. [`expandable`](#tag/course_offering_model)
@@ -2978,7 +3122,7 @@ components:
                   description: An identifier of another resource.
                   format: uuid
                 - title: CourseOffering object
-                  allOf: *ref_70
+                  allOf: *ref_76
             organization:
               description: |
                 The organization that manages this componentoffering. [`expandable`](#tag/organization_model)
@@ -3018,7 +3162,7 @@ components:
           - teaching assistant: studentassistent
           - coordinator: coördinator
           - guest: gast
-      enum: &ref_71
+      enum: &ref_79
         - student
         - lecturer
         - teaching assistant
@@ -3028,7 +3172,7 @@ components:
     associationState:
       type: string
       description: The state of this association
-      enum: &ref_72
+      enum: &ref_80
         - pending
         - canceled
         - denied
@@ -3038,7 +3182,7 @@ components:
     resultState:
       type: string
       description: The state of this result
-      enum: &ref_78
+      enum: &ref_90
         - in progress
         - postponed
         - completed
@@ -3046,33 +3190,86 @@ components:
       example: completed
     AssociationId:
       type: object
-      properties: &ref_74
+      properties: &ref_84
         associationId:
           type: string
           description: Unique id of this association
           format: uuid
           example: 123e4567-e89b-12d3-a456-426614174000
           readOnly: true
-      required: &ref_75
+      required: &ref_85
         - associationId
     remoteAssociationState:
       type: string
       description: The state of this association for the institution performing the request.
-      enum: &ref_73
+      enum: &ref_81
         - pending
         - canceled
         - denied
         - associated
         - queued
       example: associated
+    MBO-Association:
+      type: object
+      description: MBO-toetsafname add-on attributes to the Association
+      required: &ref_77
+        - consumerKey
+      properties: &ref_78
+        consumerKey:
+          type: string
+        startUpURL:
+          type: string
+          description: |
+            URL to be used to start this assocation by the user
+          format: uri
+          maxLength: 2048
+          example: https://surf.nl
+        additionalTimeInMin:
+          type: integer
+          format: int32
+          example: 30
+          description: |
+            If you need additional time, specify how much max
+            To be documented see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4
+        personalNeeds:
+          type: array
+          items:
+            type: string
+          minItems: 0
+          description: |
+            personalNeed
+            personalNeed to be added for this student
+            TODO : make enum: see https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
+            examples : "extraTime", "spoken", "spell-checker-on-screen"
+    ConsumerOnAssociation:
+      type: array
+      description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+      items: &ref_82
+        anyOf:
+          - type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          - type: object
+            description: MBO-toetsafname add-on attributes to the Association
+            required: *ref_77
+            properties: *ref_78
+      example: &ref_83
+        - consumerKey: MBO-toetsafname
+          additionalTimeInMin: 30
+          personalNeeds:
+            - extraTime
+            - spoken
+            - spell-checker-on-screen
     AssociationProperties:
       type: object
       description: A relationship between a person object and an offering
-      required: &ref_76
+      required: &ref_86
         - associationType
         - role
         - state
-      properties: &ref_77
+      properties: &ref_87
         associationType:
           type: string
           description: The type of this association
@@ -3091,66 +3288,138 @@ components:
               - teaching assistant: studentassistent
               - coordinator: coördinator
               - guest: gast
-          enum: *ref_71
+          enum: *ref_79
           example: student
         state:
           readOnly: true
           type: string
           description: The state of this association
-          enum: *ref_72
+          enum: *ref_80
           example: associated
         remoteState:
           writeOnly: true
           type: string
           description: The state of this association for the institution performing the request.
-          enum: *ref_73
+          enum: *ref_81
           example: associated
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
-          items:
-            type: object
-            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-            required: *ref_12
-            properties: *ref_13
-            additionalProperties: true
-          example: *ref_30
+          items: *ref_82
+          example: *ref_83
         ext:
           type: object
           description: Object for additional non-standard attributes
     Association:
-      allOf: &ref_82
+      allOf: &ref_96
         - type: object
-          properties: *ref_74
-          required: *ref_75
+          properties: *ref_84
+          required: *ref_85
         - type: object
           description: A relationship between a person object and an offering
-          required: *ref_76
-          properties: *ref_77
+          required: *ref_86
+          properties: *ref_87
     passState:
       type: string
       description: The state of this result
-      enum: &ref_79
+      enum: &ref_91
         - unknown
         - passed
         - failed
       example: passed
+    MBO-Result:
+      type: object
+      description: MBO-toetsafname add-on attributes to the result
+      required: &ref_88
+        - attendance
+        - consumerKey
+      properties: &ref_89
+        consumerKey:
+          type: string
+        attendance:
+          type: string
+          description: |
+            attendance
+            indication of presence during the test (mandatory). 
+            Possible values are notPresent (niet aanwezig),
+            notStarted (aanwezig maar niet gestart),
+            notFinished (aanwezig en gestart maar niet afgerond/ingeleverd)
+            en present (aanwezig en afgerond/ingeleverd)"
+          enum:
+            - notPresent
+            - notStarted
+            - notFinished
+            - present
+        assessorId:
+          type: string
+          description: |
+            assessorId
+            the identity of the assessor. 
+        assessorCode:
+          type: string
+          description: |
+            assessorCode
+            the identity code of the assessor. 
+        irregularities:
+          type: string
+          description: |
+            irregularities: textual information about the student test, such as irregularities
+          example: student cheated and 15 min late
+        final:
+          type: boolean
+          description: |
+            final: indicates that the result has been finalised by the exam committee. 
+            Can be done in Toetsplanning (or even DR), so most Toetsafname applications will send false. (optional, default false) 
+        documents:
+          type: array
+          items:
+            type: string
+          minItems: 0
+          description: |
+            documents
+            documents to be added to this offering
+            TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
+    ConsumerOnResult:
+      type: array
+      description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+      items: &ref_92
+        anyOf:
+          - type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          - type: object
+            description: MBO-toetsafname add-on attributes to the result
+            required: *ref_88
+            properties: *ref_89
+      example: &ref_93
+        - consumerKey: MBO-toetsafname
+          attendance: present
+          assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
+          assessorCode: JAJE
+          irregularities: student cheated and 15 min late
+          final: true
+          documents:
+            - documentId: 123454
+              documentType: assessmentForm
+              documentName: Assessment form for Jake Doe.pd
     Result:
       type: object
       description: A result as part of an association
-      required: &ref_80
+      required: &ref_94
         - state
         - resultDate
-      properties: &ref_81
+      properties: &ref_95
         state:
           type: string
           description: The state of this result
-          enum: *ref_78
+          enum: *ref_90
           example: completed
         pass:
           type: string
           description: The state of this result
-          enum: *ref_79
+          enum: *ref_91
           example: passed
         comment:
           type: string
@@ -3164,15 +3433,20 @@ components:
           description: The date this result has been published, RFC3339 (full-date)
           format: date
           example: '2020-09-28'
+        consumers:
+          type: array
+          description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+          items: *ref_92
+          example: *ref_93
         ext:
           type: object
           description: Object for additional non-standard attributes
     ProgramResult:
-      allOf: &ref_83
+      allOf: &ref_97
         - type: object
           description: A result as part of an association
-          required: *ref_80
-          properties: *ref_81
+          required: *ref_94
+          properties: *ref_95
         - type: object
           required:
             - studyLoad
@@ -3183,22 +3457,22 @@ components:
               properties: *ref_25
               example: *ref_26
     ProgramOfferingAssociationExpandable:
-      allOf: &ref_106
-        - allOf: *ref_82
+      allOf: &ref_120
+        - allOf: *ref_96
         - type: object
           properties:
             result:
-              allOf: *ref_83
+              allOf: *ref_97
             person:
               type: object
               properties: *ref_14
               required: *ref_15
     CourseResult:
-      allOf: &ref_84
+      allOf: &ref_98
         - type: object
           description: A result as part of an association
-          required: *ref_80
-          properties: *ref_81
+          required: *ref_94
+          properties: *ref_95
         - type: object
           required:
             - studyLoad
@@ -3209,22 +3483,22 @@ components:
               properties: *ref_25
               example: *ref_26
     CourseOfferingAssociationExpandable:
-      allOf: &ref_107
-        - allOf: *ref_82
+      allOf: &ref_121
+        - allOf: *ref_96
         - type: object
           properties:
             result:
-              allOf: *ref_84
+              allOf: *ref_98
             person:
               type: object
               properties: *ref_14
               required: *ref_15
     ComponentResult:
-      allOf: &ref_85
+      allOf: &ref_99
         - type: object
           description: A result as part of an association
-          required: *ref_80
-          properties: *ref_81
+          required: *ref_94
+          properties: *ref_95
         - type: object
           required:
             - weight
@@ -3237,27 +3511,27 @@ components:
               maximum: 100
               example: 100
     ComponentOfferingAssociationExpandable:
-      allOf: &ref_108
-        - allOf: *ref_82
+      allOf: &ref_122
+        - allOf: *ref_96
         - type: object
           properties:
             result:
-              allOf: *ref_85
+              allOf: *ref_99
             person:
               type: object
               properties: *ref_14
               required: *ref_15
     ComponentOfferingAssociation:
-      allOf: &ref_86
-        - allOf: *ref_82
+      allOf: &ref_100
+        - allOf: *ref_96
         - type: object
           properties:
             result:
-              allOf: *ref_85
+              allOf: *ref_99
     ComponentOfferingAssociationExpandedWrite:
-      allOf: &ref_109
-        - allOf: *ref_86
-      properties: &ref_110
+      allOf: &ref_123
+        - allOf: *ref_100
+      properties: &ref_124
         person:
           oneOf:
             - title: personId
@@ -3273,27 +3547,27 @@ components:
               description: An identifier of another resource.
               format: uuid
             - title: ComponentOffering
-              allOf: *ref_87
+              allOf: *ref_101
     ProgramOfferingAssociation:
-      allOf: &ref_88
-        - allOf: *ref_82
+      allOf: &ref_102
+        - allOf: *ref_96
         - type: object
           properties:
             result:
-              allOf: *ref_83
+              allOf: *ref_97
     CourseOfferingAssociation:
-      allOf: &ref_89
-        - allOf: *ref_82
+      allOf: &ref_103
+        - allOf: *ref_96
         - type: object
           properties:
             result:
-              allOf: *ref_84
+              allOf: *ref_98
     AssociationFull:
-      oneOf: &ref_111
-        - allOf: *ref_88
-        - allOf: *ref_89
-        - allOf: *ref_86
-      properties: &ref_112
+      oneOf: &ref_125
+        - allOf: *ref_102
+        - allOf: *ref_103
+        - allOf: *ref_100
+      properties: &ref_126
         person:
           readOnly: true
           oneOf:
@@ -3310,17 +3584,17 @@ components:
               description: An identifier of another resource.
               format: uuid
             - title: ComponentOffering
-              allOf: *ref_87
+              allOf: *ref_101
             - title: CourseOffering
-              allOf: *ref_70
+              allOf: *ref_76
             - title: ProgramOffering
-              allOf: *ref_65
+              allOf: *ref_71
     PostResponse:
       type: object
       description: A system message as a response to a POST message
-      required: &ref_113
+      required: &ref_127
         - message
-      properties: &ref_114
+      properties: &ref_128
         message:
           description: information displayed to user
           type: array
@@ -3340,74 +3614,74 @@ components:
   responses:
     ErrorBadRequest:
       description: Bad request
-      content: &ref_92
+      content: &ref_106
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_90
-            properties: *ref_91
+            required: *ref_104
+            properties: *ref_105
     ErrorUnauthorized:
       description: Unauthorized
-      content: &ref_93
+      content: &ref_107
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_90
-            properties: *ref_91
+            required: *ref_104
+            properties: *ref_105
     ErrorForbidden:
       description: Forbidden
-      content: &ref_94
+      content: &ref_108
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_90
-            properties: *ref_91
+            required: *ref_104
+            properties: *ref_105
     ErrorNotFound:
       description: Not Found
-      content: &ref_95
+      content: &ref_109
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_90
-            properties: *ref_91
+            required: *ref_104
+            properties: *ref_105
     ErrorMethodNotAllowed:
       description: Method not allowed
-      content: &ref_96
+      content: &ref_110
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_90
-            properties: *ref_91
+            required: *ref_104
+            properties: *ref_105
     ErrorTooManyRequests:
       description: Too many requests
-      content: &ref_97
+      content: &ref_111
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_90
-            properties: *ref_91
+            required: *ref_104
+            properties: *ref_105
     ErrorInternalServerError:
       description: Internal Server Error
-      content: &ref_98
+      content: &ref_112
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_90
-            properties: *ref_91
+            required: *ref_104
+            properties: *ref_105
   parameters:
     pageSize:
       name: pageSize
       in: query
       description: The number of items per page
       required: false
-      schema: &ref_99
+      schema: &ref_113
         type: integer
         format: int32
         default: 10
@@ -3422,7 +3696,7 @@ components:
       in: query
       description: The page number to get. Page numbers start at 1.
       required: false
-      schema: &ref_100
+      schema: &ref_114
         type: integer
         format: int32
         example: 1
@@ -3432,21 +3706,21 @@ components:
       in: query
       description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
       required: false
-      schema: &ref_101
+      schema: &ref_115
         type: string
     search:
       name: q
       in: query
       description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
       required: false
-      schema: &ref_102
+      schema: &ref_116
         type: string
     teachingLanguage:
       name: teachingLanguage
       in: query
       description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
       required: false
-      schema: &ref_103
+      schema: &ref_117
         type: string
         pattern: ^[a-z]{3}$
         minLength: 3
@@ -3479,25 +3753,25 @@ paths:
                 allOf: *ref_41
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
   /components/{componentId}:
     get:
       summary: GET /components/{componentId}
@@ -3535,8 +3809,8 @@ paths:
               schema:
                 type: object
                 description: A component is a part of a course
-                required: *ref_68
-                properties: *ref_69
+                required: *ref_74
+                properties: *ref_75
               examples:
                 Request details of one test (Flow 0.2):
                   value:
@@ -3574,25 +3848,25 @@ paths:
                         status: active
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
   /components/{componentId}/offerings:
     get:
       summary: GET /components/{componentId}/offerings
@@ -3614,27 +3888,27 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_99
+          schema: *ref_113
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_100
+          schema: *ref_114
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_101
+          schema: *ref_115
         - name: q
           in: query
           description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
           required: false
-          schema: *ref_102
+          schema: *ref_116
         - name: teachingLanguage
           in: query
           description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
           required: false
-          schema: *ref_103
+          schema: *ref_117
           example: nld
         - name: resultExpected
           in: query
@@ -3687,8 +3961,8 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: *ref_104
-                    properties: *ref_105
+                    required: *ref_118
+                    properties: *ref_119
                   - type: object
                     required:
                       - items
@@ -3696,31 +3970,31 @@ paths:
                       items:
                         type: array
                         items:
-                          allOf: *ref_87
+                          allOf: *ref_101
                       ext:
                         type: object
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
   /offerings/{offeringId}:
     get:
       summary: GET /offerings/{offeringId}
@@ -3763,7 +4037,7 @@ paths:
               schema:
                 oneOf:
                   - title: componentOffering
-                    allOf: *ref_87
+                    allOf: *ref_101
               examples:
                 Read current state of offering (flow 2.6):
                   value:
@@ -3815,25 +4089,25 @@ paths:
                     endDateTime: '2022-06-21T13:45:00+01:00'
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
     patch:
       summary: PATCH /offerings/{offeringId}
       description: |
@@ -3859,7 +4133,7 @@ paths:
           application/json:
             schema:
               title: componentOffering
-              allOf: *ref_87
+              allOf: *ref_101
             examples:
               Delete offering (Flow 2.5):
                 value:
@@ -3878,25 +4152,25 @@ paths:
           description: OK
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
     put:
       summary: PUT /offerings/{offeringId}
       description: |
@@ -3923,7 +4197,7 @@ paths:
           application/json:
             schema:
               title: componentOffering
-              allOf: *ref_87
+              allOf: *ref_101
             examples:
               Create offering (zitting) without students (flow 2.1):
                 value:
@@ -3980,25 +4254,25 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
   /offerings/{offeringId}/associations:
     get:
       summary: GET /offerings/{offeringId}/associations
@@ -4020,17 +4294,17 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_99
+          schema: *ref_113
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_100
+          schema: *ref_114
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_101
+          schema: *ref_115
         - name: associationType
           in: query
           description: Filter by association type
@@ -4054,7 +4328,7 @@ paths:
                 - teaching assistant: studentassistent
                 - coordinator: coördinator
                 - guest: gast
-            enum: *ref_71
+            enum: *ref_79
             example: student
         - name: state
           in: query
@@ -4063,7 +4337,7 @@ paths:
           schema:
             type: string
             description: The state of this association
-            enum: *ref_72
+            enum: *ref_80
             example: associated
         - name: result-state
           in: query
@@ -4072,7 +4346,7 @@ paths:
           schema:
             type: string
             description: The state of this result
-            enum: *ref_78
+            enum: *ref_90
             example: completed
         - name: sort
           in: query
@@ -4098,8 +4372,8 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: *ref_104
-                    properties: *ref_105
+                    required: *ref_118
+                    properties: *ref_119
                   - type: object
                     required:
                       - items
@@ -4108,33 +4382,33 @@ paths:
                         type: array
                         items:
                           oneOf:
-                            - allOf: *ref_106
-                            - allOf: *ref_107
-                            - allOf: *ref_108
+                            - allOf: *ref_120
+                            - allOf: *ref_121
+                            - allOf: *ref_122
                       ext:
                         type: object
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
   /offerings/{offeringId}/associations{associationId}:
     put:
       summary: PUT /offerings/{offeringId}/associations/{associationId}
@@ -4166,8 +4440,8 @@ paths:
         content:
           application/json:
             schema:
-              allOf: *ref_109
-              properties: *ref_110
+              allOf: *ref_123
+              properties: *ref_124
             examples:
               Add student to created offering (zitting) (flow 2.2.B and 2.3):
                 value:
@@ -4225,25 +4499,25 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
   /associations/{associationId}:
     get:
       summary: GET /associations/{associationId}
@@ -4280,29 +4554,29 @@ paths:
           content:
             application/json:
               schema:
-                oneOf: *ref_111
-                properties: *ref_112
+                oneOf: *ref_125
+                properties: *ref_126
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112
     patch:
       summary: PATCH /associations/{associationId}
       description: |
@@ -4335,11 +4609,11 @@ paths:
                 remoteState:
                   type: string
                   description: The state of this association for the institution performing the request.
-                  enum: *ref_73
+                  enum: *ref_81
                   example: associated
                 result:
                   oneOf:
-                    - allOf: *ref_85
+                    - allOf: *ref_99
             examples:
               Delete student from offering (flow 2.4):
                 value:
@@ -4401,21 +4675,21 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    properties: *ref_74
-                    required: *ref_75
+                    properties: *ref_84
+                    required: *ref_85
                   - type: object
                     description: A system message as a response to a POST message
-                    required: *ref_113
-                    properties: *ref_114
+                    required: *ref_127
+                    properties: *ref_128
                   - properties:
                       state:
                         type: string
                         description: The state of this association
-                        enum: *ref_72
+                        enum: *ref_80
                         example: associated
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
     put:
       summary: PUT /associations/{associationId}
       description: |
@@ -4438,8 +4712,8 @@ paths:
         content:
           application/json:
             schema:
-              allOf: *ref_109
-              properties: *ref_110
+              allOf: *ref_123
+              properties: *ref_124
       responses:
         '200':
           description: OK
@@ -4447,22 +4721,22 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_92
+          content: *ref_106
         '401':
           description: Unauthorized
-          content: *ref_93
+          content: *ref_107
         '403':
           description: Forbidden
-          content: *ref_94
+          content: *ref_108
         '404':
           description: Not Found
-          content: *ref_95
+          content: *ref_109
         '405':
           description: Method not allowed
-          content: *ref_96
+          content: *ref_110
         '429':
           description: Too many requests
-          content: *ref_97
+          content: *ref_111
         '500':
           description: Internal Server Error
-          content: *ref_98
+          content: *ref_112

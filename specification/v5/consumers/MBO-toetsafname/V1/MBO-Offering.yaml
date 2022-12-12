@@ -1,8 +1,11 @@
 type: object
 description: MBO-toetsafname add-on attributes to the offerings 
 required:
-  - offeringState
+ - offeringState
+ - consumerKey
 properties:
+  consumerKey:
+    type: string
   duration:
     type: string
     description: |
@@ -39,15 +42,17 @@ properties:
       - testDuration 
       - endDateTime
   safety:
-    type: string
+    type: array 
     description: |
       safety
       See https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/5.
       TODO : make list
-    enum:
-      - SecuredComputer
-      - Fixed Location
-      - Surveillance
+    items:
+      type: string
+      enum:
+        - SecuredComputer
+        - Fixed Location
+        - Surveillance
   offeringState:
     type: string
     description: |

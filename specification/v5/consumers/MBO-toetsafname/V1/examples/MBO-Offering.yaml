@@ -1,0 +1,15 @@
+- consumerKey: MBO-toetsafname
+  duration: P1DT30H4S
+  lastPossibleStartDateTime: 2020-12-15T08:50:00 
+  startOptions: individualStart
+  durationFrom: individualStartDateTime
+  durationUntil: testDuration 
+  safety: [SecuredComputer, Fixed Location]
+  offeringState: active
+  locationCode: A-12a
+  irregularities: There was a lot of noise from the construction site nearby
+  documents:       
+    - documentId: 454566464665355545
+      documentType: sessionReport
+      documentName: Session report on Session tbd.pdf
+ 

@@ -1,7 +1,10 @@
 type: object
 description: RIO add-on attributes to an education specification
 required:
+  - consumerKey
 properties:
+  consumerKey:
+    type: string
   educationSpecificationSubType:
     type: string
     description: |

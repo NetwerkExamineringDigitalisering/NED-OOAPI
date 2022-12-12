@@ -21,5 +21,7 @@ properties:
     description: The date this result has been published, RFC3339 (full-date)
     format: date
     example: 2020-09-28
+  consumers:
+    $ref: './ConsumerOnResult.yaml'  
   ext:
     $ref: './Ext.yaml'

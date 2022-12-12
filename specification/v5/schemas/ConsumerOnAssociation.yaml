@@ -1,0 +1,8 @@
+type: array
+description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+items:
+  anyOf:
+    - $ref: './Consumer.yaml'
+    - $ref: '../consumers/MBO-toetsafname/V1/MBO-Association.yaml'
+example: 
+  $ref: '../consumers/MBO-toetsafname/V1/examples/MBO-Association.yaml'

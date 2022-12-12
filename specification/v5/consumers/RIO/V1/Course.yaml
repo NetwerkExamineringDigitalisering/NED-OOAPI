@@ -2,7 +2,10 @@ type: object
 description: RIO add-on attributes to a course that lead to a certifiable learning outcome
 required:
   - educationOffererCode
+  - consumerKey
 properties:
+  consumerKey:
+    type: string
   educationOffererCode:
     type: string
     description: |

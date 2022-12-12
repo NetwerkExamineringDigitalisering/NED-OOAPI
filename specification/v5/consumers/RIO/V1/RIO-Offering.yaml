@@ -3,7 +3,10 @@ description: RIO add-on attributes to the offerings of either a collection of co
 required:
   - registrationStatus
   - requiredPermissionRegistration
+  - consumerKey
 properties:
+  consumerKey:
+    type: string
   explanationRequiredPermission:
     type: string
     description: |

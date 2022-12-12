@@ -1,0 +1,5 @@
+- consumerKey: MBO-toetsafname
+  additionalTimeInMin: 30
+  personalNeeds: ["extraTime", "spoken", "spell-checker-on-screen"]
+ 
+
