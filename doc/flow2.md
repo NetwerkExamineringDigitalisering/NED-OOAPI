@@ -76,11 +76,11 @@ PUT /a/ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-        "consumerKey": "MBO-toetsafname",
-		"duration": PT60M,  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
-		"safety": ["Fixed Location", "Surveillance"]
-		"offeringState": "active",
-		"locationCode":"A-22"
+	    "consumerKey": "MBO-toetsafname",
+	    "duration": PT60M,  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
+	    "safety": ["Fixed Location", "Surveillance"]
+	    "offeringState": "active",
+	    "locationCode":"A-22"
       }
    ],
    "startDateTime": "2022-06-21T12:45:00.000Z",
