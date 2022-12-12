@@ -62,9 +62,9 @@ This standard is developed by members from schools, software partners and NED. T
 | Youri van Pinxteren| Caci (Osiris) |youri.van.pinxteren@caci.nl |
 | Erik Degen | Coöperatie Examens MBO|Erik.degen@examensmbo.nl |
 | Jeroen van Waes |Examenservices| jvanwaes@webedu.nl |
-| Kees van Ginkel | Iddink (EduArte)  | [@mcginkel](https://github.com/mcginkel) -  kees@vanginkels.com |
-| Ton Weenk| Iddink (EduArte)| ton.weenk@iddinkgroup.nl|
-| John Schols | Iddink (EduArte)|john.schols@iddinkgroup.nl|
+| Kees van Ginkel | Topicus (EduArte)  | [@mcginkel](https://github.com/mcginkel) -  kees@vanginkels.com |
+| Ton Weenk| Topicus (EduArte)| ton.weenk@Topicus.nl|
+| John Schols | Topicus (EduArte)|john.schols@Topicus.nl|
 | Jos van der Arend | Kennisnet | J.vanderArend@kennisnet.nl |
 | Rob Vos | NED | r.vos@mbodigitaal.nl |
 | Nelleke Lafeber | NED | n.lafeber@mboraad.nl |
