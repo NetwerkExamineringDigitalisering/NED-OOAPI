@@ -57,13 +57,44 @@ get:
                 organization: "452c1a86-a0af-475b-b03f-724878b0f387"
                 consumers:
                 - consumerKey: MBO-toetsafname
-                  extraTime: P60M
+                  extraTime: PT60M
                   availablePersonalNeeds: ["extraTime", "spoken", "spell-checker-on-screen"]
                   exam: true
-                  resultValueType: "1.0-10.0"
+                  resultValueType: "1-10"
                   passFrom: "5.5"
                   retries: 2
                   status: active
+                  licensed: true
+            Request details of one test (Flow 0.2 minimal):
+              value:
+                componentId: "c5fca27e-ccc1-430d-9888-90e005ad6a87"
+                primaryCode: 
+                  codeType: testID
+                  code: "5M"
+                componentType: test
+                name:
+                - language: "nl-NL"
+                  value: "Rekenen 2F voor technische opleidingen"
+                abbreviation: "REK2F-TECH"
+                modeOfDelivery: ["situated"]
+                duration: "PT60M"
+                description:
+                - language: "nl-NL"
+                  value: "Rekentest MBO op niveau 2F toegespitst op technische opleidingen zoals procestechniek/machinebouw"
+                teachingLanguage: "nld"
+                assessment:
+                - language: "nl-NL"
+                  value: "Digitale toetsing"
+               consumers:
+                - consumerKey: MBO-toetsafname
+                  extraTime: PT0M
+                  availablePersonalNeeds: []
+                  exam: false
+                  resultValueType: "1-10"
+                  passFrom: "5.5"
+                  retries: 2
+                  status: active
+                  licensed: true
     '400':
       $ref: '../schemas/ErrorBadRequest.yaml'
     '401':
