@@ -41,7 +41,6 @@ classDiagram
 	iregularities : string
 	final : boolean 
 	documents : Document[]
-        weight: integer
     }
     class Document {
 	documentId : string
