@@ -39,7 +39,7 @@ classDiagram
 	extraTime : int
 	availablePersonalNeeds : PersonalNeedsType
 	exam : boolean
-	resultValuType : ResultValueType
+	resultValueType : ResultValueType
 	passFromn : string
 	retires : int
 	status : TestStatusType
