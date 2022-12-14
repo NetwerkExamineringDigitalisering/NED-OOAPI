@@ -166,7 +166,7 @@ classDiagram
     class Consumer {
     	consumerKey : string = "MBO-toetsafname"
 	userName : string
-	extraTimeInMin : int
+	additionalTimeInMin : int
 	personalNeeds : string[]
     }
     class Person {
@@ -223,7 +223,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 	{
     	"consumerKey": "MBO-toetsafname",
     	"userName": "1234321@student.roc.nl",
-    	"extraTimeInMin": 30,
+    	"additionalTimeInMin": 30,
     	"personalNeeds": 
 	  [
             "extraTime",
@@ -249,7 +249,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 	- primaryCode will be used for SSO purpose: uniquely identify a student : nlpersonrealid,eckid etc (details will follow), 
  - consumers
 	- add one of type "consumerKey": "MBO-toetsafname".
-	- attributes extraTimeInMin and personalNeeds are optional and used only for student role.
+	- attributes additionalTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
 
 
