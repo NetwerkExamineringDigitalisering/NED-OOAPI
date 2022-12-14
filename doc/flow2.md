@@ -165,7 +165,7 @@ classDiagram
     }
     class Consumer {
     	consumerKey : string = "MBO-toetsafname"
-	userName : string
+	startUpURL : string
 	additionalTimeInMin : int
 	personalNeeds : string[]
     }
@@ -222,7 +222,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
       [
 	{
     	"consumerKey": "MBO-toetsafname",
-    	"userName": "1234321@student.roc.nl",
+    	"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
     	"additionalTimeInMin": 30,
     	"personalNeeds": 
 	  [
@@ -309,7 +309,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
       [
 	{
     	"consumerKey": "MBO-toetsafname",
-    	"userName": "1234322@student.roc.nl",
+    	"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
     	"extraTimeInMin": 0,
     	"personalNeeds": [ ]
 	}
@@ -490,7 +490,7 @@ GET /a/ooapi/offerings/{offeringId}/associations
       	[
 	{
     	"consumerKey": "MBO-toetsafname",
-    	"userName": "1234321@student.roc.nl",
+    	"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
     	"extraTimeInMin": 30,
     	"personalNeeds": 
 	  [
