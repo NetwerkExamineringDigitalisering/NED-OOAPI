@@ -253,7 +253,7 @@ GET /offerings/{offeringId}/associations
     {
       "consumerKey": "MBO-toetsafname",
       "startUpURL": "https://myComponent.nl?test",
-      "extraTimeInMin": 30,
+      "additionalTimeInMin": 30,
       "personalNeeds": 
 	[
             "extraTime",
