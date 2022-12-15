@@ -18,7 +18,7 @@ properties:
     type: string
     description: The moment on which this offering starts, RFC3339 (date-time)
     format: date-time
-    example: 2020-12-15T08:50:00.000Z 
+    example: 2020-12-15T08:50:00+01:00 
   startOptions:
     type: string
     description: |

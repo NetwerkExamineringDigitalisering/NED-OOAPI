@@ -2264,7 +2264,7 @@ components:
           type: string
           description: The moment on which this offering starts, RFC3339 (date-time)
           format: date-time
-          example: '2020-12-15T08:50:00.000Z'
+          example: '2020-12-15T08:50:00+01:00'
         startOptions:
           type: string
           description: |
@@ -3056,12 +3056,12 @@ components:
               type: string
               description: The moment on which this offering starts, RFC3339 (date-time)
               format: date-time
-              example: '2020-12-15T20:00:00.000Z'
+              example: '2020-12-15T20:00:00+01:00'
             endDateTime:
               type: string
               description: The moment on which this offering ends, RFC3339 (date-time)
               format: date-time
-              example: '2020-12-16T20:00:00.000Z'
+              example: '2020-12-16T20:00:00+01:00'
             enrollStartDate:
               type: string
               description: The first day on which a student can enroll for this course.

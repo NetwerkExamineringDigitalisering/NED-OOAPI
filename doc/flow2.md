@@ -93,6 +93,9 @@ PUT /a/ooapi/offerings/{offeringId}
 - id of the offering (zitting) is created by sender (Toetsplanning).
 - Toetsafname makes a PUT endpoint available.
 - Object Offering has no state, so we add the state in the consumer extention. We support "active", "canceled"
+- For date-time elements we work with full date time including time-zone information:
+YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
+
 - attributes: 
 	- primaryCode.codeType is "offeringCode"; primaryCode.code doesn't have to be unqiue, must be recognised by afnameleider.
 	- For LanguageTypedString : array of groups language and value; value nl-nl for language is valid and supported, all other values will be ignored.
@@ -113,14 +116,14 @@ PUT /a/ooapi/offerings/{offeringId}
 	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
 
 The consumer fields for duration and the various tiem indicators allow for the following scenarios:
-| Scenario | startDateTime | entryDateTime | endDateTime  | duration | startOptions  | durationFrom | durationUntil |
-|----------------|--------------------|--------------------|--------------------|-----------------|-----------------|-------------------------|---------------|
-| Testmomement starts at 9:00 and   ends at 10:00. Candidates can start test at any moment during test moment                 | 2022-11-15T09:00T12:45:00.000Z   |                    | 2022-11-15 10:00   | PT40M  (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
-| Testmoment   starts at 9:00 and ends at 10:00. Candidates can start until 09:15                                             | 2022-11-15T09:00:00.000Z | 2022-11-15T09:15:00.000Z | 2022-11-15T10:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
-| Testmoment starts at 9:00 and   ends at 10:00. Candidates can start until 09:30 and can always finish their   test          | 2022-11-15 09:00   | 2022-11-15 09:30   | 2022-11-15 10:00   | PT40M (40   minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | testDuration  |
-| Testmoment   starts at 9:00. Candidates can start later. Testduration from start of   testmoment                            | 2022-11-15T09:00:00.000Z |                    | 2022-11-15T10:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | indivdualStart  | startDateTime           | null          |
-| Testmoment starts at 9:00.   Candidates can start when superviser releases testmoment. Testduration is   from releasemoment | 2022-11-15T09:00:00.000Z   |                    | 2022-11-15T10:00:00.000Z   | PT40M (40 minutes + 10 minutes for extra time) | triggeredStart  | triggeredStartDateTime  | testDuration  |
-| Practice   can be started by candidates until one hour before end of the practice period                                    | 2022-11-15T08:00:00.000Z | 2022-11-15T21:00:00.000Z | 2022-11-15T22:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | testDuration  |
+| Scenario Nummmer | Scenario | startDateTime | entryDateTime | endDateTime  | duration | startOptions  | durationFrom | durationUntil |
+|------------|----------------|--------------------|--------------------|--------------------|-----------------|-----------------|-------------------------|---------------|
+| 1 | Testmomement starts at 9:00 and   ends at 10:00. Candidates can start test at any moment during test moment                 | 2022-11-15T09:00T12:45:00.000Z   |                    | 2022-11-15T10:00:00.000Z   | PT40M  (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
+| 2 | Testmoment   starts at 9:00 and ends at 10:00. Candidates can start until 09:15                                             | 2022-11-15T09:00:00.000Z | 2022-11-15T09:15:00.000Z | 2022-11-15T10:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
+| 3 | Testmoment starts at 9:00 and   ends at 10:00. Candidates can start until 09:30 and can always finish their   test          | 2022-11-15T09:00:00.000Z   | 2022-11-15T09:30:00.000Z   | 2022-11-15T10:00:00.000Z   | PT40M (40   minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | testDuration  |
+| 4 | Testmoment starts at 9:00. Candidates can start later. Testduration from start of testmoment | 2022-11-15T09:00:00.000Z |                    | 2022-11-15T10:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | indivdualStart  | startDateTime  | null          |
+| 5 | Testmoment starts at 9:00.   Candidates can start when superviser releases testmoment. Testduration is   from releasemoment | 2022-11-15T09:00:00.000Z   |                    | 2022-11-15T10:00:00.000Z   | PT40M (40 minutes + 10 minutes for extra time) | triggeredStart  | triggeredStartDateTime  | testDuration  |
+| 6 | Practice can be started by candidates until one hour before end of the practice period | 2022-11-15T08:00:00.000Z | 2022-11-15T21:00:00.000Z | 2022-11-15T22:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | testDuration  |
 |
 
 ## Flow 2.2 : Create offering (zitting) with students
