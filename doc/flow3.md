@@ -30,8 +30,8 @@ classDiagram
 	comment : string
 	score : string
 	resultDate : date-time
-	weight : int
 	consumers : Consumer
+	weight : int
     }
     class Consumer {
 	consumerKey : string
@@ -63,7 +63,6 @@ PATCH /associations/{associationId}
       "comment": "string",
       "score": "9",
       "resultDate": "2020-09-28",
-      "weight": 100,
       "consumers": [
 	     {
 		"consumerKey": "MBO-toetsafname",
@@ -81,6 +80,7 @@ PATCH /associations/{associationId}
 		]
 	      }
       ],
+      "weight": 100,
     }
 }
 ```
@@ -252,7 +252,7 @@ GET /offerings/{offeringId}/associations
     {
       "consumerKey": "MBO-toetsafname",
       "startUpURL": "https://myComponent.nl?test",
-      "extraTimeInMin": 30,
+      "additionalTimeInMin": 30,
       "personalNeeds": 
 	[
             "extraTime",

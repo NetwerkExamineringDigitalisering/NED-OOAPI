@@ -25,7 +25,7 @@ properties:
       type of start that is allowed
     enum:
       - individualStart
-      - triggeredSart
+      - triggeredStart
   durationFrom:
     type: string
     description: |
