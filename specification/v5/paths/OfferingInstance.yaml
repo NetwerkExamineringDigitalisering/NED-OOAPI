@@ -1,5 +1,6 @@
 get:
   summary: GET /offerings/{offeringId}
+  operationId: listOfferingById
   description: Get a single offering.
   security:
     - oAuthFlows:  
@@ -110,6 +111,7 @@ get:
 
 patch:
   summary: PATCH /offerings/{offeringId}
+  operationId: partialUpdateOfferingById
   description: |
     PATCH update a single offering based on the offeringID provided. 
   security:
@@ -173,6 +175,7 @@ patch:
 
 put: 
   summary: PUT /offerings/{offeringId}
+  operationId: replaceOfferingById
   description: |
     PUT / create an offering  or update a single offering based on the offeringID provided. 
     You want to PUT a resource to the same URI you intend to GET it from. also check RFC 72314.3.4 PUT.

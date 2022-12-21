@@ -1,5 +1,6 @@
 get:
   summary: GET /offerings/{offeringId}/associations
+  operationId: listAssociationsByOfferingId
   description: Get a list of all offering associations.
   security:
     - oAuthFlows:  

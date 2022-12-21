@@ -1,5 +1,6 @@
 get:
   summary: GET /persons
+  operationId: listPersons
   security:
     - oAuthFlows:  
       - test-admin-flow
@@ -73,6 +74,7 @@ get:
 
 post:
   summary: POST /persons
+  operationId: createPerson
   description: POST a single person.
   security:
     - oAuthFlows:  

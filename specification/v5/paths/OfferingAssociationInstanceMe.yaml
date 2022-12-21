@@ -1,5 +1,6 @@
 post:
   summary: POST offerings/{offeringId}/associations/me
+  operationId: createAssociationByOfferingIdAndMyOAuthId
   description: |
     POST a single association to enroll a person based on hte .wellknown information of the person at the institution. The offeringId is provided in the path. 
   security:

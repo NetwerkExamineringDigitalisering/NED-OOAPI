@@ -1,5 +1,6 @@
 get:
   summary: GET /organizations/{organizationId}/components
+  operationId: listComponentsByOrganizationId
   description: Get an ordered list of all components for a given organization, ordered by name.
   tags:
     - organizations

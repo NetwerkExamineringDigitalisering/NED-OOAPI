@@ -14,8 +14,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - security for server to server communication based on oauth2 clientcredentials flow
 - documentType.yaml as part of the types of documents allowed
 - consumer attribute in result
-
-
+- operationId to all paths based on schema:
+    - put -> replaceResource
+    - get -> listResources
+    - get (byId) -> listResourceById
+    - post -> createResource
+    - patch -> partialUpdateResource
+    - /me -> {action}ResourceByMyOauthId
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
 - 

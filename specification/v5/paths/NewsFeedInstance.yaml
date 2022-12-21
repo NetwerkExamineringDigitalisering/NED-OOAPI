@@ -1,5 +1,6 @@
 get:
   summary: GET /news-feeds/{newsFeedId}
+  operationId: listNewsFeedById
   description: Get a single news feed.
   tags:
     - news

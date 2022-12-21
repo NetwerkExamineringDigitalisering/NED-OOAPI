@@ -1,5 +1,6 @@
 get:
   summary: GET /components/{componentId}
+  operationId: listComponentById
   description: Get a single component.
   security:
     - oAuthFlows:  

@@ -1,5 +1,6 @@
 post:
   summary: POST /associations/me
+  operationId: createAssociationByMyOAuthId
   description: POST a single association to enroll a person based on person information obtained from .wellknown endpoint and an offering. The offering can either be identified by an offeringId if known or the full offering details.
   security:
     - openId:

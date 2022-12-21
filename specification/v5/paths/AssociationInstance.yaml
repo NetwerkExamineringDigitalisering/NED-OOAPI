@@ -2,6 +2,7 @@ get:
   summary: GET /associations/{associationId}
   description: |
     Get a single association.
+  operationId: listAssociationById
   security:
     - oAuthFlows:  
       - test-admin-flow
@@ -54,6 +55,7 @@ get:
 
 patch:
   summary: PATCH /associations/{associationId}
+  operationId: partialUpdateAssociationById
   description: |
     Update the status or result of an enrollment. Other elements of the association object COULD 
     also be PATCHED. But are not likely and have therefor not been included in this endpoint.
@@ -164,6 +166,7 @@ put:
   summary: PUT /associations/{associationId}
   description: |
     PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
+  operationId: replaceAssociationById
   security:
     - oAuthFlows:  
       - test-admin-flow

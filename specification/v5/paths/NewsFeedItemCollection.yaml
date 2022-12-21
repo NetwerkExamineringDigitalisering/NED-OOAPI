@@ -1,5 +1,6 @@
 get:
   summary: GET /news-feeds/{newsFeedId}/news-items
+  operationId: listNewsItemsByNewsFeedId
   description: Get an ordered list of all news items.
   tags:
     - news

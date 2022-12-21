@@ -1,5 +1,6 @@
 get:
   summary: GET /education-specifications/{educationSpecificationId}/courses
+  operationId: listCoursesByEducationSpecificationId
   description: Get an ordered list of all courses given through this EducationSpecification.
   tags:
     - education specifications

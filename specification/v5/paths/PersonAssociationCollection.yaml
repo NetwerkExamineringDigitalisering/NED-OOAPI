@@ -1,5 +1,6 @@
 get:
   summary: GET /persons/{personId}/associations
+  operationId: listAssociationsByPersonId
   description: Get a list of all associations for an individual person.
   security:
     - oAuthFlows:  

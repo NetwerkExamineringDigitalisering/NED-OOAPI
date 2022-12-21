@@ -1,5 +1,6 @@
 get:
   summary: GET /components
+  operationId: listComponents
   description: Get a list of all components, ordered by name (ascending).
   tags:
     - components

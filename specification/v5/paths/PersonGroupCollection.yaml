@@ -1,5 +1,6 @@
 get:
   summary: GET /persons/{personId}/groups
+  operationId: listGroupsByPersonId
   description: Get an ordered list of all groups for a given person, ordered by name.
   tags:
     - persons

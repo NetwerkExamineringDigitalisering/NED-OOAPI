@@ -1,5 +1,6 @@
 get:
   summary: GET /organizations/{organizationId}/offerings
+  operationId: listOfferingsByOrganizationId
   description: Get a list of all offerings for a given organization
   tags:
     - organizations
