@@ -23,8 +23,8 @@ properties:
       - course
       - component
     example: component
-  academicSession:
-    $ref: './AcademicSession.yaml'
+  # academicSession:
+  #   $ref: './AcademicSession.yaml'
   name:
     type: array
     description: The name of this offering

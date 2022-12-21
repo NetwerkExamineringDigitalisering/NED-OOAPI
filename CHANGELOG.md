@@ -23,7 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - /me -> {action}ResourceByMyOauthId
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
-- 
+- double use of academicsession in offerings (defined both at aggregated level and at inherited level (inherted chosen))
 
 ### Changed
 - Changed examples to follow the flows from MBO-Toetsafname
