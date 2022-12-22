@@ -21,10 +21,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - post -> createResource
     - patch -> partialUpdateResource
     - /me -> {action}ResourceByMyOauthId
+
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
 - double use of academicsession in offerings (defined both at aggregated level and at inherited level (inherted chosen))
-
+ 
 ### Changed
 - Changed examples to follow the flows from MBO-Toetsafname
 - changed tags to reflect resource exposed by endpoints in stead of first name of endpoint for endpoints:
@@ -35,7 +36,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - changed date-time to include timezones (to improve date-time transfer between countries)
 - consumer object changed to be array in examples and allow for multiple arrays
 - removed readonly status of offeringId to allow complete offering object to be part of associations
-
+- removed academicSession (object) from courseOffering componentOffering programOffering and academicSession (string) form offering and added academicSession (object) to offering
 
 ## [5.0.0] - 2022-07-19
 The v5.0.0 release is the same as 5.0.0 RC2.
