@@ -21,7 +21,14 @@ sequenceDiagram
         end
     end
 
-
-
-
 ```
+
+Welke toets scenarios willen we hier kunnen ondervangen. 
+We sturen de informatie die ontvangen is vanuit het examensysteem terug richting het KRD.
+De vraag is wat is de plek waar je het resultaat op terug wilt schrijven.
+
+Je hebt hiervoor een haak nodig die in het SIS bestaat. Er zou een endpoint voorhanden moeten zijn binnen het SIS waar het KRD naartoe kan schrijven. 
+
+Wat weet het planningssysteem? Het resultaat, de association, de offering waar de association opgedaan is, het component (ID) waar de offering van is afgeleid en de student
+
+Wat heeft het SIS de student, de component 
