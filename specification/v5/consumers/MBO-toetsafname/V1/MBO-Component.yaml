@@ -1,0 +1,42 @@
+type: object
+description: MBO-toetsafname add-on attributes to the Component 
+required:
+ - consumerKey
+properties:
+  consumerKey:
+    type: string
+  extraTime:
+    desciption: 
+    type: integer
+  availablePersonalNeeds:
+      type: array
+      description: |
+        enum: see https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
+        examples : "extraTime", "spoken", "spell-checker-on-screen"
+      items:
+        type: string
+        enum:
+           - extraTime
+           - spoken 
+           - spell-checker-on-screen
+  exam:
+    type: boolean
+  resultValueType:
+    $ref: '../enumerations/resultValueType.yaml'
+  passFrom: 
+    type: string
+    enum:
+      - "5.5"
+  retries:
+    description: |
+      number of retries allowed for this component
+    type: integer
+  status:
+    type: string
+    enum: 
+      - active
+      - inactive
+  licensed:
+    type: boolean
+
+

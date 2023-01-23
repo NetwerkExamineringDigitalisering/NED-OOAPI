@@ -41,7 +41,7 @@ classDiagram
 	exam : boolean
 	resultValueType : ResultValueType
 	passFromn : string
-	retires : int
+	retries : int
 	status : TestStatusType
 	licensed : boolean
     }
