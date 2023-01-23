@@ -150,7 +150,7 @@ tags:
   - name: association_model
     x-displayName: Association
     description: |
-      <SchemaDefinition schemaRef="#/components/schemas/Association" />
+      <SchemaDefinition schemaRef="#/components/schemas/AssociationFull" />
   - name: person_model
     x-displayName: Person
     description: |

@@ -22,7 +22,7 @@ properties:
   exam:
     type: boolean
   resultValueType:
-    $ref: '../enumerations/resultValueType.yaml'
+    $ref: '../../../enumerations/resultValueType.yaml'
   passFrom: 
     type: string
     enum:
