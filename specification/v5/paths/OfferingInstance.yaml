@@ -134,7 +134,7 @@ patch:
     content:
         application/json:
           schema:
-            $ref: '../schemas/ComponentOffering.yaml'
+            $ref: '../schemas/ComponentOfferingNoId.yaml'
             title: componentOffering
           examples:
             Delete offering (Flow 2.5):
@@ -199,7 +199,7 @@ put:
     content:
         application/json:
           schema:
-            $ref: '../schemas/ComponentOffering.yaml'
+            $ref: '../schemas/ComponentOfferingNoId.yaml'
             title: componentOffering
           examples:
             Create offering (zitting) without students (flow 2.1):

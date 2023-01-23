@@ -76,7 +76,7 @@ tags:
   - name: association_model
     x-displayName: Association
     description: |
-      <SchemaDefinition schemaRef="#/components/schemas/Association" />
+      <SchemaDefinition schemaRef="#/components/schemas/AssociationFull" />
   - name: person_model
     x-displayName: Person
     description: |
@@ -435,7 +435,7 @@ components:
           example: NL
         nationality:
           type: string
-          description: The nationality of this person the nationality according to https://gist.github.com/zspine/2365808
+          description: The nationality (CCA3) of this person according to https://gist.github.com/zspine/2365808.
           example: Dutch
         dateOfNationality:
           type: string
@@ -566,10 +566,10 @@ components:
     Problem:
       type: object
       description: A system message including the error code and an explanation
-      required: &ref_104
+      required: &ref_109
         - status
         - title
-      properties: &ref_105
+      properties: &ref_110
         status:
           type: string
           description: The HTTP status code
@@ -596,7 +596,7 @@ components:
         - independent study: zelfstudie
         - external: extern
         - skills training: vaardighedentraining
-      enum: &ref_48
+      enum: &ref_51
         - test
         - lecture
         - practical
@@ -1793,7 +1793,7 @@ components:
               required: *ref_28
               properties: *ref_29
     Course:
-      allOf: &ref_49
+      allOf: &ref_52
         - type: object
           description: An object describing the metadata of a course
           required: *ref_44
@@ -1811,17 +1811,98 @@ components:
               description: The day this course ceases to be valid (e.g. exclusive).
               type: string
               format: date
+    resultValueType:
+      type: string
+      description: The result value type for this offering
+      enum: &ref_48
+        - pass-or-fail
+        - US letter
+        - UK letter
+        - 0-100
+        - 1-10
+      example: 1-10
+    MBO-Component:
+      type: object
+      description: MBO-toetsafname add-on attributes to the Component
+      required: &ref_49
+        - consumerKey
+      properties: &ref_50
+        consumerKey:
+          type: string
+        extraTime:
+          desciption: null
+          type: integer
+        availablePersonalNeeds:
+          type: array
+          description: |
+            enum: see https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
+            examples : "extraTime", "spoken", "spell-checker-on-screen"
+          items:
+            type: string
+            enum:
+              - extraTime
+              - spoken
+              - spell-checker-on-screen
+        exam:
+          type: boolean
+        resultValueType:
+          type: string
+          description: The result value type for this offering
+          enum: *ref_48
+          example: 1-10
+        passFrom:
+          type: string
+          enum:
+            - '5.5'
+        retries:
+          description: |
+            number of retries allowed for this component
+          type: integer
+        status:
+          type: string
+          enum:
+            - active
+            - inactive
+        licensed:
+          type: boolean
+    ConsumerOnComponent:
+      type: array
+      description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+      items: &ref_53
+        anyOf:
+          - type: object
+            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+            required: *ref_12
+            properties: *ref_13
+            additionalProperties: true
+          - type: object
+            description: MBO-toetsafname add-on attributes to the Component
+            required: *ref_49
+            properties: *ref_50
+      example: &ref_54
+        - consumerKey: MBO-toetsafname
+          extraTime: 30
+          availablePersonalNeeds:
+            - extraTime
+            - spoken
+            - spell-checker-on-screen
+          exam: true
+          resultValueType: 1.0-10.0
+          passFrom: 5.5
+          retries: 2
+          status: active
+          licensed: true
     Component:
       type: object
       description: A component is a part of a course
-      required: &ref_74
+      required: &ref_78
         - componentId
         - componentType
         - name
         - teachingLanguage
         - abbreviation
         - primaryCode
-      properties: &ref_75
+      properties: &ref_79
         componentId:
           type: string
           description: Unique id of this component
@@ -1853,7 +1934,7 @@ components:
             - independent study: zelfstudie
             - external: extern
             - skills training: vaardighedentraining
-          enum: *ref_48
+          enum: *ref_51
           example: test
         name:
           type: array
@@ -1980,7 +2061,7 @@ components:
               description: An identifier of another resource.
               format: uuid
             - title: Course object
-              allOf: *ref_49
+              allOf: *ref_52
         organization:
           description: |
             The organization which provides this component. [`expandable`](#tag/organization_model)
@@ -1998,25 +2079,20 @@ components:
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
-          items:
-            type: object
-            description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-            required: *ref_12
-            properties: *ref_13
-            additionalProperties: true
-          example: *ref_30
+          items: *ref_53
+          example: *ref_54
         ext:
           type: object
           description: Object for additional non-standard attributes
     Pagination:
       type: object
-      required: &ref_118
+      required: &ref_123
         - pageSize
         - pageNumber
         - hasPreviousPage
         - hasNextPage
         - items
-      properties: &ref_119
+      properties: &ref_124
         pageSize:
           type: integer
           format: int32
@@ -2044,9 +2120,9 @@ components:
     OfferingId:
       type: object
       description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
-      required: &ref_60
+      required: &ref_68
         - offeringId
-      properties: &ref_61
+      properties: &ref_69
         offeringId:
           type: string
           description: Unique id of this offering
@@ -2065,7 +2141,7 @@ components:
 
         Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
       example: semester
-      x-ooapi-extensible-enum: &ref_50
+      x-ooapi-extensible-enum: &ref_55
         - academic year
         - semester
         - trimester
@@ -2077,12 +2153,12 @@ components:
       description: |
         A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
         Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-      required: &ref_51
+      required: &ref_56
         - academicSessionId
         - name
         - startDate
         - endDate
-      properties: &ref_52
+      properties: &ref_57
         academicSessionId:
           type: string
           description: Unique id for this academic session
@@ -2102,7 +2178,7 @@ components:
 
             Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
           example: semester
-          x-ooapi-extensible-enum: *ref_50
+          x-ooapi-extensible-enum: *ref_55
         primaryCode:
           description: The primary human readable identifier for this academic session. This is often the source identifier as defined by the institution.
           example:
@@ -2146,8 +2222,8 @@ components:
               description: |
                 A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
                 Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-              required: *ref_51
-              properties: *ref_52
+              required: *ref_56
+              properties: *ref_57
         children:
           type: array
           description: The list of Academicsession children of this Session (e.g. all academic sessions in fall semester 20xx). This object is [`expandable`](#tag/academic_sessions_model)
@@ -2162,8 +2238,8 @@ components:
                 description: |
                   A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
                   Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                required: *ref_51
-                properties: *ref_52
+                required: *ref_56
+                properties: *ref_57
         year:
           description: The top level year of this session (e.g. 20xx where the current session is a week 40 of a semester). This object is [`expandable`](#tag/academic_sessions_model)
           oneOf:
@@ -2176,8 +2252,8 @@ components:
               description: |
                 A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
                 Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-              required: *ref_51
-              properties: *ref_52
+              required: *ref_56
+              properties: *ref_57
         otherCodes:
           type: array
           description: An array of additional human readable codes/identifiers for the entity being described.
@@ -2200,24 +2276,14 @@ components:
         ext:
           type: object
           description: Object for additional non-standard attributes
-    resultValueType:
-      type: string
-      description: The result value type for this offering
-      enum: &ref_57
-        - pass-or-fail
-        - US letter
-        - UK letter
-        - 0-100
-        - 1-10
-      example: 1-10
     RIO-Offering:
       type: object
       description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
-      required: &ref_53
+      required: &ref_58
         - registrationStatus
         - requiredPermissionRegistration
         - consumerKey
-      properties: &ref_54
+      properties: &ref_59
         consumerKey:
           type: string
         explanationRequiredPermission:
@@ -2246,10 +2312,10 @@ components:
     MBO-Offering:
       type: object
       description: MBO-toetsafname add-on attributes to the offerings
-      required: &ref_55
+      required: &ref_60
         - offeringState
         - consumerKey
-      properties: &ref_56
+      properties: &ref_61
         consumerKey:
           type: string
         duration:
@@ -2271,7 +2337,7 @@ components:
             type of start that is allowed
           enum:
             - individualStart
-            - triggeredSart
+            - triggeredStart
         durationFrom:
           type: string
           description: |
@@ -2331,7 +2397,7 @@ components:
     ConsumerOnOffering:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: &ref_58
+      items: &ref_62
         anyOf:
           - type: object
             description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
@@ -2340,13 +2406,13 @@ components:
             additionalProperties: true
           - type: object
             description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
-            required: *ref_53
-            properties: *ref_54
+            required: *ref_58
+            properties: *ref_59
           - type: object
             description: MBO-toetsafname add-on attributes to the offerings
-            required: *ref_55
-            properties: *ref_56
-      example: &ref_59
+            required: *ref_60
+            properties: *ref_61
+      example: &ref_63
         - consumerKey: MBO-toetsafname
           duration: P1DT30H4S
           lastPossibleStartDateTime: '2020-12-15T08:50:00'
@@ -2366,14 +2432,14 @@ components:
     OfferingProperties:
       type: object
       description: Either a program, course or component offering which descrbes the program, course or offering in time
-      required: &ref_62
+      required: &ref_70
         - primaryCode
         - offeringType
         - name
         - description
         - teachingLanguage
         - resultExpected
-      properties: &ref_63
+      properties: &ref_71
         primaryCode:
           description: The primary human readable identifier for this offering. This is often the source identifier as defined by the institution.
           example:
@@ -2393,12 +2459,21 @@ components:
             - component
           example: component
         academicSession:
-          type: object
           description: |
-            A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
-            Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-          required: *ref_51
-          properties: *ref_52
+            The academicsession during which this offering takes place. [`expandable`](#tag/academic_session_model)
+            By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
+          oneOf:
+            - title: academicSessionId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: AcademicSession object
+              type: object
+              description: |
+                A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
+                Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
+              required: *ref_56
+              properties: *ref_57
         name:
           type: array
           description: The name of this offering
@@ -2497,7 +2572,7 @@ components:
         resultValueType:
           type: string
           description: The result value type for this offering
-          enum: *ref_57
+          enum: *ref_48
           example: 1-10
         link:
           type: string
@@ -2517,21 +2592,11 @@ components:
         consumers:
           type: array
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-          items: *ref_58
-          example: *ref_59
+          items: *ref_62
+          example: *ref_63
         ext:
           type: object
           description: Object for additional non-standard attributes
-    Offering:
-      allOf: &ref_68
-        - type: object
-          description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
-          required: *ref_60
-          properties: *ref_61
-        - type: object
-          description: Either a program, course or component offering which descrbes the program, course or offering in time
-          required: *ref_62
-          properties: *ref_63
     costType:
       type: string
       description: |
@@ -2548,9 +2613,9 @@ components:
         - total costs
     Cost:
       type: object
-      required: &ref_69
+      required: &ref_73
         - costType
-      properties: &ref_70
+      properties: &ref_74
         costType:
           type: string
           description: |
@@ -2710,12 +2775,12 @@ components:
     Room:
       type: object
       description: An area within a building where education can take place
-      required: &ref_72
+      required: &ref_76
         - roomId
         - roomType
         - name
         - primaryCode
-      properties: &ref_73
+      properties: &ref_77
         roomId:
           type: string
           description: Unique id for this room
@@ -2844,9 +2909,19 @@ components:
         ext:
           type: object
           description: Object for additional non-standard attributes
+    Offering:
+      allOf: &ref_72
+        - type: object
+          description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
+          required: *ref_68
+          properties: *ref_69
+        - type: object
+          description: Either a program, course or component offering which descrbes the program, course or offering in time
+          required: *ref_70
+          properties: *ref_71
     ProgramOffering:
-      allOf: &ref_71
-        - allOf: *ref_68
+      allOf: &ref_75
+        - allOf: *ref_72
         - type: object
           required:
             - modeOfStudy
@@ -2894,8 +2969,8 @@ components:
               description: Price information for this offering.
               items:
                 type: object
-                required: *ref_69
-                properties: *ref_70
+                required: *ref_73
+                properties: *ref_74
                 additionalProperties: false
               minItems: 1
             program:
@@ -2923,25 +2998,9 @@ components:
                   description: A description of a group of people working together to achieve a goal
                   required: *ref_28
                   properties: *ref_29
-            academicSession:
-              description: |
-                The academicsession during which this programoffering takes place. [`expandable`](#tag/academic_session_model)
-                By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
-              oneOf:
-                - title: academicSessionId
-                  type: string
-                  description: An identifier of another resource.
-                  format: uuid
-                - title: AcademicSession object
-                  type: object
-                  description: |
-                    A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
-                    Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                  required: *ref_51
-                  properties: *ref_52
     CourseOffering:
-      allOf: &ref_76
-        - allOf: *ref_68
+      allOf: &ref_80
+        - allOf: *ref_72
         - type: object
           required:
             - modeOfStudy
@@ -2989,8 +3048,8 @@ components:
               description: Price information for this offering.
               items:
                 type: object
-                required: *ref_69
-                properties: *ref_70
+                required: *ref_73
+                properties: *ref_74
                 additionalProperties: false
             course:
               description: |
@@ -3002,7 +3061,7 @@ components:
                   description: An identifier of another resource.
                   format: uuid
                 - title: Course object
-                  allOf: *ref_49
+                  allOf: *ref_52
             programOffering:
               description: |
                 The programoffering where this courseoffering is related to. [`expandable`](#tag/program_offering_model)
@@ -3013,7 +3072,7 @@ components:
                   description: An identifier of another resource.
                   format: uuid
                 - title: ProgramOffering object
-                  allOf: *ref_71
+                  allOf: *ref_75
             organization:
               description: |
                 The organization that manages this courseoffering. [`expandable`](#tag/organization_model)
@@ -3028,25 +3087,12 @@ components:
                   description: A description of a group of people working together to achieve a goal
                   required: *ref_28
                   properties: *ref_29
-            academicSession:
-              description: |
-                The academicsession during which this courseoffering takes place. [`expandable`](#tag/academic_session_model)
-                By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
-              oneOf:
-                - title: academicSessionId
-                  type: string
-                  description: An identifier of another resource.
-                  format: uuid
-                - title: AcademicSession object
-                  type: object
-                  description: |
-                    A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
-                    Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                  required: *ref_51
-                  properties: *ref_52
-    ComponentOffering:
-      allOf: &ref_101
-        - allOf: *ref_68
+    ComponentOfferingNoId:
+      allOf: &ref_81
+        - type: object
+          description: Either a program, course or component offering which descrbes the program, course or offering in time
+          required: *ref_70
+          properties: *ref_71
         - type: object
           required:
             - startDateTime
@@ -3089,14 +3135,14 @@ components:
               description: Price information for this offering.
               items:
                 type: object
-                required: *ref_69
-                properties: *ref_70
+                required: *ref_73
+                properties: *ref_74
                 additionalProperties: false
             room:
               type: object
               description: An area within a building where education can take place
-              required: *ref_72
-              properties: *ref_73
+              required: *ref_76
+              properties: *ref_77
             component:
               description: |
                 The component that is offered in this componentoffering. [`expandable`](#tag/component_model)
@@ -3109,8 +3155,8 @@ components:
                 - title: Component object
                   type: object
                   description: A component is a part of a course
-                  required: *ref_74
-                  properties: *ref_75
+                  required: *ref_78
+                  properties: *ref_79
             courseOffering:
               description: |
                 The courseoffering where this componentoffering is related to. [`expandable`](#tag/course_offering_model)
@@ -3121,7 +3167,7 @@ components:
                   description: An identifier of another resource.
                   format: uuid
                 - title: CourseOffering object
-                  allOf: *ref_76
+                  allOf: *ref_80
             organization:
               description: |
                 The organization that manages this componentoffering. [`expandable`](#tag/organization_model)
@@ -3136,22 +3182,13 @@ components:
                   description: A description of a group of people working together to achieve a goal
                   required: *ref_28
                   properties: *ref_29
-            academicSession:
-              description: |
-                The academicsession during which this componentoffering takes place. [`expandable`](#tag/academic_session_model)
-                By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
-              oneOf:
-                - title: academicSessionId
-                  type: string
-                  description: An identifier of another resource.
-                  format: uuid
-                - title: AcademicSession object
-                  type: object
-                  description: |
-                    A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
-                    Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                  required: *ref_51
-                  properties: *ref_52
+    ComponentOffering:
+      allOf: &ref_104
+        - type: object
+          description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
+          required: *ref_68
+          properties: *ref_69
+        - allOf: *ref_81
     associationRole:
       type: string
       description: |
@@ -3161,7 +3198,7 @@ components:
           - teaching assistant: studentassistent
           - coordinator: coördinator
           - guest: gast
-      enum: &ref_79
+      enum: &ref_84
         - student
         - lecturer
         - teaching assistant
@@ -3171,7 +3208,7 @@ components:
     associationState:
       type: string
       description: The state of this association
-      enum: &ref_80
+      enum: &ref_85
         - pending
         - canceled
         - denied
@@ -3181,7 +3218,7 @@ components:
     resultState:
       type: string
       description: The state of this result
-      enum: &ref_90
+      enum: &ref_95
         - in progress
         - postponed
         - completed
@@ -3189,19 +3226,19 @@ components:
       example: completed
     AssociationId:
       type: object
-      properties: &ref_84
+      properties: &ref_89
         associationId:
           type: string
           description: Unique id of this association
           format: uuid
           example: 123e4567-e89b-12d3-a456-426614174000
           readOnly: true
-      required: &ref_85
+      required: &ref_90
         - associationId
     remoteAssociationState:
       type: string
       description: The state of this association for the institution performing the request.
-      enum: &ref_81
+      enum: &ref_86
         - pending
         - canceled
         - denied
@@ -3211,9 +3248,9 @@ components:
     MBO-Association:
       type: object
       description: MBO-toetsafname add-on attributes to the Association
-      required: &ref_77
+      required: &ref_82
         - consumerKey
-      properties: &ref_78
+      properties: &ref_83
         consumerKey:
           type: string
         startUpURL:
@@ -3243,7 +3280,7 @@ components:
     ConsumerOnAssociation:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: &ref_82
+      items: &ref_87
         anyOf:
           - type: object
             description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
@@ -3252,9 +3289,9 @@ components:
             additionalProperties: true
           - type: object
             description: MBO-toetsafname add-on attributes to the Association
-            required: *ref_77
-            properties: *ref_78
-      example: &ref_83
+            required: *ref_82
+            properties: *ref_83
+      example: &ref_88
         - consumerKey: MBO-toetsafname
           additionalTimeInMin: 30
           personalNeeds:
@@ -3264,11 +3301,11 @@ components:
     AssociationProperties:
       type: object
       description: A relationship between a person object and an offering
-      required: &ref_86
+      required: &ref_91
         - associationType
         - role
         - state
-      properties: &ref_87
+      properties: &ref_92
         associationType:
           type: string
           description: The type of this association
@@ -3287,41 +3324,41 @@ components:
               - teaching assistant: studentassistent
               - coordinator: coördinator
               - guest: gast
-          enum: *ref_79
+          enum: *ref_84
           example: student
         state:
           readOnly: true
           type: string
           description: The state of this association
-          enum: *ref_80
+          enum: *ref_85
           example: associated
         remoteState:
           writeOnly: true
           type: string
           description: The state of this association for the institution performing the request.
-          enum: *ref_81
+          enum: *ref_86
           example: associated
         consumers:
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           type: array
-          items: *ref_82
-          example: *ref_83
+          items: *ref_87
+          example: *ref_88
         ext:
           type: object
           description: Object for additional non-standard attributes
     Association:
-      allOf: &ref_96
+      allOf: &ref_101
         - type: object
-          properties: *ref_84
-          required: *ref_85
+          properties: *ref_89
+          required: *ref_90
         - type: object
           description: A relationship between a person object and an offering
-          required: *ref_86
-          properties: *ref_87
+          required: *ref_91
+          properties: *ref_92
     passState:
       type: string
       description: The state of this result
-      enum: &ref_91
+      enum: &ref_96
         - unknown
         - passed
         - failed
@@ -3329,10 +3366,10 @@ components:
     MBO-Result:
       type: object
       description: MBO-toetsafname add-on attributes to the result
-      required: &ref_88
+      required: &ref_93
         - attendance
         - consumerKey
-      properties: &ref_89
+      properties: &ref_94
         consumerKey:
           type: string
         attendance:
@@ -3381,7 +3418,7 @@ components:
     ConsumerOnResult:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: &ref_92
+      items: &ref_97
         anyOf:
           - type: object
             description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
@@ -3390,9 +3427,9 @@ components:
             additionalProperties: true
           - type: object
             description: MBO-toetsafname add-on attributes to the result
-            required: *ref_88
-            properties: *ref_89
-      example: &ref_93
+            required: *ref_93
+            properties: *ref_94
+      example: &ref_98
         - consumerKey: MBO-toetsafname
           attendance: present
           assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
@@ -3406,19 +3443,19 @@ components:
     Result:
       type: object
       description: A result as part of an association
-      required: &ref_94
+      required: &ref_99
         - state
         - resultDate
-      properties: &ref_95
+      properties: &ref_100
         state:
           type: string
           description: The state of this result
-          enum: *ref_90
+          enum: *ref_95
           example: completed
         pass:
           type: string
           description: The state of this result
-          enum: *ref_91
+          enum: *ref_96
           example: passed
         comment:
           type: string
@@ -3435,69 +3472,17 @@ components:
         consumers:
           type: array
           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-          items: *ref_92
-          example: *ref_93
+          items: *ref_97
+          example: *ref_98
         ext:
           type: object
           description: Object for additional non-standard attributes
-    ProgramResult:
-      allOf: &ref_97
-        - type: object
-          description: A result as part of an association
-          required: *ref_94
-          properties: *ref_95
-        - type: object
-          required:
-            - studyLoad
-          properties:
-            studyLoad:
-              type: object
-              description: The amount of effort to complete this education in the specified unit.
-              properties: *ref_25
-              example: *ref_26
-    ProgramOfferingAssociationExpandable:
-      allOf: &ref_120
-        - allOf: *ref_96
-        - type: object
-          properties:
-            result:
-              allOf: *ref_97
-            person:
-              type: object
-              properties: *ref_14
-              required: *ref_15
-    CourseResult:
-      allOf: &ref_98
-        - type: object
-          description: A result as part of an association
-          required: *ref_94
-          properties: *ref_95
-        - type: object
-          required:
-            - studyLoad
-          properties:
-            studyLoad:
-              type: object
-              description: The amount of effort to complete this education in the specified unit.
-              properties: *ref_25
-              example: *ref_26
-    CourseOfferingAssociationExpandable:
-      allOf: &ref_121
-        - allOf: *ref_96
-        - type: object
-          properties:
-            result:
-              allOf: *ref_98
-            person:
-              type: object
-              properties: *ref_14
-              required: *ref_15
     ComponentResult:
-      allOf: &ref_99
+      allOf: &ref_102
         - type: object
           description: A result as part of an association
-          required: *ref_94
-          properties: *ref_95
+          required: *ref_99
+          properties: *ref_100
         - type: object
           required:
             - weight
@@ -3509,64 +3494,17 @@ components:
               minimum: 0
               maximum: 100
               example: 100
-    ComponentOfferingAssociationExpandable:
-      allOf: &ref_122
-        - allOf: *ref_96
-        - type: object
-          properties:
-            result:
-              allOf: *ref_99
-            person:
-              type: object
-              properties: *ref_14
-              required: *ref_15
     ComponentOfferingAssociation:
-      allOf: &ref_100
-        - allOf: *ref_96
-        - type: object
-          properties:
-            result:
-              allOf: *ref_99
-    ComponentOfferingAssociationExpandedWrite:
-      allOf: &ref_123
-        - allOf: *ref_100
-      properties: &ref_124
-        person:
-          oneOf:
-            - title: personId
-              type: string
-              description: An identifier of another resource.
-              format: uuid
-            - title: Person
-              allOf: *ref_41
-        offering:
-          oneOf:
-            - title: offeringId
-              type: string
-              description: An identifier of another resource.
-              format: uuid
-            - title: ComponentOffering
-              allOf: *ref_101
-    ProgramOfferingAssociation:
-      allOf: &ref_102
-        - allOf: *ref_96
-        - type: object
-          properties:
-            result:
-              allOf: *ref_97
-    CourseOfferingAssociation:
       allOf: &ref_103
-        - allOf: *ref_96
+        - allOf: *ref_101
         - type: object
           properties:
             result:
-              allOf: *ref_98
-    AssociationFull:
-      oneOf: &ref_125
-        - allOf: *ref_102
+              allOf: *ref_102
+    ComponentOfferingAssociationExpanded:
+      allOf: &ref_126
         - allOf: *ref_103
-        - allOf: *ref_100
-      properties: &ref_126
+      properties: &ref_127
         person:
           readOnly: true
           oneOf:
@@ -3583,17 +3521,104 @@ components:
               description: An identifier of another resource.
               format: uuid
             - title: ComponentOffering
-              allOf: *ref_101
+              allOf: *ref_104
+    ComponentOfferingAssociationExpandedWrite:
+      allOf: &ref_128
+        - allOf: *ref_103
+      properties: &ref_129
+        person:
+          oneOf:
+            - title: personId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Person
+              allOf: *ref_41
+        offering:
+          oneOf:
+            - title: offeringId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: ComponentOffering
+              allOf: *ref_104
+    ProgramResult:
+      allOf: &ref_105
+        - type: object
+          description: A result as part of an association
+          required: *ref_99
+          properties: *ref_100
+        - type: object
+          required:
+            - studyLoad
+          properties:
+            studyLoad:
+              type: object
+              description: The amount of effort to complete this education in the specified unit.
+              properties: *ref_25
+              example: *ref_26
+    ProgramOfferingAssociation:
+      allOf: &ref_107
+        - allOf: *ref_101
+        - type: object
+          properties:
+            result:
+              allOf: *ref_105
+    CourseResult:
+      allOf: &ref_106
+        - type: object
+          description: A result as part of an association
+          required: *ref_99
+          properties: *ref_100
+        - type: object
+          required:
+            - studyLoad
+          properties:
+            studyLoad:
+              type: object
+              description: The amount of effort to complete this education in the specified unit.
+              properties: *ref_25
+              example: *ref_26
+    CourseOfferingAssociation:
+      allOf: &ref_108
+        - allOf: *ref_101
+        - type: object
+          properties:
+            result:
+              allOf: *ref_106
+    AssociationFull:
+      oneOf: &ref_130
+        - allOf: *ref_107
+        - allOf: *ref_108
+        - allOf: *ref_103
+      properties: &ref_131
+        person:
+          readOnly: true
+          oneOf:
+            - title: personId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Person
+              allOf: *ref_41
+        offering:
+          oneOf:
+            - title: offeringId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: ComponentOffering
+              allOf: *ref_104
             - title: CourseOffering
-              allOf: *ref_76
+              allOf: *ref_80
             - title: ProgramOffering
-              allOf: *ref_71
+              allOf: *ref_75
     PostResponse:
       type: object
       description: A system message as a response to a POST message
-      required: &ref_127
+      required: &ref_132
         - message
-      properties: &ref_128
+      properties: &ref_133
         message:
           description: information displayed to user
           type: array
@@ -3613,74 +3638,81 @@ components:
   responses:
     ErrorBadRequest:
       description: Bad request
-      content: &ref_106
-        application/problem+json:
-          schema:
-            type: object
-            description: A system message including the error code and an explanation
-            required: *ref_104
-            properties: *ref_105
-    ErrorUnauthorized:
-      description: Unauthorized
-      content: &ref_107
-        application/problem+json:
-          schema:
-            type: object
-            description: A system message including the error code and an explanation
-            required: *ref_104
-            properties: *ref_105
-    ErrorForbidden:
-      description: Forbidden
-      content: &ref_108
-        application/problem+json:
-          schema:
-            type: object
-            description: A system message including the error code and an explanation
-            required: *ref_104
-            properties: *ref_105
-    ErrorNotFound:
-      description: Not Found
-      content: &ref_109
-        application/problem+json:
-          schema:
-            type: object
-            description: A system message including the error code and an explanation
-            required: *ref_104
-            properties: *ref_105
-    ErrorMethodNotAllowed:
-      description: Method not allowed
-      content: &ref_110
-        application/problem+json:
-          schema:
-            type: object
-            description: A system message including the error code and an explanation
-            required: *ref_104
-            properties: *ref_105
-    ErrorTooManyRequests:
-      description: Too many requests
       content: &ref_111
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_104
-            properties: *ref_105
-    ErrorInternalServerError:
-      description: Internal Server Error
+            required: *ref_109
+            properties: *ref_110
+    ErrorUnauthorized:
+      description: Unauthorized
       content: &ref_112
         application/problem+json:
           schema:
             type: object
             description: A system message including the error code and an explanation
-            required: *ref_104
-            properties: *ref_105
+            required: *ref_109
+            properties: *ref_110
+    ErrorForbidden:
+      description: Forbidden
+      content: &ref_113
+        application/problem+json:
+          schema:
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_109
+            properties: *ref_110
+    ErrorNotFound:
+      description: Not Found
+      content: &ref_114
+        application/problem+json:
+          schema:
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_109
+            properties: *ref_110
+    ErrorMethodNotAllowed:
+      description: Method not allowed
+      content: &ref_115
+        application/problem+json:
+          schema:
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_109
+            properties: *ref_110
+    ErrorTooManyRequests:
+      description: Too many requests
+      content: &ref_116
+        application/problem+json:
+          schema:
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_109
+            properties: *ref_110
+    ErrorInternalServerError:
+      description: Internal Server Error
+      content: &ref_117
+        application/problem+json:
+          schema:
+            type: object
+            description: A system message including the error code and an explanation
+            required: *ref_109
+            properties: *ref_110
   parameters:
+    primaryCode:
+      name: primaryCode
+      in: query
+      description: The primaryCode of the requested item. This is often the source identifier as defined by the institution.
+      required: false
+      schema: &ref_118
+        type: string
     pageSize:
       name: pageSize
       in: query
       description: The number of items per page
       required: false
-      schema: &ref_113
+      schema: &ref_119
         type: integer
         format: int32
         default: 10
@@ -3695,7 +3727,7 @@ components:
       in: query
       description: The page number to get. Page numbers start at 1.
       required: false
-      schema: &ref_114
+      schema: &ref_120
         type: integer
         format: int32
         example: 1
@@ -3705,21 +3737,21 @@ components:
       in: query
       description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
       required: false
-      schema: &ref_115
+      schema: &ref_121
         type: string
     search:
       name: q
       in: query
       description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
       required: false
-      schema: &ref_116
+      schema: &ref_122
         type: string
     teachingLanguage:
       name: teachingLanguage
       in: query
       description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
       required: false
-      schema: &ref_117
+      schema: &ref_125
         type: string
         pattern: ^[a-z]{3}$
         minLength: 3
@@ -3729,6 +3761,7 @@ paths:
   /persons/{personId}:
     get:
       summary: GET /persons/{personId}
+      operationId: listPersonById
       description: Get a single person.
       security:
         - oAuthFlows:
@@ -3752,28 +3785,29 @@ paths:
                 allOf: *ref_41
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117
   /components/{componentId}:
     get:
       summary: GET /components/{componentId}
+      operationId: listComponentById
       description: Get a single component.
       security:
         - oAuthFlows:
@@ -3808,8 +3842,8 @@ paths:
               schema:
                 type: object
                 description: A component is a part of a course
-                required: *ref_74
-                properties: *ref_75
+                required: *ref_78
+                properties: *ref_79
               examples:
                 Request details of one test (Flow 0.2):
                   value:
@@ -3841,34 +3875,167 @@ paths:
                           - spoken
                           - spell-checker-on-screen
                         exam: true
-                        resultValueType: 1.0-10.0
+                        resultValueType: 1-10
                         passFrom: '5.5'
                         retries: 2
                         status: active
+                        licensed: true
+                Request details of one test (Flow 0.2 minimal):
+                  value:
+                    componentId: c5fca27e-ccc1-430d-9888-90e005ad6a86
+                    primaryCode:
+                      codeType: testID
+                      code: '5'
+                    componentType: test
+                    name:
+                      - language: nl-NL
+                        value: Rekenen 2F voor technische opleidingen
+                    abbreviation: REK2F-TECH
+                    modeOfDelivery:
+                      - situated
+                    duration: PT60M
+                    description:
+                      - language: nl-NL
+                        value: Rekentest MBO op niveau 2F toegespitst op technische opleidingen zoals procestechniek/machinebouw
+                    teachingLanguage: nld
+                    assessment:
+                      - language: nl-NL
+                        value: Digitale toetsing
+                    consumers:
+                      - consumerKey: MBO-toetsafname
+                        extraTime: P60M
+                        availablePersonalNeeds:
+                          - extraTime
+                          - spoken
+                          - spell-checker-on-screen
+                        exam: true
+                        resultValueType: 1-10
+                        passFrom: '5.5'
+                        retries: 2
+                        status: active
+                        licensed: true
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
+          content: *ref_117
+  /components:
+    get:
+      summary: GET /components
+      operationId: listComponents
+      description: Get a list of all components, ordered by name (ascending).
+      security:
+        - oAuthFlows:
+            - test-admin-flow
+      tags:
+        - components
+      parameters:
+        - name: primaryCode
+          in: query
+          description: The primaryCode of the requested item. This is often the source identifier as defined by the institution.
+          required: false
+          schema: *ref_118
+        - name: pageSize
+          in: query
+          description: The number of items per page
+          required: false
+          schema: *ref_119
+        - name: pageNumber
+          in: query
+          description: The page number to get. Page numbers start at 1.
+          required: false
+          schema: *ref_120
+        - name: consumer
+          in: query
+          description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+          required: false
+          schema: *ref_121
+        - name: q
+          in: query
+          description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
+          required: false
+          schema: *ref_122
+        - name: sort
+          in: query
+          explode: false
+          description: 'Sort by one or more attributes, the default is ascending. Prefixing the attribute with a minus sign `-` allows for descending sort. Examples: [ATTR | -ATTR | ATTR1,-ATTR2]'
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - componentId
+                - name
+                - '-componentId'
+                - '-name'
+            default:
+              - name
+            example:
+              - name
+              - '-componentId'
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - type: object
+                    required: *ref_123
+                    properties: *ref_124
+                  - type: object
+                    required:
+                      - items
+                    properties:
+                      items:
+                        type: array
+                        items:
+                          type: object
+                          description: A component is a part of a course
+                          required: *ref_78
+                          properties: *ref_79
+                      ext:
+                        type: object
+                        description: Object for additional non-standard attributes
+        '400':
+          description: Bad request
+          content: *ref_111
+        '401':
+          description: Unauthorized
           content: *ref_112
+        '403':
+          description: Forbidden
+          content: *ref_113
+        '405':
+          description: Method not allowed
+          content: *ref_115
+        '429':
+          description: Too many requests
+          content: *ref_116
+        '500':
+          description: Internal Server Error
+          content: *ref_117
   /components/{componentId}/offerings:
     get:
       summary: GET /components/{componentId}/offerings
+      operationId: listOfferingsByComponentId
       description: Get a list of all offerings for this component, ordered chronologically.
       security:
         - oAuthFlows:
@@ -3887,27 +4054,27 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_113
+          schema: *ref_119
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_114
+          schema: *ref_120
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_115
+          schema: *ref_121
         - name: q
           in: query
           description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
           required: false
-          schema: *ref_116
+          schema: *ref_122
         - name: teachingLanguage
           in: query
           description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
           required: false
-          schema: *ref_117
+          schema: *ref_125
           example: nld
         - name: resultExpected
           in: query
@@ -3960,8 +4127,8 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: *ref_118
-                    properties: *ref_119
+                    required: *ref_123
+                    properties: *ref_124
                   - type: object
                     required:
                       - items
@@ -3969,34 +4136,35 @@ paths:
                       items:
                         type: array
                         items:
-                          allOf: *ref_101
+                          allOf: *ref_104
                       ext:
                         type: object
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117
   /offerings/{offeringId}:
     get:
       summary: GET /offerings/{offeringId}
+      operationId: listOfferingById
       description: Get a single offering.
       security:
         - oAuthFlows:
@@ -4036,7 +4204,7 @@ paths:
               schema:
                 oneOf:
                   - title: componentOffering
-                    allOf: *ref_101
+                    allOf: *ref_104
               examples:
                 Read current state of offering (flow 2.6):
                   value:
@@ -4088,27 +4256,28 @@ paths:
                     endDateTime: '2022-06-21T13:45:00+01:00'
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117
     patch:
       summary: PATCH /offerings/{offeringId}
+      operationId: partialUpdateOfferingById
       description: |
         PATCH update a single offering based on the offeringID provided. 
       security:
@@ -4132,7 +4301,7 @@ paths:
           application/json:
             schema:
               title: componentOffering
-              allOf: *ref_101
+              allOf: *ref_81
             examples:
               Delete offering (Flow 2.5):
                 value:
@@ -4151,27 +4320,28 @@ paths:
           description: OK
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117
     put:
       summary: PUT /offerings/{offeringId}
+      operationId: replaceOfferingById
       description: |
         PUT / create an offering  or update a single offering based on the offeringID provided. 
         You want to PUT a resource to the same URI you intend to GET it from. also check RFC 72314.3.4 PUT.
@@ -4196,7 +4366,7 @@ paths:
           application/json:
             schema:
               title: componentOffering
-              allOf: *ref_101
+              allOf: *ref_81
             examples:
               Create offering (zitting) without students (flow 2.1):
                 value:
@@ -4253,28 +4423,29 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117
   /offerings/{offeringId}/associations:
     get:
       summary: GET /offerings/{offeringId}/associations
+      operationId: listAssociationsByOfferingId
       description: Get a list of all offering associations.
       security:
         - oAuthFlows:
@@ -4293,17 +4464,17 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_113
+          schema: *ref_119
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_114
+          schema: *ref_120
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_115
+          schema: *ref_121
         - name: associationType
           in: query
           description: Filter by association type
@@ -4311,9 +4482,7 @@ paths:
           schema:
             type: string
             enum:
-              - programOffering
-              - courseOffering
-              - componentOffering
+              - componentOfferingAssociation
         - name: role
           in: query
           description: Filter by role
@@ -4327,7 +4496,7 @@ paths:
                 - teaching assistant: studentassistent
                 - coordinator: coördinator
                 - guest: gast
-            enum: *ref_79
+            enum: *ref_84
             example: student
         - name: state
           in: query
@@ -4336,7 +4505,7 @@ paths:
           schema:
             type: string
             description: The state of this association
-            enum: *ref_80
+            enum: *ref_85
             example: associated
         - name: result-state
           in: query
@@ -4345,7 +4514,7 @@ paths:
           schema:
             type: string
             description: The state of this result
-            enum: *ref_90
+            enum: *ref_95
             example: completed
         - name: sort
           in: query
@@ -4371,8 +4540,8 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: *ref_118
-                    properties: *ref_119
+                    required: *ref_123
+                    properties: *ref_124
                   - type: object
                     required:
                       - items
@@ -4381,37 +4550,36 @@ paths:
                         type: array
                         items:
                           oneOf:
-                            - allOf: *ref_120
-                            - allOf: *ref_121
-                            - allOf: *ref_122
+                            - allOf: *ref_126
+                              properties: *ref_127
                       ext:
                         type: object
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
-  /offerings/{offeringId}/associations{associationId}:
+          content: *ref_117
+  /offerings/{offeringId}/associations/{associationId}:
     put:
       summary: PUT /offerings/{offeringId}/associations/{associationId}
-      operationId: replace-association
+      operationId: replaceAssociationByOfferingIdAndId
       description: |
         PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
       security:
@@ -4439,8 +4607,8 @@ paths:
         content:
           application/json:
             schema:
-              allOf: *ref_123
-              properties: *ref_124
+              allOf: *ref_128
+              properties: *ref_129
             examples:
               Add student to created offering (zitting) (flow 2.2.B and 2.3):
                 value:
@@ -4498,30 +4666,31 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117
   /associations/{associationId}:
     get:
       summary: GET /associations/{associationId}
       description: |
         Get a single association.
+      operationId: listAssociationById
       security:
         - oAuthFlows:
             - test-admin-flow
@@ -4553,31 +4722,32 @@ paths:
           content:
             application/json:
               schema:
-                oneOf: *ref_125
-                properties: *ref_126
+                oneOf: *ref_130
+                properties: *ref_131
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117
     patch:
       summary: PATCH /associations/{associationId}
+      operationId: partialUpdateAssociationById
       description: |
         Update the status or result of an enrollment. Other elements of the association object COULD 
         also be PATCHED. But are not likely and have therefor not been included in this endpoint.
@@ -4608,11 +4778,11 @@ paths:
                 remoteState:
                   type: string
                   description: The state of this association for the institution performing the request.
-                  enum: *ref_81
+                  enum: *ref_86
                   example: associated
                 result:
                   oneOf:
-                    - allOf: *ref_99
+                    - allOf: *ref_102
             examples:
               Delete student from offering (flow 2.4):
                 value:
@@ -4674,25 +4844,26 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    properties: *ref_84
-                    required: *ref_85
+                    properties: *ref_89
+                    required: *ref_90
                   - type: object
                     description: A system message as a response to a POST message
-                    required: *ref_127
-                    properties: *ref_128
+                    required: *ref_132
+                    properties: *ref_133
                   - properties:
                       state:
                         type: string
                         description: The state of this association
-                        enum: *ref_80
+                        enum: *ref_85
                         example: associated
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
     put:
       summary: PUT /associations/{associationId}
       description: |
         PUT a single association to enroll a person on s specific association that can later be retreived. The offeringId is provided in the path. 
+      operationId: replaceAssociationById
       security:
         - oAuthFlows:
             - test-admin-flow
@@ -4711,8 +4882,8 @@ paths:
         content:
           application/json:
             schema:
-              allOf: *ref_123
-              properties: *ref_124
+              allOf: *ref_128
+              properties: *ref_129
       responses:
         '200':
           description: OK
@@ -4720,22 +4891,22 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_106
+          content: *ref_111
         '401':
           description: Unauthorized
-          content: *ref_107
+          content: *ref_112
         '403':
           description: Forbidden
-          content: *ref_108
+          content: *ref_113
         '404':
           description: Not Found
-          content: *ref_109
+          content: *ref_114
         '405':
           description: Method not allowed
-          content: *ref_110
+          content: *ref_115
         '429':
           description: Too many requests
-          content: *ref_111
+          content: *ref_116
         '500':
           description: Internal Server Error
-          content: *ref_112
+          content: *ref_117

@@ -29,7 +29,7 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../schemas/ComponentOfferingAssociationExpandedWrite.yaml'
+          $ref: '../schemas/ComponentOfferingAssociationOnlyPersonExpanded.yaml'
         examples:
           Add student to created offering (zitting) (flow 2.2.B and 2.3):
             value:
