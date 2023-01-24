@@ -21,6 +21,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - post -> createResource
     - patch -> partialUpdateResource
     - /me -> {action}ResourceByMyOauthId
+- value courseCode to codeType to allow courseCode (UUID's) as otherCode in groups
 
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
