@@ -3,7 +3,8 @@ get:
   operationId: listComponentById
   description: Get a single component.
   security:
-    - oAuthFlows:  
+    - oAuthFlows:
+      - test-content-flow  
       - test-admin-flow
   tags:
     - components

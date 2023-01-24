@@ -2,8 +2,11 @@ type: string
 description: The result value type for this offering
 enum:
   - 'pass-or-fail'
+  - 'insufficient-satisfactory-good'
   - 'US letter'
   - 'UK letter'
+  - 'DE grade'
   - '0-100'
-  - '1-10'
-example: '1-10'
+  - '0-10'
+  - '0.0-10.0'
+example: '0-10'

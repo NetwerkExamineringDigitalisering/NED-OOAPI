@@ -5,6 +5,7 @@ get:
   security:
   - oAuthFlows:  
     - test-admin-flow
+    - test-content-flow
   tags:
     - components
   parameters:

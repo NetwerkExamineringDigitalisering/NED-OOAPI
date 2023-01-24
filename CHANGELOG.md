@@ -8,10 +8,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - extra enumeration in codeType: eckid
 - consumer elements for MBO-toetsafname
+    - Component
+    - Offering
+    - Association
+    - Result
 - PUT endpoint for associations/{associationId}
 - POST endpoint for persons
 - PUT offerings/{offeringId}/associations/{associationId}
 - security for server to server communication based on oauth2 clientcredentials flow
+    - added test-content-flow for flow 0
+    - added test-admin-flow for flow 2,3,4
 - documentType.yaml as part of the types of documents allowed
 - consumer attribute in result
 - operationId to all paths based on schema:
@@ -22,6 +28,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - patch -> partialUpdateResource
     - /me -> {action}ResourceByMyOauthId
 - value courseCode to codeType to allow courseCode (UUID's) as otherCode in groups
+- update resultValue enum:
+  - 'pass-or-fail'
+  - 'insufficient-satisfactory-good'
+  - 'US letter'
+  - 'UK letter'
+  - 'DE grade'
+  - '0-100'
+  - '0-10'
+  - '0.0-10.0'
+- 
 
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)
