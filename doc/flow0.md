@@ -32,9 +32,9 @@ classDiagram
 	assessment : languageTypedString[]
 	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
-    consumers: MBO-Component
+    consumers: MBO-component
     }
-    class MBO-Component {
+    class MBO-component {
     	consumerKey : string
 	additionalTestingTime : integer
 	availablePersonalNeeds : PersonalNeedsType[]
