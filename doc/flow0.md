@@ -46,7 +46,7 @@ classDiagram
 	status : TestStatusType
 	licensed : boolean
     }
-    Component o-- Consumer
+    Component o-- MBO-component
 ```
 
 ### Example of response Request whole catalogue
