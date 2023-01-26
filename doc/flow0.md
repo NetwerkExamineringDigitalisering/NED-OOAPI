@@ -32,9 +32,9 @@ classDiagram
 	assessment : languageTypedString[]
 	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
-    consumers: MBO-component
+    consumers: MBOcomponent
     }
-    class MBO-component {
+    class MBOcomponent {
     	consumerKey : string
 	additionalTestingTime : integer
 	availablePersonalNeeds : PersonalNeedsType[]
@@ -46,7 +46,7 @@ classDiagram
 	status : TestStatusType
 	licensed : boolean
     }
-    Component o-- MBO-component
+    Component o-- MBOcomponent
 ```
 
 ### Example of response Request whole catalogue
