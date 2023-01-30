@@ -330,6 +330,8 @@ paths:
   #   $ref: paths/OfferingGroupCollection.yaml
   /associations/{associationId}:
     $ref: paths/AssociationInstance.yaml
+  /associations/{associationId}/url:
+    $ref: paths/AssociationUrl.yaml
   # /associations/me:
   #   $ref: paths/AssociationInstanceMe.yaml
   # /associations/external/me:
