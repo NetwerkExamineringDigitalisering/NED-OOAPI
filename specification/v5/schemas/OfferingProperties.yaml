@@ -28,9 +28,9 @@ properties:
       The academicsession during which this offering takes place. [`expandable`](#tag/academic_session_model)
       By default only the `academicSessionId` (a string) is returned. If the client requested an expansion of `academicSession` the full academicsession object should be returned.
     oneOf:
-      - $ref: './Identifier.yaml'
+      - $ref: '../schemas/Identifier.yaml'
         title: academicSessionId
-      - $ref: './AcademicSession.yaml'
+      - $ref: '../schemas/AcademicSession.yaml'
         title: AcademicSession object
   # academicSession:
   #   $ref: './AcademicSession.yaml'

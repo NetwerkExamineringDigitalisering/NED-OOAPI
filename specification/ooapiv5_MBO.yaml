@@ -132,6 +132,7 @@ components:
           - `brin`: The registration number for a Dutch educational institution that is issued by the Dutch Ministry of Education, Culture and Science
           - `crohoCreboCode`: programs with a CREBO and CROHO number are accredited by the Dutch Ministry of Education, Culture and Science (OCW)
           - `programCode`: Identifier for the program (collection of courses)
+          - `courseCode`: Identifier for the course 
           - `componentCode`: The code for a component (part of a course)
           - `offeringCode`: The code to identify a specific offering (program, course or component offering)
           - `organizationId`: The identifier for the organization
@@ -159,6 +160,7 @@ components:
         - brin
         - crohoCreboCode
         - programCode
+        - courseCode
         - componentCode
         - offeringCode
         - organizationId
@@ -197,6 +199,7 @@ components:
               - `brin`: The registration number for a Dutch educational institution that is issued by the Dutch Ministry of Education, Culture and Science
               - `crohoCreboCode`: programs with a CREBO and CROHO number are accredited by the Dutch Ministry of Education, Culture and Science (OCW)
               - `programCode`: Identifier for the program (collection of courses)
+              - `courseCode`: Identifier for the course 
               - `componentCode`: The code for a component (part of a course)
               - `offeringCode`: The code to identify a specific offering (program, course or component offering)
               - `organizationId`: The identifier for the organization
@@ -1816,11 +1819,14 @@ components:
       description: The result value type for this offering
       enum: &ref_48
         - pass-or-fail
+        - insufficient-satisfactory-good
         - US letter
         - UK letter
+        - DE grade
         - 0-100
-        - 1-10
-      example: 1-10
+        - 0-10
+        - 0.0-10.0
+      example: 0-10
     MBO-Component:
       type: object
       description: MBO-toetsafname add-on attributes to the Component
@@ -1829,8 +1835,9 @@ components:
       properties: &ref_50
         consumerKey:
           type: string
-        extraTime:
-          desciption: null
+        additionalTestingTime:
+          desciption: |
+            maximum time in minutes that can be added to a test as possible extra time as part of the available personal needs
           type: integer
         availablePersonalNeeds:
           type: array
@@ -1840,16 +1847,26 @@ components:
           items:
             type: string
             enum:
-              - extraTime
+              - additional-testing-time
               - spoken
               - spell-checker-on-screen
+        safety:
+          type: array
+          description: |
+            safety possibilities that are provided by the supplier of the component
+          items:
+            type: string
+            enum:
+              - SecuredComputer
+              - Fixed Location
+              - Surveillance
         exam:
           type: boolean
         resultValueType:
           type: string
           description: The result value type for this offering
           enum: *ref_48
-          example: 1-10
+          example: 0-10
         passFrom:
           type: string
           enum:
@@ -2573,7 +2590,7 @@ components:
           type: string
           description: The result value type for this offering
           enum: *ref_48
-          example: 1-10
+          example: 0-10
         link:
           type: string
           description: URL of this offering's webpage.
@@ -3522,7 +3539,7 @@ components:
               format: uuid
             - title: ComponentOffering
               allOf: *ref_104
-    ComponentOfferingAssociationExpandedWrite:
+    ComponentOfferingAssociationOnlyPersonExpanded:
       allOf: &ref_128
         - allOf: *ref_103
       properties: &ref_129
@@ -3534,14 +3551,6 @@ components:
               format: uuid
             - title: Person
               allOf: *ref_41
-        offering:
-          oneOf:
-            - title: offeringId
-              type: string
-              description: An identifier of another resource.
-              format: uuid
-            - title: ComponentOffering
-              allOf: *ref_104
     ProgramResult:
       allOf: &ref_105
         - type: object
@@ -3613,6 +3622,26 @@ components:
               allOf: *ref_80
             - title: ProgramOffering
               allOf: *ref_75
+    ComponentOfferingAssociationExpandedWrite:
+      allOf: &ref_134
+        - allOf: *ref_103
+      properties: &ref_135
+        person:
+          oneOf:
+            - title: personId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: Person
+              allOf: *ref_41
+        offering:
+          oneOf:
+            - title: offeringId
+              type: string
+              description: An identifier of another resource.
+              format: uuid
+            - title: ComponentOffering
+              allOf: *ref_104
     PostResponse:
       type: object
       description: A system message as a response to a POST message
@@ -3811,6 +3840,7 @@ paths:
       description: Get a single component.
       security:
         - oAuthFlows:
+            - test-content-flow
             - test-admin-flow
       tags:
         - components
@@ -3943,6 +3973,7 @@ paths:
       security:
         - oAuthFlows:
             - test-admin-flow
+            - test-content-flow
       tags:
         - components
       parameters:
@@ -4882,8 +4913,8 @@ paths:
         content:
           application/json:
             schema:
-              allOf: *ref_128
-              properties: *ref_129
+              allOf: *ref_134
+              properties: *ref_135
       responses:
         '200':
           description: OK

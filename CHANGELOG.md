@@ -54,6 +54,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - consumer object changed to be array in examples and allow for multiple arrays
 - removed readonly status of offeringId to allow complete offering object to be part of associations
 - removed academicSession (object) from courseOffering componentOffering programOffering and academicSession (string) form offering and added academicSession (object) to offering
+- fixed recursive issue on componentOfferings (caused by referencinf of location not resolving ../schemas/)
+- bump redoc to higher version 77
 
 ## [5.0.0] - 2022-07-19
 The v5.0.0 release is the same as 5.0.0 RC2.

@@ -1,5 +1,5 @@
 allOf:
-  - $ref: './OfferingId.yaml'
-  - $ref: './ComponentOfferingNoId.yaml'
+  - $ref: '../schemas/OfferingId.yaml'
+  - $ref: '../schemas/ComponentOfferingNoId.yaml'
 
 
