@@ -32,20 +32,21 @@ classDiagram
 	assessment : languageTypedString[]
 	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
-    consumers: Consumer
+    consumers: MBOcomponent
     }
-    class Consumer {
+    class MBOcomponent {
     	consumerKey : string
-	extraTime : int
-	availablePersonalNeeds : PersonalNeedsType
+	additionalTestingTime : integer
+	availablePersonalNeeds : PersonalNeedsType[]
+	safety : string[]
 	exam : boolean
 	resultValueType : ResultValueType
-	passFromn : string
-	retries : int
+	passFrom : string
+	retries : integer
 	status : TestStatusType
 	licensed : boolean
     }
-    Component o-- Consumer
+    Component o-- MBOcomponent
 ```
 
 ### Example of response Request whole catalogue
@@ -99,24 +100,18 @@ response:
      "consumers": [
         {
            "consumerKey": "MBO-toetsafname", 
-           "extraTime": 30,
+           "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
-           "availablePersonalNeeds": [
-            "extraTime",
-            "spoken", 
-            "spell-checker-on-screen"
-           ],
+           "availablePersonalNeeds": [ "extraTime", "spoken", "spell-checker-on-screen" ],
+           "safety": [ "SecuredComputer", "Fixed Location", "Surveillance"],
            "exam": true,
-           "resultValueType": "1.0-10.0",
+           "resultValueType": "0.0-10.0",
            "passFrom": "5.5",
            "retries": 2,
            "status": "active"
            "licensed": true
         }
      ],
-     "ext": {
-
-     }
   }
   ,{..}
   ]
@@ -196,24 +191,18 @@ response:
      "consumers": [
         {
            "consumerKey": "MBO-toetsafname", 
-           "extraTime": 30,
+           "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
-           "availablePersonalNeeds": [
-            "extraTime",
-            "spoken", 
-            "spell-checker-on-screen"
-           ],
+           "availablePersonalNeeds": [ ],
+           "safety": [ ],
            "exam": true,
-           "resultValueType": "1.0-10.0",
+           "resultValueType": "0.0-10.0",
            "passFrom": "5.5",
            "retries": 2,
            "status": "active"
            "licensed": true
         }
      ],
-     "ext": {
-
-     }
 }
 
 ```
