@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - '0-100'
   - '0-10'
   - '0.0-10.0'
-- 
+- documents endpoint
 
 ### Removed
 - removed readOnly attribute from associationType in associations (schema)

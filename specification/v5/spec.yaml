@@ -114,7 +114,8 @@ tags:
 #    description: The programs API provides a coherent set of educational components, aimed at the realization of competences or objectives in the field of knowledge, insight, attitudes and skills that the person who completes the program must have.
 #  - name: rooms
 #    description: The rooms API provides the part of a building where an activity can take place. Including detail information on the resources available, number of seats, etc. (Updated continuously)
-
+  - name: documents
+    description: The documments API provides access to the documents in a binary format 
 #  - name: service_model
 #    x-displayName: Service
 #    description: |
@@ -196,6 +197,7 @@ x-tagGroups:
 #      - education specifications
 #      - groups
 #      - news
+      - documents
       - offerings
 #      - organizations
 #      - persons
@@ -328,6 +330,8 @@ paths:
   #   $ref: paths/OfferingAssociationInstanceMe.yaml
   # /offerings/{offeringId}/groups:
   #   $ref: paths/OfferingGroupCollection.yaml
+  /documents/{documentId}:
+    $ref: paths/DocumentInstance.yaml
   /associations/{associationId}:
     $ref: paths/AssociationInstance.yaml
   /associations/{associationId}/url:
