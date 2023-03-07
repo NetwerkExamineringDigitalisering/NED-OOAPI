@@ -15,7 +15,7 @@ A typical school uses a broad range of exam and testing tools. The aim of this s
 ![Main](doc/diagrams/ProgrammaOKE.png)
 
 - [flow 0 : Test catalogue from Toetsafname to Deelnemerregistratie and Toetsplanning](doc/flow0.md)
-- flow 1 : Deelnemerregistratie data for planning exams and tests sent to Toetsplanning
+- [flow 1 : Deelnemerregistratie data for planning exams and tests sent to Toetsplanning](doc/flow1.md)
 - [flow 2 : Planned exam/test is sent to Toetsafname](doc/flow2.md)
 - [flow 3 : Test results are returned to Toetsplanning](doc/flow3.md)
 - [flow 4 : Test session report (Procesverbaal and irregularities) back to Toetsplanning](doc/flow4.md)
