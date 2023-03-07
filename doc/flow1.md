@@ -12,10 +12,12 @@ We request a selection of students that a teacher can use to create detailed pla
 
 ## endpoints
 Used endpoints for this flow are:
-`GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
-`PUT /geenidee`
-`GET /geenidee/{geenideeId}`
-`GET /ooapi/association/{associationId} `
+```
+GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
+PUT /geenidee
+GET /geenidee/{geenideeId}
+GET /ooapi/association/{associationId}
+```
 
 Planner kan al beperkt worden door security
 Boolean IsLineItem (we verwachten ook een resultaat te loggen)
@@ -53,7 +55,7 @@ sequenceDiagram
 
 ```
 
-### Class diagram of request B. Add student to created offering (zitting)	
+### Class diagram of request B. Add student to created offering (zitting)
 ```mermaid
 classDiagram
     class Association {
@@ -100,3 +102,36 @@ classDiagram
 
 ```
 
+# flow 1b : very adhoc
+
+
+
+### Sequence diagram of request to get students	based on group
+
+```mermaid
+
+sequenceDiagram
+    participant SIS
+    participant Toetsplanning
+    Toetsplanning-->>Toetsplanning: do everything with plan
+    Toetsplanning->>SIS : Give list of students of class "H2b"
+    activate SIS
+    Note right of SIS: endpoint /a/ooapi/??/?selectioncriteria=.. (GET)
+    SIS->>Toetsplanning : 200 - Here they are !
+    deactivate SIS
+```
+
+### Sequence diagram of request to get a single student
+
+```mermaid
+
+sequenceDiagram
+    participant SIS
+    participant Toetsplanning
+    Toetsplanning-->>Toetsplanning: do everything with plan
+    Toetsplanning->>SIS : Give me student of "jan" of class "H2b"
+    activate SIS
+    Note right of SIS: endpoint /a/ooapi/??/?selectioncriteria=.. (GET)
+    SIS->>Toetsplanning : 200 - Here is JAN !
+    deactivate SIS
+```
