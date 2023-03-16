@@ -60,7 +60,7 @@ properties:
       enum to indicate the state of the offering
     enum:
       - active
-      - cancelled
+      - canceled
   locationCode:
     type: string
     example: A-12a

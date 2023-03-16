@@ -65,6 +65,8 @@ tags:
     description: The offerings API provides information about offerings which have a global timeframe, e.g. a period to which students can enroll.
   - name: persons
     description: The persons API provides information about persons related to an organization.
+  - name: documents
+    description: The documments API provides access to the documents in a binary format
   - name: component_model
     x-displayName: Component
     description: |
@@ -86,6 +88,7 @@ x-tagGroups:
     tags:
       - associations
       - components
+      - documents
       - offerings
   - name: Models
     tags:
@@ -2389,7 +2392,7 @@ components:
             enum to indicate the state of the offering
           enum:
             - active
-            - cancelled
+            - canceled
         locationCode:
           type: string
           example: A-12a
@@ -3664,6 +3667,11 @@ components:
           description: URL where additional information can be found e.g. by use of deeplink
           type: string
           format: uri
+    Url:
+      type: string
+      description: Url containing a web address.
+      format: uri
+      example: https://www.universiteitvanharderwijk.nl
   responses:
     ErrorBadRequest:
       description: Bad request
@@ -4716,6 +4724,47 @@ paths:
         '500':
           description: Internal Server Error
           content: *ref_117
+  /documents/{documentId}:
+    get:
+      summary: GET /documents/{documentId}
+      operationId: listDocumentById
+      description: Get the binary data from a docuemtn.
+      tags:
+        - documents
+      parameters:
+        - name: documentId
+          in: path
+          description: Document ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/octet-stream: {}
+        '400':
+          description: Bad request
+          content: *ref_111
+        '401':
+          description: Unauthorized
+          content: *ref_112
+        '403':
+          description: Forbidden
+          content: *ref_113
+        '404':
+          description: Not Found
+          content: *ref_114
+        '405':
+          description: Method not allowed
+          content: *ref_115
+        '429':
+          description: Too many requests
+          content: *ref_116
+        '500':
+          description: Internal Server Error
+          content: *ref_117
   /associations/{associationId}:
     get:
       summary: GET /associations/{associationId}
@@ -4920,6 +4969,56 @@ paths:
           description: OK
         '201':
           description: Created
+        '400':
+          description: Bad request
+          content: *ref_111
+        '401':
+          description: Unauthorized
+          content: *ref_112
+        '403':
+          description: Forbidden
+          content: *ref_113
+        '404':
+          description: Not Found
+          content: *ref_114
+        '405':
+          description: Method not allowed
+          content: *ref_115
+        '429':
+          description: Too many requests
+          content: *ref_116
+        '500':
+          description: Internal Server Error
+          content: *ref_117
+  /associations/{associationId}/url:
+    get:
+      summary: GET /associations/{associationId}/url
+      description: |
+        Get the URL of an association.
+      operationId: listAssociationUrl
+      security:
+        - oAuthFlows:
+            - test-admin-flow
+      tags:
+        - associations
+      parameters:
+        - name: associationId
+          in: path
+          description: Association ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: string
+                description: Url containing a web address.
+                format: uri
+                example: https://www.universiteitvanharderwijk.nl
         '400':
           description: Bad request
           content: *ref_111
