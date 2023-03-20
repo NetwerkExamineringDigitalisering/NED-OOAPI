@@ -82,14 +82,19 @@ patch:
   requestBody:
     required: true
     content:
-      application/merge-patch+json:
+      arpplication/merge-patch+json:
         schema:
-          properties:
-            remoteState:
-              $ref: '../enumerations/remoteAssociationState.yaml'
-            result:
-              oneOf:
-                - $ref: '../schemas/ComponentResult.yaml'
+          allOf:
+          - $ref: '../schemas/ComponentOfferingAssociationPatch.yaml'
+
+
+        # schema:
+        #   properties:
+        #     remoteState:
+        #       $ref: '../enumerations/remoteAssociationState.yaml'
+        #     result:
+        #       oneOf:
+        #         - $ref: '../schemas/ComponentResult.yaml'
 #                - $ref: '../schemas/CourseResult.yaml'
 #                - $ref: '../schemas/ProgramResult.yaml'  
         examples:
