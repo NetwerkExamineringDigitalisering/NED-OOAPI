@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+# [5.0.0 MBO] - 2022-11-17
+### Changed
+- added assocation object to association PATCH handling to be in line with the assocation object
+- changed the field of associationType to not required and removed readonly 
+- added assocaitionProperties in .yaml to allow for better inheritance (no effect on endpoints)
+- added mechanism for requiredfields within endpoints (e.g ComponentOfferingAssociation.yaml)
+
+
 ## [5.0.0 MBO] - 2023-01-30
 ### Added
     - Association Url
