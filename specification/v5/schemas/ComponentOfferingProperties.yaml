@@ -1,15 +1,5 @@
 allOf:
   - $ref: '../schemas/OfferingProperties.yaml'
-  - type: object
-    required:
-      - startDateTime
-      - endDateTime
-      - primaryCode
-      - offeringType
-      - name
-      - description
-      - teachingLanguage
-      - resultExpected
     properties:
       startDateTime:
         type: string
