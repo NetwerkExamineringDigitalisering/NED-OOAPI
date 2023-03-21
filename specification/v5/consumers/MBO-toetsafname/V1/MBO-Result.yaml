@@ -40,6 +40,17 @@ properties:
     description: |
       final: indicates that the result has been finalised by the exam committee. 
       Can be done in Toetsplanning (or even DR), so most Toetsafname applications will send false. (optional, default false) 
+  rawScore:
+    type: integer
+    description: |
+      The number of points scored by a person on which the result could be calculated. 
+      The raw score provides additional insight in the achievement of the person. 
+      The raw score also needs the value of maxRawScore to provide necassary context.
+  maxRawScore:
+    type: integer
+    description: |
+      The maximum number of points a person could achieve for this result.
+      The max raw score also needs the value of rawScore to provide the actual score to make calculations possible.      
   documents:
     type: array
     items:
