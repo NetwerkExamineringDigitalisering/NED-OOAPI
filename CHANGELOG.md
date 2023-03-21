@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - added assocaitionProperties in .yaml to allow for better inheritance (no effect on endpoints)
 - added mechanism for requiredfields within endpoints (e.g ComponentOfferingAssociation.yaml)
 - added extra values to result consumer
+- added extraneous to modeOfdelevery
+- added preferredName to the person object to fix issues with givenName / passport name vs how a person would like to be called  
  
 ### Changed
 - added association object to association PATCH handling to be in line with the assocation object in stead of current separtate properties.
