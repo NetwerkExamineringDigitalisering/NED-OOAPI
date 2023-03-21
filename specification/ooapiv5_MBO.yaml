@@ -4900,7 +4900,7 @@ paths:
       requestBody:
         required: true
         content:
-          arpplication/merge-patch+json:
+          application/merge-patch+json:
             schema:
               allOf:
                 - allOf: *ref_133
