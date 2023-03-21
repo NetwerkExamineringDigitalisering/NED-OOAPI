@@ -82,7 +82,7 @@ patch:
   requestBody:
     required: true
     content:
-      arpplication/merge-patch+json:
+      application/merge-patch+json:
         schema:
           allOf:
           - $ref: '../schemas/ComponentOfferingAssociationPatch.yaml'
