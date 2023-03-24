@@ -132,14 +132,16 @@ patch:
   requestBody:
     required: true
     content:
-        application/json:
+      application/merge-patch+json:
           schema:
-            $ref: '../schemas/ComponentOfferingNoId.yaml'
+            $ref: '../schemas/ComponentOfferingProperties.yaml'
             title: componentOffering
           examples:
             Delete offering (Flow 2.5):
               value:
-                state: canceled
+                consumers: 
+                - consumerKey: MBO-toetsafname
+                  offeringState: canceled
             Send attendance and offering report directly (Flow 4.1):
               value:
                 consumers:
