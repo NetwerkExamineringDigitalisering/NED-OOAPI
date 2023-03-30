@@ -29,17 +29,19 @@ classDiagram
 	pass : string
 	comment : string
 	score : string
-	resultDate : date-time
-	consumers : Consumer
-	weight : int
+	resultDate : date
+	consumers : MBO_Result
+	weight : integer
     }
-    class Consumer {
+    class MBO_Result {
 	consumerKey : string
 	attendance : string
 	assessorId : string
 	assessorCode : string 
 	iregularities : string
 	final : boolean 
+	rawScore : integer 
+	maxRawScore : integer 
 	documents : Document[]
     }
     class Document {
@@ -48,8 +50,8 @@ classDiagram
 	documentName : string
     }
     Association o-- Result
-    Result o-- Consumer
-    Consumer o-- Document
+    Result o-- MBO_Result
+    MBO_Result o-- Document
 ```
 
 ### Example of request Send attendance and result directly
@@ -71,6 +73,8 @@ PATCH /associations/{associationId}
 		"assessorCode": "JAJE",
 		"irregularities": "Jantje heeft gespiekt."
 		"final": true,
+		"rawScore": 65,
+		"maxRawScore": 75,
 		"documents": [
 		 {
 		   "documentId": "123454",
@@ -95,6 +99,7 @@ Remarks:
 	- assessorId en assessorCode: is the identity resp. code of the assessor (both optional).
 	- irregularities: textual information about the student test, such as irregularities: <to be added>
 	- final : indicates that the result has been finalised by the exam committee. Can be done in Toetsplanning (or even DR), so most Toetsafname applications will send false. (optional, default false).
+	- rawScore and maxRawScore are the gained scorepoints and maximum scorepoints for the student. These numbers will be used to calculate the resultvalue in attribute score. 
 	- documents: data group for document specification (optional, multiple times). Document transfer is always via documents OOAPI endpoint because of security issues (TODO: Explain why). All next attributes are mandatory for each document:
 		- documentId: unique identifier for the document to be used in the document request.
 		- documentTypes: identifies the kind of document; supported values: "assessmentForm" (beoordelingformulier), "assessmentFormWithAnswers" (answers with assessment notes), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values). 
@@ -131,15 +136,15 @@ classDiagram
     }
     class Result {
     	state : string = "in progress"
-	resultDate : date-time
-	consumers : Consumer
+	resultDate : date
+	consumers : MBO_Result
     }
-    class Consumer {
+    class MBO_Result {
 	consumerKey : string
 	attendance : string
     }
     Association o-- Result
-    Result o-- Consumer
+    Result o-- MBO_Result
 ```
 
 ### Example of request A. Send attendance for student directly
@@ -182,6 +187,8 @@ PATCH /associations/{associationId}
 		"assessorCode": "JAJE",
 		"irregularities": "Jantje heeft gespiekt."
 		"final": true,
+		"rawScore": 65,
+		"maxRawScore": 75,
 		"documents": [
 		 {
 		   "documentId": "123454",
@@ -276,6 +283,8 @@ GET /offerings/{offeringId}/associations
 	  "assessorCode": "JAJE",
 	  "irregularities": "Jantje heeft gespiekt."
 	  "final": true,
+	  "rawScore": 65,
+	  "maxRawScore": 75,
 	  "documents": [
 	  {
 	    "documentId": "123454",
@@ -294,6 +303,7 @@ GET /offerings/{offeringId}/associations
         "code": "1234567"
       },
       "givenName": "Maartje",
+      "preferredName": "Maar",
       "surnamePrefix": "van",
       "surname": "Damme",
       "displayName": "Maartje van Damme",
@@ -358,6 +368,8 @@ GET /associations/{associationId}
 	  "assessorCode": "JAJE",
 	  "irregularities": "Jantje heeft gespiekt."
 	  "final": true,
+	  "rawScore": 65,
+	  "maxRawScore": 75,
 	  "documents": [
 	  {
 	    "documentId": "123454",
@@ -376,6 +388,7 @@ GET /associations/{associationId}
         "code": "1234567"
       },
       "givenName": "Maartje",
+      "preferredName": "Maar",
       "surnamePrefix": "van",
       "surname": "Damme",
       "displayName": "Maartje van Damme",
