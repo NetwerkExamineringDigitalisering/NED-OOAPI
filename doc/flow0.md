@@ -32,9 +32,9 @@ classDiagram
 	assessment : languageTypedString[]
 	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
-    consumers: MBOcomponent
+    consumers: MBO_Component
     }
-    class MBOcomponent {
+    class MBO_Component {
     	consumerKey : string
 	additionalTestingTime : integer
 	availablePersonalNeeds : PersonalNeedsType[]
@@ -46,7 +46,7 @@ classDiagram
 	status : TestStatusType
 	licensed : boolean
     }
-    Component o-- MBOcomponent
+    Component o-- MBO_Component
 ```
 
 ### Example of response Request whole catalogue
@@ -124,6 +124,15 @@ response:
 	- q=rekenen for filtering on components (toets/examens) with text "rekenen" in name or description
 	- since=2022-01-01 for filtering on components that have a startdate from January 1st, 2022
 	- licended=true for filtering on components (toets/examens) for which the requesting education organisation (or organisational unit) has a valid license
+- The ResultValueType is an enumeration with enumeration values:
+	- pass-or-fail = Resultvalue is from valuelist {passed, failed}
+	- insufficient-satisfactory-good = Resultvalue is from valuelist {insufficient, satisfactory, good}
+	- US letter = Resultvalue is a letter from A t/m D en F voor fail as in US
+	- UK letter = Resultvalue is a letter from A t/m G en U voor ungraded/unclassified as in UK
+	- DE grade = Resultvalue is a letter as used in Germany
+	- 0-100 = Resultvalue is a number from range (0,100)
+	- 0-10 = Resultvalue is a number from range (0,10)
+	- 0.0-10.0 = Resultvalue is a decimal number from range (0.0,10.0)
 
 
 ## Flow 0.2 Request details of one test
