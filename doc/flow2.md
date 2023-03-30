@@ -31,19 +31,23 @@ classDiagram
 	teachingLanguage : string
 	modeOfDelivery : string
 	resultExpected : boolean
-	consumers : Consumer
+	consumers : MBO_Offering
 	startDateTime : datetime
 	endDateTime : datetime
 	component : string
     }
-    class Consumer {
+    class MBO_Offering {
     	consumerKey : string = "MBO-toetsafname"
-	duration : int
+	duration : integer
+	lastPossibleStartTime : date-time
+	startOptions : string
+	durtionFrom : string
+	durationUntil : string
 	safety : string
 	offeringState : OfferingStateType
 	locationCode : string
     }
-    Offering o-- Consumer
+    Offering o-- MBO_Offering
 ```
 
 ### Example of request Create offering (zitting)	
@@ -108,7 +112,7 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 		- online: online on a specific location
 		- distance-learning (afstandsleren): everywhere, could also be from home )
 
-- consumers:
+- consumer MBO_Offering:
 	- add one of type "consumerKey": "MBO-toetsafname"
 	- duration: int for duration in minutes < to be decided > (see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4)
 	- safety : array of safety measures : "Secured Computer", "Fixed Location", "Surveillance"
@@ -161,12 +165,12 @@ classDiagram
 	associationType : associationType
 	role : associationRole
 	state : state
-	consumers : Consumer
+	consumers : MBO_Association
 #	result : Result
 	person : personId or Person
 	offering : offeringId
     }
-    class Consumer {
+    class MBO_Association {
     	consumerKey : string = "MBO-toetsafname"
 	startUpURL : string
 	additionalTimeInMin : int
@@ -176,6 +180,7 @@ classDiagram
 	personId : UUID
 	primaryCode : identifierEntity
 	givenName : string
+	preferredName : string
 	surnamePrefix : string 
 	surname : string
 	displayname : string
@@ -183,7 +188,7 @@ classDiagram
 	affiliations : personAffiliations
 	mail : string
     }
-    Association o-- Consumer
+    Association o-- MBO_Association
     Association -- Person
 ```
 
@@ -202,7 +207,8 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 	    "codeType": "studentNumber",
 	    "code": "1234567"
 	},
-	"givenName": "Maartje",
+	"givenName" "Maartje",
+	"preferredName": "Maar",
 	"surnamePrefix": "van",
 	"surname": "Damme",
 	"displayName": "Maartje van Damme",
@@ -250,7 +256,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 	- to comply to the standard we have mandatory fields (which we wont use) : displayname (goed gevuld), activeEnrollment (true) , affiliations (guest)
 	- affiliations is not the role in the offering, but the a more generic role. can be ignored for this spec or set to "guest"
 	- primaryCode will be used for SSO purpose: uniquely identify a student : nlpersonrealid,eckid etc (details will follow), 
- - consumers
+ - consumer MBO_Association
 	- add one of type "consumerKey": "MBO-toetsafname".
 	- attributes additionalTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
@@ -290,6 +296,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 	    "code": "1234568"
 	},
 	"givenName": "Klaas",
+	"preferredName": "Klaassie",
 	"surnamePrefix": "van",
 	"surname": "Dijk",
 	"displayName": "Klaas van Dijk",
@@ -379,13 +386,13 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Offering {
-	consumers : Consumer
+	consumers : MBO_Offering
     }
-    class Consumer {
+    class MBO_Offering {
     	consumerKey : string = "MBO-toetsafname"
 	offeringState : OfferingStateType = "canceled"
     }
-    Offering o-- Consumer
+    Offering o-- MBO_Offering
 ```
 
 ### Example of request Delete offering (zitting)	
@@ -412,7 +419,7 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- Attribute offeringState within consumers of Offering: use the value "canceled" from the enum.
+	- Attribute offeringState within consumers of Offering (MBO_Offering): use the value "canceled" from the enum.
 	- Add no values for other attributes within Offering because they will be ignored.
 
 ## Flow 2.6 Read current state of the offering (zitting)
@@ -511,6 +518,7 @@ GET /a/ooapi/offerings/{offeringId}/associations
 	    		"code": "1234567"
 		},
 		"givenName": "Maartje",
+		"preferredName": "Maar",
 		"surnamePrefix": "van",
 		"surname": "Damme",
 		"displayName": "Maartje van Damme",
