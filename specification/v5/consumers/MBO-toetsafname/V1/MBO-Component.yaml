@@ -6,7 +6,7 @@ properties:
   consumerKey:
     type: string
   additionalTestingTime:
-    desciption: |
+    description: |
       maximum time in minutes that can be added to a test as possible extra time as part of the available personal needs
     type: integer
   availablePersonalNeeds:
