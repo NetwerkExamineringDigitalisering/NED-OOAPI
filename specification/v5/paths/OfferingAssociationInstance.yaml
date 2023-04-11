@@ -50,6 +50,7 @@ put:
                   codeType: studentNumber
                   code: "1234567"
                 givenName: Maartje
+                preferredName: Maar
                 surnamePrefix: van
                 surname: Damme
                 displayName: "Maartje van Damme"
