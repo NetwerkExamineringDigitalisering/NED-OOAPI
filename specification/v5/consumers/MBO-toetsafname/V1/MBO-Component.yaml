@@ -17,7 +17,7 @@ properties:
       items:
         type: string
         enum:
-           - additional-testing-time
+           - extraTime
            - spoken 
            - spell-checker-on-screen
   safety:
@@ -27,9 +27,9 @@ properties:
     items:
       type: string
       enum:
-        - SecuredComputer
-        - Fixed Location
-        - Surveillance
+        - securedComputer
+        - fixedLocation
+        - surveillance
   exam:
     type: boolean
   resultValueType:
