@@ -159,7 +159,7 @@ GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
 ```
 
 ### Example of request associations	
-
+```
 GET /a/ooapi/offerings/{offeringId}/associations/
 
     "Association": {
