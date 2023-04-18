@@ -198,7 +198,7 @@ sequenceDiagram
     Toetsplanning-->>Toetsplanning: do everything with plan
     Toetsplanning->>SIS : Give list of students of class "H2b"
     activate SIS
-    Note right of SIS: endpoint /a/ooapi/??/?selectioncriteria=.. (GET)
+    Note right of SIS: endpoint /a/ooapi/groups?groupCode= (GET)
     SIS->>Toetsplanning : 200 - Here they are !
     deactivate SIS
 ```
