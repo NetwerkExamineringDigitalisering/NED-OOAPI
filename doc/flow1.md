@@ -8,13 +8,14 @@ We request all components/offerings from the SIS that need to be planned
 The Student information System knows which components need to be planned and requests the planning tool to create a more detailed planning (based on specific characteristics of the associations that have been provided by the SIS) The consumer information provides sufficient information to allow for regrouping of the students for specific tests.
 
 
-## Flow 1b : Flexible
-
-We request the a group of students based on the program they are participating in this allows than for the planner to create detailed plannings, results do not go back to the SIS automaticly.
-
 ## Flow 1b : Ad-hoc
 
 We request a selection of students that a teacher can use to create detailed plannings, results do not go back to the SIS automaticly.
+
+## Flow 1c : supporting information
+
+We request the a group of students based on the program they are participating in this allows than for the planner to create detailed plannings, results do not go back to the SIS automaticly.
+
 
 ## endpoints
 Used endpoints for this flow are:
@@ -47,7 +48,7 @@ sequenceDiagram
     loop for each exam/test
         Toetsplanning->>SIS: Get list of associations (students & staff)
         activate SIS
-        Note right of SIS: endpoint /a/ooapi/offerings/{geenideeId}/associations (GET)
+        Note right of SIS: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
         SIS->>Toetsplanning: 200 - Bedankt!
     end
     deactivate SIS
@@ -183,7 +184,42 @@ GET /a/ooapi/offerings/{offeringId}/associations/
     }
 ```
 
-# flow 1b : flexible
+# flow 1b : very adhoc
+
+
+
+### Sequence diagram of request to get students	based on group
+
+```mermaid
+
+sequenceDiagram
+    participant SIS
+    participant Toetsplanning
+    Toetsplanning-->>Toetsplanning: do everything with plan
+    Toetsplanning->>SIS : Give list of students of class "H2b"
+    activate SIS
+    Note right of SIS: endpoint /a/ooapi/??/?selectioncriteria=.. (GET)
+    SIS->>Toetsplanning : 200 - Here they are !
+    deactivate SIS
+```
+
+### Sequence diagram of request to get a single student
+
+```mermaid
+
+sequenceDiagram
+    participant SIS
+    participant Toetsplanning
+    Toetsplanning-->>Toetsplanning: do everything with plan
+    Toetsplanning->>SIS : Give me student of "jan" of class "H2b"
+    activate SIS
+    Note right of SIS: endpoint /a/ooapi/??/?selectioncriteria=JAN..H2b.. (GET)
+    SIS->>Toetsplanning : 200 - Here is a list of JAN's from H2b!
+    deactivate SIS
+```
+
+
+# flow : additional supporting information 
 
 ### Sequence diagram of request to get students	based on a program the person is participating in
 
@@ -269,39 +305,4 @@ GET /a/ooapi/associations/
     "offering": "5ffc6127-debe-48ce-90ae-75ea80756475"
 }
      
-```
-
-
-# flow 1c : very adhoc
-
-
-
-### Sequence diagram of request to get students	based on group
-
-```mermaid
-
-sequenceDiagram
-    participant SIS
-    participant Toetsplanning
-    Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>SIS : Give list of students of class "H2b"
-    activate SIS
-    Note right of SIS: endpoint /a/ooapi/??/?selectioncriteria=.. (GET)
-    SIS->>Toetsplanning : 200 - Here they are !
-    deactivate SIS
-```
-
-### Sequence diagram of request to get a single student
-
-```mermaid
-
-sequenceDiagram
-    participant SIS
-    participant Toetsplanning
-    Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>SIS : Give me student of "jan" of class "H2b"
-    activate SIS
-    Note right of SIS: endpoint /a/ooapi/??/?selectioncriteria=JAN..H2b.. (GET)
-    SIS->>Toetsplanning : 200 - Here is a list of JAN's from H2b!
-    deactivate SIS
 ```
