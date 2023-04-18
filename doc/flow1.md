@@ -134,22 +134,23 @@ GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
             }
         ],
         "parent": {
-        "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
-        "primaryCode": {
-            "codeType": "identifier",
-            "code": "CICT"
-        },
-        "name": [
-            {
-                "language": "nl-NL",
-                "value": "Cluster ICT en EIS"
-            }
-        ]
+            "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "CICT"
+            },
+            "name": [
+                {
+                    "language": "nl-NL",
+                    "value": "Cluster ICT en EIS"
+                }
+            ]
+        }
     }
 }
 ```
 
-### Example of request offerings	
+### Example of request assocaitions	
 ```
 GET /a/ooapi/associations/
 
