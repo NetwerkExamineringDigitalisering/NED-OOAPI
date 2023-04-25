@@ -1,39 +1,61 @@
 # Flow 1: Plannings information (tests and persons)
 
-Proposal : We have several flow 1's : very structured, flexible and very ad-hoc
+Flow 1 is used to provide a test planning system with information on tests to be planned and the students/candidates that have to perform those tests. Usually a Student Information System (SIS) provides this information to a Test Planning System (TPS). The TPS uses this information to plan testmoments for tests, assign the required Test Execution System (TES) and test within that TES. Students are assigned to the test moments based on the logic and workflow of the TPS.
+
+We distinguish two flows that can be used to plan tests:
+
+- Structured (SIS is in the lead on which tests have to be performed within a certain period and which students have to perform those tests)
+- Ad-hoc (TPS is in the lead to create test moments)
+
+Besides these two flows there is also a flow for additional supporting information on students and their education enrollments. This flow is optional since not all test planning and test execution software requires the additional information.
 
 ## flow 1a : Structured
 
-We request all components/offerings from the SIS that need to be planned
-The Student information System knows which components need to be planned and requests the planning tool to create a more detailed planning (based on specific characteristics of the associations that have been provided by the SIS) The consumer information provides sufficient information to allow for regrouping of the students for specific tests.
+The SIS has information on tests students have to perform within a certain period (e.g. based on a course, or testing has to be done within a certain year or semester). The SIS has to assign each test that has to be planned by a TPS to that TPS.
 
+A test can be created on many aggregation levels by the SIS. E.g.:
+- All students that have to be tested for dutch language level 3 on listening, speaking and writing during a semester
+- All three tests that belong to a specific course during a semester
+- A specific test for four students doing an honours program
+
+Depending on the aggregation level of the test the TPS has to perform only minimal planning or extensive planning.
+
+Tests that are provided in a structured way to the TPS can also have results/scores reported back by TPS to SIS using Flow 5.
+
+The consumer information provides sufficient information to allow for regrouping of the students to test moments. If necessary the TPS can use the API's from the Additional supporting information flow to retrieve more student context from the SIS.
+
+### Flow 1a : Endpoints for this flow
+
+- GET /ooapi/offerings?componentType=TEST&from=..&until=..
+- GET /ooapi/offerings/{offeringId}
+- GET /ooapi/offerings/{offeringId}/associations
+
+> Also PUT or POST variants are required
 
 ## Flow 1b : Ad-hoc
 
-We request a selection of students that a teacher can use to create detailed plannings, results do not go back to the SIS automaticly.
+When the TPS initiates a test moment there is no structured test information available from the SIS. The SIS provides API's to retrieve student groups and group memberships as well as information on individual students.
 
-## Flow 1c : supporting information
+The TPS can create test moments using this information and provide a TES with this data. However, because these test moments weren't initiated by the SIS it's not possible to transfer results/scores back to the SIS using flow 5. If required, these scores have to entered manually in the SIS.
 
-We request the a group of students based on the program they are participating in this allows than for the planner to create detailed plannings, results do not go back to the SIS automaticly.
+### Flow 1b : Endpoints for this flow
 
+- GET /ooapi/groups
+- GET /ooapi/groups/{groupId}/persons
+- GET /ooapi/person/{personId}
 
-## endpoints
-Used endpoints for this flow are:
-```
-GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
-PUT /geenidee
-GET /geenidee/{geenideeId}
-GET /ooapi/association/{associationId}
-```
-Planner tool ontvangt gegevens over de stuenten die ingepland moeten worden. Hierbij gaat het om de direct in te plannen toetsen (op basis van het component) en om de indeling van de student op een 
+## Flow : Additional supporting information
 
-Planner kan al beperkt worden door security
-Boolean IsLineItem (we verwachten ook een resultaat te loggen)
-ComponentType = Test, Lecture, Consultation, SkillTraining..... Niet beperken.
+Based on the id's on students and their program offering associations, provided to the planning software in the one of the flows 1a or 1b, the planning software can retrieve additional student and program association information.
+
+### Additional supporting information flow : Endpoints for this flow
+
+- GET /ooapi/person/{personId}
+- GET /ooapi/associations/{associationId}/?expand=offering
 
 # Flow 1a : Get the to be planned exams (and students)
 
-### Sequence diagram of request Create offering (zitting)	
+### Sequence diagram of request Create offering (rough planning or in NL grofplanning)	
 ```mermaid
 sequenceDiagram
     participant SIS
