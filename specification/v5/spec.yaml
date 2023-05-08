@@ -100,8 +100,8 @@ tags:
 #      This specification allows for other education objects to be derived from it.
 #      It is used to aggregate education objects from a supplying institution.
 #      It clusters programs to a main educationSpecification that is used in registries such as RIO.
-#  - name: groups
-#    description: The groups API provides information about groups that are related to organizations, persons and offerings. Groups of students that are related to an offering are typically used for rostering. The rostering application assigns students based on these groups. For example, class 1b will be assigned to the course offering on monday morning. Not all groups are related to an offering. A group of people can also be a team that is working on a task outside the OOAPI scope. These can be teams of students, but also teams of employees.
+  - name: groups
+    description: The groups API provides information about groups that are related to organizations, persons and offerings. Groups of students that are related to an offering are typically used for rostering. The rostering application assigns students based on these groups. For example, class 1b will be assigned to the course offering on monday morning. Not all groups are related to an offering. A group of people can also be a team that is working on a task outside the OOAPI scope. These can be teams of students, but also teams of employees.
 #  - name: news
 #    description: The news API provides news feeds and items regarding a specific subject.
   - name: offerings
@@ -156,10 +156,10 @@ tags:
     x-displayName: Person
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/Person" />
-#  - name: group_model
-#    x-displayName: Group
-#    description: |
-#      <SchemaDefinition schemaRef="#/components/schemas/Group" />
+  - name: group_model
+    x-displayName: Group
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Group" />
 #  - name: academic_session_model
 #    x-displayName: AcademicSession
 #    description: |
@@ -195,12 +195,12 @@ x-tagGroups:
 #      - courses
       - components
 #      - education specifications
-#      - groups
+      - groups
 #      - news
       - documents
       - offerings
 #      - organizations
-#      - persons
+      - persons
 #      - programs
 #      - rooms
   - name: Models
@@ -214,7 +214,7 @@ x-tagGroups:
 #      - course_model
 #      - course_offering_model
 #      - education_specification_model
-#      - group_model
+      - group_model
 #      - news_feed_model
 #      - news_item_model
 #      - organization_model
@@ -368,9 +368,9 @@ paths:
   #   $ref: paths/EducationSpecificationCourseCollection.yaml
   # /education-specifications/{educationSpecificationId}/programs:
   #   $ref: paths/EducationSpecificationProgramCollection.yaml
-  # /groups:
-  #   $ref: paths/GroupCollection.yaml
-  # /groups/{groupId}:
-  #   $ref: paths/GroupInstance.yaml
-  # /groups/{groupId}/persons:
-  #   $ref: paths/GroupPersonCollection.yaml
+  /groups:
+    $ref: paths/GroupCollection.yaml
+  /groups/{groupId}:
+    $ref: paths/GroupInstance.yaml
+  /groups/{groupId}/persons:
+    $ref: paths/GroupPersonCollection.yaml

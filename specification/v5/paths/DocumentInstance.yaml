@@ -1,7 +1,10 @@
 get:
   summary: GET /documents/{documentId}
   operationId: listDocumentById
-  description: Get the binary data from a docuemtn.
+  description: Get the binary data from a document.
+  security:
+    - oAuthFlows:
+      - test-admin-flow
   tags:
     - documents
   parameters:
@@ -15,10 +18,17 @@ get:
 
   responses:
     '200':
-      description: OK
       content:
-        application/octet-stream: {}
- 
+        application/octet-stream:
+          schema:
+            type: string
+            format: binary
+          examples:
+            file-download:
+              description: File download
+              summary: File download
+              value: <raw data>
+      description: OK
     '400':
       $ref: '../schemas/ErrorBadRequest.yaml'
     '401':

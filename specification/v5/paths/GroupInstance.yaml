@@ -1,6 +1,9 @@
 get:
   summary: GET /groups/{groupId}
   operationId: listGroupById
+  security:
+    - oAuthFlows:
+      - test-admin-flow
   description: Get a single group.
   tags:
     - groups

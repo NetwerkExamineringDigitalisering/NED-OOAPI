@@ -1,6 +1,9 @@
 get:
   summary: GET /groups/{groupId}/persons
   operationId: listPersonsByGroupId
+  security:
+    - oAuthFlows:
+      - test-admin-flow
   description: Get an ordered list of all persons that are member of a given group, ordered by personId.
   tags:
     - groups

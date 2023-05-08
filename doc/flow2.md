@@ -315,16 +315,14 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
     "associationType": "componentOfferingAssociation",
     "role": "student",
     "state": "associated",
-    "consumers": 
-      [
-	{
-    	"consumerKey": "MBO-toetsafname",
-    	"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
-    	"extraTimeInMin": 0,
-    	"personalNeeds": [ ]
-	}
-      ]
-
+    "consumers":[
+		{
+			"consumerKey": "MBO-toetsafname",
+			"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
+			"extraTimeInMin": 0,
+			"personalNeeds": [ ]
+		}
+	]
 }
 ```
 
