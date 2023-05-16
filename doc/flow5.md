@@ -32,3 +32,9 @@ Je hebt hiervoor een haak nodig die in het SIS bestaat. Er zou een endpoint voor
 Wat weet het planningssysteem? Het resultaat, de association, de offering waar de association opgedaan is, het component (ID) waar de offering van is afgeleid en de student
 
 Wat heeft het SIS de student, de component 
+
+* poging vergeven opbemen in results
+* poging nummer 
+* testdate en resultdate openemen in de flow terug? 
+* Definitis voor de verschillende date's bepalen
+* label voor detail planning uit flow 2en 3  openemen in flow 5
