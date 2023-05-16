@@ -33,8 +33,10 @@ Wat weet het planningssysteem? Het resultaat, de association, de offering waar d
 
 Wat heeft het SIS de student, de component 
 
-* poging vergeven opbemen in results
+* poging vergeven opnemen in results
 * poging nummer 
 * testdate en resultdate openemen in de flow terug? 
-* Definitis voor de verschillende date's bepalen
-* label voor detail planning uit flow 2en 3  openemen in flow 5
+* Definities voor de verschillende date's bepalen
+* label voor detailplanning uit flow 2en 3  openemen in flow 5
+* zien we een verschil tussen toetsplanning en toetsafname voor het consumer object van de associations
+
