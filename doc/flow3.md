@@ -38,7 +38,7 @@ classDiagram
 	attendance : string
 	assessorId : string
 	assessorCode : string 
-	iregularities : string
+	irregularities : string
 	final : boolean 
 	rawScore : integer 
 	maxRawScore : integer 
