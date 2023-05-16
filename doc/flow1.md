@@ -59,30 +59,30 @@ Based on the id's on students and their program offering associations, provided 
 ### Sequence diagram of request Create offering (rough planning or in NL grofplanning)	
 ```mermaid
 sequenceDiagram
-    participant SIS
+    participant DeelnemerRegistratie
     participant Toetsplanning
-    SIS-->>SIS: setup studyplan and tests/exams
-    Toetsplanning->>SIS : Give list of exams/test that need to be planned soon by me
-    activate SIS
-    Note right of SIS: endpoint /a/ooapi/offerings?componentType=TEST&from=..&until=.. (GET)
-    SIS->>Toetsplanning : 200 - please plan this!
-    deactivate SIS
+    DeelnemerRegistratie-->>DeelnemerRegistratie: setup studyplan and tests/exams
+    Toetsplanning->>DeelnemerRegistratie : Give list of exams/test that need to be planned soon by me
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings?componentType=TEST&from=..&until=.. (GET)
+    DeelnemerRegistratie->>Toetsplanning : 200 - please plan this!
+    deactivate DeelnemerRegistratie
 
     loop for each exam/test
-        Toetsplanning->>SIS: Get list of associations (students & staff)
-        activate SIS
-        Note right of SIS: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
-        SIS->>Toetsplanning: 200 - Bedankt!
+        Toetsplanning->>DeelnemerRegistratie: Get list of associations (students & staff)
+        activate DeelnemerRegistratie
+        Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
+        DeelnemerRegistratie->>Toetsplanning: 200 - Bedankt!
     end
-    deactivate SIS
+    deactivate DeelnemerRegistratie
 
     loop for each student / staff
-        Toetsplanning-->>SIS: Get details of a student / staff
-        activate SIS
-        Note right of SIS: endpoint /a/ooapi/association/{associationId} (GET)
-        SIS-->>Toetsplanning: 200 - Bedankt!
+        Toetsplanning-->>DeelnemerRegistratie: Get details of a student / staff
+        activate DeelnemerRegistratie
+        Note right of DeelnemerRegistratie: endpoint /a/ooapi/association/{associationId} (GET)
+        DeelnemerRegistratie-->>Toetsplanning: 200 - Bedankt!
     end
-    deactivate SIS
+    deactivate DeelnemerRegistratie
 
 ```
 
@@ -231,14 +231,14 @@ GET /a/ooapi/offerings/{offeringId}/associations/
 ```mermaid
 
 sequenceDiagram
-    participant SIS
+    participant DeelnemerRegistratie
     participant Toetsplanning
     Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>SIS : Give list of groups matching having a name or code containing "H2b"
-    activate SIS
-    Note right of SIS: endpoint /a/ooapi/groups?q=H2b (GET)
-    SIS->>Toetsplanning : 200 - Here they are !
-    deactivate SIS
+    Toetsplanning->>DeelnemerRegistratie : Give list of groups matching having a name or code containing "H2b"
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/groups?q=H2b (GET)
+    DeelnemerRegistratie->>Toetsplanning : 200 - Here they are !
+    deactivate DeelnemerRegistratie
 ```
 
 ### Sequence diagram of request persons in a specific group
@@ -246,14 +246,14 @@ sequenceDiagram
 ```mermaid
 
 sequenceDiagram
-    participant SIS
+    participant DeelnemerRegistratie
     participant Toetsplanning
     Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>SIS : Give list of students for group sith code "groupId"
-    activate SIS
-    Note right of SIS: endpoint /a/ooapi/groups/{groupId}/persons (GET)
-    SIS->>Toetsplanning : 200 - Here they are !
-    deactivate SIS
+    Toetsplanning->>DeelnemerRegistratie : Give list of students for group sith code "groupId"
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/groups/{groupId}/persons (GET)
+    DeelnemerRegistratie->>Toetsplanning : 200 - Here they are !
+    deactivate DeelnemerRegistratie
 ```
 
 ### Sequence diagram of request to get a single student
@@ -261,14 +261,14 @@ sequenceDiagram
 ```mermaid
 
 sequenceDiagram
-    participant SIS
+    participant DeelnemerRegistratie
     participant Toetsplanning
     Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>SIS : Give me student data of a student 
-    activate SIS
-    Note right of SIS: endpoint /a/ooapi/persons/{personId} (GET)
-    SIS->>Toetsplanning : 200 - Here are the details on Jan for planning
-    deactivate SIS
+    Toetsplanning->>DeelnemerRegistratie : Give me student data of a student 
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/persons/{personId} (GET)
+    DeelnemerRegistratie->>Toetsplanning : 200 - Here are the details on Jan for planning
+    deactivate DeelnemerRegistratie
 ```
 
 ### Example of request groups	
