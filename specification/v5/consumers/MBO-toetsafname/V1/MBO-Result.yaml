@@ -11,11 +11,14 @@ properties:
     description: |
       attendance
       indication of presence during the test (mandatory). 
-      Possible values are notPresent (niet aanwezig),
+      Possible values are:
+      notKnown (toetsmoment alleen gepland, moment nog niet gestart, nog geen aanwezigheidstoets mogelijk)
+      notPresent (niet aanwezig),
       notStarted (aanwezig maar niet gestart),
       notFinished (aanwezig en gestart maar niet afgerond/ingeleverd)
-      en present (aanwezig en afgerond/ingeleverd)"
+      and present (aanwezig en afgerond/ingeleverd)"
     enum:
+      - notKnown
       - notPresent
       - notStarted
       - notFinished

@@ -400,13 +400,12 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 
 {
-    "consumers": 
-      [
+    "consumers": [
 	{
     	  "consumerKey": "MBO-toetsafname",
     	  "offeringState": "canceled"
 	}
-      ]
+    ]
 }
 ```
 
@@ -465,7 +464,7 @@ GET /a/ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-         	"consumerKey": "MBO-toetsafname",
+        "consumerKey": "MBO-toetsafname",
 		"duration": 60,  #je hebt duration nodig als je flexibele periodes hebt.
 		"safety": ["Fixed Location", "Surveillance"]
 		"offeringState": "active",
@@ -496,17 +495,17 @@ GET /a/ooapi/offerings/{offeringId}/associations
     	"state": "associated",
     	"consumers": 
       	[
-	{
-    	"consumerKey": "MBO-toetsafname",
-    	"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
-    	"extraTimeInMin": 30,
-    	"personalNeeds": 
-	  [
-            "extraTime",
-            "spoken",
-            "spell-checker-on-screen"
-	  ]
-	}
+			{
+				"consumerKey": "MBO-toetsafname",
+				"attendance": "notKnown",
+				"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
+				"extraTimeInMin": 30,
+				"personalNeeds": [
+						"extraTime",
+						"spoken",
+						"spell-checker-on-screen"
+				]
+			}
       	]
     	"person": {
 		"personId": "111-2222-33-4444-222",

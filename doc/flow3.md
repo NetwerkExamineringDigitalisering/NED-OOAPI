@@ -181,21 +181,21 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
 	     {
-		"consumerKey": "MBO-toetsafname",
-		"attendance": "present",
-		"assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-		"assessorCode": "JAJE",
-		"irregularities": "Jantje heeft gespiekt."
-		"final": true,
-		"rawScore": 65,
-		"maxRawScore": 75,
-		"documents": [
-		 {
-		   "documentId": "123454",
-		   "documentType": "assessmentForm",
-		   "documentName": "Assessment form for Jake Doe.pdf"
-		 }
-		]
+          "consumerKey": "MBO-toetsafname",
+          "attendance": "present",
+          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+          "assessorCode": "JAJE",
+          "irregularities": "Jantje heeft gespiekt."
+          "final": true,
+          "rawScore": 65,
+          "maxRawScore": 75,
+          "documents": [
+          {
+            "documentId": "123454",
+            "documentType": "assessmentForm",
+            "documentName": "Assessment form for Jake Doe.pdf"
+          }
+          ]
 	      }
       ],
     }
