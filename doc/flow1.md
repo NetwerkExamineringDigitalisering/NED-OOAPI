@@ -465,66 +465,60 @@ GET /ooapi/persons/{personId}
 
 # flow : additional supporting information 
 
-### Sequence diagram of request to get students	based on a program the person is participating in
+### Sequence diagram of request to get students	based on a program (?) the person is participating in
 
 
-### Example of request program offerings	
+### Example of request program offering information
+Warning: next part will change. No list of offerings will be given. 
 ```
-GET /ooapi/offerings?Type=Program&Until=..&planner=..
+GET /ooapi/offerings/<id>
 {
-  "pageSize": 10,
-  "pageNumber": 1,
-  "hasPreviousPage": false,
-  "hasNextPage": true,
-  "totalPages": 8,
-  "items": [
-        {
-            "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
-            "primaryCode": {
-                "codeType": "identifier",
-                "code": "25190BOL"
-            },
-            "offeringType": "program",
-            "name": "Netwerk- en mediabeheerder BOL (25190)",
-            "consumers": [
-                {
-                    "consumerKey": "MBO-NED"
-                }
-            ],
-            "organization": {
-                "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
-                "primaryCode": {
-                    "codeType": "identifier",
-                    "code": "ICTE"
-                },
-                "name": [
-                    {
-                        "language": "nl-NL",
-                        "value": "ICT-academie"
-                    }
-                ],
-                "parent": {
-                    "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
-                    "primaryCode": {
-                        "codeType": "identifier",
-                        "code": "CICT"
-                    },
-                    "name": [
-                        {
-                            "language": "nl-NL",
-                            "value": "Cluster ICT en EIS"
-                        }
-                    ]
-                }
-            }
-        }
-    ]
+    "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
+    "primaryCode": {
+	"codeType": "identifier",
+	"code": "25190BOL"
+    },
+    "offeringType": "program",
+    "name": "Netwerk- en mediabeheerder BOL (25190)",
+    "consumers": [
+	{
+	    "consumerKey": "MBO-NED"
+	}
+    ],
+    "organization": {
+	"organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+	"primaryCode": {
+	    "codeType": "identifier",
+	    "code": "ICTE"
+	},
+	"name": [
+	    {
+		"language": "nl-NL",
+		"value": "ICT-academie"
+	    }
+	],
+	"parent": {
+	    "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
+	    "primaryCode": {
+		"codeType": "identifier",
+		"code": "CICT"
+	    },
+	    "name": [
+		{
+		    "language": "nl-NL",
+		    "value": "Cluster ICT en EIS"
+		}
+	    ]
+	}
+    }
 }
 ```
 
-### Example of request associations	
+### Example of request associations
+Warning : next lines will change. only known associations are requested, no lists with wildcards
+
 ```
-GET /a/ooapi/associations
+GET /a/ooapi/?/associations/<id>
 {
   "pageSize": 10,
   "pageNumber": 1,
