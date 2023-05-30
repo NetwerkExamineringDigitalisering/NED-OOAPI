@@ -5,22 +5,54 @@
 
 ## Flow 5.1 : Return attendance and results
 
-### Sequence diagram 
+### Sequence diagram of request Send attendance and result directly
 ```mermaid
 sequenceDiagram
-    participant SIS
+    participant Deelnemerregistratie
     participant Toetsplanning
-
-    loop for each exam/test
-        loop for each student / teacher
-          Toetsplanning-->>SIS: Send detailed results for this exam for this student
-          activate SIS
-          Note right of SIS: endpoint /a/ooapi/geenidee/{geenideeId}/students/{geenideeId} (PUT)
-          SIS-->>Toetsplanning: 200 - Bedankt!
-          deactivate SIS
-        end
+    loop for each student
+      Toetsplanning->>Deelnemerregistratie: Send attendance and result directly
+      activate Deelnemerregistratie
+      Note right of Deelnemerregistratie: endpoint /a/ooapi/associations/{associationId} (PATCH)
+      Deelenemerregistratie->>Toetsplanning: 200 - OK!
+      deactivate Deelnemerregistratie
     end
+```
 
+### Class diagram of request Send attendance and result directly
+```mermaid
+classDiagram
+    class Association {
+	result : Result
+    }
+    class Result {
+    	state : string
+	pass : string
+	comment : string
+	score : string
+	resultDate : date
+	consumers : MBO_Result
+	weight : integer
+    }
+    class MBO_Result {
+	consumerKey : string
+	attendance : string
+	assessorId : string
+	assessorCode : string 
+	irregularities : string
+	final : boolean 
+	rawScore : integer 
+	maxRawScore : integer 
+	documents : Document[]
+    }
+    class Document {
+	documentId : string
+	documentType : string
+	documentName : string
+    }
+    Association o-- Result
+    Result o-- MBO_Result
+    MBO_Result o-- Document
 ```
 
 Welke toets scenarios willen we hier kunnen ondervangen. 
