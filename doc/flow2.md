@@ -24,30 +24,30 @@ For the offering (zitting) the following entities and attributes are used:
 classDiagram
     class Offering {
     	offeringId : UUID
-	primaryCode : identifierEntity
-	offeringType : OfferingType = "component"
-	name : languageTypedString[]
-	description : languageTypedString[]
-	teachingLanguage : string
-	modeOfDelivery : string
-	resultExpected : boolean
-	consumers : NL-TEST-ADMIN
-	startDateTime : datetime
-	endDateTime : datetime
-	component : string
+		primaryCode : identifierEntity
+		offeringType : OfferingType = "component"
+		name : languageTypedString[]
+		description : languageTypedString[]
+		teachingLanguage : string
+		modeOfDelivery : string
+		resultExpected : boolean
+		consumers : NL-TEST-ADMIN
+		startDateTime : datetime
+		endDateTime : datetime
+		component : string
     }
-    class NL-TEST-ADMIN-Offering {
+    class `NL-TEST-ADMIN-Offering` {
     	consumerKey : string = "NL-TEST-ADMIN"
-	duration : integer
-	lastPossibleStartTime : date-time
-	startOptions : string
-	durtionFrom : string
-	durationUntil : string
-	safety : string
-	offeringState : OfferingStateType
-	locationCode : string
+		duration : integer
+		lastPossibleStartTime : date-time
+		startOptions : string
+		durtionFrom : string
+		durationUntil : string
+		safety : string
+		offeringState : OfferingStateType
+		locationCode : string
     }
-    Offering o-- NL-TEST-ADMIN-Offering
+    Offering o-- `NL-TEST-ADMIN-Offering`
 ```
 
 ### Example of request Create offering (zitting)	
@@ -162,33 +162,33 @@ sequenceDiagram
 classDiagram
     class Association {
     	associationId : UUID
-	associationType : associationType
-	role : associationRole
-	state : state
-	consumers : NL-TEST-ADMIN-Association
-#	result : Result
-	person : personId or Person
-	offering : offeringId
+		associationType : associationType
+		role : associationRole
+		state : state
+		consumers : `NL-TEST-ADMIN-Association`
+	#	result : Result
+		person : personId or Person
+		offering : offeringId
     }
-    class NL-TEST-ADMIN-Association {
+    class `NL-TEST-ADMIN-Association` {
     	consumerKey : string = "NL-TEST-ADMIN"
-	startUpURL : string
-	additionalTimeInMin : int
-	personalNeeds : string[]
+		startUpURL : string
+		additionalTimeInMin : int
+		personalNeeds : string[]
     }
     class Person {
-	personId : UUID
-	primaryCode : identifierEntity
-	givenName : string
-	preferredName : string
-	surnamePrefix : string 
-	surname : string
-	displayname : string
-	activeEnrollment : boolean 
-	affiliations : personAffiliations
-	mail : string
+		personId : UUID
+		primaryCode : identifierEntity
+		givenName : string
+		preferredName : string
+		surnamePrefix : string 
+		surname : string
+		displayname : string
+		activeEnrollment : boolean 
+		affiliations : personAffiliations
+		mail : string
     }
-    Association o-- NL-TEST-ADMIN-Association
+    Association o-- `NL-TEST-ADMIN-Association`
     Association -- Person
 ```
 
@@ -345,7 +345,7 @@ For the deletion of a association (deelname) from the offering (zitting) the fol
 ```mermaid
 classDiagram
     class Association {
-	state : string = "canceled"
+		state : string = "canceled"
 	}
 ```
 
@@ -384,13 +384,13 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Offering {
-	consumers : NL-TEST-ADMIN-Offering
+	consumers : `NL-TEST-ADMIN-Offering`
     }
-    class NL-TEST-ADMIN-Offering {
+    class `NL-TEST-ADMIN-Offering` {
     	consumerKey : string = "NL-TEST-ADMIN"
 		offeringState : OfferingStateType = "canceled"
     }
-    Offering o-- NL-TEST-ADMIN-Offering
+    Offering o-- `NL-TEST-ADMIN-Offering`
 ```
 
 ### Example of request Delete offering (zitting)	

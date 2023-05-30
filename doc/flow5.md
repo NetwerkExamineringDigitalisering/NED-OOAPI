@@ -35,7 +35,7 @@ classDiagram
 	consumers : NL-TEST-ADMIN
 	weight : integer
     }
-    class MBO_Result {
+    class `NL-TEST-ADMIN-Result` {
 	consumerKey : string
 	attendance : string
 	assessorId : string
@@ -53,8 +53,8 @@ classDiagram
 	documentName : string
     }
     Association o-- Result
-    Result o-- MBO_Result
-    MBO_Result o-- Document
+    Result o-- `NL-TEST-ADMIN-Result`
+    `NL-TEST-ADMIN-Result` o-- Document
 ```
 TO DO:
 

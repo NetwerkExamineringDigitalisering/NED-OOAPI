@@ -24,8 +24,8 @@ sequenceDiagram
    "consumers": [
       {
         "consumerKey": "NL-TEST-ADMIN",
-	"irregularities": "There was a lot of noise from the construction site nearby.",
-	"documents": [
+        "irregularities": "There was a lot of noise from the construction site nearby.",
+        "documents": [
           {
             "documentId": "454566464665355545",
             "documentType": "sessionReport",

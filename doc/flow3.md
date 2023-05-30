@@ -21,38 +21,38 @@ sequenceDiagram
 ### Class diagram of request Send attendance and result directly
 ```mermaid
 classDiagram
-    class Association {
-	result : Result
-    }
-    class Result {
-    	state : string
-	pass : string
-	comment : string
-	score : string
-	resultDate : date
-	consumers : NL-TEST-ADMIN-Result
-	weight : integer
-    }
-    class NL-TEST-ADMIN-Result {
-	consumerKey : string
-	attendance : string
-	assessorId : string
-	assessorCode : string 
-	irregularities : string
-	final : boolean 
-	rawScore : integer 
-	maxRawScore : integer
-	gradeDate: string
-	documents : Document[]
-    }
-    class Document {
-	documentId : string
-	documentType : string
-	documentName : string
-    }
-    Association o-- Result
-    Result o-- NL-TEST-ADMIN-Result
-    NL-TEST-ADMIN-Result o-- Document
+  class Association {
+  	result : Result
+  }
+  class Result {
+    state : string
+    pass : string
+    comment : string
+    score : string
+    resultDate : date
+    consumers : `NL-TEST-ADMIN-Result`
+    weight : integer
+  }
+  class `NL-TEST-ADMIN-Result` {
+   	consumerKey : string = "NL-TEST-ADMIN"
+    attendance : string
+    assessorId : string
+    assessorCode : string 
+    irregularities : string
+    final : boolean 
+    rawScore : integer 
+    maxRawScore : integer
+    gradeDate: string
+    documents : Document[]
+  }
+  class Document {
+    documentId : string
+    documentType : string
+    documentName : string
+  }
+  Association o-- Result
+  Result o-- `NL-TEST-ADMIN-Result`
+  `NL-TEST-ADMIN-Result` o-- Document
 ```
 
 ### Example of request Send attendance and result directly
@@ -67,23 +67,23 @@ PATCH /associations/{associationId}
       "score": "9",
       "resultDate": "2020-09-28",
       "consumers": [
-	     {
-		"consumerKey": "NL-TEST-ADMIN",
-		"attendance": "present",
-		"assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-		"assessorCode": "JAJE",
-		"irregularities": "Jantje heeft gespiekt."
-		"final": true,
-		"rawScore": 65,
-		"maxRawScore": 75,
-		"documents": [
-		 {
-		   "documentId": "123454",
-		   "documentType": "assessmentForm",
-		   "documentName": "Assessment form for Jake Doe.pdf"
-		 }
-		]
-	      }
+  	     {
+            "consumerKey": "NL-TEST-ADMIN",
+            "attendance": "present",
+            "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+            "assessorCode": "JAJE",
+            "irregularities": "Jantje heeft gespiekt."
+            "final": true,
+            "rawScore": 65,
+            "maxRawScore": 75,
+            "documents": [
+            {
+              "documentId": "123454",
+              "documentType": "assessmentForm",
+              "documentName": "Assessment form for Jake Doe.pdf"
+            }
+            ]
+	        }
       ],
       "weight": 100,
     }
@@ -137,15 +137,15 @@ classDiagram
     }
     class Result {
     	state : string = "in progress"
-	resultDate : date
-	consumers : NL-TEST-ADMIN-Result
+      resultDate : date
+      consumers : `NL-TEST-ADMIN-Result`
     }
-    class NL-TEST-ADMIN-Result {
-	consumerKey : string
-	attendance : string
+    class `NL-TEST-ADMIN-Result` {
+    	consumerKey : string = "NL-TEST-ADMIN"
+      attendance : string
     }
     Association o-- Result
-    Result o-- NL-TEST-ADMIN-Result
+    Result o-- `NL-TEST-ADMIN-Result`
 ```
 
 ### Example of request A. Send attendance for student directly
@@ -158,8 +158,8 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-27",
       "consumers": [
 	     {
-		"consumerKey": "NL-TEST-ADMIN",
-		"attendance": "present",
+        "consumerKey": "NL-TEST-ADMIN",
+        "attendance": "present",
 	     }
       ]
     }

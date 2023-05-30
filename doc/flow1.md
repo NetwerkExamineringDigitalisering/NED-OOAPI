@@ -92,15 +92,15 @@ sequenceDiagram
 classDiagram
     class Association {
     	associationId : UUID
-	associationType : associationType
-	role : associationRole
-	state : state
-	consumers : Consumer
-#	result : Result
-	person : personId or Person
-	offering : offeringId
+        associationType : associationType
+        role : associationRole
+        state : state
+        consumers : Consumer
+    #	result : Result
+        person : personId or Person
+        offering : offeringId
     }
-    class Consumer {
+    class `NL-TEST-ADMIN-Association` {
     	consumerKey : string = "NL-TEST-ADMIN"
 	    additionalTimeInMin : int
 	    personalNeeds : string[]
@@ -108,18 +108,18 @@ classDiagram
         attemptLeft : int
     }
     class Person {
-	personId : UUID
-	primaryCode : identifierEntity
-	givenName : string
-	surnamePrefix : string 
-	surname : string
-	displayname : string
-	activeEnrollment : boolean 
-	affiliations : personAffiliations
-	mail : string
-    	consumers : Consumer2
+        personId : UUID
+        primaryCode : identifierEntity
+        givenName : string
+        surnamePrefix : string 
+        surname : string
+        displayname : string
+        activeEnrollment : boolean 
+        affiliations : personAffiliations
+        mail : string
+    	consumers : `NL-TEST-ADMIN-Person`
     }
-    class Consumer2 {
+    class `NL-TEST-ADMIN-Person` {
     	consumerKey : string = "NL-TEST-ADMIN"
 	    programOfferingAssociation : string
 	    courseOfferingAssociation : string
@@ -128,9 +128,9 @@ classDiagram
        offeringId : UUID
     }
     Offering  o-- Association
-    Association o-- Consumer
+    Association o-- `NL-TEST-ADMIN-Association`
     Association -- Person
-    Person o-- Consumer2
+    Person o-- `NL-TEST-ADMIN-Person`
 
 ```
 ### Example of request component offerings that need to be planned
