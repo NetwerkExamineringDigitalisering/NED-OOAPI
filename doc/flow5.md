@@ -14,7 +14,7 @@ sequenceDiagram
       Toetsplanning->>Deelnemerregistratie: Send attendance and result directly
       activate Deelnemerregistratie
       Note right of Deelnemerregistratie: endpoint /a/ooapi/associations/{associationId} (PATCH)
-      Deelenemerregistratie->>Toetsplanning: 200 - OK!
+      Deelnemerregistratie->>Toetsplanning: 200 - OK!
       deactivate Deelnemerregistratie
     end
 ```
