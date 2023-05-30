@@ -31,12 +31,12 @@ classDiagram
 	teachingLanguage : string
 	modeOfDelivery : string
 	resultExpected : boolean
-	consumers : NL-TEST-ADMIN
+	consumers : 'NL-TEST-ADMIN'
 	startDateTime : datetime
 	endDateTime : datetime
 	component : string
     }
-    class NL-TEST-ADMIN-Offering {
+    class 'NL-TEST-ADMIN-Offering' {
     	consumerKey : string = "NL-TEST-ADMIN"
 	duration : integer
 	lastPossibleStartTime : date-time
@@ -47,7 +47,7 @@ classDiagram
 	offeringState : OfferingStateType
 	locationCode : string
     }
-    Offering o-- NL-TEST-ADMIN-Offering
+    Offering o-- 'NL-TEST-ADMIN-Offering'
 ```
 
 ### Example of request Create offering (zitting)	
