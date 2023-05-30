@@ -212,8 +212,8 @@ GET /a/ooapi/offerings/{offeringId}/associations/
                         "spoken",
                         "spell-checker-on-screen"                
                     ],
-                    "programAssociationID": "54e58f68-ceac-4845-99d5-caa721fefb88",
-                    "courseAssociationID": "170b5f35-20be-47bf-96ff-d262d121b76b"
+                    "programOfferingAssociationID": "54e58f68-ceac-4845-99d5-caa721fefb88",
+                    "courseOfferingAssociationID": "170b5f35-20be-47bf-96ff-d262d121b76b"
                 }
             ],
             "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
