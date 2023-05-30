@@ -19,7 +19,7 @@ A typical school uses a broad range of exam and testing tools. The aim of this s
 - [flow 2 : Planned exam/test is sent to Toetsafname](doc/flow2.md)
 - [flow 3 : Test results are returned to Toetsplanning](doc/flow3.md)
 - [flow 4 : Test session report (Procesverbaal and irregularities) back to Toetsplanning](doc/flow4.md)
-- flow 5 : Test results to Deelnemerregistratie
+- [flow 5 : Test results to Deelnemerregistratie](doc/flow5.md)
 - flow 6 : analyse information
 
 - [All flows - Authentication and scopes, error handling](doc/ErrorHandling.md)
