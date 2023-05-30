@@ -42,7 +42,8 @@ classDiagram
 	irregularities : string
 	final : boolean 
 	rawScore : integer 
-	maxRawScore : integer 
+	maxRawScore : integer
+	gradeDate: string
 	documents : Document[]
     }
     class Document {
