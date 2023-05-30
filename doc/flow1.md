@@ -95,7 +95,7 @@ classDiagram
         associationType : associationType
         role : associationRole
         state : state
-        consumers : Consumer
+        consumers : NL-TEST-ADMIN-Association
     #	result : Result
         person : personId or Person
         offering : offeringId
@@ -117,7 +117,7 @@ classDiagram
         activeEnrollment : boolean 
         affiliations : personAffiliations
         mail : string
-    	consumers : `NL-TEST-ADMIN-Person`
+    	consumers : NL-TEST-ADMIN-Person
     }
     class `NL-TEST-ADMIN-Person` {
     	consumerKey : string = "NL-TEST-ADMIN"

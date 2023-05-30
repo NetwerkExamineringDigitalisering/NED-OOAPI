@@ -30,7 +30,7 @@ classDiagram
     comment : string
     score : string
     resultDate : date
-    consumers : `NL-TEST-ADMIN-Result`
+    consumers : NL-TEST-ADMIN-Result
     weight : integer
   }
   class `NL-TEST-ADMIN-Result` {
@@ -138,7 +138,7 @@ classDiagram
     class Result {
     	state : string = "in progress"
       resultDate : date
-      consumers : `NL-TEST-ADMIN-Result`
+      consumers : NL-TEST-ADMIN-Result
     }
     class `NL-TEST-ADMIN-Result` {
     	consumerKey : string = "NL-TEST-ADMIN"

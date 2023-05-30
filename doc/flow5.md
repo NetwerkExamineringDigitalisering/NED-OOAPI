@@ -24,33 +24,33 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Association {
-	result : Result
+    	result : Result
     }
     class Result {
     	state : string
-	pass : string
-	comment : string
-	score : string
-	resultDate : date
-	consumers : NL-TEST-ADMIN
-	weight : integer
+        pass : string
+        comment : string
+        score : string
+        resultDate : date
+        consumers : NL-TEST-ADMIN-Result
+        weight : integer
     }
     class `NL-TEST-ADMIN-Result` {
-	consumerKey : string
-	attendance : string
-	assessorId : string
-	assessorCode : string 
-	irregularities : string
-	final : boolean 
-	rawScore : integer 
-	maxRawScore : integer
-	gradeDate: string
-	documents : Document[]
+        consumerKey : string
+        attendance : string
+        assessorId : string
+        assessorCode : string 
+        irregularities : string
+        final : boolean 
+        rawScore : integer 
+        maxRawScore : integer
+        gradeDate: string
+        documents : Document[]
     }
     class Document {
-	documentId : string
-	documentType : string
-	documentName : string
+        documentId : string
+        documentType : string
+        documentName : string
     }
     Association o-- Result
     Result o-- `NL-TEST-ADMIN-Result`

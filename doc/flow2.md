@@ -384,7 +384,7 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Offering {
-		consumers : `NL-TEST-ADMIN-Offering`
+		consumers : NL-TEST-ADMIN-Offering
     }
     class `NL-TEST-ADMIN-Offering` {
     	consumerKey : string = "NL-TEST-ADMIN"
