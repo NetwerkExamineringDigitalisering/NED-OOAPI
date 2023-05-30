@@ -1,17 +1,18 @@
 # Flow 5: Result information (students)
 
-# Proposal : THIS IS FOR DISCUSSION ONLY. NOT FINAL
+This flow can only be used for componentOfferingAssociations originating from flow 1 where the Deelnemerregistratie has indicated that it expects results by setting the attribute "resultsExpected" to true. Only in these situations results can be unambiguously related to a componentOfferingAssociation within the Deelnemerregistratie.
 
+## Flow 5.1 : Return attendance and results combined
 
-## Flow 5.1 : Return attendance and results
+After Toetsplanning has received the result from Toetsafname and done some additional processing like checking whether there is still an active componentOfferingAssociation for the test and the score to be provided to the Deelnemerregistratie fits into the resultValueType provided by the Deelnemerregistratie, the result is sent back to the Deelnemerregistratie using this flow.
 
-### Sequence diagram of request Send attendance and result directly
+### Sequence diagram of request Send attendance and result combined
 ```mermaid
 sequenceDiagram
     participant Deelnemerregistratie
     participant Toetsplanning
     loop for each student
-      Toetsplanning->>Deelnemerregistratie: Send attendance and result directly
+      Toetsplanning->>Deelnemerregistratie: Send attendance and result combined
       activate Deelnemerregistratie
       Note right of Deelnemerregistratie: endpoint /a/ooapi/associations/{associationId} (PATCH)
       Deelnemerregistratie->>Toetsplanning: 200 - OK!
@@ -31,7 +32,7 @@ classDiagram
 	comment : string
 	score : string
 	resultDate : date
-	consumers : MBO_Result
+	consumers : NL-TEST-ADMIN
 	weight : integer
     }
     class MBO_Result {
@@ -55,21 +56,19 @@ classDiagram
     Result o-- MBO_Result
     MBO_Result o-- Document
 ```
+TO DO:
 
-Welke toets scenarios willen we hier kunnen ondervangen. 
-We sturen de informatie die ontvangen is vanuit het examensysteem terug richting het KRD.
-De vraag is wat is de plek waar je het resultaat op terug wilt schrijven.
+Vanuit de openstaande vragen in deze flow moet bij resultaten terug naar de deelnemerregistratie nog het volgende uitgewerkt worden:
+- attempt/poging
+- poging vergeven indicator
+- daadwerkelijk toetsmoment als label om in ieder geval naam/code beschikbaar the hebben.
 
-Je hebt hiervoor een haak nodig die in het SIS bestaat. Er zou een endpoint voorhanden moeten zijn binnen het SIS waar het KRD naartoe kan schrijven. 
+Important attributes:
 
-Wat weet het planningssysteem? Het resultaat, de association, de offering waar de association opgedaan is, het component (ID) waar de offering van is afgeleid en de student
-
-Wat heeft het SIS de student, de component 
-
-* poging vergeven opnemen in results
-* poging nummer 
-* testdate en resultdate openemen in de flow terug? 
-* Definities voor de verschillende date's bepalen
-* label voor detailplanning uit flow 2en 3  openemen in flow 5
-* zien we een verschil tussen toetsplanning en toetsafname voor het consumer object van de associations
+- associationId: ID for the componentOfferingAssociation that has been provided by the Deelnemerregistratie
+- resultDate: Date on which the candidate has performed the test/handed in the documents.
+- gradeDate: Date on which the assessment has taken place/has been finalized.
+- attempt: sequence number of the attempt. There are two scenario's:
+    - Deelnemerregistratie creates an association per attempt
+    - Deelnemerregistratie creates an association per test an indicates how many attempts are allowed. In this  scenario the Toetsplanning has to indicate per result for which attempt this result is.
 
