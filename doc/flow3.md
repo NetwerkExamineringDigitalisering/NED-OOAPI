@@ -30,10 +30,10 @@ classDiagram
 	comment : string
 	score : string
 	resultDate : date
-	consumers : MBO_Result
+	consumers : NL-TEST-ADMIN-Result
 	weight : integer
     }
-    class MBO_Result {
+    class NL-TEST-ADMIN-Result {
 	consumerKey : string
 	attendance : string
 	assessorId : string
@@ -41,7 +41,8 @@ classDiagram
 	irregularities : string
 	final : boolean 
 	rawScore : integer 
-	maxRawScore : integer 
+	maxRawScore : integer
+  gradeDate: string 
 	documents : Document[]
     }
     class Document {
@@ -50,8 +51,8 @@ classDiagram
 	documentName : string
     }
     Association o-- Result
-    Result o-- MBO_Result
-    MBO_Result o-- Document
+    Result o-- NL-TEST-ADMIN-Result
+    NL-TEST-ADMIN-Result o-- Document
 ```
 
 ### Example of request Send attendance and result directly
@@ -67,7 +68,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
 	     {
-		"consumerKey": "MBO-toetsafname",
+		"consumerKey": "NL-TEST-ADMIN",
 		"attendance": "present",
 		"assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
 		"assessorCode": "JAJE",
@@ -137,14 +138,14 @@ classDiagram
     class Result {
     	state : string = "in progress"
 	resultDate : date
-	consumers : MBO_Result
+	consumers : NL-TEST-ADMIN-Result
     }
-    class MBO_Result {
+    class NL-TEST-ADMIN-Result {
 	consumerKey : string
 	attendance : string
     }
     Association o-- Result
-    Result o-- MBO_Result
+    Result o-- NL-TEST-ADMIN-Result
 ```
 
 ### Example of request A. Send attendance for student directly
@@ -157,7 +158,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-27",
       "consumers": [
 	     {
-		"consumerKey": "MBO-toetsafname",
+		"consumerKey": "NL-TEST-ADMIN",
 		"attendance": "present",
 	     }
       ]
@@ -181,7 +182,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
 	     {
-          "consumerKey": "MBO-toetsafname",
+          "consumerKey": "NL-TEST-ADMIN",
           "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",
@@ -257,15 +258,15 @@ GET /offerings/{offeringId}/associations
     "remoteState": "associated",
     "consumers": [
     {
-      "consumerKey": "MBO-toetsafname",
+      "consumerKey": "NL-TEST-ADMIN",
       "startUpURL": "https://myComponent.nl?test",
       "additionalTimeInMin": 30,
       "personalNeeds": 
-	[
+    	[
             "extraTime",
             "spoken",
             "spell-checker-on-screen"
-        ]
+      ]
     }
     ],
     "result": {
@@ -276,23 +277,24 @@ GET /offerings/{offeringId}/associations
       "resultDate": "2020-09-28",
       "weight": 100,
       "consumers": [
-	{
-	  "consumerKey": "MBO-toetsafname",
-	  "attendance": "present",
-	  "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-	  "assessorCode": "JAJE",
-	  "irregularities": "Jantje heeft gespiekt."
-	  "final": true,
-	  "rawScore": 65,
-	  "maxRawScore": 75,
-	  "documents": [
-	  {
-	    "documentId": "123454",
-	    "documentType": "assessmentForm",
-	    "documentName": "Assessment form for Jake Doe.pdf"
-	  }
+      {
+        "consumerKey": "NL-TEST-ADMIN",
+        "attendance": "present",
+        "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+        "assessorCode": "JAJE",
+        "irregularities": "Jantje heeft gespiekt."
+        "final": true,
+        "rawScore": 65,
+        "maxRawScore": 75,
+        "documents": [
+        {
+          "documentId": "123454",
+          "documentType": "assessmentForm",
+          "documentName": "Assessment form for Jake Doe.pdf"
+        }
         ]
       }
+      ]
     }
     "person": 
     {
@@ -342,7 +344,7 @@ GET /associations/{associationId}
     "remoteState": "associated",
     "consumers": [
     {
-      "consumerKey": "MBO-toetsafname",
+      "consumerKey": "NL-TEST-ADMIN",
       "startUpURL": "https://myComponent.nl?test",
       "extraTimeInMin": 30,
       "personalNeeds": 
@@ -362,7 +364,7 @@ GET /associations/{associationId}
       "weight": 100,
       "consumers": [
 	{
-	  "consumerKey": "MBO-toetsafname",
+	  "consumerKey": "NL-TEST-ADMIN",
 	  "attendance": "present",
 	  "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
 	  "assessorCode": "JAJE",

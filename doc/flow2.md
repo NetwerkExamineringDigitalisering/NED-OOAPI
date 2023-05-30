@@ -31,13 +31,13 @@ classDiagram
 	teachingLanguage : string
 	modeOfDelivery : string
 	resultExpected : boolean
-	consumers : MBO_Offering
+	consumers : NL-TEST-ADMIN
 	startDateTime : datetime
 	endDateTime : datetime
 	component : string
     }
-    class MBO_Offering {
-    	consumerKey : string = "MBO-toetsafname"
+    class NL-TEST-ADMIN-Offering {
+    	consumerKey : string = "NL-TEST-ADMIN"
 	duration : integer
 	lastPossibleStartTime : date-time
 	startOptions : string
@@ -47,7 +47,7 @@ classDiagram
 	offeringState : OfferingStateType
 	locationCode : string
     }
-    Offering o-- MBO_Offering
+    Offering o-- NL-TEST-ADMIN-Offering
 ```
 
 ### Example of request Create offering (zitting)	
@@ -80,7 +80,7 @@ PUT /a/ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-	    "consumerKey": "MBO-toetsafname",
+	    "consumerKey": "NL-TEST-ADMIN",
 	    "duration": PT60M,  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
 	    "safety": ["Fixed Location", "Surveillance"]
 	    "offeringState": "active",
@@ -112,8 +112,8 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 		- online: online on a specific location
 		- distance-learning (afstandsleren): everywhere, could also be from home )
 
-- consumer MBO_Offering:
-	- add one of type "consumerKey": "MBO-toetsafname"
+- consumer NL-TEST-ADMIN-Offering:
+	- add one of type "consumerKey": "NL-TEST-ADMIN"
 	- duration: int for duration in minutes < to be decided > (see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4)
 	- safety : array of safety measures : "Secured Computer", "Fixed Location", "Surveillance"
 	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
@@ -165,13 +165,13 @@ classDiagram
 	associationType : associationType
 	role : associationRole
 	state : state
-	consumers : MBO_Association
+	consumers : NL-TEST-ADMIN-Association
 #	result : Result
 	person : personId or Person
 	offering : offeringId
     }
-    class MBO_Association {
-    	consumerKey : string = "MBO-toetsafname"
+    class NL-TEST-ADMIN-Association {
+    	consumerKey : string = "NL-TEST-ADMIN"
 	startUpURL : string
 	additionalTimeInMin : int
 	personalNeeds : string[]
@@ -188,7 +188,7 @@ classDiagram
 	affiliations : personAffiliations
 	mail : string
     }
-    Association o-- MBO_Association
+    Association o-- NL-TEST-ADMIN-Association
     Association -- Person
 ```
 
@@ -230,7 +230,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
     "consumers": 
       [
 	{
-    	"consumerKey": "MBO-toetsafname",
+    	"consumerKey": "NL-TEST-ADMIN",
     	"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
     	"additionalTimeInMin": 30,
     	"personalNeeds": 
@@ -256,8 +256,8 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
 	- to comply to the standard we have mandatory fields (which we wont use) : displayname (goed gevuld), activeEnrollment (true) , affiliations (guest)
 	- affiliations is not the role in the offering, but the a more generic role. can be ignored for this spec or set to "guest"
 	- primaryCode will be used for SSO purpose: uniquely identify a student : nlpersonrealid,eckid etc (details will follow), 
- - consumer MBO_Association
-	- add one of type "consumerKey": "MBO-toetsafname".
+ - consumer NL-TEST-ADMIN-Association
+	- add one of type "consumerKey": "NL-TEST-ADMIN".
 	- attributes additionalTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
 
@@ -317,7 +317,7 @@ PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
     "state": "associated",
     "consumers":[
 		{
-			"consumerKey": "MBO-toetsafname",
+			"consumerKey": "NL-TEST-ADMIN",
 			"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
 			"extraTimeInMin": 0,
 			"personalNeeds": [ ]
@@ -384,13 +384,13 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Offering {
-	consumers : MBO_Offering
+	consumers : NL-TEST-ADMIN-Offering
     }
-    class MBO_Offering {
-    	consumerKey : string = "MBO-toetsafname"
-	offeringState : OfferingStateType = "canceled"
+    class NL-TEST-ADMIN-Offering {
+    	consumerKey : string = "NL-TEST-ADMIN"
+		offeringState : OfferingStateType = "canceled"
     }
-    Offering o-- MBO_Offering
+    Offering o-- NL-TEST-ADMIN-Offering
 ```
 
 ### Example of request Delete offering (zitting)	
@@ -402,7 +402,7 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}
 {
     "consumers": [
 	{
-    	  "consumerKey": "MBO-toetsafname",
+    	  "consumerKey": "NL-TEST-ADMIN",
     	  "offeringState": "canceled"
 	}
     ]
@@ -416,7 +416,7 @@ PATCH endpoint /a/ooapi/offerings/{offeringId}
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- Attribute offeringState within consumers of Offering (MBO_Offering): use the value "canceled" from the enum.
+	- Attribute offeringState within consumers of Offering (NL-TEST-ADMIN-Offering): use the value "canceled" from the enum.
 	- Add no values for other attributes within Offering because they will be ignored.
 
 ## Flow 2.6 Read current state of the offering (zitting)
@@ -464,7 +464,7 @@ GET /a/ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-        "consumerKey": "MBO-toetsafname",
+        "consumerKey": "NL-TEST-ADMIN",
 		"duration": 60,  #je hebt duration nodig als je flexibele periodes hebt.
 		"safety": ["Fixed Location", "Surveillance"]
 		"offeringState": "active",
@@ -496,7 +496,7 @@ GET /a/ooapi/offerings/{offeringId}/associations
     	"consumers": 
       	[
 			{
-				"consumerKey": "MBO-toetsafname",
+				"consumerKey": "NL-TEST-ADMIN",
 				"attendance": "notKnown",
 				"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
 				"extraTimeInMin": 30,

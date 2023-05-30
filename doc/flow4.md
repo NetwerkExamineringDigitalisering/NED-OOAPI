@@ -23,15 +23,15 @@ sequenceDiagram
 {
    "consumers": [
       {
-        "consumerKey": "MBO-toetsafname",
+        "consumerKey": "NL-TEST-ADMIN",
 	"irregularities": "There was a lot of noise from the construction site nearby.",
 	"documents": [
-	  {
+          {
             "documentId": "454566464665355545",
-	    "documentType": "sessionReport",
-	    "documentName": "Session report on Session tbd.pdf",
-	  }
-	]
+            "documentType": "sessionReport",
+            "documentName": "Session report on Session tbd.pdf",
+          }
+        ]
       }
    ]
 }

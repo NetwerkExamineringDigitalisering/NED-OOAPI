@@ -31,7 +31,8 @@ The consumer information provides sufficient information to allow for regrouping
 - GET /ooapi/offerings/{offeringId}/associations
 - GET /ooapi/association/{associationId}
 
-> Also PUT or POST variants are required
+- PUT /ooapi/offerings/{offeringId}
+- PUT /ooapi/association/{associationId}
 
 ## Flow 1b : Ad-hoc
 
@@ -100,7 +101,7 @@ classDiagram
 	offering : offeringId
     }
     class Consumer {
-    	consumerKey : string = "MBO-toetsafname"
+    	consumerKey : string = "NL-TEST-ADMIN"
 	    additionalTimeInMin : int
 	    personalNeeds : string[]
         attempt : int
@@ -119,7 +120,7 @@ classDiagram
     	consumers : Consumer2
     }
     class Consumer2 {
-    	consumerKey : string = "MBO-toetsafname"
+    	consumerKey : string = "NL-TEST-ADMIN"
 	    programOfferingAssociation : string
 	    courseOfferingAssociation : string
     }
@@ -160,7 +161,7 @@ GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
             },
             "consumers": [
                 {
-                    "consumerKey": "MBO-NED",
+                    "consumerKey": "NL-TEST-ADMIN",
                     "testsToBeUsed": [
                         {
                             "testSupplier": "MBO-NED",
@@ -206,7 +207,7 @@ GET /a/ooapi/offerings/{offeringId}/associations/
             "state": "associated",
             "consumers": [
                 {
-                    "consumerKey": "MBO-NED",
+                    "consumerKey": "NL-TEST-ADMIN",
                     "personalNeeds": [    
                         "extraTime",
                         "spoken",
@@ -221,6 +222,53 @@ GET /a/ooapi/offerings/{offeringId}/associations/
     ]
 }
 ```
+
+
+### Example of request Create offering (zitting)	
+```
+PUT /a/ooapi/offerings/{offeringId}
+
+{
+   "offeringId": "123e4567-e89b-12d3-a456-134564174000",
+   "primaryCode": {
+      "codeType": "offeringCode",
+      "code": "Remindo_rekenen_MBO-3_op_woendag_middag_21-jun-22_om_13:00_in_lokaal_13"
+   },
+   "offeringType": "component",
+   "name": [
+      {
+         "language": "nl-NL",
+         "value": "20220621-12:45-Remindo rekenen MBO-3"
+      }
+   ],
+   "description": [
+      {
+         "language": "nl-NL",
+         "value": "Beschrijving van 20220621-12:45-Remindo rekenen MBO-3"
+      }
+   ],
+   "teachingLanguage": "nld",
+   "modeOfDelivery": [
+      "situated"
+   ],
+   "resultExpected": true,
+   "consumers": [
+      {
+	    "consumerKey": "NL-TEST-ADMIN",
+        "testsToBeUsed": [
+            {
+                "testSupplier": "MBO-NED",
+                "testID": "dfc9d973-42cf-46f3-bd18-f9b50492cdb5"
+            }
+        ]
+      }
+   ],
+   "startDateTime": "2022-06-21T12:45:00.000Z",
+   "endDateTime": "2022-06-21T13:45:00.000Z"
+   "component":"c5fca27e-ccc1-430d-9888-90e005ad6a86",
+}
+```
+
 
 # flow 1b : very adhoc
 
@@ -364,7 +412,7 @@ GET /ooapi/groups/{groupId}/persons
             "state": "associated",
             "consumers":[
                 {
-                    "consumerKey": "MBO-toetsafname",
+                    "consumerKey": "NL-TEST-ADMIN",
                     "startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
                     "extraTimeInMin": 0,
                     "personalNeeds": [ ]
@@ -543,7 +591,7 @@ GET /a/ooapi/?/associations/<id>
             ],
             "consumers": [
                 {
-                    "consumerKey": "MBO-NED",
+                    "consumerKey": "NL-TEST-ADMIN",
                     "levelOfQualification": "4",
                     "modeOfStudy": "full-time",
                     "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen)
