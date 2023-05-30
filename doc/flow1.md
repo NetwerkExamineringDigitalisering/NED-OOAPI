@@ -121,7 +121,7 @@ classDiagram
     class Consumer2 {
     	consumerKey : string = "MBO-toetsafname"
 	    programOfferingAssociation : string
-	    enrollmentOfferingAssociation : string
+	    courseOfferingAssociation : string
     }
     class Offering {
        offeringId : UUID
