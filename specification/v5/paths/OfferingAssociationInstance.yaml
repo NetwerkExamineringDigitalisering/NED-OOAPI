@@ -40,7 +40,7 @@ put:
               role: student
               state: associated
               consumers:
-              - consumerKey: MBO-toetsafname
+              - consumerKey: NL-TEST-ADMIN
                 startUpURL: https://myComponent.nl?test
                 extraTimeInMin: 30
                 personalNeeds: [extraTime,spoken,spell-checker-on-screen]
@@ -82,7 +82,7 @@ put:
               role: student
               state: associated
               consumers:
-              - consumerKey: MBO-toetsafname
+              - consumerKey: NL-TEST-ADMIN
                 startUpURL: https://myComponent.nl?test
                 extraTimeInMin: 30
                 personalNeeds: [extraTime,spoken,spell-checker-on-screen]

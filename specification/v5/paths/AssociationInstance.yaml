@@ -111,7 +111,7 @@ patch:
                   resultDate: 2022-09-28
                   weight: 100
                   consumers:
-                  - consumerKey: MBO-toetsafname
+                  - consumerKey: NL-TEST-ADMIN
                     attendance: present
                     assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                     assessorCode: JAJE
@@ -128,7 +128,7 @@ patch:
                   resultDate: 2022-09-27
                   weight: 100
                   consumers:
-                  - consumerKey: MBO-toetsafname
+                  - consumerKey: NL-TEST-ADMIN
                     attendance: present
             Send result for student (flow 3.2.B):
               value:
@@ -140,7 +140,7 @@ patch:
                   resultDate: 2022-11-18
                   weight: 100
                   consumers:
-                  - consumerKey: MBO-toetsafname
+                  - consumerKey: NL-TEST-ADMIN
                     attendance: present
                     assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                     assessorCode: JAJE

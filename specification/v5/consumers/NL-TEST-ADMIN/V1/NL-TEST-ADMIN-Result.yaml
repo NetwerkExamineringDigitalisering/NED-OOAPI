@@ -1,5 +1,5 @@
 type: object
-description: MBO-toetsafname add-on attributes to the result 
+description: NL-TEST-ADMIN add-on attributes to the result 
 required:
   - attendance
   - consumerKey

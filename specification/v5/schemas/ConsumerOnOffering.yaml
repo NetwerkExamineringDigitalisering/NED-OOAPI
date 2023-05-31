@@ -4,6 +4,6 @@ items:
   anyOf:
     - $ref: '../schemas/Consumer.yaml'
     - $ref: '../consumers/RIO/V1/RIO-Offering.yaml'
-    - $ref: '../consumers/MBO-toetsafname/V1/MBO-Offering.yaml'
+    - $ref: '../consumers/NL-TEST-ADMIN/V1/NL-TEST-ADMIN-Offering.yaml'
 example: 
-  $ref: '../consumers/MBO-toetsafname/V1/examples/MBO-Offering.yaml'
+  $ref: '../consumers/NL-TEST-ADMIN/V1/examples/NL-TEST-ADMIN-Offering.yaml'

@@ -1,5 +1,5 @@
 type: object
-description: MBO-toetsafname add-on attributes to the offerings 
+description: NL-TEST-ADMIN add-on attributes to the offerings 
 required:
  - offeringState
  - consumerKey
