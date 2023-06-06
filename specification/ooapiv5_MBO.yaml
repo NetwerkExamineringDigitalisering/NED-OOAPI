@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   version: 5.0.0
   title: Open Education API
-  description: "OpenAPI (fka Swagger) specification for the Open Education API.\n<br/>\nNOTE:This is a subset of the OOAPI that is used in the \"MBO-Toetsafname\" project (sponsored by mbo-digitaal in the netherlands) \n<br/>\n<figure>\n\t<a target=\"_blank\" href=\"OOAPIv5_model.png\">\n  <img src=\"OOAPIv5_model.png\" alt=\"OOAPI information model that feeds OOAPI specification\" width=\"70%\" class=\"img-responsive\">\n  </a>\n  <figcaption> OOAPI information model that feeds OOAPI specification (click to enlage)</figcaption>\n</figure>\n\nThe model provides an overview of how the objects on which the API is specified are related. The overarching concept educations is not found in the in the end points of the API. The smaller concepts of programOffering, courseOffering and conceptOffering are all found in the offering endpoint. The different types of association can all be found in the association endpoint.\n\nThe original file for this model can be found <a target=\"_blank\" href=\"OOAPIv5_model_v0.4.drawio\">here</a>\n\nThe program relations object is not found as a separate endpoint but relations between programs can be found within the program endpoint by expanding that endpoint.\n\nInformation about earlier meetings and presentations can be found <a target=\"_blank\" href=\"https://github.com/open-education-api/notulen\">here</a>\n\nInformation on the EDU-API model that was also used for this api is shown <a target=\"_blank\" href=\"eduapi.png\">here</a>\n"
+  description: "OpenAPI (fka Swagger) specification for the Open Education API.\n<br/>\nNOTE:This is a subset of the OOAPI that is used in the \"MBO-Toetsafname\" project (sponsored by mbo-digitaal in the netherlands). This porject uses the \"NL-TEST-ADMIN\" consumer \n<br/>\n<figure>\n\t<a target=\"_blank\" href=\"OOAPIv5_model.png\">\n  <img src=\"OOAPIv5_model.png\" alt=\"OOAPI information model that feeds OOAPI specification\" width=\"70%\" class=\"img-responsive\">\n  </a>\n  <figcaption> OOAPI information model that feeds OOAPI specification (click to enlage)</figcaption>\n</figure>\n\nThe model provides an overview of how the objects on which the API is specified are related. The overarching concept educations is not found in the in the end points of the API. The smaller concepts of programOffering, courseOffering and conceptOffering are all found in the offering endpoint. The different types of association can all be found in the association endpoint.\n\nThe original file for this model can be found <a target=\"_blank\" href=\"OOAPIv5_model_v0.4.drawio\">here</a>\n\nThe program relations object is not found as a separate endpoint but relations between programs can be found within the program endpoint by expanding that endpoint.\n\nInformation about earlier meetings and presentations can be found <a target=\"_blank\" href=\"https://github.com/open-education-api/notulen\">here</a>\n\nInformation on the EDU-API model that was also used for this api is shown <a target=\"_blank\" href=\"eduapi.png\">here</a>\n"
   x-logo:
     url: ../logo.png
 servers:
@@ -3833,6 +3833,7 @@ paths:
                                                               examples : "extraTime", "spoken", "spell-checker-on-screen"
                                                   example: &ref_116
                                                     - consumerKey: NL-TEST-ADMIN
+                                                      attendance: notKnown
                                                       additionalTimeInMin: 30
                                                       personalNeeds:
                                                         - extraTime
@@ -3899,11 +3900,14 @@ paths:
                                                                 description: |
                                                                   attendance
                                                                   indication of presence during the test (mandatory). 
-                                                                  Possible values are notPresent (niet aanwezig),
+                                                                  Possible values are:
+                                                                  notKnown (toetsmoment alleen gepland, moment nog niet gestart, nog geen aanwezigheidstoets mogelijk)
+                                                                  notPresent (niet aanwezig),
                                                                   notStarted (aanwezig maar niet gestart),
                                                                   notFinished (aanwezig en gestart maar niet afgerond/ingeleverd)
-                                                                  en present (aanwezig en afgerond/ingeleverd)"
+                                                                  and present (aanwezig en afgerond/ingeleverd)"
                                                                 enum:
+                                                                  - notKnown
                                                                   - notPresent
                                                                   - notStarted
                                                                   - notFinished
@@ -3939,6 +3943,10 @@ paths:
                                                                 description: |
                                                                   The maximum number of points a person could achieve for this result.
                                                                   The max raw score also needs the value of rawScore to provide the actual score to make calculations possible.      
+                                                              gradeDate:
+                                                                description: The moment on which the test/assessment took place, RFC3339 (date-time)
+                                                                format: date-time
+                                                                example: '2020-12-15T08:50:00+01:00'
                                                               documents:
                                                                 type: array
                                                                 items:
@@ -5320,7 +5328,7 @@ components:
       description: The result value type for this offering
       enum: *ref_42
       example: 0-10
-    MBO-Component:
+    NL-TEST-ADMIN-Component:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the Component
       required: *ref_94
@@ -5370,7 +5378,7 @@ components:
       description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
       required: *ref_99
       properties: *ref_100
-    MBO-Offering:
+    NL-TEST-ADMIN-Offering:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the offerings
       required: *ref_101
@@ -5469,7 +5477,7 @@ components:
       description: The state of this association for the institution performing the request.
       enum: *ref_112
       example: associated
-    MBO-Association:
+    NL-TEST-ADMIN-Association:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the Association
       required: *ref_113
@@ -5490,7 +5498,7 @@ components:
       description: The state of this result
       enum: *ref_118
       example: passed
-    MBO-Result:
+    NL-TEST-ADMIN-Result:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the result
       required: *ref_119
