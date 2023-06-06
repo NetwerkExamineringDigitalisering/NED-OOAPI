@@ -1842,7 +1842,7 @@ paths:
                           properties: *ref_17
                           additionalProperties: true
                         - type: object
-                          description: MBO-toetsafname add-on attributes to the Component
+                          description: NL-TEST-ADMIN add-on attributes to the Component
                           required: &ref_94
                             - consumerKey
                           properties: &ref_95
@@ -1904,7 +1904,7 @@ paths:
                             licensed:
                               type: boolean
                     example: &ref_97
-                      - consumerKey: MBO-toetsafname
+                      - consumerKey: NL-TEST-ADMIN
                         extraTime: 30
                         availablePersonalNeeds:
                           - extraTime
@@ -1943,7 +1943,7 @@ paths:
                         value: Digitale toetsing
                     organization: 452c1a86-a0af-475b-b03f-724878b0f387
                     consumers:
-                      - consumerKey: MBO-toetsafname
+                      - consumerKey: NL-TEST-ADMIN
                         extraTime: P60M
                         availablePersonalNeeds:
                           - extraTime
@@ -1977,7 +1977,7 @@ paths:
                       - language: nl-NL
                         value: Digitale toetsing
                     consumers:
-                      - consumerKey: MBO-toetsafname
+                      - consumerKey: NL-TEST-ADMIN
                         extraTime: P60M
                         availablePersonalNeeds:
                           - extraTime
@@ -2436,7 +2436,7 @@ paths:
                       - situated
                     resultExpected: true
                     consumers:
-                      - consumerKey: MBO-toetsafname
+                      - consumerKey: NL-TEST-ADMIN
                         duration: P60M
                         lastPossibleStartDateTime: '2020-12-15T08:50:00+01:00'
                         startOptions: individualStart
@@ -2518,12 +2518,12 @@ paths:
               Delete offering (Flow 2.5):
                 value:
                   consumers:
-                    - consumerKey: MBO-toetsafname
+                    - consumerKey: NL-TEST-ADMIN
                       offeringState: canceled
               Send attendance and offering report directly (Flow 4.1):
                 value:
                   consumers:
-                    - consumerKey: MBO-toetsafname
+                    - consumerKey: NL-TEST-ADMIN
                       irregularities: There was a lot of noise from the construction site nearby.
                       documents:
                         - documentId: '454566464665355545'
@@ -2903,7 +2903,7 @@ paths:
                                   - open
                                   - closed
                           - type: object
-                            description: MBO-toetsafname add-on attributes to the offerings
+                            description: NL-TEST-ADMIN add-on attributes to the offerings
                             required: &ref_101
                               - offeringState
                               - consumerKey
@@ -2987,7 +2987,7 @@ paths:
                                   documents to be added to this offering
                                   TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
                       example: &ref_104
-                        - consumerKey: MBO-toetsafname
+                        - consumerKey: NL-TEST-ADMIN
                           duration: P1DT30H4S
                           lastPossibleStartDateTime: '2020-12-15T08:50:00'
                           startOptions: individualStart
@@ -3560,7 +3560,7 @@ paths:
                     - situated
                   resultExpected: true
                   consumers:
-                    - consumerKey: MBO-toetsafname
+                    - consumerKey: NL-TEST-ADMIN
                       duration: P60M
                       lastPossibleStartDateTime: '2020-12-15T08:50:00+01:00'
                       startOptions: individualStart
@@ -3801,7 +3801,7 @@ paths:
                                                         properties: *ref_17
                                                         additionalProperties: true
                                                       - type: object
-                                                        description: MBO-toetsafname add-on attributes to the Association
+                                                        description: NL-TEST-ADMIN add-on attributes to the Association
                                                         required: &ref_113
                                                           - consumerKey
                                                         properties: &ref_114
@@ -3832,7 +3832,7 @@ paths:
                                                               TODO : make enum: see https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
                                                               examples : "extraTime", "spoken", "spell-checker-on-screen"
                                                   example: &ref_116
-                                                    - consumerKey: MBO-toetsafname
+                                                    - consumerKey: NL-TEST-ADMIN
                                                       additionalTimeInMin: 30
                                                       personalNeeds:
                                                         - extraTime
@@ -3887,7 +3887,7 @@ paths:
                                                             properties: *ref_17
                                                             additionalProperties: true
                                                           - type: object
-                                                            description: MBO-toetsafname add-on attributes to the result
+                                                            description: NL-TEST-ADMIN add-on attributes to the result
                                                             required: &ref_119
                                                               - attendance
                                                               - consumerKey
@@ -3949,7 +3949,7 @@ paths:
                                                                   documents to be added to this offering
                                                                   TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
                                                       example: &ref_122
-                                                        - consumerKey: MBO-toetsafname
+                                                        - consumerKey: NL-TEST-ADMIN
                                                           attendance: present
                                                           assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                                                           assessorCode: JAJE
@@ -4076,7 +4076,7 @@ paths:
                   role: student
                   state: associated
                   consumers:
-                    - consumerKey: MBO-toetsafname
+                    - consumerKey: NL-TEST-ADMIN
                       startUpURL: https://myComponent.nl?test
                       extraTimeInMin: 30
                       personalNeeds:
@@ -4111,7 +4111,7 @@ paths:
                   role: student
                   state: associated
                   consumers:
-                    - consumerKey: MBO-toetsafname
+                    - consumerKey: NL-TEST-ADMIN
                       startUpURL: https://myComponent.nl?test
                       extraTimeInMin: 30
                       personalNeeds:
@@ -4381,7 +4381,7 @@ paths:
                     resultDate: '2022-09-28'
                     weight: 100
                     consumers:
-                      - consumerKey: MBO-toetsafname
+                      - consumerKey: NL-TEST-ADMIN
                         attendance: present
                         assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                         assessorCode: JAJE
@@ -4398,7 +4398,7 @@ paths:
                     resultDate: '2022-09-27'
                     weight: 100
                     consumers:
-                      - consumerKey: MBO-toetsafname
+                      - consumerKey: NL-TEST-ADMIN
                         attendance: present
               Send result for student (flow 3.2.B):
                 value:
@@ -4410,7 +4410,7 @@ paths:
                     resultDate: '2022-11-18'
                     weight: 100
                     consumers:
-                      - consumerKey: MBO-toetsafname
+                      - consumerKey: NL-TEST-ADMIN
                         attendance: present
                         assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                         assessorCode: JAJE
@@ -5322,7 +5322,7 @@ components:
       example: 0-10
     MBO-Component:
       type: object
-      description: MBO-toetsafname add-on attributes to the Component
+      description: NL-TEST-ADMIN add-on attributes to the Component
       required: *ref_94
       properties: *ref_95
     ConsumerOnComponent:
@@ -5372,7 +5372,7 @@ components:
       properties: *ref_100
     MBO-Offering:
       type: object
-      description: MBO-toetsafname add-on attributes to the offerings
+      description: NL-TEST-ADMIN add-on attributes to the offerings
       required: *ref_101
       properties: *ref_102
     ConsumerOnOffering:
@@ -5471,7 +5471,7 @@ components:
       example: associated
     MBO-Association:
       type: object
-      description: MBO-toetsafname add-on attributes to the Association
+      description: NL-TEST-ADMIN add-on attributes to the Association
       required: *ref_113
       properties: *ref_114
     ConsumerOnAssociation:
@@ -5492,7 +5492,7 @@ components:
       example: passed
     MBO-Result:
       type: object
-      description: MBO-toetsafname add-on attributes to the result
+      description: NL-TEST-ADMIN add-on attributes to the result
       required: *ref_119
       properties: *ref_120
     ConsumerOnResult:
