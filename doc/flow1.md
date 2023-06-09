@@ -106,6 +106,8 @@ classDiagram
 	    personalNeeds : string[]
         attempt : int
         attemptLeft : int
+	    programOfferingAssociation : string
+	    courseOfferingAssociation : string
     }
     class Person {
         personId : UUID
@@ -121,8 +123,6 @@ classDiagram
     }
     class `NL-TEST-ADMIN-Person` {
     	consumerKey : string = "NL-TEST-ADMIN"
-	    programOfferingAssociation : string
-	    courseOfferingAssociation : string
     }
     class Offering {
        offeringId : UUID
@@ -383,7 +383,6 @@ GET /ooapi/groups/{groupId}/persons
     "totalPages": 8,
     "items": [
         {
-            "person": {
             "personId": "111-2222-33-4444-333",
             "primaryCode": 
             {
@@ -405,19 +404,6 @@ GET /ooapi/groups/{groupId}/persons
                 [
                     "nl-NL"
                 ]
-            },
-            "offering": "123e4567-e89b-12d3-a456-134564174000",
-            "associationType": "componentOfferingAssociation",
-            "role": "student",
-            "state": "associated",
-            "consumers":[
-                {
-                    "consumerKey": "NL-TEST-ADMIN",
-                    "startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
-                    "extraTimeInMin": 0,
-                    "personalNeeds": [ ]
-                }
-            ]
         }
     ]
 }
@@ -428,84 +414,74 @@ GET /ooapi/groups/{groupId}/persons
 ```
 GET /ooapi/persons/{personId}
 {
-  "pageSize": 10,
-  "pageNumber": 1,
-  "hasPreviousPage": false,
-  "hasNextPage": true,
-  "totalPages": 8,
-  "items": [
+    "personId": "123e4567-e89b-12d3-a456-426614174000",
+    "primaryCode": {
+    "codeType": "identifier",
+    "code": "1234qwe12"
+    },
+    "givenName": "Maartje",
+    "surnamePrefix": "van",
+    "surname": "Damme",
+    "displayName": "Maartje van Damme",
+    "initials": "MCW",
+    "activeEnrollment": false,
+    "dateOfBirth": "2003-09-30",
+    "cityOfBirth": "Utrecht",
+    "countryOfBirth": "NL",
+    "nationality": "Dutch",
+    "dateOfNationality": "2003-09-30",
+    "affiliations": [
+    "student"
+    ],
+    "mail": "vandamme.mcw@universiteitvanharderwijk.nl",
+    "secondaryMail": "poekie@xyz.nl",
+    "telephoneNumber": "+31 123 456 789",
+    "mobileNumber": "+31 612 345 678",
+    "photoSocial": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Placeholder_female_superhero_c.png/203px-Placeholder_female_superhero_c.png",
+    "photoOfficial": "https://upload.wikimedia.org/wikipedia/commons/6/66/Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg",
+    "gender": "F",
+    "titlePrefix": "drs",
+    "titleSuffix": "BSc",
+    "office": "string",
+    "address": {
+    "addressType": "postal",
+    "street": "Moreelsepark",
+    "streetNumber": "48",
+    "additional": [
+        {
+        "language": "en-GB",
+        "value": "On the other side of the road"
+        }
+    ],
+    "postalCode": "3511 EP",
+    "city": "Utrecht",
+    "countryCode": "NL",
+    "geolocation": {
+        "latitude": 52.089123,
+        "longitude": 5.113337
+    },
+    "ext": {}
+    },
+    "ICEName": "Janne",
+    "ICEPhoneNumber": "+31 623 456 789",
+    "ICERelation": "partner",
+    "languageOfChoice": [
+    "nl-NL"
+    ],
+    "otherCodes": [
     {
-      "personId": "123e4567-e89b-12d3-a456-426614174000",
-      "primaryCode": {
-        "codeType": "identifier",
-        "code": "1234qwe12"
-      },
-      "givenName": "Maartje",
-      "surnamePrefix": "van",
-      "surname": "Damme",
-      "displayName": "Maartje van Damme",
-      "initials": "MCW",
-      "activeEnrollment": false,
-      "dateOfBirth": "2003-09-30",
-      "cityOfBirth": "Utrecht",
-      "countryOfBirth": "NL",
-      "nationality": "Dutch",
-      "dateOfNationality": "2003-09-30",
-      "affiliations": [
-        "student"
-      ],
-      "mail": "vandamme.mcw@universiteitvanharderwijk.nl",
-      "secondaryMail": "poekie@xyz.nl",
-      "telephoneNumber": "+31 123 456 789",
-      "mobileNumber": "+31 612 345 678",
-      "photoSocial": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Placeholder_female_superhero_c.png/203px-Placeholder_female_superhero_c.png",
-      "photoOfficial": "https://upload.wikimedia.org/wikipedia/commons/6/66/Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg",
-      "gender": "F",
-      "titlePrefix": "drs",
-      "titleSuffix": "BSc",
-      "office": "string",
-      "address": {
-        "addressType": "postal",
-        "street": "Moreelsepark",
-        "streetNumber": "48",
-        "additional": [
-          {
-            "language": "en-GB",
-            "value": "On the other side of the road"
-          }
-        ],
-        "postalCode": "3511 EP",
-        "city": "Utrecht",
-        "countryCode": "NL",
-        "geolocation": {
-          "latitude": 52.089123,
-          "longitude": 5.113337
-        },
-        "ext": {}
-      },
-      "ICEName": "Janne",
-      "ICEPhoneNumber": "+31 623 456 789",
-      "ICERelation": "partner",
-      "languageOfChoice": [
-        "nl-NL"
-      ],
-      "otherCodes": [
-        {
-          "codeType": "nationalIdentityNumber",
-          "code": "00000"
-        }
-      ],
-      "consumers": [
-        {
-          "consumerKey": "x-test-consumer",
-          "additional": "custom",
-          "attributes": "here"
-        }
-      ],
-      "ext": {}
+        "codeType": "nationalIdentityNumber",
+        "code": "00000"
     }
-  ],
-  "ext": {}
+    ],
+    "consumers": [
+    {
+        "consumerKey": "x-test-consumer",
+        "additional": "custom",
+        "attributes": "here"
+    }
+    ],
+    "ext": {}
 }
 ```
 

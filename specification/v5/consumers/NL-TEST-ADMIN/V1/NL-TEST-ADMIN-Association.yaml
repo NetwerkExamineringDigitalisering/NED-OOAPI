@@ -29,5 +29,28 @@ properties:
       personalNeed to be added for this student
       TODO : make enum: see https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
       examples : "extraTime", "spoken", "spell-checker-on-screen"
- 
+  attempt:
+    type: integer
+    description: |
+      Which attempt this is for the given person on the given offering
+    format: int32
+    example: 1
+  attemptLeft:
+    type: integer
+    description: |
+      The number of attempts still remain for the person to obtain a result on the given offering
+    format: int32
+    example: 2
+  programOfferingAssociationID: 
+    type: string
+    description: |
+      The unique identifier of the enrollment of the student in a programOffering on the behalf of the current assocation is taking place 
+    format: uuid
+    example: 54e58f68-ceac-4845-99d5-caa721fefb88
+  courseOfferingAssociationID: 
+    type: string
+    description: |
+      The unique identifier of the enrollment of the student in a courseOffering on the behalf of the current assocation is taking place 
+    format: uuid
+    example:170b5f35-20be-47bf-96ff-d262d121b76b 
 

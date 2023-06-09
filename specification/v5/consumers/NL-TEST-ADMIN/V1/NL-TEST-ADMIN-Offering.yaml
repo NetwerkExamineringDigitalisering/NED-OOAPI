@@ -73,13 +73,45 @@ properties:
     description: |
       irregularities
       string with information about irragularies that effected all students in this offering
+  testsToBeUsed:
+    type: array
+    items:
+      type: object
+      description: A reference to a specific test that can be used to validate the students achievements.
+      properties:
+        testSupplier:
+          description: The name of the organisation that is supplying the test.
+          type: string
+        testId:
+          description: the UUID of the test in the testing system of the suppier.
+          type: string
+      example:
+        testSupplier: MBO-NED
+        testId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
   documents:
     type: array
     items:
-      type: string
-    minItems: 0
-    description: |
-      documents
-      documents to be added to this offering
-      TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
- 
+      type: object
+      description: |
+        documents that are relevant to this offering including the ID, Type ans Name to facilitate file handeling in downloading.
+      properties:
+        documentId:
+          description: the UUID of the document in the system of the suppier.
+          type: string
+        documentType:
+          description: |
+            The sort of document, this facilitates the document flow 
+            enum of the document sort
+          enum:
+            - sessionReport
+            - attendanceReport
+            - assessmentModel
+            - other
+        documentName:
+          description: the proposed file name of the document in the system of the suppier.
+          type: string
+      example:
+        documentId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
+        documentType: sessionReport
+        documentName: Session report on Session tbd.pdf
+
