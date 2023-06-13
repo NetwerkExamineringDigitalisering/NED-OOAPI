@@ -11,11 +11,9 @@ properties:
       URL to be used to start this assocation by the user
     format: uri
     maxLength: 2048
-    example: https://surf.nl
   additionalTimeInMin:
     type: integer
     format: int32
-    example: 30
     description: |
       If you need additional time, specify how much max
       To be documented see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4
@@ -34,23 +32,19 @@ properties:
     description: |
       Which attempt this is for the given person on the given offering
     format: int32
-    example: 1
   attemptLeft:
     type: integer
     description: |
       The number of attempts still remain for the person to obtain a result on the given offering
     format: int32
-    example: 2
   programOfferingAssociationID: 
     type: string
     description: |
       The unique identifier of the enrollment of the student in a programOffering on the behalf of the current assocation is taking place 
     format: uuid
-    example: 54e58f68-ceac-4845-99d5-caa721fefb88
   courseOfferingAssociationID: 
     type: string
     description: |
       The unique identifier of the enrollment of the student in a courseOffering on the behalf of the current assocation is taking place 
     format: uuid
-    example:170b5f35-20be-47bf-96ff-d262d121b76b 
 
