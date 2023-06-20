@@ -506,7 +506,7 @@ GET /ooapi/offerings/<id>
     "name": "Netwerk- en mediabeheerder BOL (25190)",
     "consumers": [
 	{
-	    "consumerKey": "MBO-NED"
+	    "consumerKey": "NL-TEST-ADMIN"
 	}
     ],
     "organization": {

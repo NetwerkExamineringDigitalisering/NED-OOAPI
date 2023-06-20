@@ -25,8 +25,8 @@ get:
       schema:
         type: string
         enum:
-#        - programOfferingAssociation
-#        - courseOfferingAssociation
+        - programOfferingAssociation
+        - courseOfferingAssociation
         - componentOfferingAssociation
     - name: role
       in: query
@@ -78,8 +78,8 @@ get:
                     type: array
                     items:
                       oneOf:
-#                        - $ref: '../schemas/ProgramOfferingAssociationExpanded.yaml'
-#                        - $ref: '../schemas/CourseOfferingAssociationExpanded.yaml'
+                        - $ref: '../schemas/ProgramOfferingAssociationExpanded.yaml'
+                        - $ref: '../schemas/CourseOfferingAssociationExpanded.yaml'
                         - $ref: '../schemas/ComponentOfferingAssociationExpanded.yaml'
                   ext:
                     $ref: '../schemas/Ext.yaml'
