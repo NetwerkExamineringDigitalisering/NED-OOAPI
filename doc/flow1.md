@@ -31,8 +31,12 @@ The consumer information provides sufficient information to allow for regrouping
 - GET /ooapi/offerings/{offeringId}/associations
 - GET /ooapi/association/{associationId}
 
+expand funcationality is also needed on the associations to get the details of the offering and / or the person in the assocation
+
+Supplied by SIS:
 - PUT /ooapi/offerings/{offeringId}
 - PUT /ooapi/association/{associationId}
+- PATCH /ooapi/association/{associationId} (to allow for cancellation of enrolment by the student)
 
 ## Flow 1b : Ad-hoc
 
