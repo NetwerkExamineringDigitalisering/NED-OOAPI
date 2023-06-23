@@ -92,7 +92,7 @@ sequenceDiagram
 
 ```
 
-# Flow 1a 2: Update planned exam (for a student)
+# Flow 1a 2: Update enrolment (for a student)
 ### Sequence diagram of request Update planned exam (for a student)	
 ```mermaid
 sequenceDiagram
@@ -107,13 +107,13 @@ sequenceDiagram
 ```
 
 
-# Flow 1a 3: Cancel an offering
-### Sequence diagram of request Delete offering (zitting)	
+# Flow 1a 3: Update an offering
+### Sequence diagram of request update offering (planbare toets)	
 ```mermaid
 sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
-    DeelnemerRegistratie->>Toetsplanning: Delete offering (zitting)
+    DeelnemerRegistratie->>Toetsplanning: Update offering (planbare toets)
     activate Toetsplanning
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
