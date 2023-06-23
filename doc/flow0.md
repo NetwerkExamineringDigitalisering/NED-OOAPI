@@ -26,15 +26,15 @@ classDiagram
 	comonentType : string
 	name : languageTypedString[]
 	modeOfDelivery : modeOfDeliveryType
-    duration: timeperiod
+        duration: timeperiod
 	description : languageTypedString[]
 	teachingLanguage : string
 	assessment : languageTypedString[]
 	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
-    consumers: NL-TEST-ADMIN-Component
+        consumers: NL-TEST-ADMIN-Component
     }
-    class 'NL-TEST-ADMIN-Component' {
+    class `NL-TEST-ADMIN-Component` {
     	consumerKey : string
 	additionalTestingTime : integer
 	availablePersonalNeeds : PersonalNeedsType[]
@@ -46,7 +46,7 @@ classDiagram
 	status : TestStatusType
 	licensed : boolean
     }
-    Component o-- 'NL-TEST-ADMIN-Component'
+    Component o-- `NL-TEST-ADMIN-Component`
 ```
 
 ### Example of response Request whole catalogue
