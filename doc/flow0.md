@@ -32,9 +32,9 @@ classDiagram
 	assessment : languageTypedString[]
 	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
-    consumers: MBO_Component
+    consumers: NL-TEST-ADMIN-Component
     }
-    class MBO_Component {
+    class 'NL-TEST-ADMIN-Component' {
     	consumerKey : string
 	additionalTestingTime : integer
 	availablePersonalNeeds : PersonalNeedsType[]
@@ -46,7 +46,7 @@ classDiagram
 	status : TestStatusType
 	licensed : boolean
     }
-    Component o-- MBO_Component
+    Component o-- 'NL-TEST-ADMIN-Component'
 ```
 
 ### Example of response Request whole catalogue
@@ -99,7 +99,7 @@ response:
      "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
      "consumers": [
         {
-           "consumerKey": "MBO-toetsafname", 
+           "consumerKey": "NL-TEST-ADMIN", 
            "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ "extraTime", "spoken", "spell-checker-on-screen" ],
@@ -199,7 +199,7 @@ response:
      "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
      "consumers": [
         {
-           "consumerKey": "MBO-toetsafname", 
+           "consumerKey": "NL-TEST-ADMIN", 
            "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ ],
