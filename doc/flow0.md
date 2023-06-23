@@ -133,6 +133,8 @@ response:
 	- 0-100 = Resultvalue is a number from range (0,100)
 	- 0-10 = Resultvalue is a number from range (0,10)
 	- 0.0-10.0 = Resultvalue is a decimal number from range (0.0,10.0)
+	- referenceLevelRKTR = Resultvalue is a reference level from the Dutch "Referentiekader Taal en Rekenen" from value set {1F, 1S, 2F, 2S, 3F, 3S, 4F, 4S} and additional values like "Op weg naar 1F"
+	- referenceLevelERK = Resultvalue is a reference level from the "Europees Referencekader voor de talen" from value set {A1, A2, B1, B2, C1, C2}
 
 
 ## Flow 0.2 Request details of one test
