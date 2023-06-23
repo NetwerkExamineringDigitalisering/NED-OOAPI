@@ -35,7 +35,7 @@ classDiagram
         consumers: NL-TEST-ADMIN-Component
     }
     class `NL-TEST-ADMIN-Component` {
-    	consumerKey : string
+    	consumerKey : string = "NL-TEST-ADMIN"
 	additionalTestingTime : integer
 	availablePersonalNeeds : PersonalNeedsType[]
 	safety : string[]
@@ -99,7 +99,7 @@ response:
      "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
      "consumers": [
         {
-           "consumerKey": "NL-TEST-ADMIN", 
+           "consumerKey": string = "NL-TEST-ADMIN", 
            "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ "extraTime", "spoken", "spell-checker-on-screen" ],
@@ -199,7 +199,7 @@ response:
      "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
      "consumers": [
         {
-           "consumerKey": "NL-TEST-ADMIN", 
+           "consumerKey": string = "NL-TEST-ADMIN", 
            "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ ],
