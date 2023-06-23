@@ -96,11 +96,14 @@ sequenceDiagram
 ### Sequence diagram of request Update planned exam (for a student)	
 ```mermaid
 sequenceDiagram
+    participant DeelnemerRegistratie
+    participant Toetsplanning
     DeelnemerRegistratie->>Toetsplanning: Alter enrolment for a student (change association)
     activate DeelnemerRegistratie
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
-    deactivate Toetsafname
+    deactivate Toetsplanning
+
 ```
 
 
@@ -108,11 +111,13 @@ sequenceDiagram
 ### Sequence diagram of request Delete offering (zitting)	
 ```mermaid
 sequenceDiagram
-    DeelnemerRegistratie->>Toetsplanning: Delete offering (zitting)
+    participant DeelnemerRegistratie
+    participant Toetsplanning    DeelnemerRegistratie->>Toetsplanning: Delete offering (zitting)
     activate DeelnemerRegistratie
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
-    deactivate Toetsafname
+    deactivate Toetsplanning
+
 ```
 
 ### Class diagram of request B. Add student to created offering (zitting)
