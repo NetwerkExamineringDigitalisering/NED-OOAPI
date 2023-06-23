@@ -37,7 +37,7 @@ Supplied by SIS:
 - `PUT /ooapi/offerings/{offeringId}`
 - `PATCH /ooapi/offerings/{offeringId}`
 - `PUT /ooapi/association/{associationId}`
-- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrolment by the student)
+- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrollment by the student)
 
 ## Flow 1b : Ad-hoc
 
@@ -92,13 +92,13 @@ sequenceDiagram
 
 ```
 
-# Flow 1a 2: Update enrolment (for a student)
+# Flow 1a 2: Update enrollment (for a student)
 ### Sequence diagram of request Update planned exam (for a student)	
 ```mermaid
 sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
-    DeelnemerRegistratie->>Toetsplanning: Alter enrolment for a student (change association)
+    DeelnemerRegistratie->>Toetsplanning: Alter enrollment for a student (change association)
     activate Toetsplanning
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/association/{associationId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
@@ -121,7 +121,7 @@ sequenceDiagram
 
 ```
 
-### Class diagram of request B. Add student to created offering (zitting)
+### Class diagram of request B. Add student to created offering (planbare toets)
 ```mermaid
 classDiagram
     class Association {
@@ -258,7 +258,7 @@ GET /a/ooapi/offerings/{offeringId}/associations/
 ```
 
 
-### Example of request Create offering (zitting)	
+### Example of request Create offering (planbare toets)	
 ```
 PUT /a/ooapi/offerings/{offeringId}
 
