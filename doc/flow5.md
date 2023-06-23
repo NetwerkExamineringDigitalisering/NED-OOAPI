@@ -44,7 +44,7 @@ classDiagram
         final : boolean 
         rawScore : integer 
         maxRawScore : integer
-        gradeDate: string
+        testDate: string
         documents : Document[]
     }
     class Document {
@@ -67,7 +67,7 @@ Important attributes:
 
 - associationId: ID for the componentOfferingAssociation that has been provided by the Deelnemerregistratie
 - resultDate: Date on which the candidate has performed the test/handed in the documents.
-- gradeDate: Date on which the assessment has taken place/has been finalized.
+- testDate: Date on which the assessment has taken place/has been finalized.
 - attempt: sequence number of the attempt. There are two scenario's:
     - Deelnemerregistratie creates an association per attempt
     - Deelnemerregistratie creates an association per test an indicates how many attempts are allowed. In this  scenario the Toetsplanning has to indicate per result for which attempt this result is.

@@ -42,7 +42,7 @@ classDiagram
     final : boolean 
     rawScore : integer 
     maxRawScore : integer
-    gradeDate: string
+    testDate: string
     documents : Document[]
   }
   class Document {

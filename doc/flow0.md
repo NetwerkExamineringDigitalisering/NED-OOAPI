@@ -103,7 +103,7 @@ response:
            "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ "extraTime", "spoken", "spell-checker-on-screen" ],
-           "safety": [ "SecuredComputer", "Fixed Location", "Surveillance"],
+           "safety": [ "securedComputer", "fixedLocation", "surveillance"],
            "exam": true,
            "resultValueType": "0.0-10.0",
            "passFrom": "5.5",

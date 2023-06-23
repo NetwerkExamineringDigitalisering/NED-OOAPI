@@ -54,7 +54,7 @@ properties:
     description: |
       The maximum number of points a person could achieve for this result.
       The max raw score also needs the value of rawScore to provide the actual score to make calculations possible.      
-  gradeDate:
+  testDate:
     description: The moment on which the test/assessment took place, RFC3339 (date-time)
     format: date-time
     example: 2020-12-15T08:50:00+01:00 
