@@ -270,7 +270,7 @@ sequenceDiagram
     loop for each student
         Toetsplanning->>Toetsafname: Add student to existing offering (zitting)
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
+        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (PUT)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
     end
     deactivate Toetsafname
@@ -282,7 +282,7 @@ sequenceDiagram
 
 ### Example of request Add student to existing offering (zitting)	
 ```
-PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
+PUT endpoint /a/ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 # associationId = "123e4567-e89b-12d3-a456-426614174001"

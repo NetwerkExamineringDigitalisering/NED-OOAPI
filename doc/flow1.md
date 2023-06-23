@@ -26,18 +26,18 @@ The consumer information provides sufficient information to allow for regrouping
 
 ### Flow 1a : Endpoints for this flow
 
-- GET /ooapi/offerings?componentType=TEST&from=..&until=..
-- GET /ooapi/offerings/{offeringId}
-- GET /ooapi/offerings/{offeringId}/associations
-- GET /ooapi/association/{associationId}
+- `GET /ooapi/offerings?componentType=TEST&from=..&until=..`
+- `GET /ooapi/offerings/{offeringId}`
+- `GET /ooapi/offerings/{offeringId}/associations`
+- `GET /ooapi/association/{associationId}`
 
 expand funcationality is also needed on the associations to get the details of the offering and / or the person in the assocation
 
 Supplied by SIS:
-- PUT /ooapi/offerings/{offeringId}
-- PATCH /ooapi/offerings/{offeringId}
-- PUT /ooapi/association/{associationId}
-- PATCH /ooapi/association/{associationId} (to allow for cancellation of enrolment by the student)
+- `PUT /ooapi/offerings/{offeringId}`
+- `PATCH /ooapi/offerings/{offeringId}`
+- `PUT /ooapi/association/{associationId}`
+- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrolment by the student)
 
 ## Flow 1b : Ad-hoc
 
@@ -47,9 +47,9 @@ The TPS can create test moments using this information and provide a TES with th
 
 ### Flow 1b : Endpoints for this flow
 
-- GET /ooapi/groups?q=..
-- GET /ooapi/groups/{groupId}/persons
-- GET /ooapi/person/{personId}
+- `GET /ooapi/groups?q=..`
+- `GET /ooapi/groups/{groupId}/persons`
+- `GET /ooapi/person/{personId}`
 
 ## Flow : Additional supporting information
 
@@ -57,8 +57,8 @@ Based on the id's on students and their program offering associations, provided 
 
 ### Additional supporting information flow : Endpoints for this flow
 
-- GET /ooapi/person/{personId}
-- GET /ooapi/associations/{associationId}?expand=offering
+- `GET /ooapi/person/{personId}`
+- `GET /ooapi/associations/{associationId}?expand=offering`
 
 # Flow 1a 1: Get the to be planned exams (and students)
 
@@ -100,7 +100,7 @@ sequenceDiagram
     participant Toetsplanning
     DeelnemerRegistratie->>Toetsplanning: Alter enrolment for a student (change association)
     activate Toetsplanning
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/association/{associationId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
     deactivate Toetsplanning
 
@@ -115,7 +115,7 @@ sequenceDiagram
     participant Toetsplanning
     DeelnemerRegistratie->>Toetsplanning: Delete offering (zitting)
     activate Toetsplanning
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
     deactivate Toetsplanning
 
