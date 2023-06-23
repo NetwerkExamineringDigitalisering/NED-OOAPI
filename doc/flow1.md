@@ -35,6 +35,7 @@ expand funcationality is also needed on the associations to get the details of t
 
 Supplied by SIS:
 - PUT /ooapi/offerings/{offeringId}
+- PATCH /ooapi/offerings/{offeringId}
 - PUT /ooapi/association/{associationId}
 - PATCH /ooapi/association/{associationId} (to allow for cancellation of enrolment by the student)
 
@@ -59,7 +60,7 @@ Based on the id's on students and their program offering associations, provided 
 - GET /ooapi/person/{personId}
 - GET /ooapi/associations/{associationId}?expand=offering
 
-# Flow 1a : Get the to be planned exams (and students)
+# Flow 1a 1: Get the to be planned exams (and students)
 
 ### Sequence diagram of request Create offering (rough planning or in NL grofplanning)	
 ```mermaid
@@ -89,6 +90,29 @@ sequenceDiagram
     end
     deactivate DeelnemerRegistratie
 
+```
+
+# Flow 1a 2: Update planned exam (for a student)
+### Sequence diagram of request Update planned exam (for a student)	
+```mermaid
+sequenceDiagram
+    DeelnemerRegistratie->>Toetsplanning: Alter enrolment for a student (change association)
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
+    Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
+    deactivate Toetsafname
+```
+
+
+# Flow 1a 3: Cancel an offering
+### Sequence diagram of request Delete offering (zitting)	
+```mermaid
+sequenceDiagram
+    DeelnemerRegistratie->>Toetsplanning: Delete offering (zitting)
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
+    Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
+    deactivate Toetsafname
 ```
 
 ### Class diagram of request B. Add student to created offering (zitting)

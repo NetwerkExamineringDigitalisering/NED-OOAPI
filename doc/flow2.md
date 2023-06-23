@@ -375,7 +375,7 @@ PATCH endpoint /a/ooapi/associations/{associationId}
 sequenceDiagram
     Toetsplanning->>Toetsafname: Delete offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT offeringState canceled)
+    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
