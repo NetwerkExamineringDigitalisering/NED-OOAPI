@@ -338,7 +338,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Sequence diagram of request to get a single student or staff
+### Sequence diagram of request to get information on a single student or staff
 
 ```mermaid
 
@@ -442,7 +442,7 @@ GET /ooapi/groups/{groupId}/persons
 
 ```
 
-### Example of request groups	
+### Example of request person information	
 ```
 GET /ooapi/persons/{personId}
 {
