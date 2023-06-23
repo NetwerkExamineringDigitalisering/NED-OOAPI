@@ -99,7 +99,7 @@ sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
     DeelnemerRegistratie->>Toetsplanning: Alter enrolment for a student (change association)
-    activate DeelnemerRegistratie
+    activate Toetsplanning
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
     deactivate Toetsplanning
@@ -112,8 +112,9 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant DeelnemerRegistratie
-    participant Toetsplanning    DeelnemerRegistratie->>Toetsplanning: Delete offering (zitting)
-    activate DeelnemerRegistratie
+    participant Toetsplanning
+    DeelnemerRegistratie->>Toetsplanning: Delete offering (zitting)
+    activate Toetsplanning
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
     deactivate Toetsplanning
