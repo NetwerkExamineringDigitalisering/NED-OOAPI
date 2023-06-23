@@ -1,17 +1,17 @@
 # Flow 1: Plannings information (tests and persons)
 
-Flow 1 is used to provide a test planning system with information on tests to be planned and the students/candidates that have to perform those tests. Usually a Student Information System (SIS) provides this information to a Test Planning System (TPS). The TPS uses this information to plan testmoments for tests, assign the required Test Execution System (TES) and test within that TES. Students are assigned to the test moments based on the logic and workflow of the TPS.
+Flow 1 is used to provide a test planning system with information on tests to be planned and the students/candidates that have to perform those tests. Usually a Student Information System (SIS) provides this information to a Test Planning System (TPS). The TPS uses this information to plan testmoments for tests, assign the required Test Execution System (TES) and test within that TES. Students are assigned to the test moments based on the logic and workflow of the TPS. It is also possible to assign employees (or staff members) to the test to be planned (planbare toets).
 
 We distinguish two flows that can be used to plan tests:
 
 - Structured (SIS is in the lead on which tests have to be performed within a certain period and which students have to perform those tests)
 - Ad-hoc (TPS is in the lead to create test moments)
 
-Besides these two flows there is also a flow for additional supporting information on students and their education enrollments. This flow is optional since not all test planning and test execution software requires the additional information.
+Besides these two flows there is also a flow for additional supporting information on students and staff members and their education enrollments. This flow is optional since not all test planning and test execution software requires the additional information.
 
 ## flow 1a : Structured
 
-The SIS has information on tests students have to perform within a certain period (e.g. based on a course, or testing has to be done within a certain year or semester). The SIS has to assign each test that has to be planned by a TPS to that TPS.
+The SIS has information on tests s have to perform within a certain period (e.g. based on a course, or testing has to be done within a certain year or semester). The SIS has to assign each test that has to be planned by a TPS to that TPS.
 
 A test can be created on many aggregation levels by the SIS. E.g.:
 - All students that have to be tested for dutch language level 3 on listening, speaking and writing during a semester
@@ -37,11 +37,11 @@ Supplied by SIS:
 - `PUT /ooapi/offerings/{offeringId}`
 - `PATCH /ooapi/offerings/{offeringId}`
 - `PUT /ooapi/association/{associationId}`
-- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrollment by the student)
+- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrollment by the student/staff)
 
 ## Flow 1b : Ad-hoc
 
-When the TPS initiates a test moment there is no structured test information available from the SIS. The SIS provides API's to retrieve student groups and group memberships as well as information on individual students.
+When the TPS initiates a test moment there is no structured test information available from the SIS. The SIS provides API's to retrieve student groups and group memberships as well as information on individual students/staff members.
 
 The TPS can create test moments using this information and provide a TES with this data. However, because these test moments weren't initiated by the SIS it's not possible to transfer results/scores back to the SIS using flow 5. If required, these scores have to entered manually in the SIS.
 
@@ -53,14 +53,14 @@ The TPS can create test moments using this information and provide a TES with th
 
 ## Flow : Additional supporting information
 
-Based on the id's on students and their program offering associations, provided to the planning software in flows 1a or 1b, the planning software can retrieve additional student and program association information.
+Based on the id's on students (and staff members) and their program offering associations, provided to the planning software in flows 1a or 1b, the planning software can retrieve additional student/staff and program association information.
 
 ### Additional supporting information flow : Endpoints for this flow
 
 - `GET /ooapi/person/{personId}`
 - `GET /ooapi/associations/{associationId}?expand=offering`
 
-# Flow 1a 1: Get the to be planned exams (and students)
+# Flow 1a 1: Get the to be planned exams (and students & staff)
 
 ### Sequence diagram of request Create offering (rough planning or in NL grofplanning)	
 ```mermaid
@@ -75,7 +75,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 
     loop for each exam/test
-        Toetsplanning->>DeelnemerRegistratie: Get list of associations (students & staff)
+        Toetsplanning->>DeelnemerRegistratie: Get list of individual associations (students & staff)
         activate DeelnemerRegistratie
         Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
         DeelnemerRegistratie->>Toetsplanning: 200 - Bedankt!
@@ -92,13 +92,13 @@ sequenceDiagram
 
 ```
 
-# Flow 1a 2: Update enrollment (for a student)
-### Sequence diagram of request Update planned exam (for a student)	
+# Flow 1a 2: Update enrollment (for a student or staff)
+### Sequence diagram of request Update planned exam (for a student or staff)	
 ```mermaid
 sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
-    DeelnemerRegistratie->>Toetsplanning: Alter enrollment for a student (change association)
+    DeelnemerRegistratie->>Toetsplanning: Alter enrollment for a student or staff (change association)
     activate Toetsplanning
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/association/{associationId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
@@ -121,7 +121,7 @@ sequenceDiagram
 
 ```
 
-### Class diagram of request B. Add student to created offering (planbare toets)
+### Class diagram of request B. Add person (student or staff) to created offering (planbare toets)
 ```mermaid
 classDiagram
     class Association {
@@ -323,7 +323,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Sequence diagram of request persons in a specific group
+### Sequence diagram of request persons (students and staff) in a specific group
 
 ```mermaid
 
@@ -331,14 +331,14 @@ sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
     Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>DeelnemerRegistratie : Give list of students for group sith code "groupId"
+    Toetsplanning->>DeelnemerRegistratie : Give list of persons for group sith code "groupId"
     activate DeelnemerRegistratie
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/groups/{groupId}/persons (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - Here they are !
     deactivate DeelnemerRegistratie
 ```
 
-### Sequence diagram of request to get a single student
+### Sequence diagram of request to get a single student or staff
 
 ```mermaid
 
@@ -346,7 +346,7 @@ sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
     Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>DeelnemerRegistratie : Give me student data of a student 
+    Toetsplanning->>DeelnemerRegistratie : Give me data of a person (student or staff) 
     activate DeelnemerRegistratie
     Note right of DeelnemerRegistratie: endpoint /a/ooapi/persons/{personId} (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - Here are the details on Jan for planning
@@ -379,7 +379,7 @@ GET /ooapi/groups?q=..
         "description": [
             {
             "language": "en-GB",
-            "value": "The group of students that follow statistics classes"
+            "value": "The group of students that follow statistics classes and related staff"
             }
         ],
         "startDate": "2020-08-17",
@@ -391,22 +391,14 @@ GET /ooapi/groups?q=..
             "code": "1234qwe12"
             }
         ],
-        "consumers": [
-            {
-            "consumerKey": "x-test-consumer",
-            "additional": "custom",
-            "attributes": "here"
-            }
-        ],
-        "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
-        "ext": {}
+        "organization": "452c1a86-a0af-475b-b03f-724878b0f387"
         }    
     ]
 }
 
 ```
 
-### Example of request persons part of a group	
+### Example of request persons (students and staff members) part of a group	
 ```
 GET /ooapi/groups/{groupId}/persons
 {
@@ -437,7 +429,13 @@ GET /ooapi/groups/{groupId}/persons
             "languageOfChoice": 
                 [
                     "nl-NL"
-                ]
+                ],
+            "otherCodes": [
+            {
+            "codeType": "identifier",
+            "code": "student123abc"
+            }
+        ],
         }
     ]
 }
@@ -459,46 +457,10 @@ GET /ooapi/persons/{personId}
     "displayName": "Maartje van Damme",
     "initials": "MCW",
     "activeEnrollment": false,
-    "dateOfBirth": "2003-09-30",
-    "cityOfBirth": "Utrecht",
-    "countryOfBirth": "NL",
-    "nationality": "Dutch",
-    "dateOfNationality": "2003-09-30",
     "affiliations": [
     "student"
     ],
     "mail": "vandamme.mcw@universiteitvanharderwijk.nl",
-    "secondaryMail": "poekie@xyz.nl",
-    "telephoneNumber": "+31 123 456 789",
-    "mobileNumber": "+31 612 345 678",
-    "photoSocial": "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Placeholder_female_superhero_c.png/203px-Placeholder_female_superhero_c.png",
-    "photoOfficial": "https://upload.wikimedia.org/wikipedia/commons/6/66/Johannes_Vermeer_%281632-1675%29_-_The_Girl_With_The_Pearl_Earring_%281665%29.jpg",
-    "gender": "F",
-    "titlePrefix": "drs",
-    "titleSuffix": "BSc",
-    "office": "string",
-    "address": {
-    "addressType": "postal",
-    "street": "Moreelsepark",
-    "streetNumber": "48",
-    "additional": [
-        {
-        "language": "en-GB",
-        "value": "On the other side of the road"
-        }
-    ],
-    "postalCode": "3511 EP",
-    "city": "Utrecht",
-    "countryCode": "NL",
-    "geolocation": {
-        "latitude": 52.089123,
-        "longitude": 5.113337
-    },
-    "ext": {}
-    },
-    "ICEName": "Janne",
-    "ICEPhoneNumber": "+31 623 456 789",
-    "ICERelation": "partner",
     "languageOfChoice": [
     "nl-NL"
     ],
@@ -508,14 +470,6 @@ GET /ooapi/persons/{personId}
         "code": "00000"
     }
     ],
-    "consumers": [
-    {
-        "consumerKey": "x-test-consumer",
-        "additional": "custom",
-        "attributes": "here"
-    }
-    ],
-    "ext": {}
 }
 ```
 
@@ -523,13 +477,13 @@ GET /ooapi/persons/{personId}
 
 # flow : additional supporting information 
 
-### Sequence diagram of request to get students	based on a program (?) the person is participating in
+### Sequence diagram of request to get persons based on a program (?) the person is participating in
 
 
 ### Example of request program offering information
 Warning: next part will change. No list of offerings will be given. 
 ```
-GET /ooapi/offerings/<id>
+GET /ooapi/offerings/{offeringId}
 {
     "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
     "primaryCode": {
@@ -576,7 +530,7 @@ GET /ooapi/offerings/<id>
 Warning : next lines will change. only known associations are requested, no lists with wildcards
 
 ```
-GET /a/ooapi/?/associations/<id>
+GET /a/ooapi/?/associations/{associationId}
 {
   "pageSize": 10,
   "pageNumber": 1,
