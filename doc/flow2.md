@@ -1,10 +1,10 @@
 # Flow 2 : Transfer offering (zitting) to Toetsafname
 
 Used endpoints for this flow are:
-`PUT /offerings/{offeringId}`
-`PUT /offerings/{offeringId}/associations/{associationId}`
-`GET /offerings/{offeringId}`
-`GET /offerings/{offeringId}/associations`
+- `PUT /offerings/{offeringId}`
+- `PUT associations/{associationId}`
+- `GET /offerings/{offeringId}`
+- `GET /offerings/{offeringId}/associations`
 
 ## Flow 2.1 : Create offering (zitting) without students
 
@@ -143,7 +143,7 @@ sequenceDiagram
     loop for each student/medewerker
         Toetsplanning->>Toetsafname: B. Add student to created offering (zitting)
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId} (PUT)
+        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (PUT)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
     end
     deactivate Toetsafname
@@ -194,7 +194,7 @@ classDiagram
 
 ### Example of request B. Add student to created offering (zitting)	
 ```
-PUT endpoint /a/ooapi/offerings/{offeringId}/associations/{associationId}
+PUT endpoint /a/ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 # associationId = "123e4567-e89b-12d3-a456-426614174000"
