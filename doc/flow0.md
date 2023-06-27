@@ -26,16 +26,16 @@ classDiagram
 	comonentType : string
 	name : languageTypedString[]
 	modeOfDelivery : modeOfDeliveryType
-    duration: timeperiod
+        duration: timeperiod
 	description : languageTypedString[]
 	teachingLanguage : string
 	assessment : languageTypedString[]
 	otherCodes : codeType & code[]
 	organization : organisationId or Organization object
-    consumers: NL-TEST-ADMIN-Component
+        consumers: NL-TEST-ADMIN-Component
     }
-    class 'NL-TEST-ADMIN-Component' {
-    	consumerKey : string
+    class `NL-TEST-ADMIN-Component` {
+    	consumerKey : string = "NL-TEST-ADMIN"
 	additionalTestingTime : integer
 	availablePersonalNeeds : PersonalNeedsType[]
 	safety : string[]
@@ -46,7 +46,7 @@ classDiagram
 	status : TestStatusType
 	licensed : boolean
     }
-    Component o-- 'NL-TEST-ADMIN-Component'
+    Component o-- `NL-TEST-ADMIN-Component`
 ```
 
 ### Example of response Request whole catalogue
@@ -99,7 +99,7 @@ response:
      "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
      "consumers": [
         {
-           "consumerKey": "NL-TEST-ADMIN", 
+           "consumerKey": string = "NL-TEST-ADMIN", 
            "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ "extraTime", "spoken", "spell-checker-on-screen" ],
@@ -133,6 +133,8 @@ response:
 	- 0-100 = Resultvalue is a number from range (0,100)
 	- 0-10 = Resultvalue is a number from range (0,10)
 	- 0.0-10.0 = Resultvalue is a decimal number from range (0.0,10.0)
+	- referenceLevelRKTR = Resultvalue is a reference level from the Dutch "Referentiekader Taal en Rekenen" from value set {1F, 1S, 2F, 2S, 3F, 3S, 4F, 4S} and additional values like "Op weg naar 1F"
+	- referenceLevelERK = Resultvalue is a reference level from the "Europees Referencekader voor de talen" from value set {A1, A2, B1, B2, C1, C2}
 
 
 ## Flow 0.2 Request details of one test
@@ -199,7 +201,7 @@ response:
      "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
      "consumers": [
         {
-           "consumerKey": "NL-TEST-ADMIN", 
+           "consumerKey": string = "NL-TEST-ADMIN", 
            "additionalTestingTime": 30,
            #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ ],
