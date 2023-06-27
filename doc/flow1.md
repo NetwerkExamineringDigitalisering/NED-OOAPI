@@ -528,9 +528,9 @@ GET /ooapi/offerings/{offeringId}
 
 ### Example of request associations
 Warning : next lines will change. only known associations are requested, no lists with wildcards
-
+## epxand mechanism needs extra check! program is a child research needed
 ```
-GET /a/ooapi/?/associations/{associationId}
+GET /a/ooapi/?/associations/{associationId}?expand=offering,program
 {
   "pageSize": 10,
   "pageNumber": 1,
@@ -556,10 +556,10 @@ GET /a/ooapi/?/associations/{associationId}
             "consumers": [
                 {
                     "consumerKey": "NL-TEST-ADMIN",
-                    "levelOfQualification": "4",
-                    "modeOfStudy": "full-time",
-                    "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen)
-                    "location": "Where?", #onderwijs locatie (campus)
+                    "levelOfQualification": "4", # to be removed
+                    "modeOfStudy": "full-time", # to be removed
+                    "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
+                    "location": "Where?", #onderwijs locatie (campus) # use locationCode in offering and remove here
                     "startDate": "2021-09-01", #todo wat willen we met datums
                     "expectedEndDate": "2025-07-31",
                     "finalEndDate": null
