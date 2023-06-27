@@ -79,15 +79,15 @@ properties:
       type: object
       description: A reference to a specific test that can be used to validate the students achievements.
       properties:
-        testSupplier:
+        testProvider:
           description: The name of the organisation that is supplying the test.
           type: string
-        testId:
+        componentId:
           description: the UUID of the test in the testing system of the suppier.
           type: string
       example:
-        testSupplier: MBO-NED
-        testId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
+        testProvider: MBO-NED
+        componentId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
   documents:
     type: array
     items:
