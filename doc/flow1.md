@@ -456,7 +456,7 @@ GET /ooapi/persons/{personId}
     "surname": "Damme",
     "displayName": "Maartje van Damme",
     "initials": "MCW",
-    "activeEnrollment": false,
+    "activeEnrollment": true,
     "affiliations": [
     "student"
     ],
