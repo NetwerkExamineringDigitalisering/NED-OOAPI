@@ -198,8 +198,8 @@ GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
                     "consumerKey": "NL-TEST-ADMIN",
                     "testsToBeUsed": [
                         {
-                            "testSupplier": "MBO-NED",
-                            "testID": "dfc9d973-42cf-46f3-bd18-f9b50492cdb5"
+                            "testProvider": "MBO-NED",
+                            "componentId": "dfc9d973-42cf-46f3-bd18-f9b50492cdb5"
                         }
                     ]
                 }
@@ -291,8 +291,8 @@ PUT /a/ooapi/offerings/{offeringId}
 	    "consumerKey": "NL-TEST-ADMIN",
         "testsToBeUsed": [
             {
-                "testSupplier": "MBO-NED",
-                "testID": "dfc9d973-42cf-46f3-bd18-f9b50492cdb5"
+                "testProvider": "MBO-NED",
+                "componentId": "dfc9d973-42cf-46f3-bd18-f9b50492cdb5"
             }
         ]
       }
