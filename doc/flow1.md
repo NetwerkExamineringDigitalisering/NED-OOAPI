@@ -168,8 +168,11 @@ classDiagram
 
 ```
 ### Example of request component offerings that need to be planned
+The the from and until paramaters MUST be specified in in URL friendly format so:
+from=2023-07-31T22:00:00.000Z becomes
+from=2023-07-31T22%3A00%3A00%2E000Z     
 ```
-GET /ooapi/offerings?componentType=TEST&Since=..&Until=&planner=
+GET /ooapi/offerings?componentType=TEST&from=..&until=..
 {
     "pageSize": 10,
     "pageNumber": 1,
