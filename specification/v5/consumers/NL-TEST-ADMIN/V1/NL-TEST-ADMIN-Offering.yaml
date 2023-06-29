@@ -73,6 +73,13 @@ properties:
     description: |
       irregularities
       string with information about irragularies that effected all students in this offering
+  finalResultAllowed:
+    type: boolean
+    example: true
+    description: |
+      depicting wether it is allowed to send either a final result or a perliminary result to the SIS. 
+      To allow for final results to be delivered to the Student Information System the value should be true. 
+      If set to false only other than final results can be delivered (e.g. temporary/intermediate/draft/etc.)
   testsToBeUsed:
     type: array
     items:
