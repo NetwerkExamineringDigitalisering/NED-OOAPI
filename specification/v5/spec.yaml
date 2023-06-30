@@ -320,6 +320,8 @@ paths:
     $ref: paths/ComponentCollection.yaml
   /components/{componentId}/offerings:
     $ref: paths/ComponentOfferingCollection.yaml
+  /offerings:
+    $ref: paths/OfferingCollection.yaml
   /offerings/{offeringId}:
     $ref: paths/OfferingInstance.yaml
   /offerings/{offeringId}/associations:

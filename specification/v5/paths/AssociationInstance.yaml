@@ -88,15 +88,6 @@ patch:
           - $ref: '../schemas/ComponentOfferingAssociationPatch.yaml'
 
 
-        # schema:
-        #   properties:
-        #     remoteState:
-        #       $ref: '../enumerations/remoteAssociationState.yaml'
-        #     result:
-        #       oneOf:
-        #         - $ref: '../schemas/ComponentResult.yaml'
-#                - $ref: '../schemas/CourseResult.yaml'
-#                - $ref: '../schemas/ProgramResult.yaml'  
         examples:
             Delete student from offering (flow 2.4):
               value:

@@ -26,7 +26,7 @@ The consumer information provides sufficient information to allow for regrouping
 
 ### Flow 1a : Endpoints for this flow
 
-- `GET /ooapi/offerings?componentType=TEST&from=..&until=..`
+- `GET /ooapi/offerings?componentType=TEST&since=..&until=..`
 - `GET /ooapi/offerings/{offeringId}`
 - `GET /ooapi/offerings/{offeringId}/associations`
 - `GET /ooapi/association/{associationId}`
@@ -70,7 +70,7 @@ sequenceDiagram
     DeelnemerRegistratie-->>DeelnemerRegistratie: setup studyplan and tests/exams
     Toetsplanning->>DeelnemerRegistratie : Give list of exams/test that need to be planned soon by me
     activate DeelnemerRegistratie
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings?componentType=TEST&from=..&until=.. (GET)
+    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings?componentType=TEST&since=..&until=.. (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - please plan this!
     deactivate DeelnemerRegistratie
 
@@ -172,7 +172,7 @@ The the from and until paramaters MUST be specified in in URL friendly format so
 from=2023-07-31T22:00:00.000Z becomes
 from=2023-07-31T22%3A00%3A00%2E000Z     
 ```
-GET /ooapi/offerings?componentType=TEST&from=..&until=..
+GET /ooapi/offerings?componentType=TEST&since=..&until=..
 {
     "pageSize": 10,
     "pageNumber": 1,

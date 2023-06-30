@@ -5,6 +5,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+
+# [5.0.0 MBO] - 2023-06-30
+### Added
+- added offerings endpoint (to allow querying for offerings based on OfferingType (component, course and program))
+- 
+
+### Changed
+- changed courseofferings.yaml and programofferings.yaml to new format by splitting properties, ID's and required fields 
+- courseOffering -> courseOffering & courseOfferingProperties same for programOffering 
+- change consumername for OKE to NL-TEST-ADMIN
+- consistency check in flow for selecting components since=..&until=.. (based on OOAPI v5 docs)
+
+### Removed
+- Old markup and outcommented materials that were not used
+- GET /offerings/{offeringId}/associations
+- PUT /offerings/{offeringId}/associations
+
+
 # [5.0.0 MBO] - 2023-03-21
 
 ### Added
