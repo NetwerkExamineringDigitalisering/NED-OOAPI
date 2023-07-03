@@ -124,10 +124,10 @@ tags:
 #    x-displayName: EducationSpecification
 #    description: |
 #      <SchemaDefinition schemaRef="#/components/schemas/EducationSpecification" />
-#  - name: program_model
-#    x-displayName: Program
-#    description: |
-#      <SchemaDefinition schemaRef="#/components/schemas/Program" />
+  - name: program_model 
+    x-displayName: Program
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Program" />
 #  - name: course_model
 #    x-displayName: Course
 #    description: |
@@ -136,14 +136,14 @@ tags:
     x-displayName: Component
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/Component" />
-#  - name: program_offering_model
-#    x-displayName: ProgramOffering
-#    description: |
-#      <SchemaDefinition schemaRef="#/components/schemas/ProgramOffering" />
-#  - name: course_offering_model
-#    x-displayName: CourseOffering
-#    description: |
-#      <SchemaDefinition schemaRef="#/components/schemas/CourseOffering" />
+  - name: program_offering_model
+    x-displayName: ProgramOffering
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/ProgramOffering" />
+  - name: course_offering_model
+    x-displayName: CourseOffering
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/CourseOffering" />
   - name: component_offering_model
     x-displayName: ComponentOffering
     description: |
@@ -212,7 +212,7 @@ x-tagGroups:
       - component_model
       - component_offering_model
 #      - course_model
-#      - course_offering_model
+      - course_offering_model
 #      - education_specification_model
       - group_model
 #      - news_feed_model
@@ -220,7 +220,7 @@ x-tagGroups:
 #      - organization_model
       - person_model
       - program_model
-#      - program_offering_model
+      - program_offering_model
 #      - room_model
 
 components:
