@@ -1,6 +1,6 @@
 allOf:
   - $ref: '../schemas/OfferingProperties.yaml'
-    properties:
+  -  properties:
       startDateTime:
         type: string
         description: The moment on which this offering starts, RFC3339 (date-time)

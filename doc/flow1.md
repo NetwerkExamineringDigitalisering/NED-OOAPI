@@ -501,39 +501,85 @@ GET /ooapi/offerings/{offeringId}
 	}
     ],
     "organization": {
-	"organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
-	"primaryCode": {
-	    "codeType": "identifier",
-	    "code": "ICTE"
-	},
-	"name": [
-	    {
-		"language": "nl-NL",
-		"value": "ICT-academie"
-	    }
-	],
-	"parent": {
-	    "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
-	    "primaryCode": {
-		"codeType": "identifier",
-		"code": "CICT"
-	    },
-	    "name": [
-		{
-		    "language": "nl-NL",
-		    "value": "Cluster ICT en EIS"
-		}
-	    ]
-	}
+        "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+        "primaryCode": {
+            "codeType": "identifier",
+            "code": "ICTE"
+        },
+        "name": [
+            {
+            "language": "nl-NL",
+            "value": "ICT-academie"
+            }
+        ],
+        "parent": {
+            "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
+            "primaryCode": {
+            "codeType": "identifier",
+            "code": "CICT"
+            },
+            "name": [
+            {
+                "language": "nl-NL",
+                "value": "Cluster ICT en EIS"
+            }
+            ]
+        }
     }
 }
 ```
 
 ### Example of request associations
 Warning : next lines will change. only known associations are requested, no lists with wildcards
-## epxand mechanism needs extra check! program is a child research needed
 ```
-GET /a/ooapi/?/associations/{associationId}?expand=offering,program
+GET /ooapi/associations/{associationId}
+{
+  "pageSize": 10,
+  "pageNumber": 1,
+  "hasPreviousPage": false,
+  "hasNextPage": true,
+  "totalPages": 8,
+  "items": [
+        {
+            "associationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
+            "associationType": "programOfferingAssociation",
+            "primaryCode": {
+                "codeType": "opleidingsblad",
+                "code": "1.1"
+            },
+            "role": "student",
+            "state": "associated",
+            "otherCodes": [
+                {
+                    "codeType": "opleidingscode",
+                    "code": "23089"
+                }
+            ],
+            "consumers": [
+                {
+                    "consumerKey": "NL-TEST-ADMIN",
+                    "levelOfQualification": "4", # to be removed
+                    "modeOfStudy": "full-time", # to be removed
+                    "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
+                    "location": "Where?", #onderwijs locatie (campus) # use locationCode in offering and remove here
+                    "startDate": "2021-09-01", #todo wat willen we met datums
+                    "expectedEndDate": "2025-07-31",
+                    "finalEndDate": null
+                }
+            ],
+            "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+            "offering": "5ffc6127-debe-48ce-90ae-75ea80756475"
+        }
+    ]
+}
+```
+
+
+### Example of request associations
+Warning : next lines will change. only known associations are requested, no lists with wildcards
+## expand mechanism needs extra check! program is a child research needed
+```
+GET /ooapi/associations/{associationId}?expand=offering.program
 {
   "pageSize": 10,
   "pageNumber": 1,

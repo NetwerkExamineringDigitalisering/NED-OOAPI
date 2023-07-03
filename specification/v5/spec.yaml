@@ -219,7 +219,7 @@ x-tagGroups:
 #      - news_item_model
 #      - organization_model
       - person_model
-#      - program_model
+      - program_model
 #      - program_offering_model
 #      - room_model
 
