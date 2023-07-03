@@ -83,7 +83,7 @@ get:
                       anyOf:
                         - $ref: '../schemas/ComponentOffering.yaml'
                         - $ref: '../schemas/CourseOffering.yaml'
-                        - $ref: '../schamas/ProgramOffering.yaml'
+                        - $ref: '../schemas/ProgramOffering.yaml'
                   ext:
                       $ref: '../schemas/Ext.yaml'
     '400':
