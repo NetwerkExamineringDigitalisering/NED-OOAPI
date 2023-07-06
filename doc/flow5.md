@@ -63,6 +63,49 @@ classDiagram
     Result o-- `NL-TEST-ADMIN-Result`
     `NL-TEST-ADMIN-Result` o-- Document
 ```
+
+
+### Example of Send result for student tot Student Information System
+```
+PATCH /associations/{associationId}
+
+{
+    "consumers": [
+    {
+      "consumerKey": "NL-TEST-ADMIN",
+      "attempt": 2
+    }
+    ],
+    "result": {
+      "state": "completed",
+      "pass": "unknown",
+      "comment": "string",
+      "score": "9",
+      "resultDate": "2020-09-28",
+      "consumers": [
+	     {
+          "consumerKey": "NL-TEST-ADMIN",
+          "attendance": "present",
+          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+          "assessorCode": "JAJE",
+          "irregularities": "Jantje heeft gespiekt."
+          "final": true,
+          "rawScore": 65,
+          "maxRawScore": 75,
+          "documents": [
+          {
+            "documentId": "123454",
+            "documentType": "assessmentForm",
+            "documentName": "Assessment form for Jake Doe.pdf"
+          }
+          ]
+	      }
+      ],
+    }
+}
+``` 
+
+
 TO DO:
 
 Vanuit de openstaande vragen in deze flow moet bij resultaten terug naar de deelnemerregistratie nog het volgende uitgewerkt worden:
