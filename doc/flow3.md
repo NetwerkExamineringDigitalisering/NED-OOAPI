@@ -76,6 +76,7 @@ PATCH /associations/{associationId}
             "final": true,
             "rawScore": 65,
             "maxRawScore": 75,
+            "testDate": "2020-09-28",
             "documents": [
             {
               "documentId": "123454",
