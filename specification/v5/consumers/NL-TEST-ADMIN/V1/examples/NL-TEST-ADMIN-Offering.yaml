@@ -4,7 +4,7 @@
   startOptions: individualStart
   durationFrom: individualStartDateTime
   durationUntil: testDuration 
-  safety: [SecuredComputer, Fixed Location]
+  safety: [securedComputer, fixedLocation]
   offeringState: active
   locationCode: A-12a
   testToBeUsed:

@@ -84,7 +84,7 @@ PUT /ooapi/offerings/{offeringId}
       {
 	    "consumerKey": "NL-TEST-ADMIN",
 	    "duration": PT60M,  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
-	    "safety": ["Fixed Location", "Surveillance"]
+	    "safety": ["fixedLocation", "surveillance"]
 	    "offeringState": "active",
 	    "locationCode":"A-22"
       }
@@ -117,7 +117,7 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 - consumer NL-TEST-ADMIN-Offering:
 	- add one of type "consumerKey": "NL-TEST-ADMIN"
 	- duration: int for duration in minutes < to be decided > (see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4)
-	- safety : array of safety measures : "Secured Computer", "Fixed Location", "Surveillance"
+	- safety : array of safety measures : "securedComputer", "fixedLocation", "surveillance"
 	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
 	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
 
@@ -470,7 +470,7 @@ GET /ooapi/offerings/{offeringId}
       {
         "consumerKey": "NL-TEST-ADMIN",
 		"duration": 60,  #je hebt duration nodig als je flexibele periodes hebt.
-		"safety": ["Fixed Location", "Surveillance"]
+		"safety": ["fixedLocation", "surveillance"]
 		"offeringState": "active",
 		"locationCode":"A-22"
       }

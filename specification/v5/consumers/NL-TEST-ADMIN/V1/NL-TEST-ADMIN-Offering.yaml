@@ -50,9 +50,9 @@ properties:
     items:
       type: string
       enum:
-        - SecuredComputer
-        - Fixed Location
-        - Surveillance
+        - securedComputer
+        - fixedLocation
+        - surveillance
   offeringState:
     type: string
     description: |
