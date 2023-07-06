@@ -12,7 +12,7 @@ sequenceDiagram
 
     Toetsafname->>Toetsplanning: here is the offering report (zittingsverslag)
     activate Toetsplanning
-    Note right of Toetsplanning: endpoint /a/ooapi/offerings/{offeringID} (PATCH)
+    Note right of Toetsplanning: endpoint /ooapi/offerings/{offeringID} (PATCH)
     Toetsplanning->>Toetsafname: 200 - OK!
     deactivate Toetsplanning
 ```
@@ -51,7 +51,7 @@ To see the current state of the offering the following endpoint can be used
 sequenceDiagram
   Toetsplanning->>Toetsafname: Give me the offering report (zittingsverslag)
   activate Toetsafname
-  Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringID} (GET)
+  Note right of Toetsafname: endpoint /ooapi/offerings/{offeringID} (GET)
   Toetsafname->>Toetsplanning: 200 - here it is (and all other information as well)!
   deactivate Toetsafname
 ```

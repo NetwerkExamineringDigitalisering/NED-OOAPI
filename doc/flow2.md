@@ -1,10 +1,12 @@
 # Flow 2 : Transfer offering (zitting) to Toetsafname
 
 Used endpoints for this flow are:
-- `PUT /offerings/{offeringId}`
-- `PUT associations/{associationId}`
 - `GET /offerings/{offeringId}`
+- `PUT /offerings/{offeringId}`
+- `PATCH /ooapi/offerings/{offeringId}`
 - `GET /offerings/{offeringId}/associations`
+- `PUT /associations/{associationId}`
+- `PATCH /ooapi/associations/{associationId}`
 
 ## Flow 2.1 : Create offering (zitting) without students
 
@@ -13,7 +15,7 @@ Used endpoints for this flow are:
 sequenceDiagram
     Toetsplanning->>Toetsafname: Create offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT)
+    Note right of Toetsafname: endpoint /ooapi/offerings/{offeringId} (PUT)
     Toetsafname->>Toetsplanning: 200 - Thanks!
     deactivate Toetsafname
 ```
@@ -52,7 +54,7 @@ classDiagram
 
 ### Example of request Create offering (zitting)	
 ```
-PUT /a/ooapi/offerings/{offeringId}
+PUT /ooapi/offerings/{offeringId}
 
 {
    "offeringId": "123e4567-e89b-12d3-a456-134564174000",
@@ -119,7 +121,9 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
 	- locationCode : string to indicate test room/space  (for recognition, we will not use the location structure from OOAPI)
 
+
 The consumer fields for duration and the various tiem indicators allow for the following scenarios:
+
 | Scenario Nummmer | Scenario | startDateTime | entryDateTime | endDateTime  | duration | startOptions  | durationFrom | durationUntil |
 |------------|----------------|--------------------|--------------------|--------------------|-----------------|-----------------|-------------------------|---------------|
 | 1 | Testmomement starts at 9:00 and   ends at 10:00. Candidates can start test at any moment during test moment                 | 2022-11-15T09:00T12:45:00.000Z   |                    | 2022-11-15T10:00:00.000Z   | PT40M  (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
@@ -137,13 +141,13 @@ The consumer fields for duration and the various tiem indicators allow for the f
 sequenceDiagram
     Toetsplanning->>Toetsafname: A. Create offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PUT)
+    Note right of Toetsafname: endpoint /ooapi/offerings/{offeringId} (PUT)
     Toetsafname->>Toetsplanning: 200 -Bedankt!
     deactivate Toetsafname
     loop for each student/medewerker
         Toetsplanning->>Toetsafname: B. Add student to created offering (zitting)
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (PUT)
+        Note right of Toetsafname: endpoint /ooapi/associations/{associationId} (PUT)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
     end
     deactivate Toetsafname
@@ -194,7 +198,7 @@ classDiagram
 
 ### Example of request B. Add student to created offering (zitting)	
 ```
-PUT endpoint /a/ooapi/associations/{associationId}
+PUT endpoint /ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 # associationId = "123e4567-e89b-12d3-a456-426614174000"
@@ -270,7 +274,7 @@ sequenceDiagram
     loop for each student
         Toetsplanning->>Toetsafname: Add student to existing offering (zitting)
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (PUT)
+        Note right of Toetsafname: endpoint /ooapi/associations/{associationId} (PUT)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
     end
     deactivate Toetsafname
@@ -282,7 +286,7 @@ sequenceDiagram
 
 ### Example of request Add student to existing offering (zitting)	
 ```
-PUT endpoint /a/ooapi/associations/{associationId}
+PUT endpoint /ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 # associationId = "123e4567-e89b-12d3-a456-426614174001"
@@ -334,7 +338,7 @@ sequenceDiagram
     loop for each student
         Toetsplanning->>Toetsafname: Delete student from offering (zitting)
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (PATCH state canceled)
+        Note right of Toetsafname: endpoint /ooapi/associations/{associationId} (PATCH state canceled)
         Toetsafname->>Toetsplanning: 200 - Bedankt!
     end
     deactivate Toetsafname
@@ -351,7 +355,7 @@ classDiagram
 
 ### Example of request Delete student from offering (zitting)	
 ```
-PATCH endpoint /a/ooapi/associations/{associationId}
+PATCH endpoint /ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 # associationId = "123e4567-e89b-12d3-a456-426614174001"
@@ -375,7 +379,7 @@ PATCH endpoint /a/ooapi/associations/{associationId}
 sequenceDiagram
     Toetsplanning->>Toetsafname: Delete offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId} (PATCH offeringState canceled)
+    Note right of Toetsafname: endpoint /ooapi/offerings/{offeringId} (PATCH offeringState canceled)
     Toetsafname->>Toetsplanning: 200 Bedankt!
     deactivate Toetsafname
 ```
@@ -395,7 +399,7 @@ classDiagram
 
 ### Example of request Delete offering (zitting)	
 ```
-PATCH endpoint /a/ooapi/offerings/{offeringId}
+PATCH endpoint /ooapi/offerings/{offeringId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 
@@ -425,18 +429,18 @@ To see/check the current state of the offering (zitting) with its associations t
 sequenceDiagram
     Toetsplanning->>Toetsafname: A. Read current state of the offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings//{offeringId} (GET)
+    Note right of Toetsafname: endpoint /ooapi/offerings//{offeringId} (GET)
     Toetsafname->>Toetsplanning: 200 - here it is!
     Toetsplanning->>Toetsafname: B. Read the students and employees for offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /a/ooapi/offerings//{offeringId}/associations (GET)
+    Note right of Toetsafname: endpoint /ooapi/offerings//{offeringId}/associations (GET)
     Toetsafname->>Toetsplanning: 200 - here they are!
     deactivate Toetsafname
 ```
 
 ### example of request A. Read current state of the offering (zitting)	
 ```
-GET /a/ooapi/offerings/{offeringId}
+GET /ooapi/offerings/{offeringId}
 
 {
    "offeringId": "123e4567-e89b-12d3-a456-134564174000",
@@ -479,7 +483,7 @@ GET /a/ooapi/offerings/{offeringId}
 
 ### example of request B. Read the students and employees for offering (zitting)	
 ```
-GET /a/ooapi/offerings/{offeringId}/associations
+GET /ooapi/offerings/{offeringId}/associations
 
 {
    "pageSize": 10,

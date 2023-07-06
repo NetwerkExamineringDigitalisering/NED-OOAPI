@@ -12,7 +12,7 @@ sequenceDiagram
     loop for each student
       Toetsafname->>Toetsplanning: Send attendance and result directly
       activate Toetsplanning
-      Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PATCH)
+      Note right of Toetsplanning: endpoint /ooapi/associations/{associationId} (PATCH)
       Toetsplanning->>Toetsafname: 200 - OK!
       deactivate Toetsplanning
     end
@@ -116,14 +116,14 @@ sequenceDiagram
     loop for each student
       Toetsafname->>Toetsplanning: A. Send attendance for student directly
       activate Toetsplanning
-      Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PATCH)
+      Note right of Toetsplanning: endpoint /ooapi/associations/{associationId} (PATCH)
       Toetsplanning->>Toetsafname: 200 - OK!
       deactivate Toetsplanning
    end
     loop for each student
       Toetsafname->>Toetsplanning: B. Send result for student
       activate Toetsplanning
-      Note right of Toetsplanning: endpoint /a/ooapi/associations/{associationId} (PATCH)
+      Note right of Toetsplanning: endpoint /ooapi/associations/{associationId} (PATCH)
       Toetsplanning->>Toetsafname: 200 - OK!
       deactivate Toetsplanning
    end
@@ -212,7 +212,7 @@ sequenceDiagram
     loop for each supporting document
       Toetsplanning->>Toetsafname: give me the supporting document
       activate Toetsafname
-      Note right of Toetsplanning: endpoint /a/ooapi/documents/{documentid} GET
+      Note right of Toetsplanning: endpoint /ooapi/documents/{documentid} GET
       Toetsafname->>Toetsplanning: 200 - Here it is!
       deactivate Toetsafname
    end
@@ -227,13 +227,13 @@ sequenceDiagram
     alt for all students at once
         Toetsplanning->>Toetsafname: A. Read results for all students
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
+        Note right of Toetsafname: endpoint /ooapi/offerings/{offeringId}/associations (GET)
         Toetsafname->>Toetsplanning: 200 - here they all are!
         deactivate Toetsafname
     else just one student
         Toetsplanning->>Toetsafname: B. Read result for student
         activate Toetsafname
-        Note right of Toetsafname: endpoint /a/ooapi/associations/{associationId} (GET)
+        Note right of Toetsafname: endpoint /ooapi/associations/{associationId} (GET)
         Toetsafname->>Toetsplanning: 200 - here it is!
         deactivate Toetsafname
     end

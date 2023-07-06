@@ -14,7 +14,7 @@ sequenceDiagram
     loop for each student
       Toetsplanning->>Deelnemerregistratie: Send attendance and result combined
       activate Deelnemerregistratie
-      Note right of Deelnemerregistratie: endpoint /a/ooapi/associations/{associationId} (PATCH)
+      Note right of Deelnemerregistratie: endpoint /ooapi/associations/{associationId} (PATCH)
       Deelnemerregistratie->>Toetsplanning: 200 - OK!
       deactivate Deelnemerregistratie
     end

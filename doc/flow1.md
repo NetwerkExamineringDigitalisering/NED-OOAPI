@@ -70,14 +70,14 @@ sequenceDiagram
     DeelnemerRegistratie-->>DeelnemerRegistratie: setup studyplan and tests/exams
     Toetsplanning->>DeelnemerRegistratie : Give list of exams/test that need to be planned soon by me
     activate DeelnemerRegistratie
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings?componentType=TEST&since=..&until=.. (GET)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/offerings?componentType=TEST&since=..&until=.. (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - please plan this!
     deactivate DeelnemerRegistratie
 
     loop for each exam/test
-        Toetsplanning->>DeelnemerRegistratie: Get list of individual associations (students & staff)
+        Toetsplanning->>DeelnemerRegistratie: Get list of associations (students & staff) for this offering
         activate DeelnemerRegistratie
-        Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId}/associations (GET)
+        Note right of DeelnemerRegistratie: endpoint /ooapi/offerings/{offeringId}/associations (GET)
         DeelnemerRegistratie->>Toetsplanning: 200 - Bedankt!
     end
     deactivate DeelnemerRegistratie
@@ -85,7 +85,7 @@ sequenceDiagram
     loop for each student / staff
         Toetsplanning-->>DeelnemerRegistratie: Get details of a student / staff
         activate DeelnemerRegistratie
-        Note right of DeelnemerRegistratie: endpoint /a/ooapi/association/{associationId} (GET)
+        Note right of DeelnemerRegistratie: endpoint /ooapi/association/{associationId} (GET)
         DeelnemerRegistratie-->>Toetsplanning: 200 - Bedankt!
     end
     deactivate DeelnemerRegistratie
@@ -100,7 +100,7 @@ sequenceDiagram
     participant Toetsplanning
     DeelnemerRegistratie->>Toetsplanning: Alter enrollment for a student or staff (change association)
     activate Toetsplanning
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/association/{associationId} (PATCH)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/association/{associationId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
     deactivate Toetsplanning
 
@@ -115,7 +115,7 @@ sequenceDiagram
     participant Toetsplanning
     DeelnemerRegistratie->>Toetsplanning: Update offering (planbare toets)
     activate Toetsplanning
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/offerings/{offeringId} (PATCH)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/offerings/{offeringId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
     deactivate Toetsplanning
 
@@ -229,7 +229,7 @@ GET /ooapi/offerings?componentType=TEST&since=..&until=..
 
 ### Example of request associations	
 ```
-GET /a/ooapi/offerings/{offeringId}/associations/
+GET /ooapi/offerings/{offeringId}/associations/
 {
     "pageSize": 10,
     "pageNumber": 1,
@@ -263,7 +263,7 @@ GET /a/ooapi/offerings/{offeringId}/associations/
 
 ### Example of request Create offering (planbare toets)	
 ```
-PUT /a/ooapi/offerings/{offeringId}
+PUT /ooapi/offerings/{offeringId}
 
 {
    "offeringId": "123e4567-e89b-12d3-a456-134564174000",
@@ -321,7 +321,7 @@ sequenceDiagram
     Toetsplanning-->>Toetsplanning: do everything with plan
     Toetsplanning->>DeelnemerRegistratie : Give list of groups matching having a name or code containing "H2b"
     activate DeelnemerRegistratie
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/groups?q=H2b (GET)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/groups?q=H2b (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - Here they are !
     deactivate DeelnemerRegistratie
 ```
@@ -336,7 +336,7 @@ sequenceDiagram
     Toetsplanning-->>Toetsplanning: do everything with plan
     Toetsplanning->>DeelnemerRegistratie : Give list of persons for group sith code "groupId"
     activate DeelnemerRegistratie
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/groups/{groupId}/persons (GET)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/groups/{groupId}/persons (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - Here they are !
     deactivate DeelnemerRegistratie
 ```
@@ -351,7 +351,7 @@ sequenceDiagram
     Toetsplanning-->>Toetsplanning: do everything with plan
     Toetsplanning->>DeelnemerRegistratie : Give me data of a person (student or staff) 
     activate DeelnemerRegistratie
-    Note right of DeelnemerRegistratie: endpoint /a/ooapi/persons/{personId} (GET)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/persons/{personId} (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - Here are the details on Jan for planning
     deactivate DeelnemerRegistratie
 ```
