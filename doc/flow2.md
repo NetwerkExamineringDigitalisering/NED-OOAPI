@@ -493,7 +493,7 @@ GET /ooapi/offerings/{offeringId}/associations
    "totalPages": 8,
    "items": [
       {
-	associationId: "123e4567-e89b-12d3-a456-426614174000"
+		"associationId": "123e4567-e89b-12d3-a456-426614174000"
     	"associationType": "componentOfferingAssociation",
     	"role": "student",
     	"state": "associated",

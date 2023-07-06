@@ -24,7 +24,12 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Association {
+        consumers : NL-TEST-ADMIN-Association
     	result : Result
+    }
+    class `NL-TEST-ADMIN-Association` {
+        consumerKey : string
+        attempt: integer
     }
     class Result {
     	state : string
@@ -54,6 +59,7 @@ classDiagram
         documentName : string
     }
     Association o-- Result
+    Association o-- `NL-TEST-ADMIN-Association`
     Result o-- `NL-TEST-ADMIN-Result`
     `NL-TEST-ADMIN-Result` o-- Document
 ```
