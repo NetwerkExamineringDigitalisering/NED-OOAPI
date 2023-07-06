@@ -23,6 +23,12 @@ properties:
       - notStarted
       - notFinished
       - present
+  executedOfferingName: 
+    type : string
+    description: |
+      Name of the actual offering variant the result belongs to. 
+      The variant of the test can be different based on the algoritm of the Test System.
+      This information is also needed for future attempts, so not to repeat tests.  
   assessorId:
     type: string
     description: |

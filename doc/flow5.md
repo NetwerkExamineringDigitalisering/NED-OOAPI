@@ -38,6 +38,7 @@ classDiagram
     class `NL-TEST-ADMIN-Result` {
         consumerKey : string
         attendance : string
+        executedOfferingName: string
         assessorId : string
         assessorCode : string 
         irregularities : string
