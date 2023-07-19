@@ -47,4 +47,9 @@ properties:
     description: |
       The unique identifier of the enrollment of the student in a courseOffering on the behalf of the current assocation is taking place 
     format: uuid
+  orgComponentOfferingAssociationId:
+    type: string
+    description: |
+      The original UUID under which the Student information System provided the assocaition. This element is only needed at pass back to the SIS 
+    format: uuid
 
