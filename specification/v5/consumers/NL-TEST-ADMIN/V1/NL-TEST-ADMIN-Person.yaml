@@ -1,0 +1,24 @@
+type: object
+description: NL-TEST-ADMIN add-on attributes to the Association 
+required:
+ - consumerKey
+properties:
+  consumerKey:
+    type: string
+  additionalTimeInMin:
+    type: integer
+    format: int32
+    description: |
+      If you need additional time, specify how much max
+      To be documented see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4
+  personalNeeds:
+    type: array
+    items:
+      type: string
+    minItems: 0
+    description: |
+      personalNeed
+      personalNeed to be added for this student
+      TODO : make enum: see https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
+      examples : "extraTime", "spoken", "spell-checker-on-screen"
+
