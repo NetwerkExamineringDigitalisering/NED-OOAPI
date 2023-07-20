@@ -6,7 +6,7 @@ This flow can only be used for componentOfferingAssociations originating from fl
 
 After Toetsplanning has received the result from Toetsafname and done some additional processing like checking whether there is still an active componentOfferingAssociation for the test and the score to be provided to the Deelnemerregistratie fits into the resultValueType provided by the Deelnemerregistratie, the result is sent back to the Deelnemerregistratie using this flow.
 
-### Sequence diagram of request Send attendance and result combined
+### Sequence diagram of request Send attendance and result combined (potential as a new object for Deelnemerregistratie)
 ```mermaid
 sequenceDiagram
     participant Deelnemerregistratie
@@ -14,11 +14,30 @@ sequenceDiagram
     loop for each student
       Toetsplanning->>Deelnemerregistratie: Send attendance and result combined
       activate Deelnemerregistratie
+      Note right of Deelnemerregistratie: endpoint /ooapi/associations/{associationId} (PUT)
+      alt current assocation exists
+        Deelnemerregistratie->>Toetsplanning: 200 - OK!
+      else new assocation created
+        Deelnemerregistratie->>Toetsplanning: 201 - OK!
+      end
+      deactivate Deelnemerregistratie
+    end
+```
+
+### Sequence diagram of request Send partial updates
+```mermaid
+sequenceDiagram
+    participant Deelnemerregistratie
+    participant Toetsplanning
+    loop for each student
+      Toetsplanning->>Deelnemerregistratie: Send partial update 
+      activate Deelnemerregistratie
       Note right of Deelnemerregistratie: endpoint /ooapi/associations/{associationId} (PATCH)
       Deelnemerregistratie->>Toetsplanning: 200 - OK!
       deactivate Deelnemerregistratie
     end
 ```
+
 
 ### Class diagram of request Send attendance and result directly
 ```mermaid
@@ -29,6 +48,7 @@ classDiagram
     }
     class `NL-TEST-ADMIN-Association` {
         consumerKey : string
+        orgAssociationId: UUID
         attempt: integer
     }
     class Result {
@@ -63,6 +83,47 @@ classDiagram
     Result o-- `NL-TEST-ADMIN-Result`
     `NL-TEST-ADMIN-Result` o-- Document
 ```
+
+### Example of Send result for student tot Student Information System
+```
+PUT /associations/{associationId}
+
+{
+    "consumers": [
+    {
+      "consumerKey": "NL-TEST-ADMIN",
+      "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
+      "attempt": 2
+    }
+    ],
+    "result": {
+      "state": "completed",
+      "pass": "unknown",
+      "comment": "string",
+      "score": "9",
+      "resultDate": "2020-09-28",
+      "consumers": [
+	     {
+          "consumerKey": "NL-TEST-ADMIN",
+          "attendance": "present",
+          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+          "assessorCode": "JAJE",
+          "irregularities": "Jantje heeft gespiekt."
+          "final": true,
+          "rawScore": 65,
+          "maxRawScore": 75,
+          "documents": [
+          {
+            "documentId": "123454",
+            "documentType": "assessmentForm",
+            "documentName": "Assessment form for Jake Doe.pdf"
+          }
+          ]
+	      }
+      ],
+    }
+}
+``` 
 
 
 ### Example of Send result for student tot Student Information System
