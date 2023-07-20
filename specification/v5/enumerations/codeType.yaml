@@ -32,6 +32,7 @@ description: |
     - `schacHome`: Home organization using the domain name of the organization
     - `identifier`: Generic Identifier
     - `eckid`: ID used in the education content chain
+    - `nationalEducationCode`: Code used to specify an education with in a country (e.g. RIO opleidingscode for NL) 
 x-ooapi-extensible-enum:
   - brin
   - crohoCreboCode
@@ -60,4 +61,5 @@ x-ooapi-extensible-enum:
   - schacHome
   - identifier
   - eckid
+  - nationalEducationCode
 example: identifier
