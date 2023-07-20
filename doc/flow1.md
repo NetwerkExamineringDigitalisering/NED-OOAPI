@@ -26,7 +26,7 @@ The consumer information provides sufficient information to allow for regrouping
 
 ### Flow 1a : Endpoints for this flow
 
-- `GET /ooapi/offerings?componentType=TEST&since=..&until=..`
+- `GET /ooapi/offerings?offeringType=component&component.componentType=test&since=..&until=..`
 - `GET /ooapi/offerings/{offeringId}`
 - `GET /ooapi/offerings/{offeringId}/associations`
 - `GET /ooapi/association/{associationId}`
@@ -51,14 +51,20 @@ The TPS can create test moments using this information and provide a TES with th
 - `GET /ooapi/groups/{groupId}/persons`
 - `GET /ooapi/person/{personId}`
 
-## Flow : Additional supporting information
+
+## Flow2 : Additional supporting information
 
 Based on the id's on students (and staff members) and their program offering associations, provided to the planning software in flows 1a or 1b, the planning software can retrieve additional student/staff and program association information.
 
-### Additional supporting information flow : Endpoints for this flow
+### flow 2a: Additional supporting information: GET flows Endpoints for this flow
 
 - `GET /ooapi/person/{personId}`
 - `GET /ooapi/associations/{associationId}?expand=offering`
+
+### flow 2b: Additional supporting information: supplied by SIS to TPS for provisioning of users and their studyplans (PUT)
+- `PUT /ooapi/person/{personId}`
+- `PUT /ooapi/association/{associationId}`
+
 
 # Flow 1a 1: Get the to be planned exams (and students & staff)
 
@@ -130,7 +136,6 @@ classDiagram
         role : associationRole
         state : state
         consumers : NL-TEST-ADMIN-Association
-    #	result : Result
         person : personId or Person
         offering : offeringId
     }
@@ -157,6 +162,8 @@ classDiagram
     }
     class `NL-TEST-ADMIN-Person` {
     	consumerKey : string = "NL-TEST-ADMIN"
+  	    additionalTimeInMin : int
+	    personalNeeds : string[]
     }
     class Offering {
        offeringId : UUID
@@ -168,11 +175,11 @@ classDiagram
 
 ```
 ### Example of request component offerings that need to be planned
-The the from and until paramaters MUST be specified in in URL friendly format so:
-from=2023-07-31T22:00:00.000Z becomes
-from=2023-07-31T22%3A00%3A00%2E000Z     
+The the since and until paramaters MUST be specified in in URL friendly format so:
+since=2023-07-31T22:00:00.000Z becomes
+since=2023-07-31T22%3A00%3A00%2E000Z     
 ```
-GET /ooapi/offerings?componentType=TEST&since=..&until=..
+GET /ooapi/offerings?offeringType=component&component.componentType=test&since=..&until=..
 {
     "pageSize": 10,
     "pageNumber": 1,
@@ -307,11 +314,10 @@ PUT /ooapi/offerings/{offeringId}
 ```
 
 
-# flow 1b : very adhoc
+# Flow 1b : very adhoc
 
 
-
-### Sequence diagram of request groups based on a specific name
+### Flow 1b 1: Sequence diagram of request groups based on a specific name
 
 ```mermaid
 
@@ -326,7 +332,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Sequence diagram of request persons (students and staff) in a specific group
+### Flow 1b 2: Sequence diagram of request persons (students and staff) in a specific group
 
 ```mermaid
 
@@ -341,7 +347,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Sequence diagram of request to get information on a single student or staff
+### Flow 1b 3: Sequence diagram of request to get information on a single student or staff
 
 ```mermaid
 
@@ -356,7 +362,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Example of request groups	
+### Flow 1b 1: Example of request groups	
 ```
 GET /ooapi/groups?q=..
 {
@@ -401,7 +407,7 @@ GET /ooapi/groups?q=..
 
 ```
 
-### Example of request persons (students and staff members) part of a group	
+### Flow 1b 2: Example of request persons (students and staff members) part of a group	
 ```
 GET /ooapi/groups/{groupId}/persons
 {
@@ -445,7 +451,7 @@ GET /ooapi/groups/{groupId}/persons
 
 ```
 
-### Example of request person information	
+### Flow 1b 3: Example of request person information	
 ```
 GET /ooapi/persons/{personId}
 {
@@ -477,13 +483,75 @@ GET /ooapi/persons/{personId}
 ```
 
 
+# flow 2: additional supporting information 
 
-# flow : additional supporting information 
+### Flow 2a 1: Sequence diagram of request to get persons based on a program (?) the person is participating in
 
-### Sequence diagram of request to get persons based on a program (?) the person is participating in
+```mermaid
+
+sequenceDiagram
+    participant DeelnemerRegistratie
+    participant Toetsplanning
+    Toetsplanning-->>Toetsplanning: do everything with plan
+    Toetsplanning->>DeelnemerRegistratie : Give me data of a person (student or staff) 
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /ooapi/persons/{personId} (GET)
+    DeelnemerRegistratie->>Toetsplanning : 200 - Here are the details on Jan for planning
+    deactivate DeelnemerRegistratie
+```
 
 
-### Example of request program offering information
+### Flow 2a 2: Sequence diagram of request to get the offering details of a specific assocation to clarify the assocation
+
+```mermaid
+sequenceDiagram
+    participant DeelnemerRegistratie
+    participant Toetsplanning
+    Toetsplanning-->>Toetsplanning: check if additional information is needed for an association (e.g offering information)
+    Toetsplanning->>DeelnemerRegistratie : Give more details on this association
+    activate DeelnemerRegistratie
+    Note right of DeelnemerRegistratie: endpoint /ooapi/associations/{associationId}?expand=offering (GET)
+    DeelnemerRegistratie->>Toetsplanning : 200 - here you are!
+    deactivate DeelnemerRegistratie
+```
+
+
+### Flow 2b 1: Sequence diagram of provision person information (PUT of information of a single student from SIS to the TPS) 
+
+```mermaid
+
+sequenceDiagram
+    participant DeelnemerRegistratie
+    participant Toetsplanning
+    DeelnemerRegistratie-->>DeelnemerRegistratie: gather all students and push each student separately 
+    loop for each student / staff
+        DeelnemerRegistratie->>Toetsplanning : Provide data of a person (student or staff) 
+        activate Toetsplanning
+        Note right of DeelnemerRegistratie: endpoint /ooapi/persons/{personId} (PUT)
+        Toetsplanning->>DeelnemerRegistratie : 200 - Thank you
+        deactivate Toetsplanning
+    end
+```
+
+### Flow 2b 2: Sequence diagram of provisioning current program associations information	
+
+```mermaid
+
+sequenceDiagram
+    participant DeelnemerRegistratie
+    participant Toetsplanning
+    DeelnemerRegistratie-->>DeelnemerRegistratie: gather all associations needed for context of students as part of ad hoc planning 
+    loop for each assocation (top level)
+        DeelnemerRegistratie->>Toetsplanning : Provide top level association of a student (program association!) 
+        activate Toetsplanning
+        Note right of DeelnemerRegistratie: endpoint /ooapi/associations/{associationId} (PUT)
+        Toetsplanning->>DeelnemerRegistratie : 200 - Thank you
+        deactivate Toetsplanning
+    end
+```
+
+
+### Flow 2a 1: Example of request program offering information
 Warning: next part will change. No list of offerings will be given. 
 ```
 GET /ooapi/offerings/{offeringId}
@@ -529,94 +597,169 @@ GET /ooapi/offerings/{offeringId}
 }
 ```
 
-### Example of request associations
-Warning : next lines will change. only known associations are requested, no lists with wildcards
-```
-GET /ooapi/associations/{associationId}
-{
-  "pageSize": 10,
-  "pageNumber": 1,
-  "hasPreviousPage": false,
-  "hasNextPage": true,
-  "totalPages": 8,
-  "items": [
-        {
-            "associationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
-            "associationType": "programOfferingAssociation",
-            "primaryCode": {
-                "codeType": "opleidingsblad",
-                "code": "1.1"
-            },
-            "role": "student",
-            "state": "associated",
-            "otherCodes": [
-                {
-                    "codeType": "opleidingscode",
-                    "code": "23089"
-                }
-            ],
-            "consumers": [
-                {
-                    "consumerKey": "NL-TEST-ADMIN",
-                    "levelOfQualification": "4", # to be removed
-                    "modeOfStudy": "full-time", # to be removed
-                    "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
-                    "location": "Where?", #onderwijs locatie (campus) # use locationCode in offering and remove here
-                    "startDate": "2021-09-01", #todo wat willen we met datums
-                    "expectedEndDate": "2025-07-31",
-                    "finalEndDate": null
-                }
-            ],
-            "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
-            "offering": "5ffc6127-debe-48ce-90ae-75ea80756475"
-        }
-    ]
-}
-```
 
-
-### Example of request associations
+### Flow 2a 2: Example of request associations
 Warning : next lines will change. only known associations are requested, no lists with wildcards
 ## expand mechanism needs extra check! program is a child research needed
 ```
 GET /ooapi/associations/{associationId}?expand=offering.program
 {
-  "pageSize": 10,
-  "pageNumber": 1,
-  "hasPreviousPage": false,
-  "hasNextPage": true,
-  "totalPages": 8,
-  "items": [
+    "associationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
+    "associationType": "programOfferingAssociation",
+    "primaryCode": {
+        "codeType": "opleidingsblad",
+        "code": "1.1"
+    },
+    "role": "student",
+    "state": "associated",
+    "otherCodes": [
         {
-            "associationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
-            "associationType": "programOfferingAssociation",
-            "primaryCode": {
-                "codeType": "opleidingsblad",
-                "code": "1.1"
-            },
-            "role": "student",
-            "state": "associated",
-            "otherCodes": [
-                {
-                    "codeType": "opleidingscode",
-                    "code": "23089"
-                }
-            ],
-            "consumers": [
-                {
-                    "consumerKey": "NL-TEST-ADMIN",
-                    "levelOfQualification": "4", # to be removed
-                    "modeOfStudy": "full-time", # to be removed
-                    "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
-                    "location": "Where?", #onderwijs locatie (campus) # use locationCode in offering and remove here
-                    "startDate": "2021-09-01", #todo wat willen we met datums
-                    "expectedEndDate": "2025-07-31",
-                    "finalEndDate": null
-                }
-            ],
-            "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
-            "offering": "5ffc6127-debe-48ce-90ae-75ea80756475"
+            "codeType": "opleidingscode",
+            "code": "23089"
         }
-    ]
+    ],
+    "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
+            "startDate": "2021-09-01", 
+            "expectedEndDate": "2025-07-31",
+            "finalEndDate": null
+        }
+    ],
+    "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+    "offering": 
+    {
+        "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
+        "primaryCode": {
+        "codeType": "identifier",
+        "code": "25190BOL"
+        },
+        "offeringType": "program",
+        "name": "Netwerk- en mediabeheerder BOL (25190)",
+        "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "locationCode": "A-12a",
+        }
+        ],
+        "program": {
+            "programId": "123e4567-e89b-12d3-a456-426614174000",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "C12063128"
+            },
+            "programType": "program",
+            "name": [
+                {
+                "language": "nl-NL",
+                "value": "Netwerk- en mediabeheerder"
+                }
+            ],
+            "abbreviation": "N&M",
+            "description": [
+                {
+                "language": "nl-NL",
+                "value": "In deze MBO-opleiding word je opgeleid voor het officieel erkende diploma 'MBO Netwerkbeheerder, niveau 4'. Met dit diploma ben je breed opgeleid en kun je het netwerk van een organisatie beheren. Dit is hét diploma voor de professionele netwerkbeheerder op het hoogste MBO-niveau. Je legt een uitstekende basis voor een mooie carrière als netwerkbeheerder. Bovendien is dit een diploma waarmee je eventueel probleemloos kunt doorstuderen naar een HBO-opleiding"
+                }
+            ],
+            "teachingLanguage": "nld",
+            "modeOfStudy": "full-time" #moved from assocation consumer
+            "levelOfQualification": "4", # from association consumer
+        }
+        "organization": {
+            "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "ICTE"
+            },
+            "name": [
+                {
+                "language": "nl-NL",
+                "value": "ICT-academie"
+                }
+            ],
+            "parent": {
+                "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
+                "primaryCode": {
+                "codeType": "identifier",
+                "code": "CICT"
+                },
+                "name": [
+                {
+                    "language": "nl-NL",
+                    "value": "Cluster ICT en EIS"
+                }
+                ]
+            }
+        }
+    }
+}
+```
+
+
+### Flow 2b 1: Example of provisioning person information	
+```
+PUT /ooapi/persons/{personId}
+{
+    "primaryCode": {
+    "codeType": "identifier",
+    "code": "1234qwe12"
+    },
+    "givenName": "Maartje",
+    "surnamePrefix": "van",
+    "surname": "Damme",
+    "displayName": "Maartje van Damme",
+    "initials": "MCW",
+    "activeEnrollment": true,
+    "affiliations": [
+    "student"
+    ],
+    "mail": "vandamme.mcw@universiteitvanharderwijk.nl",
+    "languageOfChoice": [
+    "nl-NL"
+    ],
+    "otherCodes": [
+    {
+        "codeType": "nationalIdentityNumber",
+        "code": "00000"
+    }
+    ],
+}
+```
+
+
+### Flow 2b 2: Example of provisioning current program associations information	
+
+PUT /ooapi/associations/{associationId}?expand=offering.program
+
+{
+    "associationType": "programOfferingAssociation",
+    "primaryCode": {
+        "codeType": "opleidingsblad",
+        "code": "1.1"
+    },
+    "role": "student",
+    "state": "associated",
+    "otherCodes": [
+        {
+            "codeType": "opleidingscode",
+            "code": "23089"
+        }
+    ],
+    "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "levelOfQualification": "4", # to be removed
+            "modeOfStudy": "full-time", # to be removed
+            "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
+            "location": "Where?", #onderwijs locatie (campus) # use locationCode in offering and remove here
+            "startDate": "2021-09-01", #todo wat willen we met datums
+            "expectedEndDate": "2025-07-31",
+            "finalEndDate": null
+        }
+    ],
+    "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+    "offering": "5ffc6127-debe-48ce-90ae-75ea80756475"
 }
 ```
