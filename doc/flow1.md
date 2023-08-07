@@ -730,7 +730,7 @@ PUT /ooapi/persons/{personId}
 
 
 ### Flow 2b 2: Example of provisioning current program associations information	
-
+```
 PUT /ooapi/associations/{associationId}?expand=offering.program
 
 {
