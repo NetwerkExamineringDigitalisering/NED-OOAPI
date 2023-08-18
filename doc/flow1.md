@@ -729,37 +729,111 @@ PUT /ooapi/persons/{personId}
 ```
 
 
-### Flow 2b 2: Example of provisioning current program associations information	
-```json
-PUT /ooapi/associations/{associationId}?expand=offering.program
+### Flow 2b 2: Example of provisioning current program associations information
 
+Taking into account all possible mandatory attributes and all possible expands. When less expands are provided by the sender, the sender has to provide get API's for those entities (offering, program, organization
+)
+```json
+PUT /ooapi/associations/{associationId}?expand=offering.program,offering.organization.parent
 {
     "associationType": "programOfferingAssociation",
-    "primaryCode": {
-        "codeType": "opleidingsblad",
-        "code": "1.1"
-    },
     "role": "student",
     "state": "associated",
-    "otherCodes": [
-        {
-            "codeType": "opleidingscode",
-            "code": "23089"
-        }
-    ],
     "consumers": [
         {
             "consumerKey": "NL-TEST-ADMIN",
-            "levelOfQualification": "4", # to be removed
-            "modeOfStudy": "full-time", # to be removed
-            "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
-            "location": "Where?", #onderwijs locatie (campus) # use locationCode in offering and remove here
-            "startDate": "2021-09-01", #todo wat willen we met datums
+            "sequenceCode": "1.1",
+            "startDate": "2021-09-01",
             "expectedEndDate": "2025-07-31",
             "finalEndDate": null
         }
     ],
     "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
-    "offering": "5ffc6127-debe-48ce-90ae-75ea80756475"
+    "offering": {
+        "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
+        "primaryCode": {
+            "codeType": "offeringCode",
+            "code": "25190BOL"
+        },
+        "offeringType": "program",
+        "name": "Netwerk- en mediabeheerder BOL (25190)",
+        "description": [
+            {
+                "language": "nl-NL",
+                "value": "In deze MBO-opleiding word je opgeleid voor het officieel erkende diploma 'MBO Netwerkbeheerder, niveau 4'. Met dit diploma ben je breed opgeleid en kun je het netwerk van een organisatie beheren. Dit is hét diploma voor de professionele netwerkbeheerder op het hoogste MBO-niveau. Je legt een uitstekende basis voor een mooie carrière als netwerkbeheerder. Bovendien is dit een diploma waarmee je eventueel probleemloos kunt doorstuderen naar een HBO-opleiding"
+            }
+        ],
+        "teachingLanguage": "nld",
+        "resultExpected": false,
+        "consumers": [
+            {
+                "consumerKey": "NL-TEST-ADMIN",
+                "locationCode": "A-12a",
+                "cohort": "2021"
+            }
+        ],
+        "startDate": "1900-01-01",
+        "endDate": "2999-12-31",
+        "program": {
+            "programId": "123e4567-e89b-12d3-a456-426614174000",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "C12063128"
+            },
+            "programType": "program",
+            "description": [
+                {
+                    "language": "nl-NL",
+                    "value": "In deze MBO-opleiding word je opgeleid voor het officieel erkende diploma 'MBO Netwerkbeheerder, niveau 4'. Met dit diploma ben je breed opgeleid en kun je het netwerk van een organisatie beheren. Dit is hét diploma voor de professionele netwerkbeheerder op het hoogste MBO-niveau. Je legt een uitstekende basis voor een mooie carrière als netwerkbeheerder. Bovendien is dit een diploma waarmee je eventueel probleemloos kunt doorstuderen naar een HBO-opleiding"
+                }
+            ],
+            "name": [
+                {
+                    "language": "nl-NL",
+                    "value": "Netwerk- en mediabeheerder"
+                }
+            ],
+            "otherCodes": [
+                {
+                    "codeType": "nationalEducationCode",
+                    "code": "23089"
+                }
+            ],
+            "abbreviation": "N&M",
+            "teachingLanguage": "nld",
+            "modeOfStudy": "full-time",
+            "levelOfQualification": "4"
+        },
+        "organization": {
+            "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "ICTE"
+            },
+            "organizationType": "department",
+            "name": [
+                {
+                    "language": "nl-NL",
+                    "value": "ICT-academie"
+                }
+            ],
+            "shortName": "ICT-academie",
+            "parent": {
+                "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
+                "primaryCode": {
+                    "codeType": "identifier",
+                    "code": "CICT"
+                },
+                "organizationType": "institute",
+                "name": [
+                    {
+                        "language": "nl-NL",
+                        "value": "Cluster ICT en EIS"
+                    }
+                ],
+                "shortName": "C-ICT&EIS"
+            }
+        }
+    }
 }
 ```
