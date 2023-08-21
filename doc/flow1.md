@@ -162,8 +162,9 @@ classDiagram
     }
     class `NL-TEST-ADMIN-Person` {
     	consumerKey : string = "NL-TEST-ADMIN"
-  	    additionalTimeInMin : int
 	    personalNeeds : string[]
+  	    additionalTimeInMin : int
+        idCheckName: string
     }
     class Offering {
        offeringId : UUID
@@ -444,7 +445,18 @@ GET /ooapi/groups/{groupId}/persons
             "codeType": "identifier",
             "code": "student123abc"
             }
-        ],
+            ],
+            "consumers": [
+                {
+                    "consumerKey": "NL-TEST-ADMIN",
+                    "personalNeeds": [    
+                        "extraTime",
+                        "spoken",
+                        "spell-checker-on-screen"                
+                    ],
+                    "idCheck": "Klaas van Dijk"
+                }
+            ]
         }
     ]
 }
@@ -479,6 +491,18 @@ GET /ooapi/persons/{personId}
         "code": "00000"
     }
     ],
+    "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "personalNeeds": [    
+                "extraTime",
+                "spoken",
+                "spell-checker-on-screen"                
+            ],
+            "idCheck": "Maartje van Damme"
+        }
+    ]
+
 }
 ```
 
@@ -667,36 +691,13 @@ GET /ooapi/associations/{associationId}?expand=offering.program
             "modeOfStudy": "full-time" #moved from assocation consumer
             "levelOfQualification": "4", # from association consumer
         }
-        "organization": {
-            "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
-            "primaryCode": {
-                "codeType": "identifier",
-                "code": "ICTE"
-            },
-            "name": [
-                {
-                "language": "nl-NL",
-                "value": "ICT-academie"
-                }
-            ],
-            "parent": {
-                "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
-                "primaryCode": {
-                "codeType": "identifier",
-                "code": "CICT"
-                },
-                "name": [
-                {
-                    "language": "nl-NL",
-                    "value": "Cluster ICT en EIS"
-                }
-                ]
-            }
-        }
+        "organization": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99"
     }
 }
 ```
 
+
+## ADD organization
 
 ### Flow 2b 1: Example of provisioning person information	
 ```
