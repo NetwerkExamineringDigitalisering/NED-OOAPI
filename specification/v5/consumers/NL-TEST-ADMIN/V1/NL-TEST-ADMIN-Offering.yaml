@@ -95,6 +95,16 @@ properties:
       example:
         testProvider: MBO-NED
         componentId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
+  location:
+    type: string
+    example: Campus Groningen
+    description: |
+      The location where the (Program) offering of the student takes place. Abbreviation of the location as provided to RIO
+  cohort:
+    type: string
+    example: 2022-2023
+    description: |
+      The realisation of an educational element with its own starting and end period added with specific Education and examination Rules (OER) and enrollment requirements
   documents:
     type: array
     items:
