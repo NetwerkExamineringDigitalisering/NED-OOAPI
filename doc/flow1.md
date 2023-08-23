@@ -1,4 +1,4 @@
-# Flow 1: Plannings information (tests and persons)
+# Flow 1.1: Plannings information (tests and persons)
 
 Flow 1 is used to provide a test planning system with information on tests to be planned and the students/candidates that have to perform those tests. Usually a Student Information System (SIS) provides this information to a Test Planning System (TPS). The TPS uses this information to plan testmoments for tests, assign the required Test Execution System (TES) and test within that TES. Students are assigned to the test moments based on the logic and workflow of the TPS. It is also possible to assign employees (or staff members) to the test to be planned (planbare toets).
 
@@ -9,7 +9,7 @@ We distinguish two flows that can be used to plan tests:
 
 Besides these two flows there is also a flow for additional supporting information on students and staff members and their education enrollments. This flow is optional since not all test planning and test execution software requires the additional information.
 
-## flow 1a : Structured
+## Flow 1.1a : Structured
 
 The SIS has information on tests s have to perform within a certain period (e.g. based on a course, or testing has to be done within a certain year or semester). The SIS has to assign each test that has to be planned by a TPS to that TPS.
 
@@ -24,7 +24,7 @@ Tests that are provided in a structured way to the TPS can also have results/sco
 
 The consumer information provides sufficient information to allow for regrouping of the students to test moments. If necessary the TPS can use the API's from the Additional supporting information flow to retrieve more student context from the SIS.
 
-### Flow 1a : Endpoints for this flow
+### Flow 1.1a : Endpoints for this flow
 
 - `GET /ooapi/offerings?offeringType=component&component.componentType=test&since=..&until=..`
 - `GET /ooapi/offerings/{offeringId}`
@@ -39,34 +39,34 @@ Supplied by SIS:
 - `PUT /ooapi/association/{associationId}`
 - `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrollment by the student/staff)
 
-## Flow 1b : Ad-hoc
+## Flow 1.1b : Ad-hoc
 
 When the TPS initiates a test moment there is no structured test information available from the SIS. The SIS provides API's to retrieve student groups and group memberships as well as information on individual students/staff members.
 
 The TPS can create test moments using this information and provide a TES with this data. However, because these test moments weren't initiated by the SIS it's not possible to transfer results/scores back to the SIS using flow 5. If required, these scores have to entered manually in the SIS.
 
-### Flow 1b : Endpoints for this flow
+### Flow 1.1b : Endpoints for this flow
 
 - `GET /ooapi/groups?q=..`
 - `GET /ooapi/groups/{groupId}/persons`
 - `GET /ooapi/person/{personId}`
 
 
-## Flow2 : Additional supporting information
+## Flow 1.2 : Additional supporting information
 
 Based on the id's on students (and staff members) and their program offering associations, provided to the planning software in flows 1a or 1b, the planning software can retrieve additional student/staff and program association information.
 
-### flow 2a: Additional supporting information: GET flows Endpoints for this flow
+### Flow 1.2a: Additional supporting information: GET flows Endpoints for this flow
 
 - `GET /ooapi/person/{personId}`
 - `GET /ooapi/associations/{associationId}?expand=offering`
 
-### flow 2b: Additional supporting information: supplied by SIS to TPS for provisioning of users and their studyplans (PUT)
+### Flow 1.2b: Additional supporting information: supplied by SIS to TPS for provisioning of users and their studyplans (PUT)
 - `PUT /ooapi/person/{personId}`
 - `PUT /ooapi/association/{associationId}`
 
 
-# Flow 1a 1: Get the to be planned exams (and students & staff)
+# Flow 1.1a.1: Get the to be planned exams (and students & staff)
 
 ### Sequence diagram of request Create offering (rough planning or in NL grofplanning)	
 ```mermaid
@@ -98,7 +98,7 @@ sequenceDiagram
 
 ```
 
-# Flow 1a 2: Update enrollment (for a student or staff)
+# Flow 1.1a.2: Update enrollment (for a student or staff)
 ### Sequence diagram of request Update planned exam (for a student or staff)	
 ```mermaid
 sequenceDiagram
@@ -113,7 +113,7 @@ sequenceDiagram
 ```
 
 
-# Flow 1a 3: Update an offering
+# Flow 1.1a.3: Update an offering
 ### Sequence diagram of request update offering (planbare toets)	
 ```mermaid
 sequenceDiagram
@@ -127,7 +127,7 @@ sequenceDiagram
 
 ```
 
-### Class diagram of request B. Add person (student or staff) to created offering (planbare toets)
+### Class diagram dor flow 1.1a Add person (student or staff) to created offering (planbare toets)
 ```mermaid
 classDiagram
     class Association {
@@ -316,10 +316,10 @@ PUT /ooapi/offerings/{offeringId}
 ```
 
 
-# Flow 1b : very adhoc
+# Flow 1.1b : very adhoc
 
 
-### Flow 1b 1: Sequence diagram of request groups based on a specific name
+### Flow 1.1b.1: Sequence diagram of request groups based on a specific name
 
 ```mermaid
 
@@ -334,7 +334,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Flow 1b 2: Sequence diagram of request persons (students and staff) in a specific group
+### Flow 1.1b.2: Sequence diagram of request persons (students and staff) in a specific group
 
 ```mermaid
 
@@ -349,7 +349,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Flow 1b 3: Sequence diagram of request to get information on a single student or staff
+### Flow 1.1b.3: Sequence diagram of request to get information on a single student or staff
 
 ```mermaid
 
@@ -364,7 +364,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Flow 1b 1: Example of request groups	
+### Flow 1.1b.1: Example of request groups	
 ```
 GET /ooapi/groups?q=..
 {
@@ -409,7 +409,7 @@ GET /ooapi/groups?q=..
 
 ```
 
-### Flow 1b 2: Example of request persons (students and staff members) part of a group	
+### Flow 1.1b.2: Example of request persons (students and staff members) part of a group	
 ```
 GET /ooapi/groups/{groupId}/persons
 {
@@ -464,7 +464,7 @@ GET /ooapi/groups/{groupId}/persons
 
 ```
 
-### Flow 1b 3: Example of request person information	
+### Flow 1.1b.3: Example of request person information	
 ```
 GET /ooapi/persons/{personId}
 {
@@ -508,9 +508,9 @@ GET /ooapi/persons/{personId}
 ```
 
 
-# flow 2: additional supporting information 
+# flow 1.2: additional supporting information 
 
-### Flow 2a 1: Sequence diagram of request to get persons based on a program (?) the person is participating in
+### Flow 1.2a.1: Sequence diagram of request to get persons based on a program (?) the person is participating in
 
 ```mermaid
 
@@ -526,7 +526,7 @@ sequenceDiagram
 ```
 
 
-### Flow 2a 2: Sequence diagram of request to get the offering details of a specific assocation to clarify the assocation
+### Flow 1.2a.2: Sequence diagram of request to get the offering details of a specific assocation to clarify the assocation
 
 ```mermaid
 sequenceDiagram
@@ -541,7 +541,7 @@ sequenceDiagram
 ```
 
 
-### Flow 2b 1: Sequence diagram of provision person information (PUT of information of a single student from SIS to the TPS) 
+### Flow 1.2b.1: Sequence diagram of provision person information (PUT of information of a single student from SIS to the TPS) 
 
 ```mermaid
 
@@ -558,7 +558,7 @@ sequenceDiagram
     end
 ```
 
-### Flow 2b 2: Sequence diagram of provisioning current program associations information	
+### Flow 1.2b.2: Sequence diagram of provisioning current program associations information	
 
 ```mermaid
 
@@ -576,7 +576,7 @@ sequenceDiagram
 ```
 
 
-### Flow 2a 1: Example of request program offering information
+### Flow 1.2a.1: Example of request program offering information
 Warning: next part will change. No list of offerings will be given. 
 ```
 GET /ooapi/offerings/{offeringId}
@@ -623,7 +623,7 @@ GET /ooapi/offerings/{offeringId}
 ```
 
 
-### Flow 2a 2: Example of request associations
+### Flow 1.2a.2: Example of request associations
 Warning : next lines will change. only known associations are requested, no lists with wildcards
 ## expand mechanism needs extra check! program is a child research needed
 ```
@@ -700,7 +700,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program
 
 ## ADD organization
 
-### Flow 2b 1: Example of provisioning person information	
+### Flow 1.2b.1: Example of provisioning person information	
 ```
 PUT /ooapi/persons/{personId}
 {
@@ -742,12 +742,12 @@ PUT /ooapi/persons/{personId}
 ```
 
 
-### Flow 2b 2: Example of provisioning current program associations information
+### Flow 1.2b.2: Example of provisioning current program associations information
 
 Taking into account all possible mandatory attributes and all possible expands. When less expands are provided by the sender, the sender has to provide get API's for those entities (offering, program, organization
 )
 ```json
-PUT /ooapi/associations/{associationId}?expand=offering.program,offering.organization.parent
+PUT /ooapi/associations/{associationId}
 {
     "associationType": "programOfferingAssociation",
     "role": "student",
