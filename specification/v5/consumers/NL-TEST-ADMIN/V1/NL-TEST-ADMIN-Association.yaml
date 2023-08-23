@@ -37,12 +37,12 @@ properties:
     description: |
       The number of attempts still remain for the person to obtain a result on the given offering
     format: int32
-  programOfferingAssociationID: 
+  programOfferingAssociationId: 
     type: string
     description: |
       The unique identifier of the enrollment of the student in a programOffering on the behalf of the current assocation is taking place 
     format: uuid
-  courseOfferingAssociationID: 
+  courseOfferingAssociationId: 
     type: string
     description: |
       The unique identifier of the enrollment of the student in a courseOffering on the behalf of the current assocation is taking place 

@@ -40,7 +40,7 @@ get:
               value:
                 componentId: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
                 primaryCode: 
-                  codeType: testID
+                  codeType: testId
                   code: "5"
                 componentType: test
                 name:
@@ -71,7 +71,7 @@ get:
               value:
                 componentId: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
                 primaryCode: 
-                  codeType: testID
+                  codeType: testId
                   code: "5"
                 componentType: test
                 name:
