@@ -163,7 +163,6 @@ classDiagram
     class `NL-TEST-ADMIN-Person` {
     	consumerKey : string = "NL-TEST-ADMIN"
 	    personalNeeds : string[]
-  	    additionalTimeInMin : int
         idCheckName: string
     }
     class Offering {
