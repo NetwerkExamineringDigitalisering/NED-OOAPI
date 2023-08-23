@@ -112,7 +112,7 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 	- modeOfDelivery: we only support :situated, online, distance-learning 
 		- situated (op locatie): offline, on a specific location (could be a location in a company) 
 		- online: online on a specific location
-		- distance-learning (afstandsleren): everywhere, could also be from home )
+		- distance-learning ((afstandsleren): everywhere, could also be from home )
 
 - consumer NL-TEST-ADMIN-Offering:
 	- add one of type "consumerKey": "NL-TEST-ADMIN"
@@ -191,9 +191,18 @@ classDiagram
 		activeEnrollment : boolean 
 		affiliations : personAffiliations
 		mail : string
+		languageOfChoice: string[]
+		otherCodes: identifierEntity[]
+		consumers : NL-TEST-ADMIN-Person
+    }
+	class `NL-TEST-ADMIN-Person` {
+    	consumerKey : string = "NL-TEST-ADMIN"
+	    personalNeeds : string[]
+        idCheckName: string
     }
     Association o-- `NL-TEST-ADMIN-Association`
     Association -- Person
+	Person o-- `NL-TEST-ADMIN-Person`
 ```
 
 ### Example of request B. Add student to created offering (zitting)	
@@ -205,47 +214,60 @@ PUT endpoint /ooapi/associations/{associationId}
 
 {
     "person": {
-	"personId": "111-2222-33-4444-222",
-	"primaryCode": 
-	{
-	    "codeType": "studentNumber",
-	    "code": "1234567"
-	},
-	"givenName" "Maartje",
-	"preferredName": "Maar",
-	"surnamePrefix": "van",
-	"surname": "Damme",
-	"displayName": "Maartje van Damme",
-	"activeEnrollment": true,
-	"affiliations": 
-	  [
-	    "student"
-	  ],
-	"mail": "vandamme.mcw@student.roc.nl",
-	"languageOfChoice": 
-          [
-            "nl-NL"
-          ]
+		"personId": "111-2222-33-4444-222",
+		"primaryCode": 
+		{
+			"codeType": "studentNumber",
+			"code": "1234567"
+		},
+		"givenName" "Maartje",
+		"preferredName": "Maar",
+		"surnamePrefix": "van",
+		"surname": "Damme",
+		"displayName": "Maartje van Damme",
+		"activeEnrollment": true,
+		"affiliations": 
+		[
+			"student"
+		],
+		"mail": "vandamme.mcw@student.roc.nl",
+		"languageOfChoice":	[
+			"nl-NL"
+		],
+		"otherCodes": [
+			{
+				"codeType": "eckid",
+				"code": "00000"
+			}
+		],
+		"consumers": [
+			{
+				"consumerKey": "NL-TEST-ADMIN",
+				"personalNeeds": [    
+					"extraTime",
+					"spoken",
+					"spell-checker-on-screen"                
+				],
+				"idCheckName": "van Damme, Maartje"
+			}
+		]
     },
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
     "role": "student",
     "state": "associated",
-    "consumers": 
-      [
-	{
-    	"consumerKey": "NL-TEST-ADMIN",
-    	"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
-    	"additionalTimeInMin": 30,
-    	"personalNeeds": 
-	  [
-            "extraTime",
-            "spoken",
-            "spell-checker-on-screen"
-	  ]
-	}
-      ]
-
+    "consumers": [
+		{
+			"consumerKey": "NL-TEST-ADMIN",
+			"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
+			"additionalTimeInMin": 30,
+			"personalNeeds": [
+					"extraTime",
+					"spoken",
+					"spell-checker-on-screen"
+			]
+		}
+    ]
 }
 ```
 
@@ -310,10 +332,26 @@ PUT endpoint /ooapi/associations/{associationId}
 	    "student"
 	  ],
 	"mail": "vandijk.mcw@student.roc.nl",
-	"languageOfChoice": 
-          [
-            "nl-NL"
-          ]
+	"languageOfChoice": [
+    	"nl-NL"
+    ],
+	"otherCodes": [
+		{
+			"codeType": "eckid",
+			"code": "00000"
+		}
+	],		  
+    "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "personalNeeds": [    
+                "extraTime",
+                "spoken",
+                "spell-checker-on-screen"                
+            ],
+            "idCheckName": "van Dijk, Klaas"
+        }
+    ]
     },
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
@@ -529,11 +567,27 @@ GET /ooapi/offerings/{offeringId}/associations
 	    		"student"
 	  	],
 		"mail": "vandamme.mcw@student.roc.nl",
-		"languageOfChoice": 
-          	[
-            		"nl-NL"
-          	]
-    	},
+		"languageOfChoice": [
+			"nl-NL"
+		],
+		"otherCodes": [
+			{
+				"codeType": "eckid",
+				"code": "00000"
+			}
+		],			
+    	"consumers": [
+			{
+				"consumerKey": "NL-TEST-ADMIN",
+				"personalNeeds": [    
+					"extraTime",
+					"spoken",
+					"spell-checker-on-screen"                
+				],
+				"idCheckName": "van Damme, Maartje"
+			}
+    	]
+		},
     	"offering": "123e4567-e89b-12d3-a456-134564174000",
 
       }

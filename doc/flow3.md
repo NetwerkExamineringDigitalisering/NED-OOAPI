@@ -297,36 +297,7 @@ GET /offerings/{offeringId}/associations
       }
       ]
     }
-    "person": 
-    {
-      "personId": "111-2222-33-4444-222",
-      "primaryCode": 
-      {
-        "codeType": "studentNumber",
-        "code": "1234567"
-      },
-      "givenName": "Maartje",
-      "preferredName": "Maar",
-      "surnamePrefix": "van",
-      "surname": "Damme",
-      "displayName": "Maartje van Damme",
-      "activeEnrollment": true,
-      "affiliations": [
-        "student"
-      ],
-      "mail": "vandamme.mcw@student.roc.nl",
-      "languageOfChoice": ["nl-NL"],
-      "otherCodes": [
-      {
-        "codeType": "accountId",
-        "code": "s1234567@student.roc.nl"
-      },
-      {
-         "codeType": "eckid",
-         "code": "https://roc.nl/8078d3...28bc85"
-      }
-      ]
-    },
+    "person": "123e4567-e89b-12d3-a456-146734174999",
     "offering": "123e4567-e89b-12d3-a456-134564174000"
   }
   ]
@@ -344,17 +315,16 @@ GET /associations/{associationId}
     "state": "associated",
     "remoteState": "associated",
     "consumers": [
-    {
-      "consumerKey": "NL-TEST-ADMIN",
-      "startUpURL": "https://myComponent.nl?test",
-      "extraTimeInMin": 30,
-      "personalNeeds": 
-	[
+      {
+        "consumerKey": "NL-TEST-ADMIN",
+        "startUpURL": "https://myComponent.nl?test",
+        "extraTimeInMin": 30,
+        "personalNeeds": [
             "extraTime",
             "spoken",
             "spell-checker-on-screen"
         ]
-    }
+      }
     ],
     "result": {
       "state": "completed",
@@ -364,54 +334,26 @@ GET /associations/{associationId}
       "resultDate": "2020-09-28",
       "weight": 100,
       "consumers": [
-	{
-	  "consumerKey": "NL-TEST-ADMIN",
-	  "attendance": "present",
-	  "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-	  "assessorCode": "JAJE",
-	  "irregularities": "Jantje heeft gespiekt."
-	  "final": true,
-	  "rawScore": 65,
-	  "maxRawScore": 75,
-	  "documents": [
-	  {
-	    "documentId": "123454",
-	    "documentType": "assessmentForm",
-	    "documentName": "Assessment form for Jake Doe.pdf"
-	  }
-        ]
-      }
-    }
-    "person": 
-    {
-      "personId": "111-2222-33-4444-222",
-      "primaryCode": 
-      {
-        "codeType": "studentNumber",
-        "code": "1234567"
-      },
-      "givenName": "Maartje",
-      "preferredName": "Maar",
-      "surnamePrefix": "van",
-      "surname": "Damme",
-      "displayName": "Maartje van Damme",
-      "activeEnrollment": true,
-      "affiliations": [
-        "student"
-      ],
-      "mail": "vandamme.mcw@student.roc.nl",
-      "languageOfChoice": ["nl-NL"],
-      "otherCodes": [
-      {
-        "codeType": "accountId",
-        "code": "s1234567@student.roc.nl"
-      },
-      {
-         "codeType": "eckid",
-         "code": "https://roc.nl/8078d3...28bc85"
-      }
+        {
+          "consumerKey": "NL-TEST-ADMIN",
+          "attendance": "present",
+          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+          "assessorCode": "JAJE",
+          "irregularities": "Jantje heeft gespiekt."
+          "final": true,
+          "rawScore": 65,
+          "maxRawScore": 75,
+          "documents": [
+            {
+              "documentId": "123454",
+              "documentType": "assessmentForm",
+              "documentName": "Assessment form for Jake Doe.pdf"
+            }
+          ]
+        }
       ]
-    },
+    }
+    "person": "123e4567-e89b-12d3-a456-146734174999",
     "offering": "123e4567-e89b-12d3-a456-134564174000"
 }
 ``` 

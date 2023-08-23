@@ -158,6 +158,8 @@ classDiagram
         activeEnrollment : boolean 
         affiliations : personAffiliations
         mail : string
+        languageOfChoice: string[]
+		otherCodes: identifierEntity[]
     	consumers : NL-TEST-ADMIN-Person
     }
     class `NL-TEST-ADMIN-Person` {
@@ -453,7 +455,7 @@ GET /ooapi/groups/{groupId}/persons
                         "spoken",
                         "spell-checker-on-screen"                
                     ],
-                    "idCheck": "Klaas van Dijk"
+                    "idCheckName": "van Dijk, Klaas"
                 }
             ]
         }
@@ -486,7 +488,7 @@ GET /ooapi/persons/{personId}
     ],
     "otherCodes": [
     {
-        "codeType": "nationalIdentityNumber",
+        "codeType": "eckid",
         "code": "00000"
     }
     ],
@@ -498,7 +500,7 @@ GET /ooapi/persons/{personId}
                 "spoken",
                 "spell-checker-on-screen"                
             ],
-            "idCheck": "Maartje van Damme"
+            "idCheckName": "van Damme, Maartje"
         }
     ]
 
@@ -721,9 +723,20 @@ PUT /ooapi/persons/{personId}
     ],
     "otherCodes": [
     {
-        "codeType": "nationalIdentityNumber",
+        "codeType": "eckid",
         "code": "00000"
     }
+    ],
+    "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "personalNeeds": [    
+                "extraTime",
+                "spoken",
+                "spell-checker-on-screen"                
+            ],
+            "idCheckName": "van Damme, Maartje"
+        }
     ],
 }
 ```
