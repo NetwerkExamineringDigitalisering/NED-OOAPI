@@ -123,7 +123,7 @@ response:
 	- type=test for filtering on components (toets/examens) only
 	- q=rekenen for filtering on components (toets/examens) with text "rekenen" in name or description
 	- since=2022-01-01 for filtering on components that have a startdate from January 1st, 2022
-	- licended=true for filtering on components (toets/examens) for which the requesting education organisation (or organisational unit) has a valid license
+	- licensed=true for filtering on components (toets/examens) for which the requesting education organisation (or organisational unit) has a valid license
 - The ResultValueType is an enumeration with enumeration values:
 	- pass-or-fail = Resultvalue is from valuelist {passed, failed}
 	- insufficient-satisfactory-good = Resultvalue is from valuelist {insufficient, satisfactory, good}

@@ -264,6 +264,7 @@ GET /ooapi/offerings/{offeringId}/associations/
                 }
             ],
             "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+            "offering": "5ffc6127-debe-48ce-90ae-75ea80756475",
         }
     ]
 }
