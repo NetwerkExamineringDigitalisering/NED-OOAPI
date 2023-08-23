@@ -199,12 +199,6 @@ GET /ooapi/offerings?offeringType=component&component.componentType=test&since=.
             "name": "Rekenen 3F toetsing 2e semester 22/23",
             "resultExpected": true,
             "resultValueType": "0-100",
-            "component": {
-                "componentId": "59e5543d-105e-45d7-90ee-408660c35669",
-                "componentType": "test",
-                "primaryCode": "Rek3F",
-                "name": "Toetsing rekenen op niveau 3F"
-            },
             "consumers": [
                 {
                     "consumerKey": "NL-TEST-ADMIN",
@@ -218,6 +212,12 @@ GET /ooapi/offerings?offeringType=component&component.componentType=test&since=.
             ],
             "flexibleEntryPeriodStart": "2023-04-01",
             "flexibleEntryPeriodEnd": "2023-06-30",
+            "component": {
+                "componentId": "59e5543d-105e-45d7-90ee-408660c35669",
+                "componentType": "test",
+                "primaryCode": "Rek3F",
+                "name": "Toetsing rekenen op niveau 3F"
+            },
             "organization": {
                 "organizationID": "UUID",
                 "primaryCode": {
