@@ -145,8 +145,8 @@ classDiagram
 	    personalNeeds : string[]
         attempt : int
         attemptLeft : int
-	    programOfferingAssociation : string
-	    courseOfferingAssociation : string
+	    programOfferingAssociationId : string
+	    courseOfferingAssociationId : string
     }
     class Person {
         personId : UUID
