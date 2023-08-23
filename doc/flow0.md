@@ -51,7 +51,7 @@ classDiagram
 
 ### Example of response Request whole catalogue
 ```json
-#GET/components?type=test
+#GET/components?componentType=test
 
 response:
 [
@@ -120,7 +120,7 @@ response:
 - id of the component (toets/examen) is created by owner of the catalogue (Toetsafname).
 - Toetsafname makes the GET endpoint available.
 - various filters could be used:
-	- type=test for filtering on components (toets/examens) only
+	- componentType=test for filtering on components (toets/examens) only
 	- q=rekenen for filtering on components (toets/examens) with text "rekenen" in name or description
 	- since=2022-01-01 for filtering on components that have a startdate from January 1st, 2022
 	- licensed=true for filtering on components (toets/examens) for which the requesting education organisation (or organisational unit) has a valid license
