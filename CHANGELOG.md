@@ -6,6 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 
 
+
+# [5.0.0 MBO] - 2023-08-22
+### Added
+- added consumer elements cohort and location to offeirngs based on issue [#71](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/71)
+- 
+
+### Changed
+
+
+### Removed
+
+
+
 # [5.0.0 MBO] - 2023-06-30
 ### Added
 - added offerings endpoint (to allow querying for offerings based on OfferingType (component, course and program))
