@@ -40,4 +40,10 @@ TODO: Describe all relevant standards for parties that want to join the ecosyste
 
 TODO: What is the underlying information model used within the ecosystem? See OOAPI, but focus on offering, component, association
 
+[10:52] Jos van der Arend
 
+Let op, in de definitie van de gegevensobjecten zijn genoemde gegevens binnen een object bij aanlevering (PUT of POST) of aflevering (GET) verplicht of optioneel zoals aangegeven in kolom #; de doorgestreepte gegevens (met 0 in kolom #) mogen worden gebruikt maar zullen bij ontvangst worden genegeerd.
+
+Bij aanlevering van een wijziging (PATCH) mogen ongewijzigde verplichte gegevens ontbreken. Het weghalen van een optioneel enkelvoudig gegeven kan door de waarde null mee te geven; deze waarde null is dus hiervoor in PATCH toegestaan, ook wanneer dit element niet nullable is (d.w.z. nullable=false). Het weghalen van een optioneel meervoudig gegeven (lijst of array) kan door een lege lijst mee te geven; de lege lijst is dus hiervoor ook toegestaan al is de lijst gedefinieerd als “non-empty” (d.w.z. minItems=1).
+
+ 
