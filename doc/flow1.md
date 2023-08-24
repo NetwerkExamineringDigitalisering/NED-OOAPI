@@ -621,7 +621,7 @@ sequenceDiagram
         consumerKey : string = "NL-TEST-ADMIN"
 		cohort : string
 		location : string[]
-   }
+    }
     class Organization {
         organizationId : uuid-string
         primaryCode : IdentifierEntry
@@ -637,7 +637,6 @@ sequenceDiagram
         validFrom : date-string
         validTo : date-string
     }
-
     ProgramOffering o-- `NL-TEST-ADMIN-Offering`
     Organization o-- ProgramOffering 
 
@@ -750,7 +749,7 @@ GET /ooapi/offerings/{offeringId}?expand=organization
         consumerKey : string = "NL-TEST-ADMIN"
 		cohort : string
 		location : string[]
-   }
+    }
     class Organization {
         organizationId : uuid-string
         primaryCode : IdentifierEntry
@@ -766,7 +765,7 @@ GET /ooapi/offerings/{offeringId}?expand=organization
         validFrom : date-string
         validTo : date-string
     }
-        class Program {
+    class Program {
 		programId : uuid-string
 		primaryCode : IdentifierEntry
 		programType : string
@@ -782,7 +781,6 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		validFrom : date-string
 		validTo : date-string
     }
-
     ProgramOffering o-- `NL-TEST-ADMIN-Offering`
     Organization o-- ProgramOffering 
     Program o-- ProgramOffering 
