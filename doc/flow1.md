@@ -210,8 +210,8 @@ GET /ooapi/offerings?offeringType=component&component.componentType=test&since=.
                     ]
                 }
             ],
-            "flexibleEntryPeriodStart": "2023-04-01",
-            "flexibleEntryPeriodEnd": "2023-06-30",
+            "startDateTime": "2022-06-21T12:45:00.000Z",
+            "endDateTime": "2022-07-23T13:45:00.000Z",
             "component": {
                 "componentId": "59e5543d-105e-45d7-90ee-408660c35669",
                 "componentType": "test",
