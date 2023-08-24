@@ -127,7 +127,7 @@ sequenceDiagram
 
 ```
 
-### Class diagram dor flow 1.1a Add person (student or staff) to created offering (planbare toets)
+### Class diagram for flow 1.1a Add person (student or staff) to created offering (planbare toets)
 ```mermaid
 classDiagram
     class Association {
@@ -180,7 +180,7 @@ classDiagram
 The the since and until paramaters MUST be specified in in URL friendly format so:
 since=2023-07-31T22:00:00.000Z becomes
 since=2023-07-31T22%3A00%3A00%2E000Z     
-```
+```json
 GET /ooapi/offerings?offeringType=component&component.componentType=test&since=..&until=..
 {
     "pageSize": 10,
@@ -237,7 +237,7 @@ GET /ooapi/offerings?offeringType=component&component.componentType=test&since=.
 ```
 
 ### Example of request associations	
-```
+```json
 GET /ooapi/offerings/{offeringId}/associations/
 {
     "pageSize": 10,
@@ -272,7 +272,7 @@ GET /ooapi/offerings/{offeringId}/associations/
 
 
 ### Example of request Create offering (planbare toets)	
-```
+```json
 PUT /ooapi/offerings/{offeringId}
 
 {
@@ -365,8 +365,28 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Flow 1.1b.1: Example of request groups	
+### Class diagram for group
+
+```mermaid
+
+classDiagram
+    class Group {
+    groupId : uuid-string
+    primaryCode : IdentifierEntry
+    groupType : string
+    name : string
+    description : LanguageTypedString[]
+    startDate : date-string
+    endDate : date-string
+    personCount : integer
+    otherCodes : IdentifierEntry[]
+    organization : organizationId or Organization object
+    }
+
 ```
+
+### Flow 1.1b.1: Example of request groups	
+```json
 GET /ooapi/groups?q=..
 {
     "pageSize": 10,
@@ -411,7 +431,7 @@ GET /ooapi/groups?q=..
 ```
 
 ### Flow 1.1b.2: Example of request persons (students and staff members) part of a group	
-```
+```json
 GET /ooapi/groups/{groupId}/persons
 {
     "pageSize": 10,
@@ -466,7 +486,7 @@ GET /ooapi/groups/{groupId}/persons
 ```
 
 ### Flow 1.1b.3: Example of request person information	
-```
+```json
 GET /ooapi/persons/{personId}
 {
     "personId": "123e4567-e89b-12d3-a456-426614174000",
@@ -559,6 +579,8 @@ sequenceDiagram
     end
 ```
 
+
+
 ### Flow 1.2b.2: Sequence diagram of provisioning current program associations information	
 
 ```mermaid
@@ -577,10 +599,54 @@ sequenceDiagram
 ```
 
 
+### Class diagram of programoffering in relation to its organization
+```mermaid
+	classDiagram
+
+    class ProgramOffering {
+        offeringId : uuid-string
+        primaryCode : IdentifierEntry
+        offeringType : string = "program"
+        name : LanguageTypedString[]
+        description : LanguageTypedString[]
+        teachingLanguage : string
+        resultExpected : boolean
+        consumers : NL-TEST-ADMIN-Offering
+        startDate : date-string
+        endDate : date-string
+        program : programId or Program object
+        organization : organizationId or Organization object
+    }
+    class NL-TEST-ADMIN-Offering {
+        consumerKey : string = "NL-TEST-ADMIN"
+		cohort : string
+		location : string[]
+   }
+    class Organization {
+        organizationId : uuid-string
+        primaryCode : IdentifierEntry
+        organizationType : string
+        name : string
+        description : LanguageTypedString[]
+        addresses : Address object[]
+        link : uri-string
+        logo : uri-string
+        otherCodes : IdentifierEntry[]
+        parent : organizationId or Organization object
+        children : organizationId[] or Organization object[]
+        validFrom : date-string
+        validTo : date-string
+    }
+
+    ProgramOffering o-- `NL-TEST-ADMIN-Offering`
+    Organization o-- ProgramOffering 
+
+```    
+
 ### Flow 1.2a.1: Example of request program offering information
 Warning: next part will change. No list of offerings will be given. 
-```
-GET /ooapi/offerings/{offeringId}
+```json
+GET /ooapi/offerings/{offeringId}?expand=organization
 {
     "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
     "primaryCode": {
@@ -591,8 +657,10 @@ GET /ooapi/offerings/{offeringId}
     "name": "Netwerk- en mediabeheerder BOL (25190)",
     "consumers": [
 	{
-	    "consumerKey": "NL-TEST-ADMIN"
-	}
+	    "consumerKey": "NL-TEST-ADMIN",
+        "cohort": "2022-2023",
+        "location": "Campus Groningen",
+    }
     ],
     "organization": {
         "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
@@ -624,6 +692,105 @@ GET /ooapi/offerings/{offeringId}
 ```
 
 
+### Class diagram of programofferingAssociation in relation to its offering and program
+
+```mermaid
+	classDiagram
+    class Association {
+    	associationId : UUID
+		associationType : associationType
+		role : associationRole
+		state : state
+		consumers : NL-TEST-ADMIN-Association
+		person : personId or Person object
+		offering : offeringId
+    }
+    class `NL-TEST-ADMIN-Association` {
+    	consumerKey : string = "NL-TEST-ADMIN"
+        startDate: date-string 
+        expectedEndDate: date-string
+        finalEndDate: date-string
+        sequenceCode: string
+    }
+    class Person {
+		personId : UUID
+		primaryCode : identifierEntity
+		givenName : string
+		preferredName : string
+		surnamePrefix : string 
+		surname : string
+		displayname : string
+		activeEnrollment : boolean 
+		affiliations : personAffiliations
+		mail : string
+		languageOfChoice: string[]
+		otherCodes: identifierEntity[]
+		consumers : NL-TEST-ADMIN-Person
+    }
+	class `NL-TEST-ADMIN-Person` {
+    	consumerKey : string = "NL-TEST-ADMIN"
+	    personalNeeds : string[]
+        idCheckName: string
+    }
+    class ProgramOffering {
+        offeringId : uuid-string
+        primaryCode : IdentifierEntry
+        offeringType : string = "program"
+        name : LanguageTypedString[]
+        description : LanguageTypedString[]
+        teachingLanguage : string
+        resultExpected : boolean
+        consumers : NL-TEST-ADMIN-Offering
+        startDate : date-string
+        endDate : date-string
+        program : programId or Program object
+        organization : organizationId or Organization object
+    }
+    class NL-TEST-ADMIN-Offering {
+        consumerKey : string = "NL-TEST-ADMIN"
+		cohort : string
+		location : string[]
+   }
+    class Organization {
+        organizationId : uuid-string
+        primaryCode : IdentifierEntry
+        organizationType : string
+        name : string
+        description : LanguageTypedString[]
+        addresses : Address object[]
+        link : uri-string
+        logo : uri-string
+        otherCodes : IdentifierEntry[]
+        parent : organizationId or Organization object
+        children : organizationId[] or Organization object[]
+        validFrom : date-string
+        validTo : date-string
+    }
+        class Program {
+		programId : uuid-string
+		primaryCode : IdentifierEntry
+		programType : string
+		name : LanguageTypedString[]
+		abbreviation : string
+		description : LanguageTypedString[]
+		teachingLanguage : string
+		modeOfStudy : string
+		duration: string
+		firstStartDate : date-string
+		levelOfQualification : string
+		otherCodes : IdentifierEntry[]
+		validFrom : date-string
+		validTo : date-string
+    }
+
+    ProgramOffering o-- `NL-TEST-ADMIN-Offering`
+    Organization o-- ProgramOffering 
+    Program o-- ProgramOffering 
+    Association o-- `NL-TEST-ADMIN-Association`
+    Association -- Person
+	Person o-- `NL-TEST-ADMIN-Person`
+```
+
 ### Flow 1.2a.2: Example of request associations
 Warning : next lines will change. only known associations are requested, no lists with wildcards
 ## expand mechanism needs extra check! program is a child research needed
@@ -647,10 +814,10 @@ GET /ooapi/associations/{associationId}?expand=offering.program
     "consumers": [
         {
             "consumerKey": "NL-TEST-ADMIN",
-            "cohort": "2020", #welk OER toegepast wordt (kan de keuze voor een toetsmiddel bepalen) # to be removed
             "startDate": "2021-09-01", 
             "expectedEndDate": "2025-07-31",
             "finalEndDate": null
+            "sequenceCode": "1.1"
         }
     ],
     "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
@@ -666,7 +833,8 @@ GET /ooapi/associations/{associationId}?expand=offering.program
         "consumers": [
         {
             "consumerKey": "NL-TEST-ADMIN",
-            "locationCode": "A-12a",
+            "cohort": "2022-2023",
+            "location": ["Campus Eindhoven"]
         }
         ],
         "program": {
