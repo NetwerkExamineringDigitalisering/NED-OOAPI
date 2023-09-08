@@ -684,7 +684,7 @@ sequenceDiagram
         validTo : date-string
     }
     ProgramOffering o-- `NL-TEST-ADMIN-Offering`
-    Organization o-- ProgramOffering 
+    ProgramOffering o-- Organization 
 
 ```    
 
