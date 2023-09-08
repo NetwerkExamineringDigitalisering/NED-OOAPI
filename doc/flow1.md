@@ -272,7 +272,7 @@ GET /ooapi/offerings/{offeringId}/associations/
 ```
 
 ## SIS examples
-### Example of request Create offering (planbare toets)	
+### Example to create an offering (planbare toets)	
 ```json
 PUT /ooapi/offerings/{offeringId}
 
@@ -317,9 +317,9 @@ PUT /ooapi/offerings/{offeringId}
 }
 ```
 
-### Example of a change in end date or an offering (e.g. to close the offering) 	
+### Example of a change in end date of an offering (e.g. to close the offering) 	
 ```json
-PUT /ooapi/offerings/{offeringId}
+PATCH /ooapi/offerings/{offeringId}
 
 {
    "offeringType": "component",
