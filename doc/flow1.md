@@ -171,7 +171,7 @@ classDiagram
     class Offering {
        offeringId : UUID
     }
-    Offering  o-- Association
+    Association -- Offering 
     Association o-- `NL-TEST-ADMIN-Association`
     Association -- Person
     Person o-- `NL-TEST-ADMIN-Person`
@@ -684,7 +684,7 @@ sequenceDiagram
         validTo : date-string
     }
     ProgramOffering o-- `NL-TEST-ADMIN-Offering`
-    ProgramOffering o-- Organization 
+    ProgramOffering -- Organization 
 
 ```    
 
@@ -828,8 +828,8 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		validTo : date-string
     }
     ProgramOffering o-- `NL-TEST-ADMIN-Offering`
-    ProgramOffering o-- Organization 
-    ProgramOffering o-- Program 
+    ProgramOffering -- Organization 
+    ProgramOffering -- Program 
     Association o-- `NL-TEST-ADMIN-Association`
     Association -- Person
     Association -- ProgramOffering
