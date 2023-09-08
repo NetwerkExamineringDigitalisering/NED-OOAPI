@@ -1,36 +1,26 @@
 # Flow 5: Result information (students)
 
-This flow can only be used for componentOfferingAssociations originating from flow 1 where the Deelnemerregistratie has indicated that it expects results by setting the attribute "resultsExpected" to true. Only in these situations results can be unambiguously related to a componentOfferingAssociation within the Deelnemerregistratie.
+This flow can only be used for test enrollment (ComponentOfferingAssociation) originating from flow 1 where the Deelnemerregistratie has indicated that it expects results by setting the attribute "resultsExpected" to true. Only in these situations results can be unambiguously related to a test enrollment (ComponentOfferingAssociation) within the Deelnemerregistratie.
 
-## Flow 5.1 : Return attendance and results combined
+After Toetsplanning has received the result from Toetsafname and done some additional processing like checking whether there is still an active ComponentOfferingAssociation for the test and the score to be provided to the Deelnemerregistratie fits into the resultValueType provided by the Deelnemerregistratie, the result is sent back to the Deelnemerregistratie using this flow.
 
-After Toetsplanning has received the result from Toetsafname and done some additional processing like checking whether there is still an active componentOfferingAssociation for the test and the score to be provided to the Deelnemerregistratie fits into the resultValueType provided by the Deelnemerregistratie, the result is sent back to the Deelnemerregistratie using this flow.
+We distinguish two types of result information flows to Deelnemerregistratie: 
+- Result as the one and only **Test result** for the test enrollment in flow 1
+- Result as a **Attempt result** for a test enrollment in flow 1
 
-### Sequence diagram of request Send attendance and result combined (potential as a new object for Deelnemerregistratie)
+## Flow 5.1 : Test result 
+Toetsplanning sends the tes tresult information to Deelnemerregistratie. Toetsplanning indicates for which test enrollment (ComponentOfferingAssociation) this result information is.
+
+TPS uses the next operation en endpoint for sending the test result, that is test attendance information or test score, to Deelnemerregistratie:
+- `PATCH /ooapi/associations/{associationId}`
+
+### Sequence diagram of request Send test result
 ```mermaid
 sequenceDiagram
     participant Deelnemerregistratie
     participant Toetsplanning
     loop for each student
-      Toetsplanning->>Deelnemerregistratie: Send attendance and result combined
-      activate Deelnemerregistratie
-      Note right of Deelnemerregistratie: endpoint /ooapi/associations/{associationId} (PUT)
-      alt current assocation exists
-        Deelnemerregistratie->>Toetsplanning: 200 - OK!
-      else new assocation created
-        Deelnemerregistratie->>Toetsplanning: 201 - OK!
-      end
-      deactivate Deelnemerregistratie
-    end
-```
-
-### Sequence diagram of request Send partial updates
-```mermaid
-sequenceDiagram
-    participant Deelnemerregistratie
-    participant Toetsplanning
-    loop for each student
-      Toetsplanning->>Deelnemerregistratie: Send partial update 
+      Toetsplanning->>Deelnemerregistratie: Send result update 
       activate Deelnemerregistratie
       Note right of Deelnemerregistratie: endpoint /ooapi/associations/{associationId} (PATCH)
       Deelnemerregistratie->>Toetsplanning: 200 - OK!
@@ -38,8 +28,7 @@ sequenceDiagram
     end
 ```
 
-
-### Class diagram of request Send attendance and result directly
+### Class diagram of request Send result
 ```mermaid
 classDiagram
     class Association {
@@ -84,7 +73,156 @@ classDiagram
     `NL-TEST-ADMIN-Result` o-- Document
 ```
 
-### Example of Send result for student tot Student Information System
+### Example of Send test attendance information for student tot Student Information System
+```
+PATCH /associations/{associationId}
+
+{
+    "consumers": [
+    {
+      "consumerKey": "NL-TEST-ADMIN",
+      "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
+      "attempt": 2
+    }
+    ],
+    "result": {
+      "state": "in progress",
+      "resultDate": "2020-09-28",
+      "consumers": [
+	     {
+          "consumerKey": "NL-TEST-ADMIN",
+          "attendance": "present",
+          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+          "assessorCode": "JAJE",
+          "irregularities": "Jantje heeft gespiekt."
+          "testDate": "2020-09-29",
+          "documents": [
+          {
+            "documentId": "123454",
+            "documentType": "assessmentForm",
+            "documentName": "Assessment form for Jake Doe.pdf"
+          }
+          ]
+	      }
+      ],
+    },
+}
+``` 
+
+### Example of Send test score for student tot Student Information System
+```
+PATCH /associations/{associationId}
+
+{
+    "consumers": [
+    {
+      "consumerKey": "NL-TEST-ADMIN",
+      "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
+      "attempt": 2
+    }
+    ],
+    "result": {
+      "state": "completed",
+      "pass": "unknown",
+      "comment": "string",
+      "score": "9",
+      "resultDate": "2020-09-28",
+      "consumers": [
+	     {
+          "consumerKey": "NL-TEST-ADMIN",
+          "attendance": "present",
+          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+          "assessorCode": "JAJE",
+          "irregularities": "Jantje heeft gespiekt."
+          "final": true,
+          "rawScore": 65,
+          "maxRawScore": 75,
+          "testDate": "2020-09-29",
+          "documents": [
+          {
+            "documentId": "123454",
+            "documentType": "assessmentForm",
+            "documentName": "Assessment form for Jake Doe.pdf"
+          }
+          ]
+	      }
+      ],
+    },
+}
+``` 
+
+## Flow 5.2 : Attempt result 
+In this flow a new test opportunity (ComponentOfferingAssociation) is sent to Deelnemerregistratie, this test opportunity is related to the test enrollment (ComponentOfferingAssociation) in flow 1. Therefore, Toetsplanning creates an association per attempt and indicates per result for which attempt this result is.
+
+TPS uses the next operation en endpoint for sending the test attempt result, that is attempt attendance information or attempt score, to Deelnemerregistratie:
+- `PUT /ooapi/associations/{associationId}`
+
+### Sequence diagram of request Send test attempt result
+```mermaid
+sequenceDiagram
+    participant Deelnemerregistratie
+    participant Toetsplanning
+    loop for each student
+      Toetsplanning->>Deelnemerregistratie: Send attempt result 
+      activate Deelnemerregistratie
+      Note right of Deelnemerregistratie: endpoint /ooapi/associations/{associationId} (PUT)
+      Deelnemerregistratie->>Toetsplanning: 200 - OK!
+      deactivate Deelnemerregistratie
+    end
+```
+
+### Class diagram of request Send attempt result
+```mermaid
+classDiagram
+    class Association {
+	associationId : UUID
+	associationType : associationType
+	role : associationRole
+	state : state
+        consumers : NL-TEST-ADMIN-Association
+    	result : Result
+	person : personId or Person
+	offering : offeringId
+    }
+    class `NL-TEST-ADMIN-Association` {
+        consumerKey : string
+        orgAssociationId: UUID
+        attempt: integer
+    }
+    class Result {
+    	state : string
+        pass : string
+        comment : string
+        score : string
+        resultDate : date
+        consumers : NL-TEST-ADMIN-Result
+        weight : integer
+    }
+    class `NL-TEST-ADMIN-Result` {
+        consumerKey : string
+        attendance : string
+        executedOfferingName: string
+        assessorId : string
+        assessorCode : string 
+        irregularities : string
+        final : boolean 
+        rawScore : integer 
+        maxRawScore : integer
+        testDate: string
+        documents : Document[]
+    }
+    class Document {
+        documentId : string
+        documentType : string
+        documentName : string
+    }
+    Association o-- Result
+    Association o-- `NL-TEST-ADMIN-Association`
+    Result o-- `NL-TEST-ADMIN-Result`
+    `NL-TEST-ADMIN-Result` o-- Document
+```
+
+### Example of Send attempt result for student tot Student Information System
 ```
 PUT /associations/{associationId}
 
@@ -130,62 +268,13 @@ PUT /associations/{associationId}
     "offering": "5ffc6127-debe-48ce-90ae-75ea80756475",
 }
 ``` 
+The difference in this attempt result between attendance information or attempt score is the same as in the previous test result flow (Flow 5.1): the attendance information lacks the score information like attributes score (in Result) and final, rawScore and maxRawScore (in Result.consumers).
 
 
-### Example of Send result for student tot Student Information System
-```
-PATCH /associations/{associationId}
-
-{
-    "consumers": [
-    {
-      "consumerKey": "NL-TEST-ADMIN",
-      "attempt": 2
-    }
-    ],
-    "result": {
-      "state": "completed",
-      "pass": "unknown",
-      "comment": "string",
-      "score": "9",
-      "resultDate": "2020-09-28",
-      "consumers": [
-	     {
-          "consumerKey": "NL-TEST-ADMIN",
-          "attendance": "present",
-          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-          "assessorCode": "JAJE",
-          "irregularities": "Jantje heeft gespiekt."
-          "final": true,
-          "rawScore": 65,
-          "maxRawScore": 75,
-          "documents": [
-          {
-            "documentId": "123454",
-            "documentType": "assessmentForm",
-            "documentName": "Assessment form for Jake Doe.pdf"
-          }
-          ]
-	      }
-      ],
-    }
-}
-``` 
-
-
-TO DO:
-
-Vanuit de openstaande vragen in deze flow moet bij resultaten terug naar de deelnemerregistratie nog het volgende uitgewerkt worden:
-- attempt/poging
-- poging vergeven indicator
-- daadwerkelijk toetsmoment als label om in ieder geval naam/code beschikbaar the hebben.
 
 Important attributes:
 
-- associationId: ID for the componentOfferingAssociation that has been provided by the Deelnemerregistratie
+- orgAssociationId: ID for the ComponentOfferingAssociation that has been provided by the Deelnemerregistratie
 - resultDate: Date on which the candidate has performed the test/handed in the documents.
 - testDate: Date on which the assessment has taken place/has been finalized.
-- attempt: sequence number of the attempt. There are two scenario's:
-    - Deelnemerregistratie creates an association per attempt
-    - Deelnemerregistratie creates an association per test an indicates how many attempts are allowed. In this  scenario the Toetsplanning has to indicate per result for which attempt this result is.
 
