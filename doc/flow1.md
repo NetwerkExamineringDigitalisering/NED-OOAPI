@@ -29,15 +29,15 @@ The consumer information provides sufficient information to allow for regrouping
 - `GET /ooapi/offerings?offeringType=component&component.componentType=test&since=..&until=..`
 - `GET /ooapi/offerings/{offeringId}`
 - `GET /ooapi/offerings/{offeringId}/associations`
-- `GET /ooapi/association/{associationId}`
+- `GET /ooapi/associations/{associationId}`
 
 expand funcationality is also needed on the associations to get the details of the offering and / or the person in the assocation
 
 Supplied by SIS:
 - `PUT /ooapi/offerings/{offeringId}`
 - `PATCH /ooapi/offerings/{offeringId}`
-- `PUT /ooapi/association/{associationId}`
-- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrollment by the student/staff)
+- `PUT /ooapi/associations/{associationId}`
+- `PATCH /ooapi/associations/{associationId}` (to allow for cancellation of enrollment by the student/staff)
 
 ## Flow 1.1b : Ad-hoc
 
@@ -49,7 +49,7 @@ The TPS can create test moments using this information and provide a TES with th
 
 - `GET /ooapi/groups?q=..`
 - `GET /ooapi/groups/{groupId}/persons`
-- `GET /ooapi/person/{personId}`
+- `GET /ooapi/persons/{personId}`
 
 
 ## Flow 1.2 : Additional supporting information
@@ -58,13 +58,13 @@ Based on the id's on students (and staff members) and their program offering ass
 
 ### Flow 1.2a: Additional supporting information: GET flows Endpoints for this flow
 
-- `GET /ooapi/person/{personId}`
+- `GET /ooapi/persons/{personId}`
 - `GET /ooapi/associations/{associationId}?expand=offering`
 
 ### Flow 1.2b: Additional supporting information: supplied by SIS to TPS for provisioning of users and their studyplans (PUT)
-- `PUT /ooapi/person/{personId}`
-- `PUT /ooapi/association/{associationId}`
-- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrollment by the student/staff)
+- `PUT /ooapi/persons/{personId}`
+- `PUT /ooapi/associations/{associationId}`
+- `PATCH /ooapi/associations/{associationId}` (to allow for cancellation of enrollment by the student/staff)
 
 
 # Flow 1.1a.1: Get the to be planned exams (and students & staff)
@@ -92,7 +92,7 @@ sequenceDiagram
     loop for each student / staff
         Toetsplanning-->>DeelnemerRegistratie: Get details of a student / staff
         activate DeelnemerRegistratie
-        Note right of DeelnemerRegistratie: endpoint /ooapi/association/{associationId} (GET)
+        Note right of DeelnemerRegistratie: endpoint /ooapi/associations/{associationId} (GET)
         DeelnemerRegistratie-->>Toetsplanning: 200 - Bedankt!
     end
     deactivate DeelnemerRegistratie
@@ -107,7 +107,7 @@ sequenceDiagram
     participant Toetsplanning
     DeelnemerRegistratie->>Toetsplanning: Alter enrollment for a student or staff (change association)
     activate Toetsplanning
-    Note right of DeelnemerRegistratie: endpoint /ooapi/association/{associationId} (PATCH)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/associations/{associationId} (PATCH)
     Toetsplanning->>DeelnemerRegistratie: 200 Bedankt!
     deactivate Toetsplanning
 
