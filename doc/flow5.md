@@ -89,6 +89,10 @@ classDiagram
 PUT /associations/{associationId}
 
 {
+    "associationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6",
+    "associationType": "componentOfferingAssociation",
+    "role": "student",
+    "state": "associated",
     "consumers": [
     {
       "consumerKey": "NL-TEST-ADMIN",
@@ -121,7 +125,9 @@ PUT /associations/{associationId}
           ]
 	      }
       ],
-    }
+    },
+    "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+    "offering": "5ffc6127-debe-48ce-90ae-75ea80756475",
 }
 ``` 
 
