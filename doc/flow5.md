@@ -2,11 +2,11 @@
 
 This flow can only be used for test enrollment (ComponentOfferingAssociation) originating from flow 1 where the Deelnemerregistratie has indicated that it expects results by setting the attribute "resultsExpected" to true. Only in these situations results can be unambiguously related to a test enrollment (ComponentOfferingAssociation) within the Deelnemerregistratie.
 
-After Toetsplanning has received the result from Toetsafname and done some additional processing like checking whether there is still an active ComponentOfferingAssociation for the test and the score to be provided to the Deelnemerregistratie fits into the resultValueType provided by the Deelnemerregistratie, the result is sent back to the Deelnemerregistratie using this flow.
+After Toetsplanning has received the result from Toetsafname and done some additional processing, like checking whether there is still an active ComponentOfferingAssociation for the test and the score to be provided to the Deelnemerregistratie fits into the resultValueType provided by the Deelnemerregistratie, the result is sent back to the Deelnemerregistratie using this flow.
 
 We distinguish two types of result information flows to Deelnemerregistratie: 
-- Result as the one and only **Test result** for the test enrollment in flow 1
-- Result as a **Attempt result** for a test enrollment in flow 1
+- Result as the one and only **Result for a test** for the test enrollment in flow 1
+- Result as a **Result from a Test Attempt** the attempt MUST have a relation with the original ComponentTypeAssociation originating from the test enrollment in flow 1. The TestplanningSystem MUST keep track of the attempts and the relation with the original association.
 
 ## Flow 5.1 : Test result 
 Toetsplanning sends the tes tresult information to Deelnemerregistratie. Toetsplanning indicates for which test enrollment (ComponentOfferingAssociation) this result information is.
