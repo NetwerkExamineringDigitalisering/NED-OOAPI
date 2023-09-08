@@ -64,6 +64,7 @@ Based on the id's on students (and staff members) and their program offering ass
 ### Flow 1.2b: Additional supporting information: supplied by SIS to TPS for provisioning of users and their studyplans (PUT)
 - `PUT /ooapi/person/{personId}`
 - `PUT /ooapi/association/{associationId}`
+- `PATCH /ooapi/association/{associationId}` (to allow for cancellation of enrollment by the student/staff)
 
 
 # Flow 1.1a.1: Get the to be planned exams (and students & staff)
@@ -270,7 +271,7 @@ GET /ooapi/offerings/{offeringId}/associations/
 }
 ```
 
-
+## SIS examples
 ### Example of request Create offering (planbare toets)	
 ```json
 PUT /ooapi/offerings/{offeringId}
@@ -316,6 +317,51 @@ PUT /ooapi/offerings/{offeringId}
 }
 ```
 
+### Example of a change in end date or an offering (e.g. to close the offering) 	
+```json
+PUT /ooapi/offerings/{offeringId}
+
+{
+   "offeringType": "component",
+   "endDateTime": "2022-06-21T13:45:00.000Z"
+}
+```
+
+### Example adding an associations from SIS to TPS	
+```json
+PUT /ooapi/associations/{associationId}
+{
+    "associationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6",
+    "associationType": "componentOfferingAssociation",
+    "role": "student",
+    "state": "associated",
+    "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "personalNeeds": [    
+                "extraTime",
+                "spoken",
+                "spell-checker-on-screen"                
+            ],
+            "programOfferingAssociationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
+            "courseOfferingAssociationId": "170b5f35-20be-47bf-96ff-d262d121b76b"
+        }
+    ],
+    "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+    "offering": "5ffc6127-debe-48ce-90ae-75ea80756475",
+}
+```
+
+
+### Example of changing (in this case deleting) program associations information
+
+```json
+PATCH /ooapi/associations/{associationId}
+{
+    "associationType": "programOfferingAssociation",
+    "state": "canceled",
+}
+```
 
 # Flow 1.1b : very adhoc
 
@@ -792,7 +838,7 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 ### Flow 1.2a.2: Example of request associations
 Warning : next lines will change. only known associations are requested, no lists with wildcards
 ## expand mechanism needs extra check! program is a child research needed
-```
+```json
 GET /ooapi/associations/{associationId}?expand=offering.program
 {
     "associationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
@@ -868,7 +914,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program
 ## ADD organization
 
 ### Flow 1.2b.1: Example of provisioning person information	
-```
+```json
 PUT /ooapi/persons/{personId}
 {
     "primaryCode": {
@@ -1017,3 +1063,5 @@ PUT /ooapi/associations/{associationId}
     }
 }
 ```
+
+for example of PATCH see 1.1
