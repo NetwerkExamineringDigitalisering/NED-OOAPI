@@ -663,7 +663,7 @@ sequenceDiagram
         program : programId or Program object
         organization : organizationId or Organization object
     }
-    class NL-TEST-ADMIN-Offering {
+    class `NL-TEST-ADMIN-Offering` {
         consumerKey : string = "NL-TEST-ADMIN"
 		cohort : string
 		location : string[]
@@ -791,7 +791,7 @@ GET /ooapi/offerings/{offeringId}?expand=organization
         program : programId or Program object
         organization : organizationId or Organization object
     }
-    class NL-TEST-ADMIN-Offering {
+    class `NL-TEST-ADMIN-Offering` {
         consumerKey : string = "NL-TEST-ADMIN"
 		cohort : string
 		location : string[]
