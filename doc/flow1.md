@@ -828,10 +828,11 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		validTo : date-string
     }
     ProgramOffering o-- `NL-TEST-ADMIN-Offering`
-    Organization o-- ProgramOffering 
-    Program o-- ProgramOffering 
+    ProgramOffering o-- Organization 
+    ProgramOffering o-- Program 
     Association o-- `NL-TEST-ADMIN-Association`
     Association -- Person
+    Association -- ProgramOffering
 	Person o-- `NL-TEST-ADMIN-Person`
 ```
 
