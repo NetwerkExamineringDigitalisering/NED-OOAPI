@@ -23,7 +23,7 @@ classDiagram
     class Component {
     	componentId : UUID
 	primaryCode : identifierEntity
-	comonentType : string
+	componentType : string
 	name : languageTypedString[]
 	modeOfDelivery : modeOfDeliveryType
         duration: timeperiod
