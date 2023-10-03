@@ -68,11 +68,27 @@ properties:
   documents:
     type: array
     items:
-      type: string
-    minItems: 0
-    description: |
-      documents
-      documents to be added to this offering
-      TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
- 
+      type: object
+      description: |
+        documents that are relevant for this result including the ID, Type and Name to facilitate file handeling in downloading.
+      properties:
+        documentId:
+          description: the UUID of the document in the system of the suppier.
+          type: string
+        documentType:
+          description: |
+            identifies the kind of document; supported values: "assessmentForm" (beoordelingformulier), "assessmentFormWithAnswers" (answers with assessment notes), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values).
+          enum:
+            - assessmentForm
+            - assessmentFormWithAnswers
+            - assessmentModel
+            - other
+        documentName:
+          description: the proposed file name of the document in the system of the suppier.
+          type: string
+      example:
+        documentId: dfc9d973-42cf-46f3-bd18-q8z23456ert9
+        documentType: assessmentForm
+        documentName: assessmentFrom on test information analysis qw12.pdf
+
 
