@@ -23,11 +23,11 @@ Each Party in the NED Ecosystem provides and consumes APIs according to their ro
 | API Definition | Service Provider | Services Consuming | Remarks |
 |---|---|---|---|
 | [flow 0 : Test catalogue ](flow0.md) | Toetsafname | SIS & Toetsplanning |  |
-| flow 1 : Test catalogue  | SIS | Toetsplanning |  |
+| [flow 1 : Test catalogue](flow1.md) | SIS | Toetsplanning |  |
 | [flow 2 : zittings gegevens ](flow2.md) | Toetsplanning | Toetsafname |  |
 | [flow 3 : student results ](flow3.md) | Toetsafname | Toetsplanning |  |
 | [flow 4 : zittingsverslag ](flow4.md) | Toetsafname | Toetsplanning |  |
-| flow 5 : Test results to SIS  | Toetsplanning | SIS |  |
+| [flow 5 : Test results to SIS](flow5.md) | Toetsplanning | SIS |  |
 | flow 6 : Analisys | ? | ? |  |
 
 ## Other relevant standards
@@ -35,6 +35,10 @@ Each Party in the NED Ecosystem provides and consumes APIs according to their ro
 TODO: Describe all relevant standards for parties that want to join the ecosystem.
 - [OOAPI v5](https://open-education-api.github.io/specification/v5/docs.html) 
 - OAUTH2
+- We are currently investigating the use of [edukoppeling](https://www.edustandaard.nl/app/uploads/2023/07/2023-07-24-Edukoppeling-Secure-API-OAuth-Client-Credentials-profielen-v0.8.pdf) a question here is do we HAVE to useedu_org_id? Do we really want to alllow for all 4 levels of Data Classification or are we only using 2?
+ 
+
+
 
 ## Information model
 
