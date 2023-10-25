@@ -30,15 +30,21 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Use Node v12
+      - name: Use Node v16
         uses: actions/setup-node@v1
         with:
-          node-version: 12
+          node-version: 16
       
       - name: install npx
-        run: npm install npx
+        run: npm install @redocly/cli -g
+
 
       - name: bundle the file
-        run: npx --yes @redocly/cli bundle ./spec.yaml -d -o ../ooapiv5_MBO.yaml
+        run: redocly bundle ./specification/v5/spec.yaml -d -o ./specification/ooapiv5_MBO.yaml
 
-  
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: bundle
+          path: ./specification/ooapiv5_MBO.yaml
+
