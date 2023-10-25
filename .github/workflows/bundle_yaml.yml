@@ -36,7 +36,7 @@ jobs:
           node-version: 12
       
       - name: install npx
-        run: npm install -g npx
+        run: npm install npx
 
       - name: bundle the file
         run: npx @redocly/cli bundle ./spec.yaml -d -o ../ooapiv5_MBO.yaml 
