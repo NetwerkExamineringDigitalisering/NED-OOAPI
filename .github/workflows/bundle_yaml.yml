@@ -39,7 +39,6 @@ jobs:
         run: npm install npx
 
       - name: bundle the file
-        run: npx @redocly/cli bundle ./spec.yaml -d -o ../ooapiv5_MBO.yaml 
-
+        run: npx --yes @redocly/cli bundle ./spec.yaml -d -o ../ooapiv5_MBO.yaml
 
   

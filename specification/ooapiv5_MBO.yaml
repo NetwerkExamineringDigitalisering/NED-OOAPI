@@ -65,6 +65,8 @@ tags:
     description: The groups API provides information about groups that are related to organizations, persons and offerings. Groups of students that are related to an offering are typically used for rostering. The rostering application assigns students based on these groups. For example, class 1b will be assigned to the course offering on monday morning. Not all groups are related to an offering. A group of people can also be a team that is working on a task outside the OOAPI scope. These can be teams of students, but also teams of employees.
   - name: offerings
     description: The offerings API provides information about offerings which have a global timeframe, e.g. a period to which students can enroll.
+  - name: organizations
+    description: The organizations API provides the organizations that are responsible for the execution and recognition of education.
   - name: persons
     description: The persons API provides information about persons related to an organization.
   - name: documents
@@ -101,6 +103,10 @@ tags:
     x-displayName: Group
     description: |
       <SchemaDefinition schemaRef="#/components/schemas/Group" />
+  - name: organization_model
+    x-displayName: Organization
+    description: |
+      <SchemaDefinition schemaRef="#/components/schemas/Organization" />
 paths:
   /persons/{personId}:
     get:
@@ -126,7 +132,7 @@ paths:
           content:
             application/json:
               schema:
-                allOf: &ref_22
+                allOf: &ref_28
                   - type: object
                     properties: &ref_72
                       personId:
@@ -138,7 +144,7 @@ paths:
                       - personId
                   - type: object
                     description: A person that has a relationship with this institution
-                    required: &ref_78
+                    required: &ref_82
                       - givenName
                       - surname
                       - displayName
@@ -146,7 +152,7 @@ paths:
                       - mail
                       - primaryCode
                       - activeEnrollment
-                    properties: &ref_79
+                    properties: &ref_83
                       primaryCode:
                         description: The primary human readable identifier for the person. This is often the source identifier as defined by the institution.
                         example:
@@ -190,6 +196,7 @@ paths:
                                 - `schacHome`: Home organization using the domain name of the organization
                                 - `identifier`: Generic Identifier
                                 - `eckid`: ID used in the education content chain
+                                - `nationalEducationCode`: Code used to specify an education with in a country (e.g. RIO opleidingscode for NL) 
                             x-ooapi-extensible-enum: &ref_74
                               - brin
                               - crohoCreboCode
@@ -218,6 +225,7 @@ paths:
                               - schacHome
                               - identifier
                               - eckid
+                              - nationalEducationCode
                             example: identifier
                           code:
                             description: Human readable value for the code/identifier
@@ -469,26 +477,56 @@ paths:
                       consumers:
                         description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
                         type: array
-                        items:
-                          type: object
-                          description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                          required: &ref_16
-                            - consumerKey
-                          properties: &ref_17
-                            consumerKey:
-                              description: The key of the consumer (destination) for which this information is intended. See the [consumer registry](https://open-education-api.github.io/specification/#/consumers) for more information.
-                              type: string
-                          additionalProperties: true
-                        example: &ref_18
-                          - consumerKey: x-test-consumer
-                            additional: custom
-                            attributes: here
+                        items: &ref_80
+                          anyOf:
+                            - type: object
+                              description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+                              required: &ref_11
+                                - consumerKey
+                              properties: &ref_12
+                                consumerKey:
+                                  description: The key of the consumer (destination) for which this information is intended. See the [consumer registry](https://open-education-api.github.io/specification/#/consumers) for more information.
+                                  type: string
+                              additionalProperties: true
+                            - type: object
+                              description: NL-TEST-ADMIN add-on attributes to the Association
+                              required: &ref_78
+                                - consumerKey
+                              properties: &ref_79
+                                consumerKey:
+                                  type: string
+                                personalNeeds:
+                                  type: array
+                                  items:
+                                    type: string
+                                  minItems: 0
+                                  description: |
+                                    personalNeed
+                                    personalNeed to be added for this student
+                                    TODO : make enum: see https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
+                                    examples : "extraTime", "spoken", "spell-checker-on-screen"
+                                idCheckName:
+                                  type: string
+                                  description: |
+                                    The name of the person as printed on the official identification documents (Driver's license or passport or id card)
+                                    This MUST be formatted as "surname prefix surname, given names"  (separating surnamePrefix and surname with a single space and surname and given names by a comma and space) 
+                                    If the surname or given names are not available or secret the value of "secret" and "notAvailable" are recommended, surname prefix can be omitted.
+                                    E.g. "van der Graaf, Jacobus Adrianus"
+                                    Optionally the value of the student number can be added to this field by adding this at the end separated by a comma.
+                                    E.g. "van der Graaf, Jacobus Adrianus, s12345678"
+                        example: &ref_81
+                          - consumerKey: NL-TEST-ADMIN
+                            additionalTimeInMin: 30
+                            personalNeeds:
+                              - extraTime
+                              - spoken
+                              - spell-checker-on-screen
                       ext:
                         type: object
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: &ref_23
+          content: &ref_13
             application/problem+json:
               schema:
                 type: object
@@ -510,7 +548,7 @@ paths:
                     description: A human-readable explanation specific to this occurrence of the problem
         '401':
           description: Unauthorized
-          content: &ref_24
+          content: &ref_14
             application/problem+json:
               schema:
                 type: object
@@ -519,7 +557,7 @@ paths:
                 properties: *ref_3
         '403':
           description: Forbidden
-          content: &ref_25
+          content: &ref_15
             application/problem+json:
               schema:
                 type: object
@@ -528,7 +566,7 @@ paths:
                 properties: *ref_3
         '404':
           description: Not Found
-          content: &ref_26
+          content: &ref_16
             application/problem+json:
               schema:
                 type: object
@@ -537,7 +575,7 @@ paths:
                 properties: *ref_3
         '405':
           description: Method not allowed
-          content: &ref_27
+          content: &ref_17
             application/problem+json:
               schema:
                 type: object
@@ -546,7 +584,7 @@ paths:
                 properties: *ref_3
         '429':
           description: Too many requests
-          content: &ref_28
+          content: &ref_18
             application/problem+json:
               schema:
                 type: object
@@ -555,13 +593,222 @@ paths:
                 properties: *ref_3
         '500':
           description: Internal Server Error
-          content: &ref_29
+          content: &ref_19
             application/problem+json:
               schema:
                 type: object
                 description: A system message including the error code and an explanation
                 required: *ref_2
                 properties: *ref_3
+  /organizations/{organizationId}:
+    get:
+      summary: GET /organizations/{organizationId}
+      operationId: listOrganizationById
+      description: Get a single organization.
+      tags:
+        - organizations
+      parameters:
+        - name: organizationId
+          in: path
+          description: Organization ID
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: expand
+          in: query
+          explode: false
+          description: Optional properties to expand, separated by a comma
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum:
+                - parent
+                - children
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                description: A description of a group of people working together to achieve a goal
+                required: &ref_9
+                  - organizationId
+                  - organizationType
+                  - name
+                  - shortName
+                  - primaryCode
+                properties: &ref_10
+                  organizationId:
+                    type: string
+                    description: Unique id of this organization
+                    format: uuid
+                    example: 123e4567-e89b-12d3-a456-123514174000
+                    readOnly: true
+                  primaryCode:
+                    description: The primary human readable identifier for the organization. This is often the source identifier as defined by the institution.
+                    example:
+                      codeType: orgId
+                      code: Org01-Root
+                    readOnly: true
+                    type: object
+                    properties: *ref_0
+                    required: *ref_1
+                    additionalProperties: false
+                  organizationType:
+                    type: string
+                    description: |
+                      The type of this organization. Each OOAPI endpoint should have a single organization with type `root`, describing the root organization.
+                      - root: the root of this organization, representing the Educational Institution itself
+                      - institute: instituut
+                      - department: departement
+                      - faculty: faculteit
+                      - branch: vestiging
+                      - academy: academie
+                      - school: school
+                    enum: &ref_84
+                      - root
+                      - institute
+                      - department
+                      - faculty
+                      - branch
+                      - academy
+                      - school
+                    example: root
+                  name:
+                    type: array
+                    description: The name of the organization
+                    minItems: 1
+                    items:
+                      type: object
+                      description: A String with an associated language code.
+                      properties: *ref_4
+                      example: *ref_5
+                    example:
+                      - language: nl-NL
+                        value: Coöperatie SURF U.A.
+                  shortName:
+                    type: string
+                    description: Short name of the organization
+                    maxLength: 256
+                    example: SURF
+                  description:
+                    type: array
+                    description: Any general description of the organization should clearly mention the type of higher education organization, especially in the case of a binary system. In Dutch; universiteit (university) or hogeschool (university of applied sciences).
+                    minItems: 1
+                    items:
+                      type: object
+                      description: A String with an associated language code.
+                      properties: *ref_4
+                      example: *ref_5
+                    example:
+                      - language: nl-NL
+                        value: SURF is een coöperatieve vereniging van Nederlandse onderwijs- en onderzoeksinstellingen waarin de leden hun krachten bundelen. De leden zijn eigenaar van SURF.
+                  addresses:
+                    type: array
+                    description: Addresses of this organization
+                    items:
+                      type: object
+                      description: The full street address
+                      required: *ref_6
+                      properties: *ref_7
+                  link:
+                    type: string
+                    description: URL of the organization's website
+                    format: uri
+                    maxLength: 2048
+                    example: https://surf.nl
+                  logo:
+                    type: string
+                    description: Logo of this organization
+                    format: uri
+                    maxLength: 2048
+                    example: https://www.surf.nl/themes/surf/logo.svg
+                  otherCodes:
+                    type: array
+                    description: An array of additional human readable codes/identifiers for the entity being described.
+                    minItems: 1
+                    items:
+                      type: object
+                      properties: *ref_0
+                      required: *ref_1
+                      additionalProperties: false
+                      example: *ref_8
+                    example:
+                      - codeType: brin
+                        code: 00AA
+                      - codeType: kvk
+                        code: '12345678'
+                  parent:
+                    description: |
+                      The organizational unit which is the parent of this organization. [`expandable`](#tag/organization_model)
+                      By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
+                    oneOf:
+                      - title: organizationId
+                        type: string
+                        description: An identifier of another resource.
+                        format: uuid
+                      - title: Organization object
+                        type: object
+                        description: A description of a group of people working together to achieve a goal
+                        required: *ref_9
+                        properties: *ref_10
+                  children:
+                    type: array
+                    description: |
+                      All the organizational units for which this organization is the parent. [`expandable`](#tag/organization_model)
+                      By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
+                    items:
+                      oneOf:
+                        - title: organizationId
+                          type: string
+                          description: An identifier of another resource.
+                          format: uuid
+                        - title: Organization object
+                          type: object
+                          description: A description of a group of people working together to achieve a goal
+                          required: *ref_9
+                          properties: *ref_10
+                  consumers:
+                    description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+                    type: array
+                    items:
+                      type: object
+                      description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
+                      required: *ref_11
+                      properties: *ref_12
+                      additionalProperties: true
+                    example: &ref_39
+                      - consumerKey: x-test-consumer
+                        additional: custom
+                        attributes: here
+                  ext:
+                    type: object
+                    description: Object for additional non-standard attributes
+        '400':
+          description: Bad request
+          content: *ref_13
+        '401':
+          description: Unauthorized
+          content: *ref_14
+        '403':
+          description: Forbidden
+          content: *ref_15
+        '404':
+          description: Not Found
+          content: *ref_16
+        '405':
+          description: Method not allowed
+          content: *ref_17
+        '429':
+          description: Too many requests
+          content: *ref_18
+        '500':
+          description: Internal Server Error
+          content: *ref_19
   /components/{componentId}:
     get:
       summary: GET /components/{componentId}
@@ -601,14 +848,14 @@ paths:
               schema:
                 type: object
                 description: A component is a part of a course
-                required: &ref_30
+                required: &ref_29
                   - componentId
                   - componentType
                   - name
                   - teachingLanguage
                   - abbreviation
                   - primaryCode
-                properties: &ref_31
+                properties: &ref_30
                   componentId:
                     type: string
                     description: Unique id of this component
@@ -640,7 +887,7 @@ paths:
                       - independent study: zelfstudie
                       - external: extern
                       - skills training: vaardighedentraining
-                    enum: &ref_80
+                    enum: &ref_85
                       - test
                       - lecture
                       - practical
@@ -679,7 +926,7 @@ paths:
                       - online: online
                       - hybrid: hybride
                       - situated: op locatie
-                    items: &ref_9
+                    items: &ref_20
                       type: string
                       enum:
                         - distance-learning
@@ -789,9 +1036,9 @@ paths:
                         allOf: &ref_46
                           - type: object
                             description: An object describing the metadata of a course
-                            required: &ref_81
+                            required: &ref_86
                               - courseId
-                            properties: &ref_82
+                            properties: &ref_87
                               courseId:
                                 type: string
                                 description: Unique id of this course
@@ -800,14 +1047,14 @@ paths:
                                 readOnly: true
                           - type: object
                             description: An object describing the metadata of a course
-                            required: &ref_96
+                            required: &ref_100
                               - name
                               - abbreviation
                               - description
                               - teachingLanguage
                               - level
                               - primaryCode
-                            properties: &ref_97
+                            properties: &ref_101
                               primaryCode:
                                 description: The primary human readable identifier for this course. This is often the source identifier as defined by the institution.
                                 readOnly: true
@@ -836,7 +1083,7 @@ paths:
                               studyLoad:
                                 type: object
                                 description: The amount of effort to complete this education in the specified unit.
-                                properties: &ref_11
+                                properties: &ref_22
                                   studyLoadUnit:
                                     description: "The unit in which the studyload is specfied\n- contacttime: CONTACTUUR\tamount of time spent in classes\n- ects: ECTS_PUNT\tEuropean Credit Transfer System\n- sbu: SBU\tstudentloadhours\n- sp: STUDIEPUNT studentpoints\n- hour: UUR\thours\n"
                                     type: string
@@ -851,7 +1098,7 @@ paths:
                                     description: The amount of load depicted in numbers
                                     type: number
                                     example: 3
-                                example: &ref_12
+                                example: &ref_23
                                   studyLoadUnit: ects
                                   value: 3
                               modeOfDelivery:
@@ -863,7 +1110,7 @@ paths:
                                   - online: online
                                   - hybrid: hybride
                                   - situated: op locatie
-                                items: *ref_9
+                                items: *ref_20
                               duration:
                                 type: string
                                 description: The duration of this course. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
@@ -949,7 +1196,7 @@ paths:
                                   - undivided: ongedeeld
                                   - nt2-1: NT2 niveau 1
                                   - nt2-2: NT2 niveau 2
-                                enum: &ref_10
+                                enum: &ref_21
                                   - secondary vocational education
                                   - secondary vocational education 1
                                   - secondary vocational education 2
@@ -1009,26 +1256,26 @@ paths:
                                     description: An identifier of another resource.
                                     format: uuid
                                   - title: EducationSpecification
-                                    allOf: &ref_13
+                                    allOf: &ref_24
                                       - type: object
-                                        properties: &ref_83
+                                        properties: &ref_88
                                           educationSpecificationId:
                                             type: string
                                             description: Unique id for this education specification
                                             format: uuid
                                             example: 123e4567-e89b-12d3-a456-426614174000
-                                        required: &ref_84
+                                        required: &ref_89
                                           - educationSpecificationId
                                       - type: object
                                         description: |
                                           The specification of an education object. This specification allows for other education objects to be derived from it.
                                           It is used to aggregate education objects from a supplying institution.
                                           It clusters programs to a main educationSpecification that is used in registries such as RIO. 
-                                        required: &ref_88
+                                        required: &ref_92
                                           - primaryCode
                                           - educationSpecificationType
                                           - name
-                                        properties: &ref_89
+                                        properties: &ref_93
                                           primaryCode:
                                             description: |
                                               The primary human readable identifier for the entity. 
@@ -1058,7 +1305,7 @@ paths:
                                                 - privateProgram: PARTICULIEREOPLEIDING
                                                 - programCluster: HOONDERWIJSEENHEDENCLUSTER
                                                 - course: HOONDERWIJSEENHEID
-                                            enum: &ref_85
+                                            enum: &ref_90
                                               - program
                                               - privateProgram
                                               - cluster
@@ -1100,7 +1347,7 @@ paths:
                                                 - no official document: GEEN OFFICIEEL DOCUMENT
                                                 - testimonial: GETUIGSCHRIFT
                                                 - school advice: SCHOOLADVIES
-                                            enum: &ref_86
+                                            enum: &ref_91
                                               - diploma
                                               - certificate
                                               - no official document
@@ -1124,7 +1371,7 @@ paths:
                                               - undivided: ongedeeld
                                               - nt2-1: NT2 niveau 1
                                               - nt2-2: NT2 niveau 2
-                                            enum: *ref_10
+                                            enum: *ref_21
                                             example: master
                                           sector:
                                             type: string
@@ -1133,7 +1380,7 @@ paths:
                                               - secondary vocational education: middelbaar beroepsonderwijs
                                               - higher professional education: hoger beroepsonderwijs
                                               - university education: universitair onderwijs
-                                            enum: &ref_20
+                                            enum: &ref_26
                                               - secondary vocational education
                                               - higher professional education
                                               - university education
@@ -1141,7 +1388,7 @@ paths:
                                           levelOfQualification:
                                             type: string
                                             description: Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.
-                                            enum: &ref_19
+                                            enum: &ref_25
                                               - '1'
                                               - '2'
                                               - '3'
@@ -1160,8 +1407,8 @@ paths:
                                           studyLoad:
                                             type: object
                                             description: The amount of effort to complete this education in the specified unit.
-                                            properties: *ref_11
-                                            example: *ref_12
+                                            properties: *ref_22
+                                            example: *ref_23
                                           learningOutcomes:
                                             type: array
                                             description: Statements that describe the knowledge or skills students should acquire by the end of a particular course or program (ECTS-learningoutcome).
@@ -1190,7 +1437,7 @@ paths:
                                                 description: An identifier of another resource.
                                                 format: uuid
                                               - title: EducationSpecification
-                                                allOf: *ref_13
+                                                allOf: *ref_24
                                           children:
                                             type: array
                                             description: The EducationSpecifications that have this EducationSpecification as their parent. [`expandable`](#tag/education_specification_model)
@@ -1201,7 +1448,7 @@ paths:
                                                   description: An identifier of another resource.
                                                   format: uuid
                                                 - title: EducationSpecification
-                                                  allOf: *ref_13
+                                                  allOf: *ref_24
                                           organization:
                                             description: |
                                               The organization that manages this group. [`expandable`](#tag/organization_model)
@@ -1214,164 +1461,16 @@ paths:
                                               - title: Organization object
                                                 type: object
                                                 description: A description of a group of people working together to achieve a goal
-                                                required: &ref_14
-                                                  - organizationId
-                                                  - organizationType
-                                                  - name
-                                                  - shortName
-                                                  - primaryCode
-                                                properties: &ref_15
-                                                  organizationId:
-                                                    type: string
-                                                    description: Unique id of this organization
-                                                    format: uuid
-                                                    example: 123e4567-e89b-12d3-a456-123514174000
-                                                    readOnly: true
-                                                  primaryCode:
-                                                    description: The primary human readable identifier for the organization. This is often the source identifier as defined by the institution.
-                                                    example:
-                                                      codeType: orgId
-                                                      code: Org01-Root
-                                                    readOnly: true
-                                                    type: object
-                                                    properties: *ref_0
-                                                    required: *ref_1
-                                                    additionalProperties: false
-                                                  organizationType:
-                                                    type: string
-                                                    description: |
-                                                      The type of this organization. Each OOAPI endpoint should have a single organization with type `root`, describing the root organization.
-                                                      - root: the root of this organization, representing the Educational Institution itself
-                                                      - institute: instituut
-                                                      - department: departement
-                                                      - faculty: faculteit
-                                                      - branch: vestiging
-                                                      - academy: academie
-                                                      - school: school
-                                                    enum: &ref_87
-                                                      - root
-                                                      - institute
-                                                      - department
-                                                      - faculty
-                                                      - branch
-                                                      - academy
-                                                      - school
-                                                    example: root
-                                                  name:
-                                                    type: array
-                                                    description: The name of the organization
-                                                    minItems: 1
-                                                    items:
-                                                      type: object
-                                                      description: A String with an associated language code.
-                                                      properties: *ref_4
-                                                      example: *ref_5
-                                                    example:
-                                                      - language: nl-NL
-                                                        value: Coöperatie SURF U.A.
-                                                  shortName:
-                                                    type: string
-                                                    description: Short name of the organization
-                                                    maxLength: 256
-                                                    example: SURF
-                                                  description:
-                                                    type: array
-                                                    description: Any general description of the organization should clearly mention the type of higher education organization, especially in the case of a binary system. In Dutch; universiteit (university) or hogeschool (university of applied sciences).
-                                                    minItems: 1
-                                                    items:
-                                                      type: object
-                                                      description: A String with an associated language code.
-                                                      properties: *ref_4
-                                                      example: *ref_5
-                                                    example:
-                                                      - language: nl-NL
-                                                        value: SURF is een coöperatieve vereniging van Nederlandse onderwijs- en onderzoeksinstellingen waarin de leden hun krachten bundelen. De leden zijn eigenaar van SURF.
-                                                  addresses:
-                                                    type: array
-                                                    description: Addresses of this organization
-                                                    items:
-                                                      type: object
-                                                      description: The full street address
-                                                      required: *ref_6
-                                                      properties: *ref_7
-                                                  link:
-                                                    type: string
-                                                    description: URL of the organization's website
-                                                    format: uri
-                                                    maxLength: 2048
-                                                    example: https://surf.nl
-                                                  logo:
-                                                    type: string
-                                                    description: Logo of this organization
-                                                    format: uri
-                                                    maxLength: 2048
-                                                    example: https://www.surf.nl/themes/surf/logo.svg
-                                                  otherCodes:
-                                                    type: array
-                                                    description: An array of additional human readable codes/identifiers for the entity being described.
-                                                    minItems: 1
-                                                    items:
-                                                      type: object
-                                                      properties: *ref_0
-                                                      required: *ref_1
-                                                      additionalProperties: false
-                                                      example: *ref_8
-                                                    example:
-                                                      - codeType: brin
-                                                        code: 00AA
-                                                      - codeType: kvk
-                                                        code: '12345678'
-                                                  parent:
-                                                    description: |
-                                                      The organizational unit which is the parent of this organization. [`expandable`](#tag/organization_model)
-                                                      By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
-                                                    oneOf:
-                                                      - title: organizationId
-                                                        type: string
-                                                        description: An identifier of another resource.
-                                                        format: uuid
-                                                      - title: Organization object
-                                                        type: object
-                                                        description: A description of a group of people working together to achieve a goal
-                                                        required: *ref_14
-                                                        properties: *ref_15
-                                                  children:
-                                                    type: array
-                                                    description: |
-                                                      All the organizational units for which this organization is the parent. [`expandable`](#tag/organization_model)
-                                                      By default only the `organizationId` (a string) is returned. If the client requested an expansion of `organization` the full organization object should be returned.
-                                                    items:
-                                                      oneOf:
-                                                        - title: organizationId
-                                                          type: string
-                                                          description: An identifier of another resource.
-                                                          format: uuid
-                                                        - title: Organization object
-                                                          type: object
-                                                          description: A description of a group of people working together to achieve a goal
-                                                          required: *ref_14
-                                                          properties: *ref_15
-                                                  consumers:
-                                                    description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-                                                    type: array
-                                                    items:
-                                                      type: object
-                                                      description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                                      required: *ref_16
-                                                      properties: *ref_17
-                                                      additionalProperties: true
-                                                    example: *ref_18
-                                                  ext:
-                                                    type: object
-                                                    description: Object for additional non-standard attributes
+                                                required: *ref_9
+                                                properties: *ref_10
                                           consumers:
                                             description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
                                             type: array
                                             items:
                                               type: object
                                               description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                              required: *ref_16
-                                              properties: *ref_17
+                                              required: *ref_11
+                                              properties: *ref_12
                                               additionalProperties: true
                                             example:
                                               - consumerKey: rio
@@ -1414,8 +1513,8 @@ paths:
                                 items:
                                   type: object
                                   description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                  required: *ref_16
-                                  properties: *ref_17
+                                  required: *ref_11
+                                  properties: *ref_12
                                   additionalProperties: true
                                 example:
                                   - consumerKey: rio
@@ -1439,12 +1538,12 @@ paths:
                                       description: An identifier of another resource.
                                       format: uuid
                                     - title: Program object
-                                      allOf: &ref_21
+                                      allOf: &ref_27
                                         - type: object
                                           description: A collection of courses that lead to a certifiable learning outcome
-                                          required: &ref_90
+                                          required: &ref_94
                                             - programId
-                                          properties: &ref_91
+                                          properties: &ref_95
                                             programId:
                                               type: string
                                               description: Unique id for this program
@@ -1453,7 +1552,7 @@ paths:
                                               readOnly: true
                                         - type: object
                                           description: A collection of courses that lead to a certifiable learning outcome
-                                          properties: &ref_95
+                                          properties: &ref_99
                                             primaryCode:
                                               description: The primary human readable identifier for the program. This is often the source identifier as defined by the institution.
                                               example:
@@ -1473,7 +1572,7 @@ paths:
                                                 - honours: honours
                                                 - specialization: specialisatie
                                                 - track: track
-                                              enum: &ref_92
+                                              enum: &ref_96
                                                 - program
                                                 - minor
                                                 - honours
@@ -1519,12 +1618,12 @@ paths:
                                             studyLoad:
                                               type: object
                                               description: The amount of effort to complete this education in the specified unit.
-                                              properties: *ref_11
-                                              example: *ref_12
+                                              properties: *ref_22
+                                              example: *ref_23
                                             qualificationAwarded:
                                               type: string
                                               description: Type of qualificaton that can be obtained on finishing the program
-                                              enum: &ref_93
+                                              enum: &ref_97
                                                 - AD
                                                 - BA
                                                 - BSc
@@ -1544,7 +1643,7 @@ paths:
                                                   - dual training: duaal
                                                   - self-paced: eigen tempo
                                                   - extraneous : extraneus student: examendeelnemer (student mag alleen aan de toetsen deelnemen / beperkt colegegeld)
-                                              enum: &ref_94
+                                              enum: &ref_98
                                                 - full-time
                                                 - part-time
                                                 - dual training
@@ -1559,7 +1658,7 @@ paths:
                                                 - online: online
                                                 - hybrid: hybride
                                                 - situated: op locatie
-                                              items: *ref_9
+                                              items: *ref_20
                                             duration:
                                               type: string
                                               description: The duration of this program. The duration format is from the ISO 8601 ABNF as given in Appendix A of RFC 3339.
@@ -1572,7 +1671,7 @@ paths:
                                             levelOfQualification:
                                               type: string
                                               description: Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.
-                                              enum: *ref_19
+                                              enum: *ref_25
                                               example: '6'
                                             level:
                                               type: string
@@ -1591,7 +1690,7 @@ paths:
                                                 - undivided: ongedeeld
                                                 - nt2-1: NT2 niveau 1
                                                 - nt2-2: NT2 niveau 2
-                                              enum: *ref_10
+                                              enum: *ref_21
                                               example: master
                                             sector:
                                               type: string
@@ -1600,7 +1699,7 @@ paths:
                                                 - secondary vocational education: middelbaar beroepsonderwijs
                                                 - higher professional education: hoger beroepsonderwijs
                                                 - university education: universitair onderwijs
-                                              enum: *ref_20
+                                              enum: *ref_26
                                               example: university education
                                             fieldsOfStudy:
                                               type: string
@@ -1687,7 +1786,7 @@ paths:
                                                   description: An identifier of another resource.
                                                   format: uuid
                                                 - title: EducationSpecification
-                                                  allOf: *ref_13
+                                                  allOf: *ref_24
                                             otherCodes:
                                               type: array
                                               description: An array of additional human readable codes/identifiers for the entity being described.
@@ -1716,7 +1815,7 @@ paths:
                                                   description: An identifier of another resource.
                                                   format: uuid
                                                 - title: Expanded Program
-                                                  allOf: *ref_21
+                                                  allOf: *ref_27
                                             children:
                                               type: array
                                               description: Programs which are a part of this program (e.g specializations). This object is [`expandable`](#tag/program_model)
@@ -1727,7 +1826,7 @@ paths:
                                                     description: An identifier of another resource.
                                                     format: uuid
                                                   - title: Expanded Program
-                                                    allOf: *ref_21
+                                                    allOf: *ref_27
                                             coordinators:
                                               description: The person(s) responsible for this program. This object is [`expandable`](#tag/person_model)
                                               type: array
@@ -1738,7 +1837,7 @@ paths:
                                                     description: An identifier of another resource.
                                                     format: uuid
                                                   - title: Person object
-                                                    allOf: *ref_22
+                                                    allOf: *ref_28
                                             organization:
                                               description: |
                                                 The organization providing this program. [`expandable`](#tag/organization_model)
@@ -1751,16 +1850,16 @@ paths:
                                                 - title: Organization object
                                                   type: object
                                                   description: A description of a group of people working together to achieve a goal
-                                                  required: *ref_14
-                                                  properties: *ref_15
+                                                  required: *ref_9
+                                                  properties: *ref_10
                                             consumers:
                                               description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
                                               type: array
                                               items:
                                                 type: object
                                                 description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                                required: *ref_16
-                                                properties: *ref_17
+                                                required: *ref_11
+                                                properties: *ref_12
                                                 additionalProperties: true
                                               example:
                                                 - consumerKey: rio
@@ -1798,7 +1897,7 @@ paths:
                                       description: An identifier of another resource.
                                       format: uuid
                                     - title: Person object
-                                      allOf: *ref_22
+                                      allOf: *ref_28
                               organization:
                                 description: |
                                   The organization that manages this group. [`expandable`](#tag/organization_model)
@@ -1811,8 +1910,8 @@ paths:
                                   - title: Organization object
                                     type: object
                                     description: A description of a group of people working together to achieve a goal
-                                    required: *ref_14
-                                    properties: *ref_15
+                                    required: *ref_9
+                                    properties: *ref_10
                           - properties:
                               validFrom:
                                 description: The first day this course is valid (inclusive).
@@ -1834,23 +1933,23 @@ paths:
                       - title: Organization object
                         type: object
                         description: A description of a group of people working together to achieve a goal
-                        required: *ref_14
-                        properties: *ref_15
+                        required: *ref_9
+                        properties: *ref_10
                   consumers:
                     description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
                     type: array
-                    items: &ref_100
+                    items: &ref_104
                       anyOf:
                         - type: object
                           description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                          required: *ref_16
-                          properties: *ref_17
+                          required: *ref_11
+                          properties: *ref_12
                           additionalProperties: true
                         - type: object
                           description: NL-TEST-ADMIN add-on attributes to the Component
-                          required: &ref_98
+                          required: &ref_102
                             - consumerKey
-                          properties: &ref_99
+                          properties: &ref_103
                             consumerKey:
                               type: string
                             additionalTestingTime:
@@ -1921,7 +2020,7 @@ paths:
                                 - inactive
                             licensed:
                               type: boolean
-                    example: &ref_101
+                    example: &ref_105
                       - consumerKey: NL-TEST-ADMIN
                         extraTime: 30
                         availablePersonalNeeds:
@@ -1942,7 +2041,7 @@ paths:
                   value:
                     componentId: c5fca27e-ccc1-430d-9888-90e005ad6a86
                     primaryCode:
-                      codeType: testID
+                      codeType: testId
                       code: '5'
                     componentType: test
                     name:
@@ -1977,7 +2076,7 @@ paths:
                   value:
                     componentId: c5fca27e-ccc1-430d-9888-90e005ad6a86
                     primaryCode:
-                      codeType: testID
+                      codeType: testId
                       code: '5'
                     componentType: test
                     name:
@@ -2009,25 +2108,25 @@ paths:
                         licensed: true
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /components:
     get:
       summary: GET /components
@@ -2050,7 +2149,7 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: &ref_32
+          schema: &ref_31
             type: integer
             format: int32
             default: 10
@@ -2064,7 +2163,7 @@ paths:
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: &ref_33
+          schema: &ref_32
             type: integer
             format: int32
             example: 1
@@ -2073,13 +2172,13 @@ paths:
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: &ref_34
+          schema: &ref_33
             type: string
         - name: q
           in: query
           description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
           required: false
-          schema: &ref_35
+          schema: &ref_34
             type: string
         - name: sort
           in: query
@@ -2108,13 +2207,13 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: &ref_36
+                    required: &ref_35
                       - pageSize
                       - pageNumber
                       - hasPreviousPage
                       - hasNextPage
                       - items
-                    properties: &ref_37
+                    properties: &ref_36
                       pageSize:
                         type: integer
                         format: int32
@@ -2148,29 +2247,29 @@ paths:
                         items:
                           type: object
                           description: A component is a part of a course
-                          required: *ref_30
-                          properties: *ref_31
+                          required: *ref_29
+                          properties: *ref_30
                       ext:
                         type: object
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /components/{componentId}/offerings:
     get:
       summary: GET /components/{componentId}/offerings
@@ -2193,22 +2292,22 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_32
+          schema: *ref_31
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_33
+          schema: *ref_32
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_34
+          schema: *ref_33
         - name: q
           in: query
           description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
           required: false
-          schema: *ref_35
+          schema: *ref_34
         - name: teachingLanguage
           in: query
           description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
@@ -2270,8 +2369,8 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: *ref_36
-                    properties: *ref_37
+                    required: *ref_35
+                    properties: *ref_36
                   - type: object
                     required:
                       - items
@@ -2326,12 +2425,12 @@ paths:
                                           description: |
                                             A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
                                             Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                                          required: &ref_38
+                                          required: &ref_37
                                             - academicSessionId
                                             - name
                                             - startDate
                                             - endDate
-                                          properties: &ref_39
+                                          properties: &ref_38
                                             academicSessionId:
                                               type: string
                                               description: Unique id for this academic session
@@ -2351,7 +2450,7 @@ paths:
 
                                                 Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
                                               example: semester
-                                              x-ooapi-extensible-enum: &ref_102
+                                              x-ooapi-extensible-enum: &ref_106
                                                 - academic year
                                                 - semester
                                                 - trimester
@@ -2401,8 +2500,8 @@ paths:
                                                   description: |
                                                     A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
                                                     Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                                                  required: *ref_38
-                                                  properties: *ref_39
+                                                  required: *ref_37
+                                                  properties: *ref_38
                                             children:
                                               type: array
                                               description: The list of Academicsession children of this Session (e.g. all academic sessions in fall semester 20xx). This object is [`expandable`](#tag/academic_sessions_model)
@@ -2417,8 +2516,8 @@ paths:
                                                     description: |
                                                       A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
                                                       Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                                                    required: *ref_38
-                                                    properties: *ref_39
+                                                    required: *ref_37
+                                                    properties: *ref_38
                                             year:
                                               description: The top level year of this session (e.g. 20xx where the current session is a week 40 of a semester). This object is [`expandable`](#tag/academic_sessions_model)
                                               oneOf:
@@ -2431,8 +2530,8 @@ paths:
                                                   description: |
                                                     A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
                                                     Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-                                                  required: *ref_38
-                                                  properties: *ref_39
+                                                  required: *ref_37
+                                                  properties: *ref_38
                                             otherCodes:
                                               type: array
                                               description: An array of additional human readable codes/identifiers for the entity being described.
@@ -2448,10 +2547,10 @@ paths:
                                               items:
                                                 type: object
                                                 description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                                required: *ref_16
-                                                properties: *ref_17
+                                                required: *ref_11
+                                                properties: *ref_12
                                                 additionalProperties: true
-                                              example: *ref_18
+                                              example: *ref_39
                                             ext:
                                               type: object
                                               description: Object for additional non-standard attributes
@@ -2518,7 +2617,7 @@ paths:
                                         - online: online
                                         - hybrid: hybride
                                         - situated: op locatie
-                                      items: *ref_9
+                                      items: *ref_20
                                     maxNumberStudents:
                                       type: number
                                       description: The maximum number of students allowed to enroll for this offering
@@ -2584,20 +2683,20 @@ paths:
                                     consumers:
                                       type: array
                                       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-                                      items: &ref_107
+                                      items: &ref_111
                                         anyOf:
                                           - type: object
                                             description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                            required: *ref_16
-                                            properties: *ref_17
+                                            required: *ref_11
+                                            properties: *ref_12
                                             additionalProperties: true
                                           - type: object
                                             description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
-                                            required: &ref_103
+                                            required: &ref_107
                                               - registrationStatus
                                               - requiredPermissionRegistration
                                               - consumerKey
-                                            properties: &ref_104
+                                            properties: &ref_108
                                               consumerKey:
                                                 type: string
                                               explanationRequiredPermission:
@@ -2625,10 +2724,10 @@ paths:
                                                   - closed
                                           - type: object
                                             description: NL-TEST-ADMIN add-on attributes to the offerings
-                                            required: &ref_105
+                                            required: &ref_109
                                               - offeringState
                                               - consumerKey
-                                            properties: &ref_106
+                                            properties: &ref_110
                                               consumerKey:
                                                 type: string
                                               duration:
@@ -2709,7 +2808,9 @@ paths:
                                                 type: array
                                                 items:
                                                   type: object
-                                                  description: A reference to a specific test that can be used to validate the students achievements.
+                                                  description: |
+                                                    A list of references to a specific test that can be used to validate the students achievements.
+                                                    This attribute SHOULD only be used in case of a component offering (and is only used in Flow 1)
                                                   properties:
                                                     testProvider:
                                                       description: The name of the organisation that is supplying the test.
@@ -2720,6 +2821,16 @@ paths:
                                                   example:
                                                     testProvider: MBO-NED
                                                     componentId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
+                                              cohort:
+                                                type: string
+                                                example: 2022-2023
+                                                description: |
+                                                  The realisation of an educational element with its own starting and end period added with specific Education and examination Rules (OER) and enrollment requirements
+                                              location:
+                                                type: string
+                                                example: Campus Groningen
+                                                description: |
+                                                  The location where the (Program) offering of the student takes place. Abbreviation of the location as provided to RIO
                                               documents:
                                                 type: array
                                                 items:
@@ -2746,7 +2857,7 @@ paths:
                                                     documentId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
                                                     documentType: sessionReport
                                                     documentName: Session report on Session tbd.pdf
-                                      example: &ref_108
+                                      example: &ref_112
                                         - consumerKey: NL-TEST-ADMIN
                                           duration: P1DT30H4S
                                           lastPossibleStartDateTime: '2020-12-15T08:50:00'
@@ -2821,7 +2932,7 @@ paths:
 
                                               Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
                                             example: total costs
-                                            x-ooapi-extensible-enum: &ref_109
+                                            x-ooapi-extensible-enum: &ref_113
                                               - STAP eligible
                                               - total costs
                                           amount:
@@ -2897,7 +3008,7 @@ paths:
                                             - study room: studieruimte
                                             - examination room: onderzoekskamer
                                             - conference room: vergaderkamer
-                                          enum: &ref_110
+                                          enum: &ref_114
                                             - general purpose
                                             - lecture room
                                             - computer room
@@ -2992,12 +3103,12 @@ paths:
                                             - title: Building object
                                               type: object
                                               description: An object describing a building and the properties of a building.
-                                              required: &ref_111
+                                              required: &ref_115
                                                 - buildingId
                                                 - name
                                                 - address
                                                 - primaryCode
-                                              properties: &ref_112
+                                              properties: &ref_116
                                                 buildingId:
                                                   type: string
                                                   description: Unique id of this building
@@ -3064,10 +3175,10 @@ paths:
                                                   items:
                                                     type: object
                                                     description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                                    required: *ref_16
-                                                    properties: *ref_17
+                                                    required: *ref_11
+                                                    properties: *ref_12
                                                     additionalProperties: true
-                                                  example: *ref_18
+                                                  example: *ref_39
                                                 ext:
                                                   type: object
                                                   description: Object for additional non-standard attributes
@@ -3077,10 +3188,10 @@ paths:
                                           items:
                                             type: object
                                             description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                            required: *ref_16
-                                            properties: *ref_17
+                                            required: *ref_11
+                                            properties: *ref_12
                                             additionalProperties: true
-                                          example: *ref_18
+                                          example: *ref_39
                                         ext:
                                           type: object
                                           description: Object for additional non-standard attributes
@@ -3096,8 +3207,8 @@ paths:
                                         - title: Component object
                                           type: object
                                           description: A component is a part of a course
-                                          required: *ref_30
-                                          properties: *ref_31
+                                          required: *ref_29
+                                          properties: *ref_30
                                     courseOffering:
                                       description: |
                                         The courseoffering where this componentoffering is related to. [`expandable`](#tag/course_offering_model)
@@ -3113,7 +3224,7 @@ paths:
                                               description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
                                               required: *ref_41
                                               properties: *ref_42
-                                            - allOf: &ref_114
+                                            - allOf: &ref_118
                                                 - type: object
                                                   description: Either a program, course or component offering which descrbes the program, course or offering in time
                                                   properties: *ref_43
@@ -3188,7 +3299,7 @@ paths:
                                                               description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
                                                               required: *ref_41
                                                               properties: *ref_42
-                                                            - allOf: &ref_113
+                                                            - allOf: &ref_117
                                                                 - type: object
                                                                   description: Either a program, course or component offering which descrbes the program, course or offering in time
                                                                   properties: *ref_43
@@ -3248,7 +3359,7 @@ paths:
                                                                           description: An identifier of another resource.
                                                                           format: uuid
                                                                         - title: Program object
-                                                                          allOf: *ref_21
+                                                                          allOf: *ref_27
                                                                     organization:
                                                                       description: |
                                                                         The organization that manages this programeoffering. [`expandable`](#tag/organization_model)
@@ -3261,8 +3372,8 @@ paths:
                                                                         - title: Organization object
                                                                           type: object
                                                                           description: A description of a group of people working together to achieve a goal
-                                                                          required: *ref_14
-                                                                          properties: *ref_15
+                                                                          required: *ref_9
+                                                                          properties: *ref_10
                                                             - type: object
                                                               required:
                                                                 - primaryCode
@@ -3285,8 +3396,8 @@ paths:
                                                         - title: Organization object
                                                           type: object
                                                           description: A description of a group of people working together to achieve a goal
-                                                          required: *ref_14
-                                                          properties: *ref_15
+                                                          required: *ref_9
+                                                          properties: *ref_10
                                             - type: object
                                               required:
                                                 - primaryCode
@@ -3309,8 +3420,8 @@ paths:
                                         - title: Organization object
                                           type: object
                                           description: A description of a group of people working together to achieve a goal
-                                          required: *ref_14
-                                          properties: *ref_15
+                                          required: *ref_9
+                                          properties: *ref_10
                             - type: object
                               required:
                                 - startDateTime
@@ -3326,25 +3437,25 @@ paths:
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /offerings:
     get:
       summary: GET /offerings
@@ -3360,22 +3471,22 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_32
+          schema: *ref_31
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_33
+          schema: *ref_32
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_34
+          schema: *ref_33
         - name: q
           in: query
           description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
           required: false
-          schema: *ref_35
+          schema: *ref_34
         - name: teachingLanguage
           in: query
           description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
@@ -3443,8 +3554,8 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: *ref_36
-                    properties: *ref_37
+                    required: *ref_35
+                    properties: *ref_36
                   - type: object
                     required:
                       - items
@@ -3461,25 +3572,25 @@ paths:
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /offerings/{offeringId}:
     get:
       summary: GET /offerings/{offeringId}
@@ -3575,25 +3686,25 @@ paths:
                     endDateTime: '2022-06-21T13:45:00+01:00'
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
     patch:
       summary: PATCH /offerings/{offeringId}
       operationId: partialUpdateOfferingById
@@ -3641,25 +3752,25 @@ paths:
           description: OK
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
     put:
       summary: PUT /offerings/{offeringId}
       operationId: replaceOfferingById
@@ -3687,7 +3798,7 @@ paths:
           application/json:
             schema:
               title: componentOffering
-              allOf: &ref_115
+              allOf: &ref_119
                 - type: object
                   description: Either a program, course or component offering which descrbes the program, course or offering in time
                   properties: *ref_43
@@ -3759,8 +3870,8 @@ paths:
                         - title: Component object
                           type: object
                           description: A component is a part of a course
-                          required: *ref_30
-                          properties: *ref_31
+                          required: *ref_29
+                          properties: *ref_30
                     courseOffering:
                       description: |
                         The courseoffering where this componentoffering is related to. [`expandable`](#tag/course_offering_model)
@@ -3784,8 +3895,8 @@ paths:
                         - title: Organization object
                           type: object
                           description: A description of a group of people working together to achieve a goal
-                          required: *ref_14
-                          properties: *ref_15
+                          required: *ref_9
+                          properties: *ref_10
             examples:
               Create offering (zitting) without students (flow 2.1):
                 value:
@@ -3842,25 +3953,25 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /offerings/{offeringId}/associations:
     get:
       summary: GET /offerings/{offeringId}/associations
@@ -3883,17 +3994,17 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_32
+          schema: *ref_31
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_33
+          schema: *ref_32
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_34
+          schema: *ref_33
         - name: associationType
           in: query
           description: Filter by association type
@@ -3937,6 +4048,7 @@ paths:
               - denied
               - associated
               - queued
+              - finished
             example: associated
         - name: result-state
           in: query
@@ -3975,8 +4087,8 @@ paths:
               schema:
                 allOf:
                   - type: object
-                    required: *ref_36
-                    properties: *ref_37
+                    required: *ref_35
+                    properties: *ref_36
                   - type: object
                     required:
                       - items
@@ -3985,7 +4097,7 @@ paths:
                         type: array
                         items:
                           oneOf:
-                            - allOf: &ref_127
+                            - allOf: &ref_131
                                 - allOf: &ref_57
                                     - type: object
                                       properties: &ref_65
@@ -3999,7 +4111,7 @@ paths:
                                         - associationId
                                     - type: object
                                       description: A relationship between a person object and an offering
-                                      properties: &ref_121
+                                      properties: &ref_125
                                         associationType:
                                           type: string
                                           description: The type of this association
@@ -4028,28 +4140,29 @@ paths:
                                           writeOnly: true
                                           type: string
                                           description: The state of this association for the institution performing the request.
-                                          enum: &ref_116
+                                          enum: &ref_120
                                             - pending
                                             - canceled
                                             - denied
                                             - associated
                                             - queued
+                                            - finished
                                           example: associated
                                         consumers:
                                           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
                                           type: array
-                                          items: &ref_119
+                                          items: &ref_123
                                             anyOf:
                                               - type: object
                                                 description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                                required: *ref_16
-                                                properties: *ref_17
+                                                required: *ref_11
+                                                properties: *ref_12
                                                 additionalProperties: true
                                               - type: object
                                                 description: NL-TEST-ADMIN add-on attributes to the Association
-                                                required: &ref_117
+                                                required: &ref_121
                                                   - consumerKey
-                                                properties: &ref_118
+                                                properties: &ref_122
                                                   consumerKey:
                                                     type: string
                                                   startUpURL:
@@ -4084,17 +4197,27 @@ paths:
                                                     description: |
                                                       The number of attempts still remain for the person to obtain a result on the given offering
                                                     format: int32
-                                                  programOfferingAssociationID:
+                                                  programOfferingAssociationId:
                                                     type: string
                                                     description: |
                                                       The unique identifier of the enrollment of the student in a programOffering on the behalf of the current assocation is taking place 
                                                     format: uuid
-                                                  courseOfferingAssociationID:
+                                                  courseOfferingAssociationId:
                                                     type: string
                                                     description: |
                                                       The unique identifier of the enrollment of the student in a courseOffering on the behalf of the current assocation is taking place 
                                                     format: uuid
-                                          example: &ref_120
+                                                  orgAssociationId:
+                                                    type: string
+                                                    description: |
+                                                      The original UUID under which the Student information System provided the assocaition. This element is only needed at pass back to the SIS 
+                                                    format: uuid
+                                                  sequenceCode:
+                                                    type: string
+                                                    description: |
+                                                      The transaction number for the person within the SIS for example the loopbaannummer or an opleidingsblad 
+                                                    format: uuid
+                                          example: &ref_124
                                             - consumerKey: NL-TEST-ADMIN
                                               attendance: notKnown
                                               additionalTimeInMin: 30
@@ -4104,8 +4227,10 @@ paths:
                                                 - spell-checker-on-screen
                                               attempt: 1
                                               attemptLeft: 2
-                                              programOfferingAssociationID: 54e58f68-ceac-4845-99d5-caa721fefb88
-                                              courseOfferingAssociationID: 170b5f35-20be-47bf-96ff-d262d121b76b
+                                              programOfferingAssociationId: 54e58f68-ceac-4845-99d5-caa721fefb88
+                                              courseOfferingAssociationId: 170b5f35-20be-47bf-96ff-d262d121b76b
+                                              orgAssociationId: 123c6f59-21wg-47bf-96ff-d262d133c51g
+                                              sequenceCode: '1.2'
                                         ext:
                                           type: object
                                           description: Object for additional non-standard attributes
@@ -4127,7 +4252,7 @@ paths:
                                             pass:
                                               type: string
                                               description: The state of this result
-                                              enum: &ref_122
+                                              enum: &ref_126
                                                 - unknown
                                                 - passed
                                                 - failed
@@ -4147,19 +4272,19 @@ paths:
                                             consumers:
                                               type: array
                                               description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-                                              items: &ref_125
+                                              items: &ref_129
                                                 anyOf:
                                                   - type: object
                                                     description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                                                    required: *ref_16
-                                                    properties: *ref_17
+                                                    required: *ref_11
+                                                    properties: *ref_12
                                                     additionalProperties: true
                                                   - type: object
                                                     description: NL-TEST-ADMIN add-on attributes to the result
-                                                    required: &ref_123
+                                                    required: &ref_127
                                                       - attendance
                                                       - consumerKey
-                                                    properties: &ref_124
+                                                    properties: &ref_128
                                                       consumerKey:
                                                         type: string
                                                       attendance:
@@ -4224,13 +4349,29 @@ paths:
                                                       documents:
                                                         type: array
                                                         items:
-                                                          type: string
-                                                        minItems: 0
-                                                        description: |
-                                                          documents
-                                                          documents to be added to this offering
-                                                          TODO : Make a real object : see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/flow4.md
-                                              example: &ref_126
+                                                          type: object
+                                                          description: |
+                                                            documents that are relevant for this result including the ID, Type and Name to facilitate file handeling in downloading.
+                                                          properties:
+                                                            documentId:
+                                                              description: the UUID of the document in the system of the suppier.
+                                                              type: string
+                                                            documentType:
+                                                              description: |
+                                                                identifies the kind of document; supported values: "assessmentForm" (beoordelingformulier), "assessmentFormWithAnswers" (answers with assessment notes), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values).
+                                                              enum:
+                                                                - assessmentForm
+                                                                - assessmentFormWithAnswers
+                                                                - assessmentModel
+                                                                - other
+                                                            documentName:
+                                                              description: the proposed file name of the document in the system of the suppier.
+                                                              type: string
+                                                          example:
+                                                            documentId: dfc9d973-42cf-46f3-bd18-q8z23456ert9
+                                                            documentType: assessmentForm
+                                                            documentName: assessmentFrom on test information analysis qw12.pdf
+                                              example: &ref_130
                                                 - consumerKey: NL-TEST-ADMIN
                                                   attendance: present
                                                   executedOfferingName: variant12_Nederlands2F
@@ -4252,11 +4393,11 @@ paths:
                                             studyLoad:
                                               type: object
                                               description: The amount of effort to complete this education in the specified unit.
-                                              properties: *ref_11
-                                              example: *ref_12
+                                              properties: *ref_22
+                                              example: *ref_23
                                     person:
                                       description: The person this association is to
-                                      allOf: *ref_22
+                                      allOf: *ref_28
                                     offering:
                                       description: The offering this association is for
                                       allOf: &ref_60
@@ -4267,7 +4408,7 @@ paths:
                                         - type: object
                                           description: Either a program, course or component offering which descrbes the program, course or offering in time
                                           properties: *ref_43
-                            - allOf: &ref_128
+                            - allOf: &ref_132
                                 - allOf: *ref_57
                                 - type: object
                                   properties:
@@ -4284,22 +4425,22 @@ paths:
                                             studyLoad:
                                               type: object
                                               description: The amount of effort to complete this education in the specified unit.
-                                              properties: *ref_11
-                                              example: *ref_12
+                                              properties: *ref_22
+                                              example: *ref_23
                                     person:
                                       description: The person this association is to
-                                      allOf: *ref_22
+                                      allOf: *ref_28
                                     offering:
                                       description: The offering this association is for
                                       allOf: *ref_60
-                            - allOf: &ref_130
+                            - allOf: &ref_134
                                 - allOf: &ref_63
                                     - allOf: &ref_64
                                         - allOf: *ref_57
                                         - type: object
                                           properties:
                                             result:
-                                              allOf: &ref_129
+                                              allOf: &ref_133
                                                 - type: object
                                                   description: A result as part of an association
                                                   required: *ref_58
@@ -4320,7 +4461,7 @@ paths:
                                         - associationType
                                         - role
                                         - state
-                              properties: &ref_131
+                              properties: &ref_135
                                 person:
                                   readOnly: true
                                   oneOf:
@@ -4329,7 +4470,7 @@ paths:
                                       description: An identifier of another resource.
                                       format: uuid
                                     - title: Person
-                                      allOf: *ref_22
+                                      allOf: *ref_28
                                 offering:
                                   oneOf:
                                     - title: offeringId
@@ -4343,25 +4484,25 @@ paths:
                         description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /documents/{documentId}:
     get:
       summary: GET /documents/{documentId}
@@ -4395,25 +4536,25 @@ paths:
           description: OK
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /associations/{associationId}:
     get:
       summary: GET /associations/{associationId}
@@ -4451,21 +4592,21 @@ paths:
           content:
             application/json:
               schema:
-                oneOf: &ref_134
-                  - allOf: &ref_132
+                oneOf: &ref_138
+                  - allOf: &ref_136
                       - allOf: *ref_57
                       - type: object
                         properties:
                           result:
                             allOf: *ref_61
-                  - allOf: &ref_133
+                  - allOf: &ref_137
                       - allOf: *ref_57
                       - type: object
                         properties:
                           result:
                             allOf: *ref_62
                   - allOf: *ref_63
-                properties: &ref_135
+                properties: &ref_139
                   person:
                     readOnly: true
                     oneOf:
@@ -4474,7 +4615,7 @@ paths:
                         description: An identifier of another resource.
                         format: uuid
                       - title: Person
-                        allOf: *ref_22
+                        allOf: *ref_28
                   offering:
                     oneOf:
                       - title: offeringId
@@ -4489,25 +4630,25 @@ paths:
                         allOf: *ref_50
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
     patch:
       summary: PATCH /associations/{associationId}
       operationId: partialUpdateAssociationById
@@ -4538,9 +4679,9 @@ paths:
           application/merge-patch+json:
             schema:
               allOf:
-                - allOf: &ref_139
+                - allOf: &ref_143
                     - allOf: *ref_64
-                  properties: &ref_140
+                  properties: &ref_144
                     person:
                       oneOf:
                         - title: personId
@@ -4548,7 +4689,7 @@ paths:
                           description: An identifier of another resource.
                           format: uuid
                         - title: Person
-                          allOf: *ref_22
+                          allOf: *ref_28
                     offering:
                       oneOf:
                         - title: offeringId
@@ -4622,9 +4763,9 @@ paths:
                     required: *ref_66
                   - type: object
                     description: A system message as a response to a POST message
-                    required: &ref_141
+                    required: &ref_145
                       - message
-                    properties: &ref_142
+                    properties: &ref_146
                       message:
                         description: information displayed to user
                         type: array
@@ -4649,7 +4790,7 @@ paths:
                         example: associated
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
     put:
       summary: PUT /associations/{associationId}
       description: |
@@ -4674,17 +4815,17 @@ paths:
           application/json:
             schema:
               oneOf:
-                - allOf: &ref_136
+                - allOf: &ref_140
                     - allOf: *ref_64
                     - type: object
                       required:
                         - role
                         - state
                         - associationType
-                  required: &ref_137
+                  required: &ref_141
                     - person
                     - offering
-                  properties: &ref_138
+                  properties: &ref_142
                     person:
                       oneOf:
                         - title: personId
@@ -4692,7 +4833,7 @@ paths:
                           description: An identifier of another resource.
                           format: uuid
                         - title: Person
-                          allOf: *ref_22
+                          allOf: *ref_28
                     offering:
                       oneOf:
                         - title: offeringId
@@ -4759,25 +4900,25 @@ paths:
           description: Created
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /associations/{associationId}/url:
     get:
       summary: GET /associations/{associationId}/url
@@ -4809,25 +4950,25 @@ paths:
                 example: https://www.universiteitvanharderwijk.nl
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /groups:
     get:
       summary: GET /groups
@@ -4848,22 +4989,22 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_32
+          schema: *ref_31
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_33
+          schema: *ref_32
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_34
+          schema: *ref_33
         - name: q
           in: query
           description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
           required: false
-          schema: *ref_35
+          schema: *ref_34
         - name: groupType
           in: query
           description: Filter by group type
@@ -5025,10 +5166,10 @@ paths:
                           items:
                             type: object
                             description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-                            required: *ref_16
-                            properties: *ref_17
+                            required: *ref_11
+                            properties: *ref_12
                             additionalProperties: true
-                          example: *ref_18
+                          example: *ref_39
                         organization:
                           description: |
                             The organization that manages this group. [`expandable`](.#tag/organization_model)
@@ -5041,8 +5182,8 @@ paths:
                             - title: Expanded organization
                               type: object
                               description: A description of a group of people working together to achieve a goal
-                              required: *ref_14
-                              properties: *ref_15
+                              required: *ref_9
+                              properties: *ref_10
                         ext:
                           type: object
                           description: Object for additional non-standard attributes
@@ -5051,22 +5192,22 @@ paths:
                     description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /groups/{groupId}:
     get:
       summary: GET /groups/{groupId}
@@ -5111,25 +5252,25 @@ paths:
                 properties: *ref_70
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '404':
           description: Not Found
-          content: *ref_26
+          content: *ref_16
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
   /groups/{groupId}/persons:
     get:
       summary: GET /groups/{groupId}/persons
@@ -5152,22 +5293,22 @@ paths:
           in: query
           description: The number of items per page
           required: false
-          schema: *ref_32
+          schema: *ref_31
         - name: pageNumber
           in: query
           description: The page number to get. Page numbers start at 1.
           required: false
-          schema: *ref_33
+          schema: *ref_32
         - name: consumer
           in: query
           description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
           required: false
-          schema: *ref_34
+          schema: *ref_33
         - name: q
           in: query
           description: Filter by persons having a givenName, surNamePrefix, surname, displayName, initials, mail or secondaryMail containing the given search term (exact partial match, case insensitive)
           required: false
-          schema: &ref_143
+          schema: &ref_147
             type: string
         - name: affiliations
           in: query
@@ -5239,28 +5380,28 @@ paths:
                   items:
                     type: array
                     items:
-                      allOf: *ref_22
+                      allOf: *ref_28
                   ext:
                     type: object
                     description: Object for additional non-standard attributes
         '400':
           description: Bad request
-          content: *ref_23
+          content: *ref_13
         '401':
           description: Unauthorized
-          content: *ref_24
+          content: *ref_14
         '403':
           description: Forbidden
-          content: *ref_25
+          content: *ref_15
         '405':
           description: Method not allowed
-          content: *ref_27
+          content: *ref_17
         '429':
           description: Too many requests
-          content: *ref_28
+          content: *ref_18
         '500':
           description: Internal Server Error
-          content: *ref_29
+          content: *ref_19
 components:
   securitySchemes:
     bearerAuth:
@@ -5318,6 +5459,7 @@ components:
           - `schacHome`: Home organization using the domain name of the organization
           - `identifier`: Generic Identifier
           - `eckid`: ID used in the education content chain
+          - `nationalEducationCode`: Code used to specify an education with in a country (e.g. RIO opleidingscode for NL) 
       x-ooapi-extensible-enum: *ref_74
       example: identifier
     IdentifierEntry:
@@ -5370,21 +5512,53 @@ components:
     Consumer:
       type: object
       description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
-      required: *ref_16
-      properties: *ref_17
+      required: *ref_11
+      properties: *ref_12
       additionalProperties: true
+    NL-TEST-ADMIN-Person:
+      type: object
+      description: NL-TEST-ADMIN add-on attributes to the Association
+      required: *ref_78
+      properties: *ref_79
+    ConsumerOnPerson:
+      type: array
+      description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
+      items: *ref_80
+      example: *ref_81
     PersonProperties:
       type: object
       description: A person that has a relationship with this institution
-      required: *ref_78
-      properties: *ref_79
+      required: *ref_82
+      properties: *ref_83
     Person:
-      allOf: *ref_22
+      allOf: *ref_28
     Problem:
       type: object
       description: A system message including the error code and an explanation
       required: *ref_2
       properties: *ref_3
+    organizationType:
+      type: string
+      description: |
+        The type of this organization. Each OOAPI endpoint should have a single organization with type `root`, describing the root organization.
+        - root: the root of this organization, representing the Educational Institution itself
+        - institute: instituut
+        - department: departement
+        - faculty: faculteit
+        - branch: vestiging
+        - academy: academie
+        - school: school
+      enum: *ref_84
+      example: root
+    Identifier:
+      type: string
+      description: An identifier of another resource.
+      format: uuid
+    Organization:
+      type: object
+      description: A description of a group of people working together to achieve a goal
+      required: *ref_9
+      properties: *ref_10
     componentType:
       type: string
       description: |
@@ -5400,7 +5574,7 @@ components:
         - independent study: zelfstudie
         - external: extern
         - skills training: vaardighedentraining
-      enum: *ref_80
+      enum: *ref_85
       example: test
     modesOfDelivery:
       type: array
@@ -5411,21 +5585,17 @@ components:
         - online: online
         - hybrid: hybride
         - situated: op locatie
-      items: *ref_9
-    Identifier:
-      type: string
-      description: An identifier of another resource.
-      format: uuid
+      items: *ref_20
     CourseId:
       type: object
       description: An object describing the metadata of a course
-      required: *ref_81
-      properties: *ref_82
+      required: *ref_86
+      properties: *ref_87
     StudyLoadDescriptor:
       type: object
       description: The amount of effort to complete this education in the specified unit.
-      properties: *ref_11
-      example: *ref_12
+      properties: *ref_22
+      example: *ref_23
     level:
       type: string
       description: |
@@ -5443,12 +5613,12 @@ components:
         - undivided: ongedeeld
         - nt2-1: NT2 niveau 1
         - nt2-2: NT2 niveau 2
-      enum: *ref_10
+      enum: *ref_21
       example: master
     EducationSpecificationId:
       type: object
-      properties: *ref_83
-      required: *ref_84
+      properties: *ref_88
+      required: *ref_89
     educationSpecificationType:
       type: string
       description: |
@@ -5457,7 +5627,7 @@ components:
           - privateProgram: PARTICULIEREOPLEIDING
           - programCluster: HOONDERWIJSEENHEDENCLUSTER
           - course: HOONDERWIJSEENHEID
-      enum: *ref_85
+      enum: *ref_90
       example: program
     formalDocument:
       type: string
@@ -5468,7 +5638,7 @@ components:
           - no official document: GEEN OFFICIEEL DOCUMENT
           - testimonial: GETUIGSCHRIFT
           - school advice: SCHOOLADVIES
-      enum: *ref_86
+      enum: *ref_91
       example: diploma
     sector:
       type: string
@@ -5477,46 +5647,28 @@ components:
         - secondary vocational education: middelbaar beroepsonderwijs
         - higher professional education: hoger beroepsonderwijs
         - university education: universitair onderwijs
-      enum: *ref_20
+      enum: *ref_26
       example: university education
     levelOfQualification:
       type: string
       description: Level of qualification according to the Dutch National Qualification Framework and the European Qualifications Framework, see [this overview](https://nlqf.nl/images/downloads/English2018/Schematic_overview_NLQF_2020.pdf) for more information.
-      enum: *ref_19
+      enum: *ref_25
       example: '6'
     EducationSpecification:
-      allOf: *ref_13
-    organizationType:
-      type: string
-      description: |
-        The type of this organization. Each OOAPI endpoint should have a single organization with type `root`, describing the root organization.
-        - root: the root of this organization, representing the Educational Institution itself
-        - institute: instituut
-        - department: departement
-        - faculty: faculteit
-        - branch: vestiging
-        - academy: academie
-        - school: school
-      enum: *ref_87
-      example: root
-    Organization:
-      type: object
-      description: A description of a group of people working together to achieve a goal
-      required: *ref_14
-      properties: *ref_15
+      allOf: *ref_24
     EducationSpecificationProperties:
       type: object
       description: |
         The specification of an education object. This specification allows for other education objects to be derived from it.
         It is used to aggregate education objects from a supplying institution.
         It clusters programs to a main educationSpecification that is used in registries such as RIO. 
-      required: *ref_88
-      properties: *ref_89
+      required: *ref_92
+      properties: *ref_93
     ProgramId:
       type: object
       description: A collection of courses that lead to a certifiable learning outcome
-      required: *ref_90
-      properties: *ref_91
+      required: *ref_94
+      properties: *ref_95
     programType:
       type: string
       description: |
@@ -5526,12 +5678,12 @@ components:
         - honours: honours
         - specialization: specialisatie
         - track: track
-      enum: *ref_92
+      enum: *ref_96
       example: program
     qualificationAwarded:
       type: string
       description: Type of qualificaton that can be obtained on finishing the program
-      enum: *ref_93
+      enum: *ref_97
       example: None
     modeOfStudy:
       type: string
@@ -5542,18 +5694,18 @@ components:
           - dual training: duaal
           - self-paced: eigen tempo
           - extraneous : extraneus student: examendeelnemer (student mag alleen aan de toetsen deelnemen / beperkt colegegeld)
-      enum: *ref_94
+      enum: *ref_98
     Program:
-      allOf: *ref_21
+      allOf: *ref_27
     ProgramProperties:
       type: object
       description: A collection of courses that lead to a certifiable learning outcome
-      properties: *ref_95
+      properties: *ref_99
     CourseProperties:
       type: object
       description: An object describing the metadata of a course
-      required: *ref_96
-      properties: *ref_97
+      required: *ref_100
+      properties: *ref_101
     Course:
       allOf: *ref_46
     resultValueType:
@@ -5575,22 +5727,22 @@ components:
     NL-TEST-ADMIN-Component:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the Component
-      required: *ref_98
-      properties: *ref_99
+      required: *ref_102
+      properties: *ref_103
     ConsumerOnComponent:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: *ref_100
-      example: *ref_101
+      items: *ref_104
+      example: *ref_105
     Component:
       type: object
       description: A component is a part of a course
-      required: *ref_30
-      properties: *ref_31
+      required: *ref_29
+      properties: *ref_30
     Pagination:
       type: object
-      required: *ref_36
-      properties: *ref_37
+      required: *ref_35
+      properties: *ref_36
     OfferingId:
       type: object
       description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
@@ -5609,29 +5761,29 @@ components:
 
         Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
       example: semester
-      x-ooapi-extensible-enum: *ref_102
+      x-ooapi-extensible-enum: *ref_106
     AcademicSession:
       type: object
       description: |
         A named period of time that can be used to communicate the various schedules and time periods an institution recognizes and uses to organize their education. AcademicSessions can be nested.
         Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
-      required: *ref_38
-      properties: *ref_39
+      required: *ref_37
+      properties: *ref_38
     RIO-Offering:
       type: object
       description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
-      required: *ref_103
-      properties: *ref_104
+      required: *ref_107
+      properties: *ref_108
     NL-TEST-ADMIN-Offering:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the offerings
-      required: *ref_105
-      properties: *ref_106
+      required: *ref_109
+      properties: *ref_110
     ConsumerOnOffering:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: *ref_107
-      example: *ref_108
+      items: *ref_111
+      example: *ref_112
     OfferingProperties:
       type: object
       description: Either a program, course or component offering which descrbes the program, course or offering in time
@@ -5647,7 +5799,7 @@ components:
 
         Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
       example: total costs
-      x-ooapi-extensible-enum: *ref_109
+      x-ooapi-extensible-enum: *ref_113
     Cost:
       type: object
       required: *ref_44
@@ -5667,24 +5819,24 @@ components:
         - study room: studieruimte
         - examination room: onderzoekskamer
         - conference room: vergaderkamer
-      enum: *ref_110
+      enum: *ref_114
       example: exam location
     Building:
       type: object
       description: An object describing a building and the properties of a building.
-      required: *ref_111
-      properties: *ref_112
+      required: *ref_115
+      properties: *ref_116
     Room:
       type: object
       description: An area within a building where education can take place
       required: *ref_52
       properties: *ref_53
     ProgramOfferingProperties:
-      allOf: *ref_113
+      allOf: *ref_117
     ProgramOffering:
       allOf: *ref_50
     CourseOfferingProperties:
-      allOf: *ref_114
+      allOf: *ref_118
     CourseOffering:
       allOf: *ref_49
     ComponentOfferingProperties:
@@ -5692,7 +5844,7 @@ components:
     ComponentOffering:
       allOf: *ref_48
     ComponentOfferingNoId:
-      allOf: *ref_115
+      allOf: *ref_119
     associationRole:
       type: string
       description: |
@@ -5721,39 +5873,39 @@ components:
     remoteAssociationState:
       type: string
       description: The state of this association for the institution performing the request.
-      enum: *ref_116
+      enum: *ref_120
       example: associated
     NL-TEST-ADMIN-Association:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the Association
-      required: *ref_117
-      properties: *ref_118
+      required: *ref_121
+      properties: *ref_122
     ConsumerOnAssociation:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: *ref_119
-      example: *ref_120
+      items: *ref_123
+      example: *ref_124
     AssociationProperties:
       type: object
       description: A relationship between a person object and an offering
-      properties: *ref_121
+      properties: *ref_125
     Association:
       allOf: *ref_57
     passState:
       type: string
       description: The state of this result
-      enum: *ref_122
+      enum: *ref_126
       example: passed
     NL-TEST-ADMIN-Result:
       type: object
       description: NL-TEST-ADMIN add-on attributes to the result
-      required: *ref_123
-      properties: *ref_124
+      required: *ref_127
+      properties: *ref_128
     ConsumerOnResult:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: *ref_125
-      example: *ref_126
+      items: *ref_129
+      example: *ref_130
     Result:
       type: object
       description: A result as part of an association
@@ -5764,39 +5916,39 @@ components:
     Offering:
       allOf: *ref_60
     ProgramOfferingAssociationExpanded:
-      allOf: *ref_127
+      allOf: *ref_131
     CourseResult:
       allOf: *ref_62
     CourseOfferingAssociationExpanded:
-      allOf: *ref_128
+      allOf: *ref_132
     ComponentResult:
-      allOf: *ref_129
+      allOf: *ref_133
     ComponentOfferingAssociationProperties:
       allOf: *ref_64
     ComponentOfferingAssociation:
       allOf: *ref_63
     ComponentOfferingAssociationExpanded:
-      allOf: *ref_130
-      properties: *ref_131
-    ProgramOfferingAssociation:
-      allOf: *ref_132
-    CourseOfferingAssociation:
-      allOf: *ref_133
-    AssociationFull:
-      oneOf: *ref_134
+      allOf: *ref_134
       properties: *ref_135
-    ComponentOfferingAssociationExpandedWrite:
+    ProgramOfferingAssociation:
       allOf: *ref_136
-      required: *ref_137
-      properties: *ref_138
+    CourseOfferingAssociation:
+      allOf: *ref_137
+    AssociationFull:
+      oneOf: *ref_138
+      properties: *ref_139
+    ComponentOfferingAssociationExpandedWrite:
+      allOf: *ref_140
+      required: *ref_141
+      properties: *ref_142
     ComponentOfferingAssociationPatch:
-      allOf: *ref_139
-      properties: *ref_140
+      allOf: *ref_143
+      properties: *ref_144
     PostResponse:
       type: object
       description: A system message as a response to a POST message
-      required: *ref_141
-      properties: *ref_142
+      required: *ref_145
+      properties: *ref_146
     Url:
       type: string
       description: Url containing a web address.
@@ -5822,25 +5974,25 @@ components:
   responses:
     ErrorBadRequest:
       description: Bad request
-      content: *ref_23
+      content: *ref_13
     ErrorUnauthorized:
       description: Unauthorized
-      content: *ref_24
+      content: *ref_14
     ErrorForbidden:
       description: Forbidden
-      content: *ref_25
+      content: *ref_15
     ErrorNotFound:
       description: Not Found
-      content: *ref_26
+      content: *ref_16
     ErrorMethodNotAllowed:
       description: Method not allowed
-      content: *ref_27
+      content: *ref_17
     ErrorTooManyRequests:
       description: Too many requests
-      content: *ref_28
+      content: *ref_18
     ErrorInternalServerError:
       description: Internal Server Error
-      content: *ref_29
+      content: *ref_19
   parameters:
     primaryCode:
       name: primaryCode
@@ -5853,25 +6005,25 @@ components:
       in: query
       description: The number of items per page
       required: false
-      schema: *ref_32
+      schema: *ref_31
     pageNumber:
       name: pageNumber
       in: query
       description: The page number to get. Page numbers start at 1.
       required: false
-      schema: *ref_33
+      schema: *ref_32
     consumer:
       name: consumer
       in: query
       description: Request entities meant for a specific consumer. This query parameter is independent from the `consumers` attribute. See the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
       required: false
-      schema: *ref_34
+      schema: *ref_33
     search:
       name: q
       in: query
       description: Filter by items having a name, abbreviation or description containing the given search term (exact partial match, case insensitive)
       required: false
-      schema: *ref_35
+      schema: *ref_34
     teachingLanguage:
       name: teachingLanguage
       in: query
@@ -5884,7 +6036,7 @@ components:
       in: query
       description: Filter by persons having a givenName, surNamePrefix, surname, displayName, initials, mail or secondaryMail containing the given search term (exact partial match, case insensitive)
       required: false
-      schema: *ref_143
+      schema: *ref_147
 x-tagGroups:
   - name: Requests and responses
     tags:
