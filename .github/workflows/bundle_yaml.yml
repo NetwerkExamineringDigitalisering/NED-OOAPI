@@ -41,7 +41,7 @@ jobs:
         run: redocly bundle ./specification/v5/spec.yaml -d -o ./specification/ooapiv5_MBO.yaml
 
       - name: ensure a commit
-        run: sed '$s/$/ /' ./specification/ooapiv5_MBO.yaml
+        run: echo " " >> ./specification/ooapiv5_MBO.yaml
 
       # - name: Upload Build Artifacts
       #   uses: actions/upload-artifact@v3
