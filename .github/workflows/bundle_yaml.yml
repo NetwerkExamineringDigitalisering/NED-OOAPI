@@ -48,13 +48,21 @@ jobs:
           name: bundle
           path: ./specification/ooapiv5_MBO.yaml
 
-      - uses: xresloader/upload-to-github-release@main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - uses: xresloader/upload-to-github-release@main
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     file: "./specification/ooapiv5_MBO.yaml"
+      #     branches: "main"
+      #     overwrite: true
+      #     default_release_name: "Test release name for main branch"
+
+      - name: Commit files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git commit -a -m "Add bundlde file"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
         with:
-          file: "./specification/ooapiv5_MBO.yaml"
-          branches: "main"
-          overwrite: true
-          default_release_name: "Test release name for main branch"
-
-
+          force_with_lease: true
