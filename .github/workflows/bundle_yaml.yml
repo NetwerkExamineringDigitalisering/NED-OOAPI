@@ -54,7 +54,7 @@ jobs:
         with:
           file: "./specification/ooapiv5_MBO.yaml"
           branches: "main"
-          overwrote: true
+          overwrite: true
           default_release_name: "Test release name for main branch"
 
 
