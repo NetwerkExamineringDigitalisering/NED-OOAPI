@@ -91,10 +91,12 @@ patch:
         examples:
             Delete student from offering (flow 2.4):
               value:
+                associationType: componentOfferingAssociation
                 state: canceled
             Send attendance and result directly (flow 3.1):
               value:
                 result:
+                  associationType: componentOfferingAssociation
                   state: completed
                   pass: unknown
                   comment: string
@@ -114,6 +116,7 @@ patch:
                       documentName: Assessment form for Jake Doe.pdf
             Send attendance for student directly (flow 3.2.A):
               value:
+                associationType: componentOfferingAssociation
                 result:
                   state: in progress
                   resultDate: 2022-09-27
@@ -123,6 +126,7 @@ patch:
                     attendance: present
             Send result for student (flow 3.2.B):
               value:
+                associationType: componentOfferingAssociation
                 result:
                   state: completed
                   pass: unknown

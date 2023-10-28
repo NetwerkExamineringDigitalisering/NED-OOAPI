@@ -18,9 +18,12 @@ sequenceDiagram
 ```
    
 ### example of result message 
-```
+```json
+
 #PATCH /offerings/{offeringID}
+
 {
+   "offeringType": "component",
    "consumers": [
       {
         "consumerKey": "NL-TEST-ADMIN",

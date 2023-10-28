@@ -56,10 +56,11 @@ classDiagram
 ```
 
 ### Example of request Send attendance and result directly
-```
+```json
 PATCH /associations/{associationId}
 
 {
+   "associationType": "componentOfferingAssociation",
    "result": {
       "state": "completed",
       "pass": "unknown",
@@ -150,10 +151,11 @@ classDiagram
 ```
 
 ### Example of request A. Send attendance for student directly
-```
+```json
 PATCH /associations/{associationId}
 
 {
+   "associationType": "componentOfferingAssociation",
    "result": {
       "state": "in progress",
       "resultDate": "2020-09-27",
@@ -171,10 +173,11 @@ PATCH /associations/{associationId}
 (see Class diagram in Flow 3.1)
 
 ### Example of request B. Send result for student
-```
+```json
 PATCH /associations/{associationId}
 
 {
+   "associationType": "componentOfferingAssociation",
    "result": {
       "state": "completed",
       "pass": "unknown",
@@ -241,7 +244,7 @@ sequenceDiagram
 ```
 
 ### example of response A. Read results for all students
-```
+```json
 GET /offerings/{offeringId}/associations
 
 {
@@ -305,7 +308,7 @@ GET /offerings/{offeringId}/associations
 ``` 
 
 ### example of response B. Read result for student
-```
+```json
 GET /associations/{associationId}
 
 {
@@ -352,7 +355,7 @@ GET /associations/{associationId}
           ]
         }
       ]
-    }
+    },
     "person": "123e4567-e89b-12d3-a456-146734174999",
     "offering": "123e4567-e89b-12d3-a456-134564174000"
 }

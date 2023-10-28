@@ -40,9 +40,6 @@ jobs:
       - name: bundle the file
         run: redocly bundle ./specification/v5/spec.yaml -d -o ./specification/ooapiv5_MBO.yaml
 
-      - name: ensure a commit
-        run: echo " " >> ./specification/ooapiv5_MBO.yaml
-
       # - name: Upload Build Artifacts
       #   uses: actions/upload-artifact@v3
       #   with:
@@ -62,8 +59,15 @@ jobs:
         run: |
           git config --local user.name  ${{ github.actor }}        
           git config --local user.email "${{ github.actor }}@users.noreply.github.com"
-          git add  ./specification/ooapiv5_MBO.yaml
-          git commit -m "./specification/ooapiv5_MBO.yaml"
+          git add -A
+          if ! git diff-index --quiet HEAD; then
+            git commit -m "update to ./specification/ooapiv5_MBO.yaml"
+            git push origin main
+          else 
+            echo "Nothing to commit"  
+          fi
+        #        git add ./specification/ooapiv5_MBO.yaml
+        #        git commit -m "update to ./specification/ooapiv5_MBO.yaml" || echo "Notthing to commit"
       - name: Push changes  # push the output folder to your repo
         uses: ad-m/github-push-action@master
         with:

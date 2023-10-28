@@ -53,7 +53,7 @@ classDiagram
 ```
 
 ### Example of request Create offering (zitting)	
-```
+```json
 PUT /ooapi/offerings/{offeringId}
 
 {
@@ -206,7 +206,7 @@ classDiagram
 ```
 
 ### Example of request B. Add student to created offering (zitting)	
-```
+```json
 PUT endpoint /ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
@@ -307,7 +307,7 @@ sequenceDiagram
 (see Class diagram in Flow 2.2)
 
 ### Example of request Add student to existing offering (zitting)	
-```
+```json
 PUT endpoint /ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
@@ -392,13 +392,14 @@ classDiagram
 ```
 
 ### Example of request Delete student from offering (zitting)	
-```
+```json
 PATCH endpoint /ooapi/associations/{associationId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 # associationId = "123e4567-e89b-12d3-a456-426614174001"
 
 {
+    "associationType": "componentOfferingAssociation",
     "state": "canceled"
 }
 ```
@@ -436,12 +437,13 @@ classDiagram
 ```
 
 ### Example of request Delete offering (zitting)	
-```
+```json
 PATCH endpoint /ooapi/offerings/{offeringId}
 
 # offeringId = "123e4567-e89b-12d3-a456-134564174000"
 
 {
+    "offeringType": "component",
     "consumers": [
 	{
     	  "consumerKey": "NL-TEST-ADMIN",
@@ -477,7 +479,7 @@ sequenceDiagram
 ```
 
 ### example of request A. Read current state of the offering (zitting)	
-```
+```json
 GET /ooapi/offerings/{offeringId}
 
 {
@@ -520,7 +522,7 @@ GET /ooapi/offerings/{offeringId}
 ```
 
 ### example of request B. Read the students and employees for offering (zitting)	
-```
+```json
 GET /ooapi/offerings/{offeringId}/associations
 
 {
@@ -531,7 +533,7 @@ GET /ooapi/offerings/{offeringId}/associations
    "totalPages": 8,
    "items": [
       {
-		"associationId": "123e4567-e89b-12d3-a456-426614174000"
+		"associationId": "123e4567-e89b-12d3-a456-426614174000",
     	"associationType": "componentOfferingAssociation",
     	"role": "student",
     	"state": "associated",

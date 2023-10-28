@@ -139,11 +139,13 @@ patch:
           examples:
             Delete offering (Flow 2.5):
               value:
+                offeringType: component
                 consumers: 
                 - consumerKey: NL-TEST-ADMIN
                   offeringState: canceled
             Send attendance and offering report directly (Flow 4.1):
               value:
+                offeringType: component
                 consumers:
                 - consumerKey: NL-TEST-ADMIN
                   irregularities: "There was a lot of noise from the construction site nearby."
