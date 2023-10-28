@@ -62,7 +62,6 @@ jobs:
           git add ./specification/ooapiv5_MBO.yaml
           if ! git diff-index --quiet HEAD; then
             git commit -m "update to ./specification/ooapiv5_MBO.yaml"
-            git push origin main
           else 
             echo "Nothing to commit"  
           fi
