@@ -3735,11 +3735,13 @@ paths:
             examples:
               Delete offering (Flow 2.5):
                 value:
+                  offeringType: component
                   consumers:
                     - consumerKey: NL-TEST-ADMIN
                       offeringState: canceled
               Send attendance and offering report directly (Flow 4.1):
                 value:
+                  offeringType: component
                   consumers:
                     - consumerKey: NL-TEST-ADMIN
                       irregularities: There was a lot of noise from the construction site nearby.
@@ -4701,10 +4703,12 @@ paths:
             examples:
               Delete student from offering (flow 2.4):
                 value:
+                  associationType: componentOfferingAssociation
                   state: canceled
               Send attendance and result directly (flow 3.1):
                 value:
                   result:
+                    associationType: componentOfferingAssociation
                     state: completed
                     pass: unknown
                     comment: string
@@ -4724,6 +4728,7 @@ paths:
                             documentName: Assessment form for Jake Doe.pdf
               Send attendance for student directly (flow 3.2.A):
                 value:
+                  associationType: componentOfferingAssociation
                   result:
                     state: in progress
                     resultDate: '2022-09-27'
@@ -4733,6 +4738,7 @@ paths:
                         attendance: present
               Send result for student (flow 3.2.B):
                 value:
+                  associationType: componentOfferingAssociation
                   result:
                     state: completed
                     pass: unknown
@@ -6056,4 +6062,3 @@ x-tagGroups:
       - person_model
       - program_model
       - program_offering_model
- 
