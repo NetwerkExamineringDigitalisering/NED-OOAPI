@@ -95,8 +95,8 @@ patch:
                 state: canceled
             Send attendance and result directly (flow 3.1):
               value:
+                associationType: componentOfferingAssociation
                 result:
-                  associationType: componentOfferingAssociation
                   state: completed
                   pass: unknown
                   comment: string
