@@ -917,7 +917,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program
  	- part-time : parttime
   	- dual training : duaal
   	- selfpaced : eigen tempo
- 	- extraneous : extraneus student: examendeelnemer (student mag alleen aan de toetsen deelnemen / beperkt colegegeld) - new added value
+ 	- extraneous : extraneus student: examendeelnemer (student mag alleen aan de toetsen deelnemen / beperkt collegegeld) - new added value
 
 
 ## ADD organization
