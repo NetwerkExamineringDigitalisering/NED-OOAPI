@@ -376,3 +376,5 @@ paths:
     $ref: paths/GroupInstance.yaml
   /groups/{groupId}/persons:
     $ref: paths/GroupPersonCollection.yaml
+  /groups/{groupId}/members:
+    $ref: paths/GroupMemberships.yaml
