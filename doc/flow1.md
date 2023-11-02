@@ -911,6 +911,14 @@ GET /ooapi/associations/{associationId}?expand=offering.program
 }
 ```
 
+### Remarks
+- The modeOfStudy is an enumeration with enumeration values:
+	- full-time : fulltime
+ 	- part-time : parttime
+  	- dual training : duaal
+  	- selfpaced : eigen tempo
+ 	- extraneous : extraneus student: examendeelnemer (student mag alleen aan de toetsen deelnemen / beperkt colegegeld) - new added value
+
 
 ## ADD organization
 
