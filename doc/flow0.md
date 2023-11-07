@@ -22,29 +22,30 @@ For each component (toets) the following entities and attributes are used:
 classDiagram
     class Component {
     	componentId : UUID
-	primaryCode : identifierEntity
-	componentType : string
-	name : languageTypedString[]
-	modeOfDelivery : modeOfDeliveryType
-        duration: timeperiod
-	description : languageTypedString[]
-	teachingLanguage : string
-	assessment : languageTypedString[]
-	otherCodes : codeType & code[]
-	organization : organisationId or Organization object
-        consumers: NL-TEST-ADMIN-Component
+      primaryCode : identifierEntity
+      componentType : string
+      name : languageTypedString[]
+      abbreviation: string
+      modeOfDelivery : modeOfDeliveryType
+      duration: timeperiod
+      description : languageTypedString[]
+      teachingLanguage : string
+      assessment : languageTypedString[]
+      otherCodes : codeType & code[]
+      organization : organisationId or Organization object
+      consumers: NL-TEST-ADMIN-Component
     }
     class `NL-TEST-ADMIN-Component` {
     	consumerKey : string = "NL-TEST-ADMIN"
-	additionalTestingTime : integer
-	availablePersonalNeeds : PersonalNeedsType[]
-	safety : string[]
-	exam : boolean
-	resultValueType : ResultValueType
-	passFrom : string
-	retries : integer
-	status : TestStatusType
-	licensed : boolean
+      additionalTestingTime : integer
+      availablePersonalNeeds : PersonalNeedsType[]
+      safety : string[]
+      exam : boolean
+      resultValueType : ResultValueType
+      passFrom : string
+      retries : integer
+      status : TestStatusType
+      licensed : boolean
     }
     Component o-- `NL-TEST-ADMIN-Component`
 ```
