@@ -52,6 +52,22 @@ properties:
     description: |
       The original UUID under which the Student information System provided the assocaition. This element is only needed at pass back to the SIS 
     format: uuid
+  startDate:
+    type: string
+    description: The day on which this academic session starts, RFC3339 (full-date)
+    format: date
+    example: '2020-08-17'
+  expectedEndDate:
+    type: string
+    description: The day on which this academic session ends, RFC3339 (full-date)
+    format: date
+    example: '2025-07-31'
+  finalEndDate: 
+    type: string
+    nullable: true
+    description: The day on which this academic session ends, RFC3339 (full-date)
+    format: date
+    example: 'null'
   sequenceCode:
     type: string
     description: |
