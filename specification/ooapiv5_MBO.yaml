@@ -4030,12 +4030,16 @@ paths:
                 - teaching assistant: studentassistent
                 - coordinator: coördinator
                 - guest: gast
+                - invigilator: surveillant
+                - assessor: beoordelaar
             enum: &ref_54
               - student
               - lecturer
               - teaching assistant
               - coordinator
               - guest
+              - invigilator
+              - assessor
             example: student
         - name: state
           in: query
@@ -4131,6 +4135,8 @@ paths:
                                               - teaching assistant: studentassistent
                                               - coordinator: coördinator
                                               - guest: gast
+                                              - invigilator: surveillant
+                                              - assessor: beoordelaar
                                           enum: *ref_54
                                           example: student
                                         state:
@@ -5879,6 +5885,8 @@ components:
           - teaching assistant: studentassistent
           - coordinator: coördinator
           - guest: gast
+          - invigilator: surveillant
+          - assessor: beoordelaar
       enum: *ref_54
       example: student
     associationState:
