@@ -4214,6 +4214,22 @@ paths:
                                                     description: |
                                                       The original UUID under which the Student information System provided the assocaition. This element is only needed at pass back to the SIS 
                                                     format: uuid
+                                                  startDate:
+                                                    type: string
+                                                    description: The day on which this academic session starts, RFC3339 (full-date)
+                                                    format: date
+                                                    example: '2020-08-17'
+                                                  expectedEndDate:
+                                                    type: string
+                                                    description: The day on which this academic session ends, RFC3339 (full-date)
+                                                    format: date
+                                                    example: '2025-07-31'
+                                                  finalEndDate:
+                                                    type: string
+                                                    nullable: true
+                                                    description: The day on which this academic session ends, RFC3339 (full-date)
+                                                    format: date
+                                                    example: 'null'
                                                   sequenceCode:
                                                     type: string
                                                     description: |
@@ -4232,6 +4248,9 @@ paths:
                                               programOfferingAssociationId: 54e58f68-ceac-4845-99d5-caa721fefb88
                                               courseOfferingAssociationId: 170b5f35-20be-47bf-96ff-d262d121b76b
                                               orgAssociationId: 123c6f59-21wg-47bf-96ff-d262d133c51g
+                                              startDate: '2021-09-01'
+                                              expectedEndDate: '2025-07-31'
+                                              finalEndDate: null
                                               sequenceCode: '1.2'
                                         ext:
                                           type: object
