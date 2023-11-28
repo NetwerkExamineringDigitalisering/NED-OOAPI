@@ -32,6 +32,7 @@ This repository consists of the following elements:
 - [Glossary](glossary.md) describing all terms and definitions used within the ecosystem.
 - [Party directory](Party-Directory.md) with all Parties that are currently active in the ecosystem.
 - [OOAPI Specification relevant to this project](specification/v5/docs.html)
+- [Implementation documentation](doc/documents/MBO-toetsafname_specs_latest.pdf) current version of the documentation.
 
 The specification and the relevant information can be found in the link: [OOAPI Specification relevant to this project](specification/v5/docs.html)
 An adapted and shortend version of the yaml file for the MBO-OKE can be found [here](specification/ooapiv5_MBO.yaml)
