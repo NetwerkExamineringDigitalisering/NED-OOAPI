@@ -3,6 +3,7 @@ allOf:
   - $ref: '../schemas/ComponentOfferingProperties.yaml'
   - type: object
     required:
+      - offeringId
       - startDateTime
       - endDateTime
       - primaryCode

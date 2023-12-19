@@ -188,13 +188,14 @@ put:
       application/json:
         schema:
           oneOf:
-           - $ref: '../schemas/ComponentOfferingAssociationExpandedWrite.yaml'
+           - $ref: '../schemas/ComponentOfferingAssociationExpanded.yaml'
         examples:
           Add student to created offering (zitting) (flow 2.2.B and 2.3):
             value:
-              #associationId is padparameter
+              #associationId is padparameter en ook mogelijk toegevoegd in body
               #volgorde conform ooapi-v5
               #associationType op volgende regel ontbreekt in endpoint-definitie
+              associationId: "123e4567-e89b-12d3-a456-426614174000"
               associationType: componentOfferingAssociation
               role: student
               state: associated
@@ -234,9 +235,10 @@ put:
 
           Change student enrollment to offering (zitting) (flow 2.x):
             value:
-              #associationId is padparameter
+              #associationId is padparameter en ook mogelijk toegevoegd in body
               #volgorde conform ooapi-v5
               #associationType op volgende regel ontbreekt in endpoint-definitie
+              associationId: "123e4567-e89b-12d3-a456-426614174000"
               associationType: componentOfferingAssociation
               role: student
               state: associated
