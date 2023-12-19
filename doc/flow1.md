@@ -59,7 +59,10 @@ Based on the id's on students (and staff members) and their program offering ass
 ### Flow 1.2a: Additional supporting information: GET flows Endpoints for this flow
 
 - `GET /ooapi/persons/{personId}`
-- `GET /ooapi/associations/{associationId}?expand=offering`
+- `GET /ooapi/associations/{associationId}?expand=offering.program`
+- `GET /ooapi/associations/{associationId}?expand=offering.program,offering.organization`
+- `GET /ooapi/organizations/{organizationId}?expand=parent`
+
 
 ### Flow 1.2b: Additional supporting information: supplied by SIS to TPS for provisioning of users and their studyplans (PUT)
 - `PUT /ooapi/persons/{personId}`
@@ -713,12 +716,14 @@ GET /ooapi/offerings/{offeringId}?expand=organization
             "codeType": "identifier",
             "code": "ICTE"
         },
+        "organizationType": "department",
         "name": [
             {
             "language": "nl-NL",
             "value": "ICT-academie"
             }
         ],
+        "shortname": "ICTA",
         "parent": {
             "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
             "primaryCode": {
@@ -910,6 +915,129 @@ GET /ooapi/associations/{associationId}?expand=offering.program
     }
 }
 ```
+
+### with both organization and program expanded
+```json
+GET /ooapi/associations/{associationId}?expand=offering.program,offering.organization
+{
+    "associationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
+    "associationType": "programOfferingAssociation",
+    "primaryCode": {
+        "codeType": "opleidingsblad",
+        "code": "1.1"
+    },
+    "role": "student",
+    "state": "associated",
+    "otherCodes": [
+        {
+            "codeType": "opleidingscode",
+            "code": "23089"
+        }
+    ],
+    "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "startDate": "2021-09-01", 
+            "expectedEndDate": "2025-07-31",
+            "finalEndDate": null
+            "sequenceCode": "1.1"
+        }
+    ],
+    "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+    "offering": 
+    {
+        "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
+        "primaryCode": {
+        "codeType": "identifier",
+        "code": "25190BOL"
+        },
+        "offeringType": "program",
+        "name": "Netwerk- en mediabeheerder BOL (25190)",
+        "consumers": [
+        {
+            "consumerKey": "NL-TEST-ADMIN",
+            "cohort": "2022-2023",
+            "location": ["Campus Eindhoven"]
+        }
+        ],
+        "program": {
+            "programId": "123e4567-e89b-12d3-a456-426614174000",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "C12063128"
+            },
+            "programType": "program",
+            "name": [
+                {
+                "language": "nl-NL",
+                "value": "Netwerk- en mediabeheerder"
+                }
+            ],
+            "abbreviation": "N&M",
+            "description": [
+                {
+                "language": "nl-NL",
+                "value": "In deze MBO-opleiding word je opgeleid voor het officieel erkende diploma 'MBO Netwerkbeheerder, niveau 4'. Met dit diploma ben je breed opgeleid en kun je het netwerk van een organisatie beheren. Dit is hét diploma voor de professionele netwerkbeheerder op het hoogste MBO-niveau. Je legt een uitstekende basis voor een mooie carrière als netwerkbeheerder. Bovendien is dit een diploma waarmee je eventueel probleemloos kunt doorstuderen naar een HBO-opleiding"
+                }
+            ],
+            "teachingLanguage": "nld",
+            "modeOfStudy": "full-time" #moved from assocation consumer
+            "levelOfQualification": "4", # from association consumer
+        },
+        "organization": {
+            "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "ICTE"
+            },
+            "organizationType": "department",
+            "name": [
+                {
+                "language": "nl-NL",
+                "value": "ICT-academie"
+                }
+            ],
+            "shortname": "ICTA",
+            "parent": "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d"
+        }
+    }
+}
+```
+
+### get a single organization
+```json
+GET /ooapi/organizations/{organizationId}?expand=parent
+{
+    "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+    "primaryCode": {
+        "codeType": "identifier",
+        "code": "ICTE"
+    },
+    "organizationType": "department",
+    "name": [
+        {
+        "language": "nl-NL",
+        "value": "ICT-academie"
+        }
+    ],
+    "shortname": "ICTA",
+    "parent": {
+        "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
+        "primaryCode": {
+        "codeType": "identifier",
+        "code": "CICT"
+        },
+        "name": [
+        {
+            "language": "nl-NL",
+            "value": "Cluster ICT en EIS"
+        }
+        ]
+    }
+}
+```
+
+
 
 ### Remarks
 - The modeOfStudy is an enumeration with enumeration values:
