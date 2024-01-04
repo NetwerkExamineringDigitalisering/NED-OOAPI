@@ -1048,8 +1048,6 @@ GET /ooapi/organizations/{organizationId}?expand=parent
  	- extraneous : extraneus student: examendeelnemer (student mag alleen aan de toetsen deelnemen / beperkt collegegeld) - new added value
 
 
-## ADD organization
-
 ### Flow 1.2b.1: Example of provisioning person information	
 ```json
 PUT /ooapi/persons/{personId}
