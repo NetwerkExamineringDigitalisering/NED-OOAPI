@@ -22,6 +22,37 @@ get:
         application/json:
           schema:
             $ref: '../schemas/Person.yaml'
+          examples:
+            Person values:
+              value:
+                personId: "123e4567-e89b-12d3-a456-426614174000"
+                primaryCode: 
+                  codeType: "identifier"
+                  code: "1234qwe12"
+                givenName: "Maartje"
+                surnamePrefix: "van"
+                surname: "Damme"
+                displayName: "Maartje van Damme"
+                initials: "MCW"
+                activeEnrollment: true
+                affiliations: 
+                - "student"
+                mail: "vandamme.mcw@universiteitvanharderwijk.nl"
+                languageOfChoice: 
+                - "nl-NL"
+                otherCodes: 
+                - codeType: "eckid"
+                  code: "00000"
+                consumers: 
+                - consumerKey: "NL-TEST-ADMIN"
+                  assignedNeeds:     
+                    code: "extraTimeOnlyMath25%"
+                    description:
+                    - language: nl-NL
+                      value: "Extra tijd in een percentage van de totatel tijd van een toets waarin rekenen voorkomt"                
+                    startDate: "2023-10-25"
+                    endDate: "2025-09-30"
+                  idCheckName: "Damme, Maartje van"    
     '400':
       $ref: '../schemas/ErrorBadRequest.yaml'
     '401':
@@ -88,11 +119,14 @@ put:
                   code: "00000"
                 consumers: 
                 - consumerKey: "NL-TEST-ADMIN"
-                  personalNeeds:     
-                  - "extraTime"
-                  - "spoken"
-                  - "spell-checker-on-screen"                
-                  idCheckName: "van Damme, Maartje"
+                  assignedNeeds:     
+                    code: "extraTimeOnlyMath25%"
+                    description:
+                    - language: nl-NL
+                      value: "Extra tijd in een percentage van de totatel tijd van een toets waarin rekenen voorkomt"                
+                    startDate: "2023-10-25"
+                    endDate: "2025-09-30"
+                  idCheckName: "Damme, Maartje van"  
 
   responses:
     '200':
