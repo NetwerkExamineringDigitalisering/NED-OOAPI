@@ -199,7 +199,7 @@ x-tagGroups:
 #      - news
       - documents
       - offerings
-#      - organizations
+      - organizations
       - persons
 #      - programs
 #      - rooms
@@ -217,7 +217,7 @@ x-tagGroups:
       - group_model
 #      - news_feed_model
 #      - news_item_model
-#      - organization_model
+      - organization_model
       - person_model
       - program_model
       - program_offering_model
