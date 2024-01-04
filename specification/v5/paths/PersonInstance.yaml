@@ -68,6 +68,7 @@ put:
           examples:
             Create person in remote system:
               value:
+                personId: "123e4567-e89b-12d3-a456-426614174000"
                 primaryCode: 
                   codeType: "identifier"
                   code: "1234qwe12"
