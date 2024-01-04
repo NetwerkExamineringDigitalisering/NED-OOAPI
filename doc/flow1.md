@@ -1052,6 +1052,7 @@ GET /ooapi/organizations/{organizationId}?expand=parent
 ```json
 PUT /ooapi/persons/{personId}
 {
+    "personId": "123e4567-e89b-12d3-a456-426614174000",
     "primaryCode": {
     "codeType": "identifier",
     "code": "1234qwe12"
