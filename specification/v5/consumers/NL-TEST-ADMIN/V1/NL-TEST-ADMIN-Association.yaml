@@ -1,5 +1,5 @@
 type: object
-description: NL-TEST-ADMIN add-on attributes to the Association 
+description: nl-test-admin add-on attributes to the Association 
 required:
  - consumerKey
 properties:

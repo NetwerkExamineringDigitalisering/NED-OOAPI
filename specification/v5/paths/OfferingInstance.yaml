@@ -64,7 +64,7 @@ get:
                 - situated
                 resultExpected: true
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   duration: P60M
                   lastPossibleStartDateTime: 2020-12-15T08:50:00+01:00
                   startOptions: individualStart
@@ -143,13 +143,13 @@ patch:
               value:
                 offeringType: component
                 consumers: 
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   offeringState: canceled
             Send attendance and offering report directly (Flow 4.1):
               value:
                 offeringType: component
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   irregularities: "There was a lot of noise from the construction site nearby."
                   documents: [
                     {
@@ -227,7 +227,7 @@ put:
                 - situated
                 resultExpected: true
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   duration: P60M
                   lastPossibleStartDateTime: 2020-12-15T08:50:00+01:00
                   startOptions: individualStart

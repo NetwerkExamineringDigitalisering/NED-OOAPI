@@ -26,7 +26,7 @@ sequenceDiagram
    "offeringType": "component",
    "consumers": [
       {
-        "consumerKey": "NL-TEST-ADMIN",
+        "consumerKey": "nl-test-admin",
         "irregularities": "There was a lot of noise from the construction site nearby.",
         "documents": [
           {

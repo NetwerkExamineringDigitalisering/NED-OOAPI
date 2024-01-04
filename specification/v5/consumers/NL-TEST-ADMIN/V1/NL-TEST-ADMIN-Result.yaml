@@ -1,5 +1,5 @@
 type: object
-description: NL-TEST-ADMIN add-on attributes to the result 
+description: nl-test-admin add-on attributes to the result 
 required:
   - attendance
   - consumerKey

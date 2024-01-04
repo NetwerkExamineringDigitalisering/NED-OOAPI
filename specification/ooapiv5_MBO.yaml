@@ -2,7 +2,7 @@ openapi: 3.0.3
 info:
   version: 5.0.0
   title: Open Education API
-  description: "OpenAPI (fka Swagger) specification for the Open Education API.\n<br/>\nNOTE:This is a subset of the OOAPI that is used in the \"MBO-Toetsafname\" project (sponsored by mbo-digitaal in the netherlands). This porject uses the \"NL-TEST-ADMIN\" consumer \n<br/>\n<figure>\n\t<a target=\"_blank\" href=\"OOAPIv5_model.png\">\n  <img src=\"OOAPIv5_model.png\" alt=\"OOAPI information model that feeds OOAPI specification\" width=\"70%\" class=\"img-responsive\">\n  </a>\n  <figcaption> OOAPI information model that feeds OOAPI specification (click to enlage)</figcaption>\n</figure>\n\nThe model provides an overview of how the objects on which the API is specified are related. The overarching concept educations is not found in the in the end points of the API. The smaller concepts of programOffering, courseOffering and conceptOffering are all found in the offering endpoint. The different types of association can all be found in the association endpoint.\n\nThe original file for this model can be found <a target=\"_blank\" href=\"OOAPIv5_model_v0.4.drawio\">here</a>\n\nThe program relations object is not found as a separate endpoint but relations between programs can be found within the program endpoint by expanding that endpoint.\n\nInformation about earlier meetings and presentations can be found <a target=\"_blank\" href=\"https://github.com/open-education-api/notulen\">here</a>\n\nInformation on the EDU-API model that was also used for this api is shown <a target=\"_blank\" href=\"eduapi.png\">here</a>\n"
+  description: "OpenAPI (fka Swagger) specification for the Open Education API.\n<br/>\nNOTE:This is a subset of the OOAPI that is used in the \"MBO-Toetsafname\" project (sponsored by mbo-digitaal in the netherlands). This project uses the \"nl-test-admin\" consumer \n<br/>\n<figure>\n\t<a target=\"_blank\" href=\"OOAPIv5_model.png\">\n  <img src=\"OOAPIv5_model.png\" alt=\"OOAPI information model that feeds OOAPI specification\" width=\"70%\" class=\"img-responsive\">\n  </a>\n  <figcaption> OOAPI information model that feeds OOAPI specification (click to enlage)</figcaption>\n</figure>\n\nThe model provides an overview of how the objects on which the API is specified are related. The overarching concept educations is not found in the in the end points of the API. The smaller concepts of programOffering, courseOffering and conceptOffering are all found in the offering endpoint. The different types of association can all be found in the association endpoint.\n\nThe original file for this model can be found <a target=\"_blank\" href=\"OOAPIv5_model_v0.4.drawio\">here</a>\n\nThe program relations object is not found as a separate endpoint but relations between programs can be found within the program endpoint by expanding that endpoint.\n\nInformation about earlier meetings and presentations can be found <a target=\"_blank\" href=\"https://github.com/open-education-api/notulen\">here</a>\n\nInformation on the EDU-API model that was also used for this api is shown <a target=\"_blank\" href=\"eduapi.png\">here</a>\n"
   x-logo:
     url: ../logo.png
 servers:
@@ -489,7 +489,7 @@ paths:
                                   type: string
                               additionalProperties: true
                             - type: object
-                              description: NL-TEST-ADMIN add-on attributes to the Association
+                              description: nl-test-admin add-on attributes to the Association
                               required: &ref_78
                                 - consumerKey
                               properties: &ref_79
@@ -515,7 +515,7 @@ paths:
                                     Optionally the value of the student number can be added to this field by adding this at the end separated by a comma.
                                     E.g. "van der Graaf, Jacobus Adrianus, s12345678"
                         example: &ref_81
-                          - consumerKey: NL-TEST-ADMIN
+                          - consumerKey: nl-test-admin
                             additionalTimeInMin: 30
                             personalNeeds:
                               - extraTime
@@ -1946,7 +1946,7 @@ paths:
                           properties: *ref_12
                           additionalProperties: true
                         - type: object
-                          description: NL-TEST-ADMIN add-on attributes to the Component
+                          description: nl-test-admin add-on attributes to the Component
                           required: &ref_102
                             - consumerKey
                           properties: &ref_103
@@ -2021,7 +2021,7 @@ paths:
                             licensed:
                               type: boolean
                     example: &ref_105
-                      - consumerKey: NL-TEST-ADMIN
+                      - consumerKey: nl-test-admin
                         extraTime: 30
                         availablePersonalNeeds:
                           - extraTime
@@ -2060,7 +2060,7 @@ paths:
                         value: Digitale toetsing
                     organization: 452c1a86-a0af-475b-b03f-724878b0f387
                     consumers:
-                      - consumerKey: NL-TEST-ADMIN
+                      - consumerKey: nl-test-admin
                         extraTime: P60M
                         availablePersonalNeeds:
                           - extraTime
@@ -2094,7 +2094,7 @@ paths:
                       - language: nl-NL
                         value: Digitale toetsing
                     consumers:
-                      - consumerKey: NL-TEST-ADMIN
+                      - consumerKey: nl-test-admin
                         extraTime: P60M
                         availablePersonalNeeds:
                           - extraTime
@@ -2723,7 +2723,7 @@ paths:
                                                   - open
                                                   - closed
                                           - type: object
-                                            description: NL-TEST-ADMIN add-on attributes to the offerings
+                                            description: nl-test-admin add-on attributes to the offerings
                                             required: &ref_109
                                               - offeringState
                                               - consumerKey
@@ -2858,7 +2858,7 @@ paths:
                                                     documentType: sessionReport
                                                     documentName: Session report on Session tbd.pdf
                                       example: &ref_112
-                                        - consumerKey: NL-TEST-ADMIN
+                                        - consumerKey: nl-test-admin
                                           duration: P1DT30H4S
                                           lastPossibleStartDateTime: '2020-12-15T08:50:00'
                                           startOptions: individualStart
@@ -3654,7 +3654,7 @@ paths:
                       - situated
                     resultExpected: true
                     consumers:
-                      - consumerKey: NL-TEST-ADMIN
+                      - consumerKey: nl-test-admin
                         duration: P60M
                         lastPossibleStartDateTime: '2020-12-15T08:50:00+01:00'
                         startOptions: individualStart
@@ -3737,13 +3737,13 @@ paths:
                 value:
                   offeringType: component
                   consumers:
-                    - consumerKey: NL-TEST-ADMIN
+                    - consumerKey: nl-test-admin
                       offeringState: canceled
               Send attendance and offering report directly (Flow 4.1):
                 value:
                   offeringType: component
                   consumers:
-                    - consumerKey: NL-TEST-ADMIN
+                    - consumerKey: nl-test-admin
                       irregularities: There was a lot of noise from the construction site nearby.
                       documents:
                         - documentId: '454566464665355545'
@@ -3918,7 +3918,7 @@ paths:
                     - situated
                   resultExpected: true
                   consumers:
-                    - consumerKey: NL-TEST-ADMIN
+                    - consumerKey: nl-test-admin
                       duration: P60M
                       lastPossibleStartDateTime: '2020-12-15T08:50:00+01:00'
                       startOptions: individualStart
@@ -4167,7 +4167,7 @@ paths:
                                                 properties: *ref_12
                                                 additionalProperties: true
                                               - type: object
-                                                description: NL-TEST-ADMIN add-on attributes to the Association
+                                                description: nl-test-admin add-on attributes to the Association
                                                 required: &ref_121
                                                   - consumerKey
                                                 properties: &ref_122
@@ -4242,7 +4242,7 @@ paths:
                                                       The transaction number for the person within the SIS for example the loopbaannummer or an opleidingsblad 
                                                     format: uuid
                                           example: &ref_124
-                                            - consumerKey: NL-TEST-ADMIN
+                                            - consumerKey: nl-test-admin
                                               attendance: notKnown
                                               additionalTimeInMin: 30
                                               personalNeeds:
@@ -4307,7 +4307,7 @@ paths:
                                                     properties: *ref_12
                                                     additionalProperties: true
                                                   - type: object
-                                                    description: NL-TEST-ADMIN add-on attributes to the result
+                                                    description: nl-test-admin add-on attributes to the result
                                                     required: &ref_127
                                                       - attendance
                                                       - consumerKey
@@ -4399,7 +4399,7 @@ paths:
                                                             documentType: assessmentForm
                                                             documentName: assessmentFrom on test information analysis qw12.pdf
                                               example: &ref_130
-                                                - consumerKey: NL-TEST-ADMIN
+                                                - consumerKey: nl-test-admin
                                                   attendance: present
                                                   executedOfferingName: variant12_Nederlands2F
                                                   assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
@@ -4741,7 +4741,7 @@ paths:
                     resultDate: '2022-09-28'
                     weight: 100
                     consumers:
-                      - consumerKey: NL-TEST-ADMIN
+                      - consumerKey: nl-test-admin
                         attendance: present
                         assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                         assessorCode: JAJE
@@ -4759,7 +4759,7 @@ paths:
                     resultDate: '2022-09-27'
                     weight: 100
                     consumers:
-                      - consumerKey: NL-TEST-ADMIN
+                      - consumerKey: nl-test-admin
                         attendance: present
               Send result for student (flow 3.2.B):
                 value:
@@ -4772,7 +4772,7 @@ paths:
                     resultDate: '2022-11-18'
                     weight: 100
                     consumers:
-                      - consumerKey: NL-TEST-ADMIN
+                      - consumerKey: nl-test-admin
                         attendance: present
                         assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                         assessorCode: JAJE
@@ -4880,7 +4880,7 @@ paths:
                   role: student
                   state: associated
                   consumers:
-                    - consumerKey: NL-TEST-ADMIN
+                    - consumerKey: nl-test-admin
                       startUpURL: https://myComponent.nl?test
                       extraTimeInMin: 30
                       personalNeeds:
@@ -4915,7 +4915,7 @@ paths:
                   role: student
                   state: associated
                   consumers:
-                    - consumerKey: NL-TEST-ADMIN
+                    - consumerKey: nl-test-admin
                       startUpURL: https://myComponent.nl?test
                       extraTimeInMin: 30
                       personalNeeds:
@@ -5546,9 +5546,9 @@ components:
       required: *ref_11
       properties: *ref_12
       additionalProperties: true
-    NL-TEST-ADMIN-Person:
+    nl-test-admin-Person:
       type: object
-      description: NL-TEST-ADMIN add-on attributes to the Association
+      description: nl-test-admin add-on attributes to the Association
       required: *ref_78
       properties: *ref_79
     ConsumerOnPerson:
@@ -5755,9 +5755,9 @@ components:
         - referenceLevelERK = Resultvalue is a reference level from the "Europees Referencekader voor de talen" from value set {A1, A2, B1, B2, C1, C2}
       enum: *ref_40
       example: 0-10
-    NL-TEST-ADMIN-Component:
+    nl-test-admin-Component:
       type: object
-      description: NL-TEST-ADMIN add-on attributes to the Component
+      description: nl-test-admin add-on attributes to the Component
       required: *ref_102
       properties: *ref_103
     ConsumerOnComponent:
@@ -5805,9 +5805,9 @@ components:
       description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
       required: *ref_107
       properties: *ref_108
-    NL-TEST-ADMIN-Offering:
+    nl-test-admin-Offering:
       type: object
-      description: NL-TEST-ADMIN add-on attributes to the offerings
+      description: nl-test-admin add-on attributes to the offerings
       required: *ref_109
       properties: *ref_110
     ConsumerOnOffering:
@@ -5908,9 +5908,9 @@ components:
       description: The state of this association for the institution performing the request.
       enum: *ref_120
       example: associated
-    NL-TEST-ADMIN-Association:
+    nl-test-admin-Association:
       type: object
-      description: NL-TEST-ADMIN add-on attributes to the Association
+      description: nl-test-admin add-on attributes to the Association
       required: *ref_121
       properties: *ref_122
     ConsumerOnAssociation:
@@ -5929,9 +5929,9 @@ components:
       description: The state of this result
       enum: *ref_126
       example: passed
-    NL-TEST-ADMIN-Result:
+    nl-test-admin-Result:
       type: object
-      description: NL-TEST-ADMIN add-on attributes to the result
+      description: nl-test-admin add-on attributes to the result
       required: *ref_127
       properties: *ref_128
     ConsumerOnResult:

@@ -5,7 +5,7 @@ info:
   description: |
     OpenAPI (fka Swagger) specification for the Open Education API.
     <br/>
-    NOTE:This is a subset of the OOAPI that is used in the "MBO-Toetsafname" project (sponsored by mbo-digitaal in the netherlands). This porject uses the "NL-TEST-ADMIN" consumer 
+    NOTE:This is a subset of the OOAPI that is used in the "MBO-Toetsafname" project (sponsored by mbo-digitaal in the netherlands). This project uses the "nl-test-admin" consumer 
     <br/>
     <figure>
     	<a target="_blank" href="OOAPIv5_model.png">

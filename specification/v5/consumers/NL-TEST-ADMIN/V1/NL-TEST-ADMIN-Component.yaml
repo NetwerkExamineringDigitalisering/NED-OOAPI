@@ -1,5 +1,5 @@
 type: object
-description: NL-TEST-ADMIN add-on attributes to the Component 
+description: nl-test-admin add-on attributes to the Component 
 required:
  - consumerKey
 properties:

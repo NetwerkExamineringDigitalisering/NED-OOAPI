@@ -58,7 +58,7 @@ get:
                   value: "Digitale toetsing"
                 organization: "452c1a86-a0af-475b-b03f-724878b0f387"
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   extraTime: P60M
                   availablePersonalNeeds: ["extraTime", "spoken", "spell-checker-on-screen"]
                   exam: true
@@ -88,7 +88,7 @@ get:
                 - language: "nl-NL"
                   value: "Digitale toetsing"
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   extraTime: P60M
                   availablePersonalNeeds: ["extraTime", "spoken", "spell-checker-on-screen"]
                   exam: true

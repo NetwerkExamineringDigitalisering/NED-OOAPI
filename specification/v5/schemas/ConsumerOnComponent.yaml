@@ -3,6 +3,6 @@ description: The additional consumer elements that can be provided, see the [doc
 items:
   anyOf:
     - $ref: '../schemas/Consumer.yaml'
-    - $ref: '../consumers/NL-TEST-ADMIN/V1/NL-TEST-ADMIN-Component.yaml'
+    - $ref: '../consumers/NL-TEST-ADMIN/V1/nl-test-admin-Component.yaml'
 example: 
-  $ref: '../consumers/NL-TEST-ADMIN/V1/examples/NL-TEST-ADMIN-Component.yaml'
+  $ref: '../consumers/NL-TEST-ADMIN/V1/examples/nl-test-admin-Component.yaml'

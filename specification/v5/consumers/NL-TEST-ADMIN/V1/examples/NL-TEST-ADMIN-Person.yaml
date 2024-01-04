@@ -1,3 +1,3 @@
-- consumerKey: NL-TEST-ADMIN
+- consumerKey: nl-test-admin
   additionalTimeInMin: 30
   personalNeeds: ["extraTime", "spoken", "spell-checker-on-screen"]

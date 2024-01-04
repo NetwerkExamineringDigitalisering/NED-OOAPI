@@ -139,12 +139,12 @@ classDiagram
         associationType : associationType
         role : associationRole
         state : state
-        consumers : NL-TEST-ADMIN-Association
+        consumers : nl-test-admin-Association
         person : personId or Person
         offering : offeringId
     }
-    class `NL-TEST-ADMIN-Association` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Association` {
+    	consumerKey : string = "nl-test-admin"
 	    additionalTimeInMin : int
 	    personalNeeds : string[]
         attempt : int
@@ -164,10 +164,10 @@ classDiagram
         mail : string
         languageOfChoice: string[]
 		otherCodes: identifierEntity[]
-    	consumers : NL-TEST-ADMIN-Person
+    	consumers : nl-test-admin-Person
     }
-    class `NL-TEST-ADMIN-Person` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Person` {
+    	consumerKey : string = "nl-test-admin"
 	    personalNeeds : string[]
         idCheckName: string
     }
@@ -175,9 +175,9 @@ classDiagram
        offeringId : UUID
     }
     Association -- Offering 
-    Association o-- `NL-TEST-ADMIN-Association`
+    Association o-- `nl-test-admin-Association`
     Association -- Person
-    Person o-- `NL-TEST-ADMIN-Person`
+    Person o-- `nl-test-admin-Person`
 
 ```
 ### Example of request component offerings that need to be planned
@@ -205,7 +205,7 @@ GET /ooapi/offerings?offeringType=component&component.componentType=test&since=.
             "resultValueType": "0-100",
             "consumers": [
                 {
-                    "consumerKey": "NL-TEST-ADMIN",
+                    "consumerKey": "nl-test-admin",
                     "testsToBeUsed": [
                         {
                             "testProvider": "MBO-NED",
@@ -257,7 +257,7 @@ GET /ooapi/offerings/{offeringId}/associations/
             "state": "associated",
             "consumers": [
                 {
-                    "consumerKey": "NL-TEST-ADMIN",
+                    "consumerKey": "nl-test-admin",
                     "personalNeeds": [    
                         "extraTime",
                         "spoken",
@@ -305,7 +305,7 @@ PUT /ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-	    "consumerKey": "NL-TEST-ADMIN",
+	    "consumerKey": "nl-test-admin",
         "testsToBeUsed": [
             {
                 "testProvider": "MBO-NED",
@@ -340,7 +340,7 @@ PUT /ooapi/associations/{associationId}
     "state": "associated",
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "personalNeeds": [    
                 "extraTime",
                 "spoken",
@@ -519,7 +519,7 @@ GET /ooapi/groups/{groupId}/persons
             ],
             "consumers": [
                 {
-                    "consumerKey": "NL-TEST-ADMIN",
+                    "consumerKey": "nl-test-admin",
                     "personalNeeds": [    
                         "extraTime",
                         "spoken",
@@ -564,7 +564,7 @@ GET /ooapi/persons/{personId}
     ],
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "personalNeeds": [    
                 "extraTime",
                 "spoken",
@@ -660,14 +660,14 @@ sequenceDiagram
         description : LanguageTypedString[]
         teachingLanguage : string
         resultExpected : boolean
-        consumers : NL-TEST-ADMIN-Offering
+        consumers : nl-test-admin-Offering
         startDate : date-string
         endDate : date-string
         program : programId or Program object
         organization : organizationId or Organization object
     }
-    class `NL-TEST-ADMIN-Offering` {
-        consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Offering` {
+        consumerKey : string = "nl-test-admin"
 		cohort : string
 		location : string[]
     }
@@ -686,7 +686,7 @@ sequenceDiagram
         validFrom : date-string
         validTo : date-string
     }
-    ProgramOffering o-- `NL-TEST-ADMIN-Offering`
+    ProgramOffering o-- `nl-test-admin-Offering`
     ProgramOffering -- Organization 
 
 ```    
@@ -705,7 +705,7 @@ GET /ooapi/offerings/{offeringId}?expand=organization
     "name": "Netwerk- en mediabeheerder BOL (25190)",
     "consumers": [
 	{
-	    "consumerKey": "NL-TEST-ADMIN",
+	    "consumerKey": "nl-test-admin",
         "cohort": "2022-2023",
         "location": "Campus Groningen",
     }
@@ -751,12 +751,12 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		associationType : associationType
 		role : associationRole
 		state : state
-		consumers : NL-TEST-ADMIN-Association
+		consumers : nl-test-admin-Association
 		person : personId or Person object
 		offering : offeringId
     }
-    class `NL-TEST-ADMIN-Association` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Association` {
+    	consumerKey : string = "nl-test-admin"
         startDate: date-string 
         expectedEndDate: date-string
         finalEndDate: date-string
@@ -775,10 +775,10 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		mail : string
 		languageOfChoice: string[]
 		otherCodes: identifierEntity[]
-		consumers : NL-TEST-ADMIN-Person
+		consumers : nl-test-admin-Person
     }
-	class `NL-TEST-ADMIN-Person` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+	class `nl-test-admin-Person` {
+    	consumerKey : string = "nl-test-admin"
 	    personalNeeds : string[]
         idCheckName: string
     }
@@ -790,14 +790,14 @@ GET /ooapi/offerings/{offeringId}?expand=organization
         description : LanguageTypedString[]
         teachingLanguage : string
         resultExpected : boolean
-        consumers : NL-TEST-ADMIN-Offering
+        consumers : nl-test-admin-Offering
         startDate : date-string
         endDate : date-string
         program : programId or Program object
         organization : organizationId or Organization object
     }
-    class `NL-TEST-ADMIN-Offering` {
-        consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Offering` {
+        consumerKey : string = "nl-test-admin"
 		cohort : string
 		location : string[]
     }
@@ -832,13 +832,13 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		validFrom : date-string
 		validTo : date-string
     }
-    ProgramOffering o-- `NL-TEST-ADMIN-Offering`
+    ProgramOffering o-- `nl-test-admin-Offering`
     ProgramOffering -- Organization 
     ProgramOffering -- Program 
-    Association o-- `NL-TEST-ADMIN-Association`
+    Association o-- `nl-test-admin-Association`
     Association -- Person
     Association -- ProgramOffering
-	Person o-- `NL-TEST-ADMIN-Person`
+	Person o-- `nl-test-admin-Person`
 ```
 
 ### Flow 1.2a.2: Example of request associations
@@ -863,7 +863,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program
     ],
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "startDate": "2021-09-01", 
             "expectedEndDate": "2025-07-31",
             "finalEndDate": null
@@ -882,7 +882,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program
         "name": "Netwerk- en mediabeheerder BOL (25190)",
         "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "cohort": "2022-2023",
             "location": ["Campus Eindhoven"]
         }
@@ -936,7 +936,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program,offering.organiz
     ],
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "startDate": "2021-09-01", 
             "expectedEndDate": "2025-07-31",
             "finalEndDate": null
@@ -955,7 +955,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program,offering.organiz
         "name": "Netwerk- en mediabeheerder BOL (25190)",
         "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "cohort": "2022-2023",
             "location": ["Campus Eindhoven"]
         }
@@ -1078,7 +1078,7 @@ PUT /ooapi/persons/{personId}
     ],
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "personalNeeds": [    
                 "extraTime",
                 "spoken",
@@ -1103,7 +1103,7 @@ PUT /ooapi/associations/{associationId}
     "state": "associated",
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "sequenceCode": "1.1",
             "startDate": "2021-09-01",
             "expectedEndDate": "2025-07-31",
@@ -1129,7 +1129,7 @@ PUT /ooapi/associations/{associationId}
         "resultExpected": false,
         "consumers": [
             {
-                "consumerKey": "NL-TEST-ADMIN",
+                "consumerKey": "nl-test-admin",
                 "locationCode": "A-12a",
                 "cohort": "2021"
             }

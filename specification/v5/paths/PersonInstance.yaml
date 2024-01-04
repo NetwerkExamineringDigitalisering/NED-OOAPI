@@ -44,7 +44,7 @@ get:
                 - codeType: "eckid"
                   code: "00000"
                 consumers: 
-                - consumerKey: "NL-TEST-ADMIN"
+                - consumerKey: "nl-test-admin"
                   assignedNeeds:     
                     code: "extraTimeOnlyMath25%"
                     description:
@@ -118,7 +118,7 @@ put:
                 - codeType: "eckid"
                   code: "00000"
                 consumers: 
-                - consumerKey: "NL-TEST-ADMIN"
+                - consumerKey: "nl-test-admin"
                   assignedNeeds:     
                     code: "extraTimeOnlyMath25%"
                     description:
