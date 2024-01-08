@@ -18,7 +18,7 @@ properties:
           description: The description of this assignedNeed.
           minItems: 1
           items:
-            $ref: './LanguageTypedString.yaml'
+            $ref: '../../../schemas/LanguageTypedString.yaml'
           example:
           - language: en-GB
             value: Extra time for Math tests shown in a percentile of the overall time of a test
