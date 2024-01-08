@@ -1,8 +1,8 @@
 type: object
-description: A newsitem contains the message and metadata of that message
+description: A membershipitem contains the information on a membership of a person for a specific group
 required:
   - personId
-  - startDate
+  - startDateTime
 properties:
   personId:
     type: string
