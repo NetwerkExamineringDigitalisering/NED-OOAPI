@@ -318,8 +318,8 @@ paths:
     $ref: paths/ComponentInstance.yaml
   /components:
     $ref: paths/ComponentCollection.yaml
-  /components/{componentId}/offerings:
-    $ref: paths/ComponentOfferingCollection.yaml
+  # /components/{componentId}/offerings:
+  #   $ref: paths/ComponentOfferingCollection.yaml
   /offerings:
     $ref: paths/OfferingCollection.yaml
   /offerings/{offeringId}:
