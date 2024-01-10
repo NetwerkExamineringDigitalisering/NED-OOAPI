@@ -5,12 +5,6 @@ required:
 properties:
   consumerKey:
     type: string
-  startUpURL:
-    type: string
-    description: |
-      URL to be used to start this assocation by the user
-    format: uri
-    maxLength: 2048
   additionalTimeInMin:
     type: integer
     format: int32

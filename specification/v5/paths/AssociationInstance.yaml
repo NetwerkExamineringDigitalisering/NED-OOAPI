@@ -201,7 +201,6 @@ put:
               state: associated
               consumers:
               - consumerKey: nl-test-admin
-                startUpURL: https://myComponent.nl?test
                 extraTimeInMin: 30
                 personalNeeds: [extraTime,spoken,spell-checker-on-screen]
               person:
@@ -244,7 +243,6 @@ put:
               state: associated
               consumers:
               - consumerKey: nl-test-admin
-                startUpURL: https://myComponent.nl?test
                 extraTimeInMin: 30
                 personalNeeds: [extraTime,spoken,spell-checker-on-screen]
               person: "111-2222-33-4444-222"
