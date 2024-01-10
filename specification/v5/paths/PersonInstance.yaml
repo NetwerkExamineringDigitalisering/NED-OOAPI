@@ -50,7 +50,7 @@ get:
                     code: "extraTimeOnlyMath25%"
                     description:
                     - language: nl-NL
-                      value: "Extra tijd in een percentage van de totatel tijd van een toets waarin rekenen voorkomt"                
+                      value: "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"                
                     startDate: "2023-10-25"
                     endDate: "2025-09-30"
                   idCheckName: "Damme, Maartje van"    
@@ -125,7 +125,7 @@ put:
                     code: "extraTimeOnlyMath25%"
                     description:
                     - language: nl-NL
-                      value: "Extra tijd in een percentage van de totatel tijd van een toets waarin rekenen voorkomt"                
+                      value: "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"        
                     startDate: "2023-10-25"
                     endDate: "2025-09-30"
                   idCheckName: "Damme, Maartje van"  
