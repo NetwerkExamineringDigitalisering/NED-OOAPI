@@ -395,7 +395,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Flow 1.1b.2: Sequence diagram of request persons (students and staff) in a specific group
+### Flow 1.1b.2: Sequence diagram of request members (students and staff) in a specific group
 
 ```mermaid
 
@@ -403,9 +403,9 @@ sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
     Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>DeelnemerRegistratie : Give list of persons for group sith code "groupId"
+    Toetsplanning->>DeelnemerRegistratie : Give list of members for group with code "groupId"
     activate DeelnemerRegistratie
-    Note right of DeelnemerRegistratie: endpoint /ooapi/groups/{groupId}/persons (GET)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/groups/{groupId}/members (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - Here they are !
     deactivate DeelnemerRegistratie
 ```
