@@ -48,7 +48,7 @@ The TPS can create test moments using this information and provide a TES with th
 ### Flow 1.1b : Endpoints for this flow
 
 - `GET /ooapi/groups?q=..`
-- `GET /ooapi/groups/{groupId}/persons`
+- `GET /ooapi/groups/{groupId}/members`
 - `GET /ooapi/persons/{personId}`
 
 
@@ -166,11 +166,21 @@ classDiagram
 		otherCodes: identifierEntity[]
     	consumers : nl-test-admin-Person
     }
+
     class `nl-test-admin-Person` {
     	consumerKey : string = "nl-test-admin"
-	    personalNeeds : string[]
-        idCheckName: string
+        preferredName: string
+    	assignedNeeds : AssignedNeedsEntry[]
+	    idCheckName : string
     }
+
+    class AssignedNeedsEntry {
+		code : string
+	    description : LanguageTypedString[]
+	    startDate : date-string
+	    endDate : date-string
+    }
+
     class Offering {
        offeringId : UUID
     }
@@ -178,6 +188,7 @@ classDiagram
     Association o-- `nl-test-admin-Association`
     Association -- Person
     Person o-- `nl-test-admin-Person`
+    `nl-test-admin-Person` o-- AssignedNeedsEntry
 
 ```
 ### Example of request component offerings that need to be planned
@@ -479,9 +490,23 @@ GET /ooapi/groups?q=..
 
 ```
 
-### Flow 1.1b.2: Example of request persons (students and staff members) part of a group	
+### Class diagram for members 
+
+```mermaid
+
+classDiagram
+    class MembershipItem {
+    personId : uuid-string
+	startDateTime : datetime-string
+	endDateTime : datetime-string
+	state : string
+	role : string
+    }
+```
+
+### Flow 1.1b.2: Example of request members (students and staff members) part of a group	
 ```json
-GET /ooapi/groups/{groupId}/persons
+GET /ooapi/groups/{groupId}/members
 {
     "pageSize": 10,
     "pageNumber": 1,
@@ -490,44 +515,11 @@ GET /ooapi/groups/{groupId}/persons
     "totalPages": 8,
     "items": [
         {
-            "personId": "111-2222-33-4444-333",
-            "primaryCode": 
-            {
-                "codeType": "studentNumber",
-                "code": "1234568"
-            },
-            "givenName": "Klaas",
-            "preferredName": "Klaassie",
-            "surnamePrefix": "van",
-            "surname": "Dijk",
-            "displayName": "Klaas van Dijk",
-            "activeEnrollment": true,
-            "affiliations": 
-            [
-                "student"
-            ],
-            "mail": "vandijk.mcw@student.roc.nl",
-            "languageOfChoice": 
-                [
-                    "nl-NL"
-                ],
-            "otherCodes": [
-            {
-            "codeType": "identifier",
-            "code": "student123abc"
-            }
-            ],
-            "consumers": [
-                {
-                    "consumerKey": "nl-test-admin",
-                    "personalNeeds": [    
-                        "extraTime",
-                        "spoken",
-                        "spell-checker-on-screen"                
-                    ],
-                    "idCheckName": "van Dijk, Klaas"
-                }
-            ]
+            "personId": "123e4567-e89b-12d3-a456-122564174000",
+            "startDateTime": "2020-09-28T08:30:00+01:00",
+            "endDateTime": "2020-09-30T20:00:00+01:00",
+            "state": "active",
+            "role": "student",
         }
     ]
 }
@@ -565,11 +557,18 @@ GET /ooapi/persons/{personId}
     "consumers": [
         {
             "consumerKey": "nl-test-admin",
-            "personalNeeds": [    
-                "extraTime",
-                "spoken",
-                "spell-checker-on-screen"                
-            ],
+            "preferredName": "Maar",
+            "assignedNeeds": {
+                "code": "extraTimeOnlyMath25%",
+                "description": [
+                    {
+                        "language": "nl-NL",
+                        "value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+                    }
+                ],
+                "startDate": "2023-10-25",
+                "endDate": "2025-09-30"
+            },
             "idCheckName": "van Damme, Maartje"
         }
     ]
@@ -766,7 +765,6 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		personId : UUID
 		primaryCode : identifierEntity
 		givenName : string
-		preferredName : string
 		surnamePrefix : string 
 		surname : string
 		displayname : string
@@ -777,10 +775,17 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		otherCodes: identifierEntity[]
 		consumers : nl-test-admin-Person
     }
-	class `nl-test-admin-Person` {
+    class `nl-test-admin-Person` {
     	consumerKey : string = "nl-test-admin"
-	    personalNeeds : string[]
-        idCheckName: string
+        preferredName: string
+    	assignedNeeds : AssignedNeedsEntry[]
+	    idCheckName : string
+    }
+    class AssignedNeedsEntry {
+		code : string
+	    description : LanguageTypedString[]
+	    startDate : date-string
+	    endDate : date-string
     }
     class ProgramOffering {
         offeringId : uuid-string
@@ -839,6 +844,7 @@ GET /ooapi/offerings/{offeringId}?expand=organization
     Association -- Person
     Association -- ProgramOffering
 	Person o-- `nl-test-admin-Person`
+    `nl-test-admin-Person` o-- AssignedNeedsEntry
 ```
 
 ### Flow 1.2a.2: Example of request associations
@@ -1079,14 +1085,22 @@ PUT /ooapi/persons/{personId}
     "consumers": [
         {
             "consumerKey": "nl-test-admin",
-            "personalNeeds": [    
-                "extraTime",
-                "spoken",
-                "spell-checker-on-screen"                
-            ],
+            "preferredName": "Maar",
+            "assignedNeeds": {
+                "code": "extraTimeOnlyMath25%",
+                "description": [
+                    {
+                        "language": "nl-NL",
+                        "value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+                    }
+                ],
+                "startDate": "2023-10-25",
+                "endDate": "2025-09-30"
+            },
             "idCheckName": "van Damme, Maartje"
         }
     ],
+
 }
 ```
 

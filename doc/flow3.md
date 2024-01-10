@@ -263,7 +263,6 @@ GET /offerings/{offeringId}/associations
     "consumers": [
     {
       "consumerKey": "nl-test-admin",
-      "startUpURL": "https://myComponent.nl?test",
       "additionalTimeInMin": 30,
       "personalNeeds": 
     	[
@@ -320,7 +319,6 @@ GET /associations/{associationId}
     "consumers": [
       {
         "consumerKey": "nl-test-admin",
-        "startUpURL": "https://myComponent.nl?test",
         "extraTimeInMin": 30,
         "personalNeeds": [
             "extraTime",

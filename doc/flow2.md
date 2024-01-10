@@ -83,7 +83,7 @@ PUT /ooapi/offerings/{offeringId}
    "consumers": [
       {
 	    "consumerKey": "nl-test-admin",
-	    "duration": PT60M,  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
+	    "duration": "PT60M",  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
 	    "safety": ["fixedLocation", "surveillance"]
 	    "offeringState": "active",
 	    "locationCode":"A-22"
@@ -176,7 +176,6 @@ classDiagram
     }
     class `nl-test-admin-Association` {
     	consumerKey : string = "nl-test-admin"
-		startUpURL : string
 		additionalTimeInMin : int
 		personalNeeds : string[]
     }
@@ -184,7 +183,6 @@ classDiagram
 		personId : UUID
 		primaryCode : identifierEntity
 		givenName : string
-		preferredName : string
 		surnamePrefix : string 
 		surname : string
 		displayname : string
@@ -195,14 +193,26 @@ classDiagram
 		otherCodes: identifierEntity[]
 		consumers : nl-test-admin-Person
     }
-	class `nl-test-admin-Person` {
+
+    class `nl-test-admin-Person` {
     	consumerKey : string = "nl-test-admin"
-	    personalNeeds : string[]
-        idCheckName: string
+        preferredName: string
+    	assignedNeeds : AssignedNeedsEntry[]
+	    idCheckName : string
     }
+
+    class AssignedNeedsEntry {
+		code : string
+	    description : LanguageTypedString[]
+	    startDate : date-string
+	    endDate : date-string
+    }
+
     Association o-- `nl-test-admin-Association`
     Association -- Person
-	Person o-- `nl-test-admin-Person`
+    Person o-- `nl-test-admin-Person`
+    `nl-test-admin-Person` o-- AssignedNeedsEntry
+
 ```
 
 ### Example of request B. Add student to created offering (zitting)	
@@ -220,8 +230,7 @@ PUT endpoint /ooapi/associations/{associationId}
 			"codeType": "studentNumber",
 			"code": "1234567"
 		},
-		"givenName" "Maartje",
-		"preferredName": "Maar",
+		"givenName": "Maartje",
 		"surnamePrefix": "van",
 		"surname": "Damme",
 		"displayName": "Maartje van Damme",
@@ -243,14 +252,21 @@ PUT endpoint /ooapi/associations/{associationId}
 		"consumers": [
 			{
 				"consumerKey": "nl-test-admin",
-				"personalNeeds": [    
-					"extraTime",
-					"spoken",
-					"spell-checker-on-screen"                
-				],
+				"preferredName": "Maar",
+				"assignedNeeds": {
+					"code": "extraTimeOnlyMath25%",
+					"description": [
+						{
+							"language": "nl-NL",
+							"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+						}
+					],
+					"startDate": "2023-10-25",
+					"endDate": "2025-09-30"
+				},
 				"idCheckName": "van Damme, Maartje"
 			}
-		]
+		],
     },
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
@@ -259,7 +275,6 @@ PUT endpoint /ooapi/associations/{associationId}
     "consumers": [
 		{
 			"consumerKey": "nl-test-admin",
-			"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
 			"additionalTimeInMin": 30,
 			"personalNeeds": [
 					"extraTime",
@@ -342,16 +357,23 @@ PUT endpoint /ooapi/associations/{associationId}
 		}
 	],		  
     "consumers": [
-        {
-            "consumerKey": "nl-test-admin",
-            "personalNeeds": [    
-                "extraTime",
-                "spoken",
-                "spell-checker-on-screen"                
-            ],
-            "idCheckName": "van Dijk, Klaas"
-        }
-    ]
+			{
+				"consumerKey": "nl-test-admin",
+				"preferredName": "Maar",
+				"assignedNeeds": {
+					"code": "extraTimeOnlyMath25%",
+					"description": [
+						{
+							"language": "nl-NL",
+							"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+						}
+					],
+					"startDate": "2023-10-25",
+					"endDate": "2025-09-30"
+				},
+				"idCheckName": "van Damme, Maartje"
+			}
+		],
     },
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
@@ -360,7 +382,6 @@ PUT endpoint /ooapi/associations/{associationId}
     "consumers":[
 		{
 			"consumerKey": "nl-test-admin",
-			"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
 			"extraTimeInMin": 0,
 			"personalNeeds": [ ]
 		}
@@ -542,7 +563,6 @@ GET /ooapi/offerings/{offeringId}/associations
 			{
 				"consumerKey": "nl-test-admin",
 				"attendance": "notKnown",
-				"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
 				"extraTimeInMin": 30,
 				"personalNeeds": [
 						"extraTime",
@@ -552,43 +572,49 @@ GET /ooapi/offerings/{offeringId}/associations
 			}
       	]
     	"person": {
-		"personId": "111-2222-33-4444-222",
-		"primaryCode": 
-		{
-	    		"codeType": "studentNumber",
-	    		"code": "1234567"
-		},
-		"givenName": "Maartje",
-		"preferredName": "Maar",
-		"surnamePrefix": "van",
-		"surname": "Damme",
-		"displayName": "Maartje van Damme",
-		"activeEnrollment": true,
-		"affiliations": 
-	  	[
-	    		"student"
-	  	],
-		"mail": "vandamme.mcw@student.roc.nl",
-		"languageOfChoice": [
-			"nl-NL"
-		],
-		"otherCodes": [
+			"personId": "111-2222-33-4444-222",
+			"primaryCode": 
 			{
-				"codeType": "eckid",
-				"code": "00000"
-			}
-		],			
-    	"consumers": [
-			{
-				"consumerKey": "nl-test-admin",
-				"personalNeeds": [    
-					"extraTime",
-					"spoken",
-					"spell-checker-on-screen"                
+					"codeType": "studentNumber",
+					"code": "1234567"
+			},
+			"givenName": "Maartje",
+			"surnamePrefix": "van",
+			"surname": "Damme",
+			"displayName": "Maartje van Damme",
+			"activeEnrollment": true,
+			"affiliations": 
+			[
+					"student"
+			],
+			"mail": "vandamme.mcw@student.roc.nl",
+			"languageOfChoice": [
+				"nl-NL"
+			],
+			"otherCodes": [
+				{
+					"codeType": "eckid",
+					"code": "00000"
+				}
+			],			
+			"consumers": [
+					{
+						"consumerKey": "nl-test-admin",
+						"preferredName": "Maar",
+						"assignedNeeds": {
+							"code": "extraTimeOnlyMath25%",
+							"description": [
+								{
+									"language": "nl-NL",
+									"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+								}
+							],
+							"startDate": "2023-10-25",
+							"endDate": "2025-09-30"
+						},
+						"idCheckName": "van Damme, Maartje"
+					}
 				],
-				"idCheckName": "van Damme, Maartje"
-			}
-    	]
 		},
     	"offering": "123e4567-e89b-12d3-a456-134564174000",
 
