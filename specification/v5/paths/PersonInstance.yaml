@@ -45,6 +45,7 @@ get:
                   code: "00000"
                 consumers: 
                 - consumerKey: "nl-test-admin"
+                  preferredName: "Maar"
                   assignedNeeds:     
                     code: "extraTimeOnlyMath25%"
                     description:
@@ -119,6 +120,7 @@ put:
                   code: "00000"
                 consumers: 
                 - consumerKey: "nl-test-admin"
+                  preferredName: "Maar"                
                   assignedNeeds:     
                     code: "extraTimeOnlyMath25%"
                     description:

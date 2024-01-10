@@ -5,6 +5,11 @@ required:
 properties:
   consumerKey:
     type: string
+  preferredName:
+    type: string
+    description: The name by which the person refers to him/het/their self, how the person would like to be called. Usually first name of this person
+    maxLength: 256
+    example: Maar
   assignedNeeds:
     type: array
     items:
