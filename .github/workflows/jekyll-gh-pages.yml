@@ -34,6 +34,15 @@ jobs:
         with:
           source: ./
           destination: ./_site
+      - name: Checkout dev
+        uses: actions/checkout@v4
+        with:
+          ref: v0.9.3
+      - name: Build dev with Jekyll
+        uses: actions/jekyll-build-pages@v1
+        with:
+          source: ./
+          destination: ./_site/dev
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v1
 
