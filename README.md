@@ -46,15 +46,15 @@ An adapted and shortend version of the yaml file for the MBO-OKE can be found [h
 | Version | Date | Status | Author | Comment |
 |---|---|---|---|---|
 | 0.1 | 1-31 may 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) | |
-| 0.2 | 14 july 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) and many others | flow 0,2,3,4 defined |
+| 0.2 | 14 jul 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) and many others | flow 0,2,3,4 defined |
 | 0.3 | 13 sep 2022 | DRAFT | [@mcginkel](https://github.com/mcginkel) and many others | flow 6 added, technical refrence added |
-| 0.4 | 12 jan 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | Uitwerking toegevoegd en commentaren verwerkt |
-| 0.5 | 29 mrt 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | Uitwerking toegevoegd en commentaren verwerkt t.b.v. pilot 1 |
-| 0.8 | 10 jul 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | Uitwerking toegevoegd en commentaren verwerkt t.b.v. pilots 2 en 3 |
-| 0.9 | 24 aug 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | Uitwerking toegevoegd en commentaren verwerkt |
-| 0.9.1 | 22 sep 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | Uitwerking toegevoegd en commentaren verwerkt |
-| 0.9.2 | 14 nov 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | Uitwerking toegevoegd en commentaren verwerkt |
-| 0.9.3 | 10 jan 2024 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | Uitwerking toegevoegd en commentaren verwerkt |
+| 0.4 | 12 jan 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved |
+| [0.5](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/v0.9.3/doc/documents/MBO-toetsafname%20specs%20v0.5%20-%2020230329%20met%20kleurmarkeringen.pdf) | 29 mar 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved for pilot 1 |
+| 0.8 | 10 jul 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | flow 1 and 5 added for pilots 2 and 3 |
+| 0.9 | 24 aug 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved for pilots 2 and 3 |
+| 0.9.1 | 22 sep 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved for pilots 2 and 3 |
+| [0.9.2](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/v0.9.3/doc/documents/MBO-toetsafname%20specs%20v0.9.2_20231114(reviewversie).pdf) | 14 nov 2023 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved |
+| [0.9.3](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/v0.9.3/doc/documents/MBO-toetsafname%20specs%20v0.9.3_20240110(reviewversie).pdf) | 10 jan 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | groupmembers added for ad-hoc tests|
 
 This repository is an initiative of the MBO Digitaal and NED.
 
