@@ -5,7 +5,7 @@ get:
   operationId: listAssociationUrl
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-2-3-4
   tags:
     - associations
   parameters:

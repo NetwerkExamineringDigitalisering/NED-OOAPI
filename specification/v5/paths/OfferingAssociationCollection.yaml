@@ -4,7 +4,8 @@ get:
   description: Get a list of all offering associations.
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4      
   tags:
     - associations
   parameters:

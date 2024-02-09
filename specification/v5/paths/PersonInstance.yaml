@@ -4,7 +4,7 @@ get:
   description: Get a single person.
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
   tags:
     - persons
   parameters:
@@ -78,7 +78,7 @@ put:
   operationId: replacePersonById
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
   tags:
     - persons
   parameters:

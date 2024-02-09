@@ -4,7 +4,8 @@ get:
   description: Get a single offering.
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - offerings
   parameters:
@@ -118,7 +119,8 @@ patch:
     - openId:
       - offerings.write
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - offerings
   parameters:
@@ -189,7 +191,8 @@ put:
     - openId:
       - offerings.write
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4      
   tags:
     - offerings
   parameters:

@@ -239,7 +239,7 @@ components:
         clientCredentials:
           tokenUrl: https://example.nl/oauth2/authorize
           scopes:
-            test-admin-flow: functions needed to allow the transfer of enrollments, persons and offerings between systems in MBO
+            nl-test-admin-flow: functions needed to allow the transfer of enrollments, persons and offerings between systems in MBO
 
   #schemas:
     # allOf: 

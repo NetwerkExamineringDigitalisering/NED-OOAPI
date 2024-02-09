@@ -5,7 +5,8 @@ get:
   operationId: listAssociationById
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - associations
   parameters:
@@ -66,10 +67,10 @@ patch:
     - openId:
       - associations.write
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - associations
-
   parameters:
     - name: associationId
       in: path
@@ -78,7 +79,6 @@ patch:
       schema:
         type: string
         format: uuid
-
   requestBody:
     required: true
     content:
@@ -86,8 +86,6 @@ patch:
         schema:
           allOf:
           - $ref: '../schemas/ComponentOfferingAssociationPatch.yaml'
-
-
         examples:
             Delete student from offering (flow 2.4):
               value:
@@ -169,7 +167,8 @@ put:
   operationId: replaceAssociationById
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - associations
   parameters:
@@ -180,8 +179,6 @@ put:
       schema:
         type: string
         format: uuid
-
-
   requestBody:
     required: true
     content:

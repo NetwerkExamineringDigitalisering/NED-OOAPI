@@ -4,8 +4,7 @@ get:
   description: Get a list of all components, ordered by name (ascending).
   security:
   - oAuthFlows:  
-    - test-admin-flow
-    - test-content-flow
+    - nl-test-admin-flow-0
   tags:
     - components
   parameters:

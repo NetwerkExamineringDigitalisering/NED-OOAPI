@@ -3,7 +3,7 @@ get:
   operationId: listMembersByGroupId
   security:
     - oAuthFlows:
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
   description: Get an ordered list of membershipItems (personIds that are member of a given group, and duration) ordered by personId.
   tags:
     - groups

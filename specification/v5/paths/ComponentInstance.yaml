@@ -4,8 +4,7 @@ get:
   description: Get a single component.
   security:
     - oAuthFlows:
-      - test-content-flow  
-      - test-admin-flow
+      - nl-test-admin-flow-0
   tags:
     - components
   parameters:

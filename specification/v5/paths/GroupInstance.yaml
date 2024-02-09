@@ -3,7 +3,7 @@ get:
   operationId: listGroupById
   security:
     - oAuthFlows:
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
   description: Get a single group.
   tags:
     - groups

@@ -115,7 +115,7 @@ paths:
       description: Get a single person.
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
       tags:
         - persons
       parameters:
@@ -667,7 +667,7 @@ paths:
       operationId: replacePersonById
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
       tags:
         - persons
       parameters:
@@ -748,6 +748,9 @@ paths:
       summary: GET /organizations/{organizationId}
       operationId: listOrganizationById
       description: Get a single organization.
+      security:
+        - oAuthFlows:
+            - nl-test-admin-flow-1-5
       tags:
         - organizations
       parameters:
@@ -959,8 +962,7 @@ paths:
       description: Get a single component.
       security:
         - oAuthFlows:
-            - test-content-flow
-            - test-admin-flow
+            - nl-test-admin-flow-0
       tags:
         - components
       parameters:
@@ -2277,8 +2279,7 @@ paths:
       description: Get a list of all components, ordered by name (ascending).
       security:
         - oAuthFlows:
-            - test-admin-flow
-            - test-content-flow
+            - nl-test-admin-flow-0
       tags:
         - components
       parameters:
@@ -2420,7 +2421,7 @@ paths:
       description: Get a list of all offerings, ordered chronologically.
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
       tags:
         - offerings
       parameters:
@@ -3609,7 +3610,8 @@ paths:
       description: Get a single offering.
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
+            - nl-test-admin-flow-2-3-4
       tags:
         - offerings
       parameters:
@@ -3725,7 +3727,8 @@ paths:
         - openId:
             - offerings.write
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
+            - nl-test-admin-flow-2-3-4
       tags:
         - offerings
       parameters:
@@ -3798,7 +3801,8 @@ paths:
         - openId:
             - offerings.write
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
+            - nl-test-admin-flow-2-3-4
       tags:
         - offerings
       parameters:
@@ -3900,7 +3904,8 @@ paths:
       description: Get a list of all offering associations.
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
+            - nl-test-admin-flow-2-3-4
       tags:
         - associations
       parameters:
@@ -4447,7 +4452,7 @@ paths:
       description: Get the binary data from a document.
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-2-3-4
       tags:
         - documents
       parameters:
@@ -4500,7 +4505,8 @@ paths:
       operationId: listAssociationById
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
+            - nl-test-admin-flow-2-3-4
       tags:
         - associations
       parameters:
@@ -4599,7 +4605,8 @@ paths:
         - openId:
             - associations.write
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
+            - nl-test-admin-flow-2-3-4
       tags:
         - associations
       parameters:
@@ -4738,7 +4745,8 @@ paths:
       operationId: replaceAssociationById
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
+            - nl-test-admin-flow-2-3-4
       tags:
         - associations
       parameters:
@@ -4842,7 +4850,7 @@ paths:
       operationId: listAssociationUrl
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-2-3-4
       tags:
         - associations
       parameters:
@@ -4890,7 +4898,7 @@ paths:
       operationId: listGroups
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
       description: Get a list of all groups, ordered by name (ascending).
       tags:
         - groups
@@ -5129,7 +5137,7 @@ paths:
       operationId: listGroupById
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
       description: Get a single group.
       tags:
         - groups
@@ -5192,7 +5200,7 @@ paths:
       operationId: listMembersByGroupId
       security:
         - oAuthFlows:
-            - test-admin-flow
+            - nl-test-admin-flow-1-5
       description: Get an ordered list of membershipItems (personIds that are member of a given group, and duration) ordered by personId.
       tags:
         - groups
@@ -5347,7 +5355,7 @@ components:
         clientCredentials:
           tokenUrl: https://example.nl/oauth2/authorize
           scopes:
-            test-admin-flow: functions needed to allow the transfer of enrollments, persons and offerings between systems in MBO
+            nl-test-admin-flow: functions needed to allow the transfer of enrollments, persons and offerings between systems in MBO
   schemas:
     PersonId:
       type: object
