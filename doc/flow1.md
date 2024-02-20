@@ -50,7 +50,10 @@ The TPS can create test moments using this information and provide a TES with th
 - `GET /ooapi/groups?q=..`
 - `GET /ooapi/groups/{groupId}/members`
 - `GET /ooapi/persons/{personId}`
-
+- `GET /ooapi/groups/{groupId}`
+- `PUT /ooapi/groups/{groupId}`
+- `PUT /ooapi/groups/{groupId}/members/{personId}`
+ 
 
 ## Flow 1.2 : Additional supporting information
 
@@ -490,6 +493,7 @@ GET /ooapi/groups?q=..
 
 ```
 
+
 ### Class diagram for members 
 
 ```mermaid
@@ -576,10 +580,103 @@ GET /ooapi/persons/{personId}
 }
 ```
 
+### Flow 1.1b.4: Example of request for 1 specific group	
+```json
+GET /ooapi/groups/{groupId}
+{
+    "groupId": "123e4567-e89b-12d3-a456-426614174000",
+    "primaryCode": {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+    },
+    "groupType": "learning group",
+    "name": [
+        {
+        "language": "en-GB",
+        "value": "statistics students"
+        }
+    ],
+    "description": [
+        {
+        "language": "en-GB",
+        "value": "The group of students that follow statistics classes and related staff"
+        }
+    ],
+    "startDate": "2020-08-17",
+    "endDate": "2020-12-18",
+    "personCount": 183,
+    "otherCodes": [
+        {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+        }
+    ],
+    "organization": "452c1a86-a0af-475b-b03f-724878b0f387"
+}    
+
+```
+
+
+
+
+### Example adding groups and members from SIS to TPS	
+An optional method is allowed to provide information from the SIS to the TPS for creating groups and updating the members of these groups.
+
+The creation and update of a group is done through a PUT operation.
+
+```json
+PUT /ooapi/group/{groupId}
+{
+    "groupId": "123e4567-e89b-12d3-a456-426614174000",
+    "primaryCode": {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+    },
+    "groupType": "learning group",
+    "name": [
+        {
+        "language": "en-GB",
+        "value": "statistics students"
+        }
+    ],
+    "description": [
+        {
+        "language": "en-GB",
+        "value": "The group of students that follow statistics classes and related staff"
+        }
+    ],
+    "startDate": "2020-08-17",
+    "endDate": "2020-12-18",
+    "personCount": 183,
+    "otherCodes": [
+        {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+        }
+    ],
+    "organization": "452c1a86-a0af-475b-b03f-724878b0f387"
+} 
+
+```
+
+
+Additionaly there is the option to add and update the members of a group. This is done by a PUT option containing the GroupId where membership items are to be updated. The update is done by using the personId of the person partaking in the group. There is no deletion option however the status of a person can be updated to canceled or the endDateTime can also be used to indicate the user will no longer be part of the group.
+
+
+```json
+PUT /ooapi/groups/{groupId}/members/{personId}
+{
+    "personId": "123e4567-e89b-12d3-a456-122564174000",
+    "startDateTime": "2020-09-28T08:30:00+01:00",
+    "endDateTime": "2020-09-30T20:00:00+01:00",
+    "state": "active",
+    "role": "student",
+}
+```
 
 # flow 1.2: additional supporting information 
 
-### Flow 1.2a.1: Sequence diagram of request to get persons based on a program (?) the person is participating in
+### Flow 1.2a.1: Sequence diagram of request to get persons based on a program the person is participating in
 
 ```mermaid
 
