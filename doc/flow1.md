@@ -625,7 +625,7 @@ An optional method is allowed to provide information from the SIS to the TPS for
 The creation and update of a group is done through a PUT operation.
 
 ```json
-PUT /ooapi/group/{groupId}
+PUT /ooapi/groups/{groupId}
 {
     "groupId": "123e4567-e89b-12d3-a456-426614174000",
     "primaryCode": {
