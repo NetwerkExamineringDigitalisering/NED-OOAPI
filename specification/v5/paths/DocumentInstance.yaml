@@ -4,7 +4,7 @@ get:
   description: Get the binary data from a document.
   security:
     - oAuthFlows:
-      - test-admin-flow
+      - nl-test-admin-flow-2-3-4
   tags:
     - documents
   parameters:

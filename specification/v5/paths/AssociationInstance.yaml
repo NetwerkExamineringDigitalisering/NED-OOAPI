@@ -5,7 +5,8 @@ get:
   operationId: listAssociationById
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - associations
   parameters:
@@ -66,10 +67,10 @@ patch:
     - openId:
       - associations.write
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - associations
-
   parameters:
     - name: associationId
       in: path
@@ -78,7 +79,6 @@ patch:
       schema:
         type: string
         format: uuid
-
   requestBody:
     required: true
     content:
@@ -86,8 +86,6 @@ patch:
         schema:
           allOf:
           - $ref: '../schemas/ComponentOfferingAssociationPatch.yaml'
-
-
         examples:
             Delete student from offering (flow 2.4):
               value:
@@ -104,7 +102,7 @@ patch:
                   resultDate: 2022-09-28
                   weight: 100
                   consumers:
-                  - consumerKey: NL-TEST-ADMIN
+                  - consumerKey: nl-test-admin
                     attendance: present
                     assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                     assessorCode: JAJE
@@ -122,7 +120,7 @@ patch:
                   resultDate: 2022-09-27
                   weight: 100
                   consumers:
-                  - consumerKey: NL-TEST-ADMIN
+                  - consumerKey: nl-test-admin
                     attendance: present
             Send result for student (flow 3.2.B):
               value:
@@ -135,7 +133,7 @@ patch:
                   resultDate: 2022-11-18
                   weight: 100
                   consumers:
-                  - consumerKey: NL-TEST-ADMIN
+                  - consumerKey: nl-test-admin
                     attendance: present
                     assessorId: 05035972-0619-4d0b-8a09-7bdb6eee5e6d
                     assessorCode: JAJE
@@ -169,7 +167,8 @@ put:
   operationId: replaceAssociationById
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - associations
   parameters:
@@ -180,27 +179,25 @@ put:
       schema:
         type: string
         format: uuid
-
-
   requestBody:
     required: true
     content:
       application/json:
         schema:
           oneOf:
-           - $ref: '../schemas/ComponentOfferingAssociationExpandedWrite.yaml'
+           - $ref: '../schemas/ComponentOfferingAssociationExpanded.yaml'
         examples:
           Add student to created offering (zitting) (flow 2.2.B and 2.3):
             value:
-              #associationId is padparameter
+              #associationId is padparameter en ook mogelijk toegevoegd in body
               #volgorde conform ooapi-v5
               #associationType op volgende regel ontbreekt in endpoint-definitie
+              associationId: "123e4567-e89b-12d3-a456-426614174000"
               associationType: componentOfferingAssociation
               role: student
               state: associated
               consumers:
-              - consumerKey: NL-TEST-ADMIN
-                startUpURL: https://myComponent.nl?test
+              - consumerKey: nl-test-admin
                 extraTimeInMin: 30
                 personalNeeds: [extraTime,spoken,spell-checker-on-screen]
               person:
@@ -234,15 +231,15 @@ put:
 
           Change student enrollment to offering (zitting) (flow 2.x):
             value:
-              #associationId is padparameter
+              #associationId is padparameter en ook mogelijk toegevoegd in body
               #volgorde conform ooapi-v5
               #associationType op volgende regel ontbreekt in endpoint-definitie
+              associationId: "123e4567-e89b-12d3-a456-426614174000"
               associationType: componentOfferingAssociation
               role: student
               state: associated
               consumers:
-              - consumerKey: NL-TEST-ADMIN
-                startUpURL: https://myComponent.nl?test
+              - consumerKey: nl-test-admin
                 extraTimeInMin: 30
                 personalNeeds: [extraTime,spoken,spell-checker-on-screen]
               person: "111-2222-33-4444-222"

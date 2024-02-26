@@ -33,13 +33,13 @@ classDiagram
 		teachingLanguage : string
 		modeOfDelivery : string
 		resultExpected : boolean
-		consumers : NL-TEST-ADMIN-Offering
+		consumers : nl-test-admin-Offering
 		startDateTime : datetime
 		endDateTime : datetime
 		component : string
     }
-    class `NL-TEST-ADMIN-Offering` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Offering` {
+    	consumerKey : string = "nl-test-admin"
 		duration : integer
 		lastPossibleStartTime : date-time
 		startOptions : string
@@ -49,7 +49,7 @@ classDiagram
 		offeringState : OfferingStateType
 		locationCode : string
     }
-    Offering o-- `NL-TEST-ADMIN-Offering`
+    Offering o-- `nl-test-admin-Offering`
 ```
 
 ### Example of request Create offering (zitting)	
@@ -82,8 +82,8 @@ PUT /ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-	    "consumerKey": "NL-TEST-ADMIN",
-	    "duration": PT60M,  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
+	    "consumerKey": "nl-test-admin",
+	    "duration": "PT60M",  #je hebt duration nodig als je flexibele periodes hebt 60 minutes in dit geval.
 	    "safety": ["fixedLocation", "surveillance"]
 	    "offeringState": "active",
 	    "locationCode":"A-22"
@@ -114,8 +114,8 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 		- online: online on a specific location
 		- distance-learning ((afstandsleren): everywhere, could also be from home )
 
-- consumer NL-TEST-ADMIN-Offering:
-	- add one of type "consumerKey": "NL-TEST-ADMIN"
+- consumer nl-test-admin-Offering:
+	- add one of type "consumerKey": "nl-test-admin"
 	- duration: int for duration in minutes < to be decided > (see https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/4)
 	- safety : array of safety measures : "securedComputer", "fixedLocation", "surveillance"
 	- offeringState : we support "active", "canceled" (we expect this attribute to be moved to offering in the next version of the standard)
@@ -169,14 +169,13 @@ classDiagram
 		associationType : associationType
 		role : associationRole
 		state : state
-		consumers : NL-TEST-ADMIN-Association
+		consumers : nl-test-admin-Association
 	#	result : Result
 		person : personId or Person
 		offering : offeringId
     }
-    class `NL-TEST-ADMIN-Association` {
-    	consumerKey : string = "NL-TEST-ADMIN"
-		startUpURL : string
+    class `nl-test-admin-Association` {
+    	consumerKey : string = "nl-test-admin"
 		additionalTimeInMin : int
 		personalNeeds : string[]
     }
@@ -184,7 +183,6 @@ classDiagram
 		personId : UUID
 		primaryCode : identifierEntity
 		givenName : string
-		preferredName : string
 		surnamePrefix : string 
 		surname : string
 		displayname : string
@@ -193,16 +191,28 @@ classDiagram
 		mail : string
 		languageOfChoice: string[]
 		otherCodes: identifierEntity[]
-		consumers : NL-TEST-ADMIN-Person
+		consumers : nl-test-admin-Person
     }
-	class `NL-TEST-ADMIN-Person` {
-    	consumerKey : string = "NL-TEST-ADMIN"
-	    personalNeeds : string[]
-        idCheckName: string
+
+    class `nl-test-admin-Person` {
+    	consumerKey : string = "nl-test-admin"
+        preferredName: string
+    	assignedNeeds : AssignedNeedsEntry[]
+	    idCheckName : string
     }
-    Association o-- `NL-TEST-ADMIN-Association`
+
+    class AssignedNeedsEntry {
+		code : string
+	    description : LanguageTypedString[]
+	    startDate : date-string
+	    endDate : date-string
+    }
+
+    Association o-- `nl-test-admin-Association`
     Association -- Person
-	Person o-- `NL-TEST-ADMIN-Person`
+    Person o-- `nl-test-admin-Person`
+    `nl-test-admin-Person` o-- AssignedNeedsEntry
+
 ```
 
 ### Example of request B. Add student to created offering (zitting)	
@@ -220,8 +230,7 @@ PUT endpoint /ooapi/associations/{associationId}
 			"codeType": "studentNumber",
 			"code": "1234567"
 		},
-		"givenName" "Maartje",
-		"preferredName": "Maar",
+		"givenName": "Maartje",
 		"surnamePrefix": "van",
 		"surname": "Damme",
 		"displayName": "Maartje van Damme",
@@ -242,15 +251,22 @@ PUT endpoint /ooapi/associations/{associationId}
 		],
 		"consumers": [
 			{
-				"consumerKey": "NL-TEST-ADMIN",
-				"personalNeeds": [    
-					"extraTime",
-					"spoken",
-					"spell-checker-on-screen"                
-				],
+				"consumerKey": "nl-test-admin",
+				"preferredName": "Maar",
+				"assignedNeeds": {
+					"code": "extraTimeOnlyMath25%",
+					"description": [
+						{
+							"language": "nl-NL",
+							"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+						}
+					],
+					"startDate": "2023-10-25",
+					"endDate": "2025-09-30"
+				},
 				"idCheckName": "van Damme, Maartje"
 			}
-		]
+		],
     },
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
@@ -258,8 +274,7 @@ PUT endpoint /ooapi/associations/{associationId}
     "state": "associated",
     "consumers": [
 		{
-			"consumerKey": "NL-TEST-ADMIN",
-			"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
+			"consumerKey": "nl-test-admin",
 			"additionalTimeInMin": 30,
 			"personalNeeds": [
 					"extraTime",
@@ -282,8 +297,8 @@ PUT endpoint /ooapi/associations/{associationId}
 	- to comply to the standard we have mandatory fields (which we wont use) : displayname (goed gevuld), activeEnrollment (true) , affiliations (guest)
 	- affiliations is not the role in the offering, but the a more generic role. can be ignored for this spec or set to "guest"
 	- primaryCode will be used for SSO purpose: uniquely identify a student : nlpersonrealid,eckid etc (details will follow), 
- - consumer NL-TEST-ADMIN-Association
-	- add one of type "consumerKey": "NL-TEST-ADMIN".
+ - consumer nl-test-admin-Association
+	- add one of type "consumerKey": "nl-test-admin".
 	- attributes additionalTimeInMin and personalNeeds are optional and used only for student role.
 	- personal need should follow https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
 
@@ -342,16 +357,23 @@ PUT endpoint /ooapi/associations/{associationId}
 		}
 	],		  
     "consumers": [
-        {
-            "consumerKey": "NL-TEST-ADMIN",
-            "personalNeeds": [    
-                "extraTime",
-                "spoken",
-                "spell-checker-on-screen"                
-            ],
-            "idCheckName": "van Dijk, Klaas"
-        }
-    ]
+			{
+				"consumerKey": "nl-test-admin",
+				"preferredName": "Maar",
+				"assignedNeeds": {
+					"code": "extraTimeOnlyMath25%",
+					"description": [
+						{
+							"language": "nl-NL",
+							"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+						}
+					],
+					"startDate": "2023-10-25",
+					"endDate": "2025-09-30"
+				},
+				"idCheckName": "van Damme, Maartje"
+			}
+		],
     },
     "offering": "123e4567-e89b-12d3-a456-134564174000",
     "associationType": "componentOfferingAssociation",
@@ -359,8 +381,7 @@ PUT endpoint /ooapi/associations/{associationId}
     "state": "associated",
     "consumers":[
 		{
-			"consumerKey": "NL-TEST-ADMIN",
-			"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
+			"consumerKey": "nl-test-admin",
 			"extraTimeInMin": 0,
 			"personalNeeds": [ ]
 		}
@@ -427,13 +448,13 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Offering {
-		consumers : NL-TEST-ADMIN-Offering
+		consumers : nl-test-admin-Offering
     }
-    class `NL-TEST-ADMIN-Offering` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Offering` {
+    	consumerKey : string = "nl-test-admin"
 		offeringState : OfferingStateType = "canceled"
     }
-    Offering o-- `NL-TEST-ADMIN-Offering`
+    Offering o-- `nl-test-admin-Offering`
 ```
 
 ### Example of request Delete offering (zitting)	
@@ -446,7 +467,7 @@ PATCH endpoint /ooapi/offerings/{offeringId}
     "offeringType": "component",
     "consumers": [
 	{
-    	  "consumerKey": "NL-TEST-ADMIN",
+    	  "consumerKey": "nl-test-admin",
     	  "offeringState": "canceled"
 	}
     ]
@@ -460,7 +481,7 @@ PATCH endpoint /ooapi/offerings/{offeringId}
 ### Remarks
 - Not high priority (could be defined and used later)
 - Association
-	- Attribute offeringState within consumers of Offering (NL-TEST-ADMIN-Offering): use the value "canceled" from the enum.
+	- Attribute offeringState within consumers of Offering (nl-test-admin-Offering): use the value "canceled" from the enum.
 	- Add no values for other attributes within Offering because they will be ignored.
 
 ## Flow 2.6 Read current state of the offering (zitting)
@@ -508,7 +529,7 @@ GET /ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-        "consumerKey": "NL-TEST-ADMIN",
+        "consumerKey": "nl-test-admin",
 		"duration": 60,  #je hebt duration nodig als je flexibele periodes hebt.
 		"safety": ["fixedLocation", "surveillance"]
 		"offeringState": "active",
@@ -540,9 +561,8 @@ GET /ooapi/offerings/{offeringId}/associations
     	"consumers": 
       	[
 			{
-				"consumerKey": "NL-TEST-ADMIN",
+				"consumerKey": "nl-test-admin",
 				"attendance": "notKnown",
-				"startUpURL": "https:/toets.voorbeeld.nl/start&id=1234321@student.roc.nl",
 				"extraTimeInMin": 30,
 				"personalNeeds": [
 						"extraTime",
@@ -552,43 +572,49 @@ GET /ooapi/offerings/{offeringId}/associations
 			}
       	]
     	"person": {
-		"personId": "111-2222-33-4444-222",
-		"primaryCode": 
-		{
-	    		"codeType": "studentNumber",
-	    		"code": "1234567"
-		},
-		"givenName": "Maartje",
-		"preferredName": "Maar",
-		"surnamePrefix": "van",
-		"surname": "Damme",
-		"displayName": "Maartje van Damme",
-		"activeEnrollment": true,
-		"affiliations": 
-	  	[
-	    		"student"
-	  	],
-		"mail": "vandamme.mcw@student.roc.nl",
-		"languageOfChoice": [
-			"nl-NL"
-		],
-		"otherCodes": [
+			"personId": "111-2222-33-4444-222",
+			"primaryCode": 
 			{
-				"codeType": "eckid",
-				"code": "00000"
-			}
-		],			
-    	"consumers": [
-			{
-				"consumerKey": "NL-TEST-ADMIN",
-				"personalNeeds": [    
-					"extraTime",
-					"spoken",
-					"spell-checker-on-screen"                
+					"codeType": "studentNumber",
+					"code": "1234567"
+			},
+			"givenName": "Maartje",
+			"surnamePrefix": "van",
+			"surname": "Damme",
+			"displayName": "Maartje van Damme",
+			"activeEnrollment": true,
+			"affiliations": 
+			[
+					"student"
+			],
+			"mail": "vandamme.mcw@student.roc.nl",
+			"languageOfChoice": [
+				"nl-NL"
+			],
+			"otherCodes": [
+				{
+					"codeType": "eckid",
+					"code": "00000"
+				}
+			],			
+			"consumers": [
+					{
+						"consumerKey": "nl-test-admin",
+						"preferredName": "Maar",
+						"assignedNeeds": {
+							"code": "extraTimeOnlyMath25%",
+							"description": [
+								{
+									"language": "nl-NL",
+									"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+								}
+							],
+							"startDate": "2023-10-25",
+							"endDate": "2025-09-30"
+						},
+						"idCheckName": "van Damme, Maartje"
+					}
 				],
-				"idCheckName": "van Damme, Maartje"
-			}
-    	]
 		},
     	"offering": "123e4567-e89b-12d3-a456-134564174000",
 

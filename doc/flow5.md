@@ -32,10 +32,10 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Association {
-        consumers : NL-TEST-ADMIN-Association
+        consumers : nl-test-admin-Association
     	result : Result
     }
-    class `NL-TEST-ADMIN-Association` {
+    class `nl-test-admin-Association` {
         consumerKey : string
         orgAssociationId: UUID
         attempt: integer
@@ -46,10 +46,10 @@ classDiagram
         comment : string
         score : string
         resultDate : date
-        consumers : NL-TEST-ADMIN-Result
+        consumers : nl-test-admin-Result
         weight : integer
     }
-    class `NL-TEST-ADMIN-Result` {
+    class `nl-test-admin-Result` {
         consumerKey : string
         attendance : string
         executedOfferingName: string
@@ -68,9 +68,9 @@ classDiagram
         documentName : string
     }
     Association o-- Result
-    Association o-- `NL-TEST-ADMIN-Association`
-    Result o-- `NL-TEST-ADMIN-Result`
-    `NL-TEST-ADMIN-Result` o-- Document
+    Association o-- `nl-test-admin-Association`
+    Result o-- `nl-test-admin-Result`
+    `nl-test-admin-Result` o-- Document
 ```
 
 ### Example of Send test attendance information for student tot Student Information System
@@ -80,7 +80,7 @@ PATCH /associations/{associationId}
 {
     "consumers": [
     {
-      "consumerKey": "NL-TEST-ADMIN",
+      "consumerKey": "nl-test-admin",
       "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
       "attempt": 2
     }
@@ -90,7 +90,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
 	     {
-          "consumerKey": "NL-TEST-ADMIN",
+          "consumerKey": "nl-test-admin",
           "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",
@@ -116,7 +116,7 @@ PATCH /associations/{associationId}
 {
     "consumers": [
     {
-      "consumerKey": "NL-TEST-ADMIN",
+      "consumerKey": "nl-test-admin",
       "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
       "attempt": 2
     }
@@ -129,7 +129,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
 	     {
-          "consumerKey": "NL-TEST-ADMIN",
+          "consumerKey": "nl-test-admin",
           "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",
@@ -179,12 +179,12 @@ classDiagram
 	associationType : associationType
 	role : associationRole
 	state : state
-        consumers : NL-TEST-ADMIN-Association
+        consumers : nl-test-admin-Association
     	result : Result
 	person : personId or Person
 	offering : offeringId
     }
-    class `NL-TEST-ADMIN-Association` {
+    class `nl-test-admin-Association` {
         consumerKey : string
         orgAssociationId: UUID
         attempt: integer
@@ -195,10 +195,10 @@ classDiagram
         comment : string
         score : string
         resultDate : date
-        consumers : NL-TEST-ADMIN-Result
+        consumers : nl-test-admin-Result
         weight : integer
     }
-    class `NL-TEST-ADMIN-Result` {
+    class `nl-test-admin-Result` {
         consumerKey : string
         attendance : string
         executedOfferingName: string
@@ -217,9 +217,9 @@ classDiagram
         documentName : string
     }
     Association o-- Result
-    Association o-- `NL-TEST-ADMIN-Association`
-    Result o-- `NL-TEST-ADMIN-Result`
-    `NL-TEST-ADMIN-Result` o-- Document
+    Association o-- `nl-test-admin-Association`
+    Result o-- `nl-test-admin-Result`
+    `nl-test-admin-Result` o-- Document
 ```
 
 ### Example of Send attempt result for student tot Student Information System
@@ -233,7 +233,7 @@ PUT /associations/{associationId}
     "state": "associated",
     "consumers": [
     {
-      "consumerKey": "NL-TEST-ADMIN",
+      "consumerKey": "nl-test-admin",
       "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
       "attempt": 2
     }
@@ -246,7 +246,7 @@ PUT /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
 	     {
-          "consumerKey": "NL-TEST-ADMIN",
+          "consumerKey": "nl-test-admin",
           "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",

@@ -48,9 +48,12 @@ The TPS can create test moments using this information and provide a TES with th
 ### Flow 1.1b : Endpoints for this flow
 
 - `GET /ooapi/groups?q=..`
-- `GET /ooapi/groups/{groupId}/persons`
+- `GET /ooapi/groups/{groupId}/members`
 - `GET /ooapi/persons/{personId}`
-
+- `GET /ooapi/groups/{groupId}`
+- `PUT /ooapi/groups/{groupId}`
+- `PUT /ooapi/groups/{groupId}/members/{personId}`
+ 
 
 ## Flow 1.2 : Additional supporting information
 
@@ -59,7 +62,10 @@ Based on the id's on students (and staff members) and their program offering ass
 ### Flow 1.2a: Additional supporting information: GET flows Endpoints for this flow
 
 - `GET /ooapi/persons/{personId}`
-- `GET /ooapi/associations/{associationId}?expand=offering`
+- `GET /ooapi/associations/{associationId}?expand=offering.program`
+- `GET /ooapi/associations/{associationId}?expand=offering.program,offering.organization`
+- `GET /ooapi/organizations/{organizationId}?expand=parent`
+
 
 ### Flow 1.2b: Additional supporting information: supplied by SIS to TPS for provisioning of users and their studyplans (PUT)
 - `PUT /ooapi/persons/{personId}`
@@ -136,12 +142,12 @@ classDiagram
         associationType : associationType
         role : associationRole
         state : state
-        consumers : NL-TEST-ADMIN-Association
+        consumers : nl-test-admin-Association
         person : personId or Person
         offering : offeringId
     }
-    class `NL-TEST-ADMIN-Association` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Association` {
+    	consumerKey : string = "nl-test-admin"
 	    additionalTimeInMin : int
 	    personalNeeds : string[]
         attempt : int
@@ -161,20 +167,31 @@ classDiagram
         mail : string
         languageOfChoice: string[]
 		otherCodes: identifierEntity[]
-    	consumers : NL-TEST-ADMIN-Person
+    	consumers : nl-test-admin-Person
     }
-    class `NL-TEST-ADMIN-Person` {
-    	consumerKey : string = "NL-TEST-ADMIN"
-	    personalNeeds : string[]
-        idCheckName: string
+
+    class `nl-test-admin-Person` {
+    	consumerKey : string = "nl-test-admin"
+        preferredName: string
+    	assignedNeeds : AssignedNeedsEntry[]
+	    idCheckName : string
     }
+
+    class AssignedNeedsEntry {
+		code : string
+	    description : LanguageTypedString[]
+	    startDate : date-string
+	    endDate : date-string
+    }
+
     class Offering {
        offeringId : UUID
     }
     Association -- Offering 
-    Association o-- `NL-TEST-ADMIN-Association`
+    Association o-- `nl-test-admin-Association`
     Association -- Person
-    Person o-- `NL-TEST-ADMIN-Person`
+    Person o-- `nl-test-admin-Person`
+    `nl-test-admin-Person` o-- AssignedNeedsEntry
 
 ```
 ### Example of request component offerings that need to be planned
@@ -202,7 +219,7 @@ GET /ooapi/offerings?offeringType=component&component.componentType=test&since=.
             "resultValueType": "0-100",
             "consumers": [
                 {
-                    "consumerKey": "NL-TEST-ADMIN",
+                    "consumerKey": "nl-test-admin",
                     "testsToBeUsed": [
                         {
                             "testProvider": "MBO-NED",
@@ -254,7 +271,7 @@ GET /ooapi/offerings/{offeringId}/associations/
             "state": "associated",
             "consumers": [
                 {
-                    "consumerKey": "NL-TEST-ADMIN",
+                    "consumerKey": "nl-test-admin",
                     "personalNeeds": [    
                         "extraTime",
                         "spoken",
@@ -302,7 +319,7 @@ PUT /ooapi/offerings/{offeringId}
    "resultExpected": true,
    "consumers": [
       {
-	    "consumerKey": "NL-TEST-ADMIN",
+	    "consumerKey": "nl-test-admin",
         "testsToBeUsed": [
             {
                 "testProvider": "MBO-NED",
@@ -337,7 +354,7 @@ PUT /ooapi/associations/{associationId}
     "state": "associated",
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "personalNeeds": [    
                 "extraTime",
                 "spoken",
@@ -381,7 +398,7 @@ sequenceDiagram
     deactivate DeelnemerRegistratie
 ```
 
-### Flow 1.1b.2: Sequence diagram of request persons (students and staff) in a specific group
+### Flow 1.1b.2: Sequence diagram of request members (students and staff) in a specific group
 
 ```mermaid
 
@@ -389,9 +406,9 @@ sequenceDiagram
     participant DeelnemerRegistratie
     participant Toetsplanning
     Toetsplanning-->>Toetsplanning: do everything with plan
-    Toetsplanning->>DeelnemerRegistratie : Give list of persons for group sith code "groupId"
+    Toetsplanning->>DeelnemerRegistratie : Give list of members for group with code "groupId"
     activate DeelnemerRegistratie
-    Note right of DeelnemerRegistratie: endpoint /ooapi/groups/{groupId}/persons (GET)
+    Note right of DeelnemerRegistratie: endpoint /ooapi/groups/{groupId}/members (GET)
     DeelnemerRegistratie->>Toetsplanning : 200 - Here they are !
     deactivate DeelnemerRegistratie
 ```
@@ -476,9 +493,24 @@ GET /ooapi/groups?q=..
 
 ```
 
-### Flow 1.1b.2: Example of request persons (students and staff members) part of a group	
+
+### Class diagram for members 
+
+```mermaid
+
+classDiagram
+    class MembershipItem {
+    personId : uuid-string
+	startDateTime : datetime-string
+	endDateTime : datetime-string
+	state : string
+	role : string
+    }
+```
+
+### Flow 1.1b.2: Example of request members (students and staff members) part of a group	
 ```json
-GET /ooapi/groups/{groupId}/persons
+GET /ooapi/groups/{groupId}/members
 {
     "pageSize": 10,
     "pageNumber": 1,
@@ -487,44 +519,11 @@ GET /ooapi/groups/{groupId}/persons
     "totalPages": 8,
     "items": [
         {
-            "personId": "111-2222-33-4444-333",
-            "primaryCode": 
-            {
-                "codeType": "studentNumber",
-                "code": "1234568"
-            },
-            "givenName": "Klaas",
-            "preferredName": "Klaassie",
-            "surnamePrefix": "van",
-            "surname": "Dijk",
-            "displayName": "Klaas van Dijk",
-            "activeEnrollment": true,
-            "affiliations": 
-            [
-                "student"
-            ],
-            "mail": "vandijk.mcw@student.roc.nl",
-            "languageOfChoice": 
-                [
-                    "nl-NL"
-                ],
-            "otherCodes": [
-            {
-            "codeType": "identifier",
-            "code": "student123abc"
-            }
-            ],
-            "consumers": [
-                {
-                    "consumerKey": "NL-TEST-ADMIN",
-                    "personalNeeds": [    
-                        "extraTime",
-                        "spoken",
-                        "spell-checker-on-screen"                
-                    ],
-                    "idCheckName": "van Dijk, Klaas"
-                }
-            ]
+            "personId": "123e4567-e89b-12d3-a456-122564174000",
+            "startDateTime": "2020-09-28T08:30:00+01:00",
+            "endDateTime": "2020-09-30T20:00:00+01:00",
+            "state": "active",
+            "role": "student",
         }
     ]
 }
@@ -561,12 +560,19 @@ GET /ooapi/persons/{personId}
     ],
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
-            "personalNeeds": [    
-                "extraTime",
-                "spoken",
-                "spell-checker-on-screen"                
-            ],
+            "consumerKey": "nl-test-admin",
+            "preferredName": "Maar",
+            "assignedNeeds": {
+                "code": "extraTimeOnlyMath25%",
+                "description": [
+                    {
+                        "language": "nl-NL",
+                        "value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+                    }
+                ],
+                "startDate": "2023-10-25",
+                "endDate": "2025-09-30"
+            },
             "idCheckName": "van Damme, Maartje"
         }
     ]
@@ -574,10 +580,103 @@ GET /ooapi/persons/{personId}
 }
 ```
 
+### Flow 1.1b.4: Example of request for 1 specific group	
+```json
+GET /ooapi/groups/{groupId}
+{
+    "groupId": "123e4567-e89b-12d3-a456-426614174000",
+    "primaryCode": {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+    },
+    "groupType": "learning group",
+    "name": [
+        {
+        "language": "en-GB",
+        "value": "statistics students"
+        }
+    ],
+    "description": [
+        {
+        "language": "en-GB",
+        "value": "The group of students that follow statistics classes and related staff"
+        }
+    ],
+    "startDate": "2020-08-17",
+    "endDate": "2020-12-18",
+    "personCount": 183,
+    "otherCodes": [
+        {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+        }
+    ],
+    "organization": "452c1a86-a0af-475b-b03f-724878b0f387"
+}    
+
+```
+
+
+
+
+### Example adding groups and members from SIS to TPS	
+An optional method is allowed to provide information from the SIS to the TPS for creating groups and updating the members of these groups.
+
+The creation and update of a group is done through a PUT operation.
+
+```json
+PUT /ooapi/groups/{groupId}
+{
+    "groupId": "123e4567-e89b-12d3-a456-426614174000",
+    "primaryCode": {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+    },
+    "groupType": "learning group",
+    "name": [
+        {
+        "language": "en-GB",
+        "value": "statistics students"
+        }
+    ],
+    "description": [
+        {
+        "language": "en-GB",
+        "value": "The group of students that follow statistics classes and related staff"
+        }
+    ],
+    "startDate": "2020-08-17",
+    "endDate": "2020-12-18",
+    "personCount": 183,
+    "otherCodes": [
+        {
+        "codeType": "identifier",
+        "code": "1234qwe12"
+        }
+    ],
+    "organization": "452c1a86-a0af-475b-b03f-724878b0f387"
+} 
+
+```
+
+
+Additionaly there is the option to add and update the members of a group. This is done by a PUT option containing the GroupId where membership items are to be updated. The update is done by using the personId of the person partaking in the group. There is no deletion option however the status of a person can be updated to canceled or the endDateTime can also be used to indicate the user will no longer be part of the group.
+
+
+```json
+PUT /ooapi/groups/{groupId}/members/{personId}
+{
+    "personId": "123e4567-e89b-12d3-a456-122564174000",
+    "startDateTime": "2020-09-28T08:30:00+01:00",
+    "endDateTime": "2020-09-30T20:00:00+01:00",
+    "state": "active",
+    "role": "student",
+}
+```
 
 # flow 1.2: additional supporting information 
 
-### Flow 1.2a.1: Sequence diagram of request to get persons based on a program (?) the person is participating in
+### Flow 1.2a.1: Sequence diagram of request to get persons based on a program the person is participating in
 
 ```mermaid
 
@@ -657,14 +756,14 @@ sequenceDiagram
         description : LanguageTypedString[]
         teachingLanguage : string
         resultExpected : boolean
-        consumers : NL-TEST-ADMIN-Offering
+        consumers : nl-test-admin-Offering
         startDate : date-string
         endDate : date-string
         program : programId or Program object
         organization : organizationId or Organization object
     }
-    class `NL-TEST-ADMIN-Offering` {
-        consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Offering` {
+        consumerKey : string = "nl-test-admin"
 		cohort : string
 		location : string[]
     }
@@ -683,7 +782,7 @@ sequenceDiagram
         validFrom : date-string
         validTo : date-string
     }
-    ProgramOffering o-- `NL-TEST-ADMIN-Offering`
+    ProgramOffering o-- `nl-test-admin-Offering`
     ProgramOffering -- Organization 
 
 ```    
@@ -702,7 +801,7 @@ GET /ooapi/offerings/{offeringId}?expand=organization
     "name": "Netwerk- en mediabeheerder BOL (25190)",
     "consumers": [
 	{
-	    "consumerKey": "NL-TEST-ADMIN",
+	    "consumerKey": "nl-test-admin",
         "cohort": "2022-2023",
         "location": "Campus Groningen",
     }
@@ -713,12 +812,14 @@ GET /ooapi/offerings/{offeringId}?expand=organization
             "codeType": "identifier",
             "code": "ICTE"
         },
+        "organizationType": "department",
         "name": [
             {
             "language": "nl-NL",
             "value": "ICT-academie"
             }
         ],
+        "shortname": "ICTA",
         "parent": {
             "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
             "primaryCode": {
@@ -746,12 +847,12 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		associationType : associationType
 		role : associationRole
 		state : state
-		consumers : NL-TEST-ADMIN-Association
+		consumers : nl-test-admin-Association
 		person : personId or Person object
 		offering : offeringId
     }
-    class `NL-TEST-ADMIN-Association` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Association` {
+    	consumerKey : string = "nl-test-admin"
         startDate: date-string 
         expectedEndDate: date-string
         finalEndDate: date-string
@@ -761,7 +862,6 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		personId : UUID
 		primaryCode : identifierEntity
 		givenName : string
-		preferredName : string
 		surnamePrefix : string 
 		surname : string
 		displayname : string
@@ -770,12 +870,19 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		mail : string
 		languageOfChoice: string[]
 		otherCodes: identifierEntity[]
-		consumers : NL-TEST-ADMIN-Person
+		consumers : nl-test-admin-Person
     }
-	class `NL-TEST-ADMIN-Person` {
-    	consumerKey : string = "NL-TEST-ADMIN"
-	    personalNeeds : string[]
-        idCheckName: string
+    class `nl-test-admin-Person` {
+    	consumerKey : string = "nl-test-admin"
+        preferredName: string
+    	assignedNeeds : AssignedNeedsEntry[]
+	    idCheckName : string
+    }
+    class AssignedNeedsEntry {
+		code : string
+	    description : LanguageTypedString[]
+	    startDate : date-string
+	    endDate : date-string
     }
     class ProgramOffering {
         offeringId : uuid-string
@@ -785,14 +892,14 @@ GET /ooapi/offerings/{offeringId}?expand=organization
         description : LanguageTypedString[]
         teachingLanguage : string
         resultExpected : boolean
-        consumers : NL-TEST-ADMIN-Offering
+        consumers : nl-test-admin-Offering
         startDate : date-string
         endDate : date-string
         program : programId or Program object
         organization : organizationId or Organization object
     }
-    class `NL-TEST-ADMIN-Offering` {
-        consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Offering` {
+        consumerKey : string = "nl-test-admin"
 		cohort : string
 		location : string[]
     }
@@ -827,13 +934,14 @@ GET /ooapi/offerings/{offeringId}?expand=organization
 		validFrom : date-string
 		validTo : date-string
     }
-    ProgramOffering o-- `NL-TEST-ADMIN-Offering`
+    ProgramOffering o-- `nl-test-admin-Offering`
     ProgramOffering -- Organization 
     ProgramOffering -- Program 
-    Association o-- `NL-TEST-ADMIN-Association`
+    Association o-- `nl-test-admin-Association`
     Association -- Person
     Association -- ProgramOffering
-	Person o-- `NL-TEST-ADMIN-Person`
+	Person o-- `nl-test-admin-Person`
+    `nl-test-admin-Person` o-- AssignedNeedsEntry
 ```
 
 ### Flow 1.2a.2: Example of request associations
@@ -858,7 +966,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program
     ],
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "startDate": "2021-09-01", 
             "expectedEndDate": "2025-07-31",
             "finalEndDate": null
@@ -877,7 +985,7 @@ GET /ooapi/associations/{associationId}?expand=offering.program
         "name": "Netwerk- en mediabeheerder BOL (25190)",
         "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "cohort": "2022-2023",
             "location": ["Campus Eindhoven"]
         }
@@ -911,6 +1019,129 @@ GET /ooapi/associations/{associationId}?expand=offering.program
 }
 ```
 
+### with both organization and program expanded
+```json
+GET /ooapi/associations/{associationId}?expand=offering.program,offering.organization
+{
+    "associationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
+    "associationType": "programOfferingAssociation",
+    "primaryCode": {
+        "codeType": "opleidingsblad",
+        "code": "1.1"
+    },
+    "role": "student",
+    "state": "associated",
+    "otherCodes": [
+        {
+            "codeType": "opleidingscode",
+            "code": "23089"
+        }
+    ],
+    "consumers": [
+        {
+            "consumerKey": "nl-test-admin",
+            "startDate": "2021-09-01", 
+            "expectedEndDate": "2025-07-31",
+            "finalEndDate": null
+            "sequenceCode": "1.1"
+        }
+    ],
+    "person": "500e6ac0-b5ab-4071-a207-7983ccd26f7b",
+    "offering": 
+    {
+        "offeringId": "5ffc6127-debe-48ce-90ae-75ea80756475",
+        "primaryCode": {
+        "codeType": "identifier",
+        "code": "25190BOL"
+        },
+        "offeringType": "program",
+        "name": "Netwerk- en mediabeheerder BOL (25190)",
+        "consumers": [
+        {
+            "consumerKey": "nl-test-admin",
+            "cohort": "2022-2023",
+            "location": ["Campus Eindhoven"]
+        }
+        ],
+        "program": {
+            "programId": "123e4567-e89b-12d3-a456-426614174000",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "C12063128"
+            },
+            "programType": "program",
+            "name": [
+                {
+                "language": "nl-NL",
+                "value": "Netwerk- en mediabeheerder"
+                }
+            ],
+            "abbreviation": "N&M",
+            "description": [
+                {
+                "language": "nl-NL",
+                "value": "In deze MBO-opleiding word je opgeleid voor het officieel erkende diploma 'MBO Netwerkbeheerder, niveau 4'. Met dit diploma ben je breed opgeleid en kun je het netwerk van een organisatie beheren. Dit is hét diploma voor de professionele netwerkbeheerder op het hoogste MBO-niveau. Je legt een uitstekende basis voor een mooie carrière als netwerkbeheerder. Bovendien is dit een diploma waarmee je eventueel probleemloos kunt doorstuderen naar een HBO-opleiding"
+                }
+            ],
+            "teachingLanguage": "nld",
+            "modeOfStudy": "full-time" #moved from assocation consumer
+            "levelOfQualification": "4", # from association consumer
+        },
+        "organization": {
+            "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+            "primaryCode": {
+                "codeType": "identifier",
+                "code": "ICTE"
+            },
+            "organizationType": "department",
+            "name": [
+                {
+                "language": "nl-NL",
+                "value": "ICT-academie"
+                }
+            ],
+            "shortname": "ICTA",
+            "parent": "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d"
+        }
+    }
+}
+```
+
+### get a single organization
+```json
+GET /ooapi/organizations/{organizationId}?expand=parent
+{
+    "organizationID": "38bdbeb1-12b2-48fd-84f8-653e7adfaf99",
+    "primaryCode": {
+        "codeType": "identifier",
+        "code": "ICTE"
+    },
+    "organizationType": "department",
+    "name": [
+        {
+        "language": "nl-NL",
+        "value": "ICT-academie"
+        }
+    ],
+    "shortname": "ICTA",
+    "parent": {
+        "organizationID": "650e1627-9f3d-4176-ab5a-e82eef0d219d",
+        "primaryCode": {
+        "codeType": "identifier",
+        "code": "CICT"
+        },
+        "name": [
+        {
+            "language": "nl-NL",
+            "value": "Cluster ICT en EIS"
+        }
+        ]
+    }
+}
+```
+
+
+
 ### Remarks
 - The modeOfStudy is an enumeration with enumeration values:
 	- full-time : fulltime
@@ -920,12 +1151,11 @@ GET /ooapi/associations/{associationId}?expand=offering.program
  	- extraneous : extraneus student: examendeelnemer (student mag alleen aan de toetsen deelnemen / beperkt collegegeld) - new added value
 
 
-## ADD organization
-
 ### Flow 1.2b.1: Example of provisioning person information	
 ```json
 PUT /ooapi/persons/{personId}
 {
+    "personId": "123e4567-e89b-12d3-a456-426614174000",
     "primaryCode": {
     "codeType": "identifier",
     "code": "1234qwe12"
@@ -951,15 +1181,23 @@ PUT /ooapi/persons/{personId}
     ],
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
-            "personalNeeds": [    
-                "extraTime",
-                "spoken",
-                "spell-checker-on-screen"                
-            ],
+            "consumerKey": "nl-test-admin",
+            "preferredName": "Maar",
+            "assignedNeeds": {
+                "code": "extraTimeOnlyMath25%",
+                "description": [
+                    {
+                        "language": "nl-NL",
+                        "value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
+                    }
+                ],
+                "startDate": "2023-10-25",
+                "endDate": "2025-09-30"
+            },
             "idCheckName": "van Damme, Maartje"
         }
     ],
+
 }
 ```
 
@@ -976,7 +1214,7 @@ PUT /ooapi/associations/{associationId}
     "state": "associated",
     "consumers": [
         {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "sequenceCode": "1.1",
             "startDate": "2021-09-01",
             "expectedEndDate": "2025-07-31",
@@ -1002,7 +1240,7 @@ PUT /ooapi/associations/{associationId}
         "resultExpected": false,
         "consumers": [
             {
-                "consumerKey": "NL-TEST-ADMIN",
+                "consumerKey": "nl-test-admin",
                 "locationCode": "A-12a",
                 "cohort": "2021"
             }

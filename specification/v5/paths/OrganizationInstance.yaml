@@ -2,6 +2,9 @@ get:
   summary: GET /organizations/{organizationId}
   operationId: listOrganizationById
   description: Get a single organization.
+  security:
+    - oAuthFlows:  
+      - nl-test-admin-flow-1-5
   tags:
     - organizations
   parameters:

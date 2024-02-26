@@ -30,11 +30,11 @@ classDiagram
     comment : string
     score : string
     resultDate : date
-    consumers : NL-TEST-ADMIN-Result
+    consumers : nl-test-admin-Result
     weight : integer
   }
-  class `NL-TEST-ADMIN-Result` {
-   	consumerKey : string = "NL-TEST-ADMIN"
+  class `nl-test-admin-Result` {
+   	consumerKey : string = "nl-test-admin"
     attendance : string
     assessorId : string
     assessorCode : string 
@@ -51,8 +51,8 @@ classDiagram
     documentName : string
   }
   Association o-- Result
-  Result o-- `NL-TEST-ADMIN-Result`
-  `NL-TEST-ADMIN-Result` o-- Document
+  Result o-- `nl-test-admin-Result`
+  `nl-test-admin-Result` o-- Document
 ```
 
 ### Example of request Send attendance and result directly
@@ -69,7 +69,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
   	     {
-            "consumerKey": "NL-TEST-ADMIN",
+            "consumerKey": "nl-test-admin",
             "attendance": "present",
             "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
             "assessorCode": "JAJE",
@@ -140,14 +140,14 @@ classDiagram
     class Result {
     	state : string = "in progress"
       resultDate : date
-      consumers : NL-TEST-ADMIN-Result
+      consumers : nl-test-admin-Result
     }
-    class `NL-TEST-ADMIN-Result` {
-    	consumerKey : string = "NL-TEST-ADMIN"
+    class `nl-test-admin-Result` {
+    	consumerKey : string = "nl-test-admin"
       attendance : string
     }
     Association o-- Result
-    Result o-- `NL-TEST-ADMIN-Result`
+    Result o-- `nl-test-admin-Result`
 ```
 
 ### Example of request A. Send attendance for student directly
@@ -161,7 +161,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-27",
       "consumers": [
 	     {
-        "consumerKey": "NL-TEST-ADMIN",
+        "consumerKey": "nl-test-admin",
         "attendance": "present",
 	     }
       ]
@@ -186,7 +186,7 @@ PATCH /associations/{associationId}
       "resultDate": "2020-09-28",
       "consumers": [
 	     {
-          "consumerKey": "NL-TEST-ADMIN",
+          "consumerKey": "nl-test-admin",
           "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",
@@ -262,8 +262,7 @@ GET /offerings/{offeringId}/associations
     "remoteState": "associated",
     "consumers": [
     {
-      "consumerKey": "NL-TEST-ADMIN",
-      "startUpURL": "https://myComponent.nl?test",
+      "consumerKey": "nl-test-admin",
       "additionalTimeInMin": 30,
       "personalNeeds": 
     	[
@@ -282,7 +281,7 @@ GET /offerings/{offeringId}/associations
       "weight": 100,
       "consumers": [
       {
-        "consumerKey": "NL-TEST-ADMIN",
+        "consumerKey": "nl-test-admin",
         "attendance": "present",
         "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
         "assessorCode": "JAJE",
@@ -319,8 +318,7 @@ GET /associations/{associationId}
     "remoteState": "associated",
     "consumers": [
       {
-        "consumerKey": "NL-TEST-ADMIN",
-        "startUpURL": "https://myComponent.nl?test",
+        "consumerKey": "nl-test-admin",
         "extraTimeInMin": 30,
         "personalNeeds": [
             "extraTime",
@@ -338,7 +336,7 @@ GET /associations/{associationId}
       "weight": 100,
       "consumers": [
         {
-          "consumerKey": "NL-TEST-ADMIN",
+          "consumerKey": "nl-test-admin",
           "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",

@@ -5,6 +5,28 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [5.0.0 MBO v0.9.3] - 2023-11-07
+### Added
+- added groups PUT endpoint
+- added membership GET enpdoint to groups
+- added membership PUT endpoint to groups based on issue [#121](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/121)
+- added proper security scopes based on issue [#117] (https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/117)
+- added persons PUT endpoint
+- added <breaking> elements to assocationRole eunmerations surveillant [[#106](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/106)]
+- added specification documents to doc\documents
+- added consumer to Persons endpoint
+- added <existing OOAPI> organizations GET endpoint 
+- added assignedNeeds to Persons consumer (used to be personalNeeds as extra attribute in Person)
+
+### Changed
+- renamed all consumer .yaml files to lower case
+- made depricated groups/{groupId}/persons for this case
+
+
+
+### Removed
+- removed specific OKE attribute in person endpoint (personalNeeds)
+
 
 
 # [5.0.0 MBO] - 2023-11-07

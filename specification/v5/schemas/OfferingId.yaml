@@ -1,7 +1,5 @@
 type: object
 description: ID of Either a program, course or component offering which descrbes the program, course or offering in time 
-required:
-  - offeringId
 properties:
   offeringId:
     type: string

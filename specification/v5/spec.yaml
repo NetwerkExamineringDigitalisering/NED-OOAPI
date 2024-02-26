@@ -5,7 +5,7 @@ info:
   description: |
     OpenAPI (fka Swagger) specification for the Open Education API.
     <br/>
-    NOTE:This is a subset of the OOAPI that is used in the "MBO-Toetsafname" project (sponsored by mbo-digitaal in the netherlands). This porject uses the "NL-TEST-ADMIN" consumer 
+    NOTE:This is a subset of the OOAPI that is used in the "MBO-Toetsafname" project (sponsored by mbo-digitaal in the netherlands). This project uses the "nl-test-admin" consumer 
     <br/>
     <figure>
     	<a target="_blank" href="OOAPIv5_model.png">
@@ -199,7 +199,7 @@ x-tagGroups:
 #      - news
       - documents
       - offerings
-#      - organizations
+      - organizations
       - persons
 #      - programs
 #      - rooms
@@ -217,7 +217,7 @@ x-tagGroups:
       - group_model
 #      - news_feed_model
 #      - news_item_model
-#      - organization_model
+      - organization_model
       - person_model
       - program_model
       - program_offering_model
@@ -239,7 +239,7 @@ components:
         clientCredentials:
           tokenUrl: https://example.nl/oauth2/authorize
           scopes:
-            test-admin-flow: functions needed to allow the transfer of enrollments, persons and offerings between systems in MBO
+            nl-test-admin-flow: functions needed to allow the transfer of enrollments, persons and offerings between systems in MBO
 
   #schemas:
     # allOf: 
@@ -318,8 +318,8 @@ paths:
     $ref: paths/ComponentInstance.yaml
   /components:
     $ref: paths/ComponentCollection.yaml
-  /components/{componentId}/offerings:
-    $ref: paths/ComponentOfferingCollection.yaml
+  # /components/{componentId}/offerings:
+  #   $ref: paths/ComponentOfferingCollection.yaml
   /offerings:
     $ref: paths/OfferingCollection.yaml
   /offerings/{offeringId}:
@@ -374,5 +374,7 @@ paths:
     $ref: paths/GroupCollection.yaml
   /groups/{groupId}:
     $ref: paths/GroupInstance.yaml
-  /groups/{groupId}/persons:
-    $ref: paths/GroupPersonCollection.yaml
+  # /groups/{groupId}/persons:
+  #   $ref: paths/GroupPersonCollection.yaml
+  /groups/{groupId}/members:
+    $ref: paths/GroupMemberships.yaml

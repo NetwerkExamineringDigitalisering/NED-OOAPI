@@ -4,7 +4,8 @@ get:
   description: Get a single offering.
   security:
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - offerings
   parameters:
@@ -64,7 +65,7 @@ get:
                 - situated
                 resultExpected: true
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   duration: P60M
                   lastPossibleStartDateTime: 2020-12-15T08:50:00+01:00
                   startOptions: individualStart
@@ -118,7 +119,8 @@ patch:
     - openId:
       - offerings.write
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4
   tags:
     - offerings
   parameters:
@@ -134,20 +136,22 @@ patch:
     content:
       application/merge-patch+json:
           schema:
-            $ref: '../schemas/ComponentOfferingProperties.yaml'
+            allOf:
+              - $ref: '../schemas/OfferingId.yaml'
+              - $ref: '../schemas/ComponentOfferingProperties.yaml'
             title: componentOffering
           examples:
             Delete offering (Flow 2.5):
               value:
                 offeringType: component
                 consumers: 
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   offeringState: canceled
             Send attendance and offering report directly (Flow 4.1):
               value:
                 offeringType: component
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   irregularities: "There was a lot of noise from the construction site nearby."
                   documents: [
                     {
@@ -187,7 +191,8 @@ put:
     - openId:
       - offerings.write
     - oAuthFlows:  
-      - test-admin-flow
+      - nl-test-admin-flow-1-5
+      - nl-test-admin-flow-2-3-4      
   tags:
     - offerings
   parameters:
@@ -203,11 +208,12 @@ put:
     content:
         application/json:
           schema:
-            $ref: '../schemas/ComponentOfferingNoId.yaml'
+            $ref: '../schemas/ComponentOffering.yaml'
             title: componentOffering
           examples:
             Create offering (zitting) without students (flow 2.1):
               value:
+                offeringId: "123e4567-e89b-12d3-a456-134564174000" 
                 primaryCode:
                   codeType: offeringCode
                   code: "Remindo_rekenen_MBO-3_op_woendag_middag_21-jun-22_om_13:00_in_lokaal_13"
@@ -224,7 +230,7 @@ put:
                 - situated
                 resultExpected: true
                 consumers:
-                - consumerKey: NL-TEST-ADMIN
+                - consumerKey: nl-test-admin
                   duration: P60M
                   lastPossibleStartDateTime: 2020-12-15T08:50:00+01:00
                   startOptions: individualStart
@@ -238,6 +244,7 @@ put:
                 component: "c5fca27e-ccc1-430d-9888-90e005ad6a86"
             Create offering (zitting) without students (flow 2.1 minimal):
               value:
+                offeringId: "123e4567-e89b-12d3-a456-134564174000" 
                 primaryCode:
                   codeType: offeringCode
                   code: "Remindo_rekenen_MBO-3_op_woendag_middag_21-jun-22_om_13:00_in_lokaal_13"

@@ -2,9 +2,6 @@ get:
   summary: GET /components/{componentId}/offerings
   operationId: listOfferingsByComponentId
   description: Get a list of all offerings for this component, ordered chronologically.
-  security:
-    - oAuthFlows:  
-      - test-admin-flow
   tags:
     - offerings
   parameters:
