@@ -197,21 +197,13 @@ classDiagram
     class `nl-test-admin-Person` {
     	consumerKey : string = "nl-test-admin"
         preferredName: string
-    	assignedNeeds : AssignedNeedsEntry[]
 	    idCheckName : string
     }
 
-    class AssignedNeedsEntry {
-		code : string
-	    description : LanguageTypedString[]
-	    startDate : date-string
-	    endDate : date-string
-    }
 
     Association o-- `nl-test-admin-Association`
     Association -- Person
     Person o-- `nl-test-admin-Person`
-    `nl-test-admin-Person` o-- AssignedNeedsEntry
 
 ```
 
@@ -253,17 +245,6 @@ PUT endpoint /ooapi/associations/{associationId}
 			{
 				"consumerKey": "nl-test-admin",
 				"preferredName": "Maar",
-				"assignedNeeds": {
-					"code": "extraTimeOnlyMath25%",
-					"description": [
-						{
-							"language": "nl-NL",
-							"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
-						}
-					],
-					"startDate": "2023-10-25",
-					"endDate": "2025-09-30"
-				},
 				"idCheckName": "van Damme, Maartje"
 			}
 		],
@@ -360,17 +341,6 @@ PUT endpoint /ooapi/associations/{associationId}
 			{
 				"consumerKey": "nl-test-admin",
 				"preferredName": "Maar",
-				"assignedNeeds": {
-					"code": "extraTimeOnlyMath25%",
-					"description": [
-						{
-							"language": "nl-NL",
-							"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
-						}
-					],
-					"startDate": "2023-10-25",
-					"endDate": "2025-09-30"
-				},
 				"idCheckName": "van Damme, Maartje"
 			}
 		],
@@ -601,17 +571,6 @@ GET /ooapi/offerings/{offeringId}/associations
 					{
 						"consumerKey": "nl-test-admin",
 						"preferredName": "Maar",
-						"assignedNeeds": {
-							"code": "extraTimeOnlyMath25%",
-							"description": [
-								{
-									"language": "nl-NL",
-									"value": "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"
-								}
-							],
-							"startDate": "2023-10-25",
-							"endDate": "2025-09-30"
-						},
 						"idCheckName": "van Damme, Maartje"
 					}
 				],
