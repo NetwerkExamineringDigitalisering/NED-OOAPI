@@ -34,8 +34,8 @@ servers:
     description: SURF demo implementation
 
 tags:
-#  - name: service metadata
-#    description: The service API provides additional metadata needed to make the OOAPI fit for this organization.
+  - name: service metadata
+    description: The service API provides additional metadata needed to make the OOAPI fit for this organization.
 #  - name: academic sessions
 #    description: The academic sessions API provides information about the different time periods a program can be offered.
   - name: associations
@@ -188,7 +188,7 @@ tags:
 x-tagGroups:
   - name: Requests and responses
     tags: 
-#      - service metadata
+      - service metadata
 #      - academic sessions
       - associations
 #      - buildings
@@ -205,7 +205,7 @@ x-tagGroups:
 #      - rooms
   - name: Models
     tags:
-#      - service_model
+      - service_model
 #      - academic_session_model
       - association_model
 #      - building_model
@@ -262,8 +262,8 @@ components:
     #   - $ref: schemas/AssociationFull.yaml
 
 paths:
-  # /:
-  #   $ref: paths/Service.yaml
+  /:
+    $ref: paths/Service.yaml
   # /persons:
   #   $ref: paths/PersonCollection.yaml
   # /persons/me:
