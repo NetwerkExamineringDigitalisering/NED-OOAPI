@@ -1,5 +1,32 @@
 # Flow 1.1: Plannings information (tests and persons)
 
+This flow supports the following flows / processes
+
+- Flow 1.1a : Structured
+    - Flow 1.1a.1: Get the to be planned exams (and students & staff)
+    - Flow 1.1a.2: Update enrollment (for a student or staff)
+    - Flow 1.1a.3: Update an offering
+    - Additional SIS examples
+        - Example to create an offering (planbare toets)	
+        - Example of a change in end date of an offering (e.g. to close the offering) 	
+        - Example adding an associations from SIS to TPS	
+
+- Flow 1.1b : very adhoc
+    - Flow 1.1b.1: request groups based on a specific name
+    - Flow 1.1b.2: request members (students and staff) in a specific group
+    - Flow 1.1b.3: request to get information on a single student or staff
+    - Flow 1.1b.4: Request for 1 specific group	
+
+- Flow 1.2: additional supporting information 
+    - Flow 1.2a.1: rquest to get persons based on a program the person is participating in
+    - Flow 1.2a.2: request to get the offering details of a specific assocation to clarify the assocation
+    - Flow 1.2b.1: provision person information (PUT of information of a single student from SIS to the TPS) 
+    - Flow 1.2b.2: provisioning current program associations information	
+
+
+
+# Flow 1.1: Plannings information (tests and persons)
+
 Flow 1 is used to provide a test planning system with information on tests to be planned and the students/candidates that have to perform those tests. Usually a Student Information System (SIS) provides this information to a Test Planning System (TPS). The TPS uses this information to plan testmoments for tests, assign the required Test Execution System (TES) and test within that TES. Students are assigned to the test moments based on the logic and workflow of the TPS. It is also possible to assign employees (or staff members) to the test to be planned (planbare toets).
 
 We distinguish two flows that can be used to plan tests:

@@ -8,6 +8,10 @@ We distinguish two types of result information flows to Deelnemerregistratie:
 - Result as the one and only **Result for a test** for the test enrollment in flow 1
 - Result as a **Result from a Test Attempt** the attempt MUST have a relation with the original ComponentTypeAssociation originating from the test enrollment in flow 1. The TestplanningSystem MUST keep track of the attempts and the relation with the original association.
 
+This Flow supports the following processes:
+- Flow 5.1 : Test result
+- Flow 5.2 : Attempt result 
+
 ## Flow 5.1 : Test result 
 Toetsplanning sends the tes tresult information to Deelnemerregistratie. Toetsplanning indicates for which test enrollment (ComponentOfferingAssociation) this result information is.
 
