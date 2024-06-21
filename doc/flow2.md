@@ -124,7 +124,7 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 
 The consumer fields for duration and the various tiem indicators allow for the following scenarios:
 
-| Scenario Nummmer | Scenario | startDateTime | entryDateTime | endDateTime  | duration | startOptions  | durationFrom | durationUntil |
+| Scenario Nummmer | Scenario | startDateTime | LastPossibleStartTime | endDateTime  | duration | startOptions  | durationFrom | durationUntil |
 |------------|----------------|--------------------|--------------------|--------------------|-----------------|-----------------|-------------------------|---------------|
 | 1 | Testmomement starts at 9:00 and   ends at 10:00. Candidates can start test at any moment during test moment                 | 2022-11-15T09:00T12:45:00.000Z   |                    | 2022-11-15T10:00:00.000Z   | PT40M  (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
 | 2 | Testmoment   starts at 9:00 and ends at 10:00. Candidates can start until 09:15                                             | 2022-11-15T09:00:00.000Z | 2022-11-15T09:15:00.000Z | 2022-11-15T10:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
