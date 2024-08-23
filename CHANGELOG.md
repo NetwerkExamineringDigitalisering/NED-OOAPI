@@ -5,9 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [5.0.0 MBO v0.9.4] - 2024-08-22
+### Added
+- 
+
+### Changed
+- updated the service endpoint to inform of the OOAPI version and consumer, including its version, that are supported [#123](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/123)
+- updates on different flows (no impact on spec)
+
+### Removed
+-
+
+
 # [5.0.0 MBO v0.9.3] - 2023-11-07
 ### Added
-- added groups PUT endpoint
+- added groups PUT endpoint 
 - added membership GET enpdoint to groups
 - added membership PUT endpoint to groups based on issue [#121](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/121)
 - added proper security scopes based on issue [#117] (https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/117)
