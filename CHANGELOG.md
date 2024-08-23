@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - updated the service endpoint to inform of the OOAPI version and consumer, including its version, that are supported [#123](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/123)
 - updates on different flows (no impact on spec)
+- improvements on documentation
 
 ### Removed
 -
