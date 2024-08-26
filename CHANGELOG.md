@@ -44,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [5.0.0 MBO] - 2023-11-07
 ### Added
-- added consumer elements cohort and location to offeirngs based on issue [#71](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/71)
+- added consumer elements cohort and location to offerings based on issue [#71](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/71)
 - added <breaking> elements to assocationRole eunmerations surveillant [[#106](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/106)]
 - added extra elements to NL-TEST-ADMIN-Association.yaml [#107](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/107) 
 
@@ -75,7 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # [5.0.0 MBO] - 2023-03-21
 
 ### Added
-- added assocaitionProperties in .yaml to allow for better inheritance (no effect on endpoints)
+- added associationProperties in .yaml to allow for better inheritance (no effect on endpoints)
 - added mechanism for requiredfields within endpoints (e.g ComponentOfferingAssociation.yaml)
 - added extra values to result consumer
 - added extraneous to modeOfdelevery
