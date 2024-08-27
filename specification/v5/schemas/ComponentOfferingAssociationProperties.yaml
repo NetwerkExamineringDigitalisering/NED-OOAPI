@@ -1,5 +1,5 @@
 allOf:
-  - $ref: './Association.yaml'
+  - $ref: './AssociationProperties.yaml'
   - type: object
     properties:
       result:
