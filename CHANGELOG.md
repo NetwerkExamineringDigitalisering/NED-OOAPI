@@ -115,6 +115,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - post -> createResource
     - patch -> partialUpdateResource
     - /me -> {action}ResourceByMyOauthId
+    Reasoning for this schema is based on:
+    https://github.com/watson-developer-cloud/api-guidelines/blob/master/swagger-coding-style.md
+
 - value courseCode to codeType to allow courseCode (UUID's) as otherCode in groups
 - update resultValue enum:
   - 'pass-or-fail'
