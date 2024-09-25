@@ -612,5 +612,3 @@ GET /associations/{associationId}/url
    "http://example.com/testcode_1/123e4567-e89b-12d3-a456-112123000"
    
 ```
-	
-

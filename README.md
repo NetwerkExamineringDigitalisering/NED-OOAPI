@@ -1,3 +1,4 @@
+=======
 # NED-OOAPI - Programma OKE - MBO standard to organise tests and exams based on OOAPI
 ![](doc/diagrams/NED-logo.png)
 
@@ -54,7 +55,9 @@ An adapted and shortend version of the yaml file for the MBO-OKE can be found [h
 | 0.9 | 24 aug 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved for pilots 2 and 3 |
 | 0.9.1 | 22 sep 2023 | DRAFT | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved for pilots 2 and 3 |
 | [0.9.2](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/v0.9.3/doc/documents/MBO-toetsafname%20specs%20v0.9.2_20231114(reviewversie).pdf) | 14 nov 2023 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | details added and review comments solved |
-| [0.9.3](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/v0.9.3/doc/documents/MBO-toetsafname%20specs%20v0.9.3_20240110(reviewversie).pdf) | 10 jan 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | groupmembers added for ad-hoc tests|
+| [0.9.3](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/MBO-toetsafname%20specs%20v0.9.3_20240223(reviewversie).pdf) | 10 jan 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | groupmembers added for ad-hoc tests|
+| [0.9.4](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/OKE%20MBO-toetsafname%20specs%20v0.9.4_20240906(reviewversie).pdf) | 6 september 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | final corrections and clarifications|
+| [1.0](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/OKE%20MBO-toetsafname%20specs%20v1.0_20240918(definitief).pdf) | 18 september 2024 | FINAL RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | final corrections and clarifications|
 
 This repository is an initiative of the MBO Digitaal and NED.
 
@@ -89,5 +92,3 @@ This standard is developed by members from schools, software partners and NED. T
 | Werner Richelle|Summa College|w.richelle@summacollege.nl|
 | Ronald Ham | Surf	/ R4Arhictecture|	Ronald.ham@r4architecture.nl |
 | Rene Rutte | Xebic | rrutte@xebic.com |
-
-
