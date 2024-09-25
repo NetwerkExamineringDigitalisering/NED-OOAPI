@@ -51,6 +51,11 @@
             <artifactId>jackson-datatype-threetenbp</artifactId>
             <version>${joschi-jackson-version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.davidmoten</groupId>
+            <artifactId>openapi-to-plantuml</artifactId>
+            <version>0.1.30</version>
+        </dependency>
 	<!-- add dependency and remove for current jav version -->
 	<dependency>
 	  <groupId>jakarta.xml.bind</groupId>

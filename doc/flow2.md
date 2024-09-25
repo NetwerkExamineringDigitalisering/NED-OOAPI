@@ -1,5 +1,15 @@
 # Flow 2 : Transfer offering (zitting) to Toetsafname
 
+The flow supports 7 different processes:
+- Flow 2.1 : Create offering (zitting) without students
+- Flow 2.2 : Create offering (zitting) with students
+- Flow 2.3 : Add students to existing offering (zitting)
+- Flow 2.4 : Delete students from offering (zitting)
+- Flow 2.5 : Delete offering (zitting)
+- Flow 2.6 : Read current state of the offering (zitting)
+- Flow 2.7 : Get startup URL from the testing application
+
+
 Used endpoints for this flow are:
 - `GET /offerings/{offeringId}`
 - `PUT /offerings/{offeringId}`
@@ -7,6 +17,9 @@ Used endpoints for this flow are:
 - `GET /offerings/{offeringId}/associations`
 - `PUT /associations/{associationId}`
 - `PATCH /ooapi/associations/{associationId}`
+- `GET /associations/{associationId}/url`
+
+	
 
 ## Flow 2.1 : Create offering (zitting) without students
 
@@ -124,7 +137,7 @@ YYYY-MM-DDThh:mm:ssTZD (eg 1997-07-16T19:20:30+01:00)
 
 The consumer fields for duration and the various tiem indicators allow for the following scenarios:
 
-| Scenario Nummmer | Scenario | startDateTime | LastPossibleStartTime | endDateTime  | duration | startOptions  | durationFrom | durationUntil |
+| Scenario Nummmer | Scenario | startDateTime | entryDateTime | endDateTime  | duration | startOptions  | durationFrom | durationUntil |
 |------------|----------------|--------------------|--------------------|--------------------|-----------------|-----------------|-------------------------|---------------|
 | 1 | Testmomement starts at 9:00 and   ends at 10:00. Candidates can start test at any moment during test moment                 | 2022-11-15T09:00T12:45:00.000Z   |                    | 2022-11-15T10:00:00.000Z   | PT40M  (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
 | 2 | Testmoment   starts at 9:00 and ends at 10:00. Candidates can start until 09:15                                             | 2022-11-15T09:00:00.000Z | 2022-11-15T09:15:00.000Z | 2022-11-15T10:00:00.000Z | PT40M (40 minutes + 10 minutes for extra time) | individualStart | individualStartDateTime | endDateTime   |
@@ -402,7 +415,7 @@ PATCH endpoint /ooapi/associations/{associationId}
 	- Add no values for other attributes within Association because they will be ignored.
 
 
-## Flow 2.5 Delete offering (zitting)
+## Flow 2.5 : Delete offering (zitting)
 
 ### Sequence diagram of request Delete offering (zitting)	
 ```mermaid
@@ -454,17 +467,17 @@ PATCH endpoint /ooapi/offerings/{offeringId}
 	- Attribute offeringState within consumers of Offering (nl-test-admin-Offering): use the value "canceled" from the enum.
 	- Add no values for other attributes within Offering because they will be ignored.
 
-## Flow 2.6 Read current state of the offering (zitting)
+## Flow 2.6 : Read current state of the offering (zitting)
 To see/check the current state of the offering (zitting) with its associations the following endpoint can be used at Toetsafname
 ```mermaid
 sequenceDiagram
     Toetsplanning->>Toetsafname: A. Read current state of the offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /ooapi/offerings//{offeringId} (GET)
+    Note right of Toetsafname: endpoint /ooapi/offerings/{offeringId} (GET)
     Toetsafname->>Toetsplanning: 200 - here it is!
     Toetsplanning->>Toetsafname: B. Read the students and employees for offering (zitting)
     activate Toetsafname
-    Note right of Toetsafname: endpoint /ooapi/offerings//{offeringId}/associations (GET)
+    Note right of Toetsafname: endpoint /ooapi/offerings/{offeringId}/associations (GET)
     Toetsafname->>Toetsplanning: 200 - here they are!
     deactivate Toetsafname
 ```
@@ -582,5 +595,20 @@ GET /ooapi/offerings/{offeringId}/associations
 }
 ```
 
-	
+## Flow 2.7 :  : Get startup URL from the testing application 
+To get the startup url for a person attending a specific flow the URL that is part of the offering assocation can be requested
+```mermaid
+sequenceDiagram
+    Toetsplanning->>Toetsafname: A. Obtain the URL for the specific person - offering combination 
+    activate Toetsafname
+    Note right of Toetsafname: endpoint /associations/{associationId}/url (GET)
+    Toetsafname->>Toetsplanning: 200 - here it is!
+    deactivate Toetsafname
+```
 
+### example of request get URL for specific association	(zittingsdeelname)
+```json
+GET /associations/{associationId}/url
+   "http://example.com/testcode_1/123e4567-e89b-12d3-a456-112123000"
+   
+```

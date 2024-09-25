@@ -2,6 +2,13 @@
 
 After a test is taken the results for each participant are returned to the Toetsplanning application. This can be updated many times, also with partial information. for example : first attendance information, a few weeks later the results and finally the final results (as determined by the exam committee).
 
+This Flow supports the following processes:
+- Flow 3.1 : Send attendance and result directly (automated scored tests)
+- Flow 3.2 : Send attendance first, send result later
+- Flow 3.3 : Retrieve supporting result documents 
+- Flow 3.4 : Read current state of the attendance and results
+
+
 ## Flow 3.1 : Send attendance and result directly (automated scored tests)
 
 ### Sequence diagram of request Send attendance and result directly
@@ -224,7 +231,7 @@ sequenceDiagram
 ```
 
 	
-## Flow 3.4 Read current state of the attendance and results
+## Flow 3.4 : Read current state of the attendance and results
 To see/check the current state of the offering with its associations the following endpoint can be used
 ```mermaid
 sequenceDiagram

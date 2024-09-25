@@ -3,6 +3,10 @@
 After the test has finished the offering report (zittingsverslag) including irregularities is sent to Toetsplanning.
 This contains structured data as uploaded documents, e.g. session report (processverbaal), AAR with signatures, etc.
 
+This Flow supports the following processes:
+- Flow 4.1 : Send attendance and offering report directly (automated scored tests)
+- Flow 4.2 : Read current state of zittingsverslag
+
 ## Flow 4.1 : Send attendance and offering report directly (automated scored tests)
 
 ```mermaid
@@ -47,7 +51,7 @@ Remarks:
 	- documents: data group for document specification (optional, multiple times). See flow 3; supported values for documentType here: "sessionReport" (written description of events occured during the test, procesverbaal), "attendanceReport" (filled presence form with signatures), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values). 
 
 
-## Flow 4.2 Read current state of zittingsverslag
+## Flow 4.2 : Read current state of zittingsverslag
 To see the current state of the offering the following endpoint can be used
 
 ```mermaid

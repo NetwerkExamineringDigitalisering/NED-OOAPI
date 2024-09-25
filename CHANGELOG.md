@@ -5,9 +5,22 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [5.0.0 MBO v0.9.4] - 2024-08-22
+### Added
+- 
+
+### Changed
+- updated the service endpoint to inform of the OOAPI version and consumer, including its version, that are supported [#123](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/123)
+- updates on different flows (no impact on spec)
+- improvements on documentation
+
+### Removed
+-
+
+
 # [5.0.0 MBO v0.9.3] - 2023-11-07
 ### Added
-- added groups PUT endpoint
+- added groups PUT endpoint 
 - added membership GET enpdoint to groups
 - added membership PUT endpoint to groups based on issue [#121](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/121)
 - added proper security scopes based on issue [#117] (https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/117)
@@ -31,7 +44,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 # [5.0.0 MBO] - 2023-11-07
 ### Added
-- added consumer elements cohort and location to offeirngs based on issue [#71](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/71)
+- added consumer elements cohort and location to offerings based on issue [#71](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/71)
 - added <breaking> elements to assocationRole eunmerations surveillant [[#106](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/106)]
 - added extra elements to NL-TEST-ADMIN-Association.yaml [#107](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/issues/107) 
 
@@ -62,7 +75,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 # [5.0.0 MBO] - 2023-03-21
 
 ### Added
-- added assocaitionProperties in .yaml to allow for better inheritance (no effect on endpoints)
+- added associationProperties in .yaml to allow for better inheritance (no effect on endpoints)
 - added mechanism for requiredfields within endpoints (e.g ComponentOfferingAssociation.yaml)
 - added extra values to result consumer
 - added extraneous to modeOfdelevery
@@ -102,6 +115,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
     - post -> createResource
     - patch -> partialUpdateResource
     - /me -> {action}ResourceByMyOauthId
+    Reasoning for this schema is based on:
+    https://github.com/watson-developer-cloud/api-guidelines/blob/master/swagger-coding-style.md
+
 - value courseCode to codeType to allow courseCode (UUID's) as otherCode in groups
 - update resultValue enum:
   - 'pass-or-fail'

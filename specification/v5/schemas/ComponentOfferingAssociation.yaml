@@ -1,4 +1,5 @@
 allOf:
+  - $ref: './AssociationId.yaml'
   - $ref: './ComponentOfferingAssociationProperties.yaml'
   - type: object
     required:
