@@ -28,19 +28,15 @@ A typical school uses a broad range of exam and testing tools. The aim of this s
 ## Structure of this repository
 
 This repository consists of the following elements:
-- [Big Picture](big-picture.md) which explains all the concepts within the ecosystem in more detail.
 - [Technical reference](doc/technical-reference.md) with information about the architecture, used standards and links to the reference files.
-- [Glossary](glossary.md) describing all terms and definitions used within the ecosystem.
-- [Party directory](Party-Directory.md) with all Parties that are currently active in the ecosystem.
 - [OOAPI Specification relevant to this project](specification/v5/docs.html)
-- [Implementation documentation](doc/documents/MBO-toetsafname_specs_latest.pdf) current version of the documentation.
+- [Implementation documentation](doc/documents/OKE%20MBO-toetsafname%20specs%20v1.0_20240918(definitief).pdf ) current version of the documentation.
 
 The specification and the relevant information can be found in the link: [OOAPI Specification relevant to this project](specification/v5/docs.html)
 An adapted and shortend version of the yaml file for the MBO-OKE can be found [here](specification/ooapiv5_MBO.yaml)
 
 # Working Documents
-- [uitwerking terugkomdag 23 mei 2022](doc/documents/Examinering%20mbo%20-%20terugkomdag%2023mei%20-%20verwerkt.pdf)
-- [uitwerking terugkomdag 24 juni 2022](doc/documents/Examinering%20mbo%20-%202e%20terugkomdag%2Baantekeningen.pptx)
+- [All working documents can be found in the documents folder](doc/documents/)
 
 ## Version history
 
