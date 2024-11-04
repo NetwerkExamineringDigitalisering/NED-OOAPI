@@ -1,0 +1,190 @@
+@startuml
+
+
+state Deelnemerregistratie {
+state "Deelnemerregistratie Component" as csc
+csc : emplId = 0123456
+csc : career = BO
+csc : stdnt car nbr = 0
+csc : APT = 1
+csc : APT item seq = 320
+csc : air item 0000001234
+csc :
+csc : attempt nbr = 1
+csc : max attempts = 2
+csc : result =  
+
+
+
+state "Deelnermerregistratie CO assocation" as coa
+coa : component offering assocation = AssocationUUID1
+coa : 
+coa : PersonId = PersonUUID1
+coa : emplId = 0123456
+coa : career = BO
+coa : stdnt car nbr = 0
+coa : APT = 1
+coa : APT item seq = 320
+coa : air item 0000001234
+coa : component offering = offeringUUID1
+coa : attempt = 1 <- !!!!!!!!!!!!
+coa : 
+coa :   
+coa : attemptsLeft = 1
+coa : ProgramOfferingAssocation = POAUUID1
+
+note right of coa : attempt vs attempt nbr?
+
+state "Beoordeelde CO assocation" as boa
+boa : component offering assocation = AssocationUUID1
+boa :
+boa : PersonId = PersonUUID1
+boa : emplId = 0123456
+boa : career = BO
+boa : stdnt car nbr = 0
+boa : APT = 1
+boa : APT item seq = 320
+boa : air item 0000001234
+boa : component offering = offeringUUID1
+boa : attempt = 1 
+boa : 
+boa :   
+boa : attemptsLeft = 1
+boa : ProgramOfferingAssocation = POAUUID1
+
+[*] -> coa
+csc --> coa : create association
+
+}
+ 
+state Toetsplanning {
+state choice1 <<choice>>
+
+state "geplande toets" as gt
+gt : component offering assocation = AssocationUUID1
+gt :
+gt : PersonId = PersonUUID1
+gt : 
+gt : 
+gt : 
+gt : 
+gt : 
+gt : 
+gt : component offering = offeringUUID1
+gt : attempt = 1 
+gt : 
+gt :   
+gt : attemptsLeft = 1
+gt : ProgramOfferingAssocation = POAUUID1
+
+gt -[hidden]-> bt
+coa --> gt : PUT
+bt --> choice1
+choice1 --> tplht : PUT herplanning door tpl
+choice1 -l-> boa : PATCH resultaat naar deelnemer registratie
+
+state "beoordeelde toets" as bt
+bt : component offering assocation = AssocationUUID1
+bt :
+bt : PersonId = PersonUUID1
+bt : 
+bt : 
+bt : 
+bt : 
+bt : 
+bt : 
+bt : component offering = offeringUUID1 (gaat deze 1:1 door??)
+bt : attempt = 1 
+bt : 
+bt : result = 5.2  
+bt : attemptsLeft = 1
+bt : ProgramOfferingAssocation = POAUUID1
+
+
+
+state "tpl herplande toets" as tplht
+tplht : component offering assocation = AssocationUUID99
+tplht : orgin component offering assocation = AssocationUUID1
+tplht : PersonId = PersonUUID1
+tplht : 
+tplht : 
+tplht : 
+tplht : 
+tplht : 
+tplht : 
+tplht : component offering = offeringUUID1 (gaat deze 1:1 door??)
+tplht : attempt = 1 
+tplht : 
+tplht : result = 5.2  
+tplht : attemptsLeft = 1
+tplht : ProgramOfferingAssocation = POAUUID1
+
+
+state "beoordeelde hertoets" as bht
+bht : component offering assocation = AssocationUUID99
+bht : orgin component offering assocation = AssocationUUID1
+bht : PersonId = PersonUUID1
+bht : 
+bht : 
+bht : 
+bht : 
+bht : 
+bht : 
+bht : component offering = offeringUUID1 (gaat deze 1:1 door??)
+bht : attempt = 1 
+bht : 
+bht : result = 6.7  
+bht : attemptsLeft = 1
+bht : ProgramOfferingAssocation = POAUUID1
+
+
+}
+
+state Toetsafname {
+state toets
+toets : component offering assocation = AssocationUUID1
+toets : 
+toets : PersonId = PersonUUID1
+toets : component offering = offeringUUID1
+toets : ProgramOfferingAssocation = POAUUID1
+
+gt -r-> toets : PUT
+toets -down-> at : verwerking
+
+state "afgeronde toets" as at
+at : component offering assocation = AssocationUUID1
+at : 
+at : PersonId = PersonUUID1
+at : component offering = offeringUUID1 (gaat deze 1:1 door??)
+at : result = 5.2  
+at : ProgramOfferingAssocation = POAUUID1
+
+
+state hertoets
+hertoets : component offering assocation = AssocationUUID99
+hertoets : 
+hertoets : PersonId = PersonUUID1
+hertoets : component offering = offeringUUID1
+hertoets : ProgramOfferingAssocation = POAUUID1
+
+hertoets -down-> aht : verwerking
+tplht -r-> hertoets : PUT
+state "afgeronde hertoets" as aht
+aht : component offering assocation = AssocationUUID99
+aht : 
+aht : PersonId = PersonUUID1
+aht : component offering = offeringUUID1 (gaat deze 1:1 door??)
+aht : result = 6.7  
+aht : ProgramOfferingAssocation = POAUUID1
+
+
+}
+
+at -left-> bt : PATCH result
+aht -left-> bht : PATCH result
+bht -> choice1
+Deelnemerregistratie -[hidden]d-> Toetsplanning
+boa -r-> [*] : finished
+
+@enduml
+
