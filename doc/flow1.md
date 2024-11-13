@@ -180,7 +180,8 @@ classDiagram
         attempt : int
         attemptLeft : int
 	    programOfferingAssociationId : string
-	    courseOfferingAssociationId : string
+	    programOfferingAssociationIds : string[]
+        courseOfferingAssociationId : string
     }
     class Person {
         personId : UUID
@@ -305,6 +306,7 @@ GET /ooapi/offerings/{offeringId}/associations/
                         "spell-checker-on-screen"                
                     ],
                     "programOfferingAssociationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
+                    "programOfferingAssociationIds": ["54e58f68-ceac-4845-99d5-caa721fefb88","54e58f68-ceac-4845-99d5-caa721fefb90"],
                     "courseOfferingAssociationId": "170b5f35-20be-47bf-96ff-d262d121b76b"
                 }
             ],
@@ -388,6 +390,7 @@ PUT /ooapi/associations/{associationId}
                 "spell-checker-on-screen"                
             ],
             "programOfferingAssociationId": "54e58f68-ceac-4845-99d5-caa721fefb88",
+            "programOfferingAssociationIds": ["54e58f68-ceac-4845-99d5-caa721fefb88","54e58f68-ceac-4845-99d5-caa721fefb90"],
             "courseOfferingAssociationId": "170b5f35-20be-47bf-96ff-d262d121b76b"
         }
     ],

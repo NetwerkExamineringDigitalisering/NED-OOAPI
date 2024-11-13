@@ -36,6 +36,13 @@ properties:
     description: |
       The unique identifier of the enrollment of the student in a programOffering on the behalf of the current assocation is taking place 
     format: uuid
+  programOfferingAssociationIds: 
+    type: array
+    items: 
+      type: string
+      format: uuid
+    description: |
+      The unique identifiers of the enrollment of the student in a programOffering on the behalf of the current assocation is taking place 
   courseOfferingAssociationId: 
     type: string
     description: |

@@ -5,6 +5,7 @@
   attempt: 1
   attemptLeft: 2
   programOfferingAssociationId: 54e58f68-ceac-4845-99d5-caa721fefb88
+  programOfferingAssociationIds: ["54e58f68-ceac-4845-99d5-caa721fefb88","54e58f68-ceac-4845-99d5-caa721fefb90"]  
   courseOfferingAssociationId: 170b5f35-20be-47bf-96ff-d262d121b76b
   orgAssociationId: 123c6f59-21wg-47bf-96ff-d262d133c51g
   startDate: '2021-09-01'
