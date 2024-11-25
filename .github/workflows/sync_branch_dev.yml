@@ -19,7 +19,7 @@ jobs:
       # Step 2: Push changes to DEV Repo 
       - name: Push to DEV Repo 
         env:
-          DEV_REPO_URL: https://github.com/<your-username>/<repo-b>.git
+          DEV_REPO_URL: https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI-DEV.git
           DEV_REPO_TOKEN: ${{ secrets.DEV_REPO_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
