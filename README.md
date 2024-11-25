@@ -21,7 +21,7 @@ A typical school uses a broad range of exam and testing tools. The aim of this s
 - [flow 3 : Test results are returned to Toetsplanning](doc/flow3.md)
 - [flow 4 : Test session report (Procesverbaal and irregularities) back to Toetsplanning](doc/flow4.md)
 - [flow 5 : Test results to Deelnemerregistratie](doc/flow5.md)
-- [flow 6 : Analyse information](doc/flow8.md)
+- [flow 6 : Analyse information](doc/flow6.md)
 
 - [All flows - Authentication and scopes, error handling](doc/ErrorHandling.md)
 
@@ -54,6 +54,7 @@ An adapted and shortend version of the yaml file for the MBO-OKE can be found [h
 | [0.9.3](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/MBO-toetsafname%20specs%20v0.9.3_20240223(reviewversie).pdf) | 10 jan 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | groupmembers added for ad-hoc tests|
 | [0.9.4](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/OKE%20MBO-toetsafname%20specs%20v0.9.4_20240906(reviewversie).pdf) | 6 september 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | final corrections and clarifications|
 | [1.0](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/OKE%20MBO-toetsafname%20specs%20v1.0_20240918(definitief).pdf) | 18 september 2024 | FINAL RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | final corrections and clarifications|
+| [1.1](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/v1.1/doc/documents/OKE%20MBO-toetsafname%20specs%20v1.1_20241104(review).pdf) | 4 november 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | final corrections and clarifications|
 
 This repository is an initiative of the MBO Digitaal and NED.
 
