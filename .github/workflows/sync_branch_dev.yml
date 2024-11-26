@@ -24,7 +24,7 @@ jobs:
       - name: Push to DEV Repo 
         env:
           DEV_REPO_URL: https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI-DEV.git
-          DEV_REPO_TOKEN: ${{ secrets.DEV_REPO_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -33,4 +33,4 @@ jobs:
           git remote add dev-repo $DEV_REPO_URL
           
           # Push to the main branch of Repo B
-          git push dev-repo v1.1:main --force
+          git push dev-repo v1.1:master --force
