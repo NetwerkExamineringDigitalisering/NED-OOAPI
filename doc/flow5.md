@@ -156,7 +156,7 @@ PATCH /associations/{associationId}
 ``` 
 
 ## Flow 5.2 : Attempt result 
-In this flow a new test opportunity (ComponentOfferingAssociation) is sent to Deelnemerregistratie, this test opportunity is related to the test enrollment (ComponentOfferingAssociation) in flow 1. Therefore, Toetsplanning creates an association per attempt and indicates per result for which attempt this result is.
+In this flow a new test attempt by the student (ComponentOfferingAssociation) is sent to Deelnemerregistratie, this test opportunity is related to the test enrollment (ComponentOfferingAssociation) in flow 1. Therefore, Toetsplanning creates an association per attempt and indicates per result for which attempt this result is.
 
 TPS uses the next operation en endpoint for sending the test attempt result, that is attempt attendance information or attempt score, to Deelnemerregistratie:
 - `PUT /ooapi/associations/{associationId}`
