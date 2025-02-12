@@ -201,9 +201,8 @@ response:
      "organization": "452c1a86-a0af-475b-b03f-724878b0f387",
      "consumers": [
         {
-           "consumerKey": string = "nl-test-admin", 
+           "consumerKey": "nl-test-admin", 
            "additionalTestingTime": 30,
-           #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ ],
            "safety": [ ],
            "exam": true,
