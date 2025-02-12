@@ -102,7 +102,6 @@ response:
         {
            "consumerKey": string = "nl-test-admin", 
            "additionalTestingTime": 30,
-           #https://www.imsglobal.org/sites/default/files/spec/afa/3p0/information_model/imsafa3p0pnp_v1p0_InfoModel.html
            "availablePersonalNeeds": [ "extraTime", "spoken", "spell-checker-on-screen" ],
            "safety": [ "securedComputer", "fixedLocation", "surveillance"],
            "exam": true,
