@@ -14,7 +14,7 @@
 
 A typical school uses a broad range of exam and testing tools. The aim of this specification is to abstract these tools and focus on the messages that are interchanged between these tools. An over all example can be found in the folowing image.
 
-![Main](doc/diagrams/ProgrammaOKE.png)
+![Main](doc/diagrams/Scenario_functioneel.jpg)
 
 - [flow 0 : Test catalogue from Toetsafname to Deelnemerregistratie and Toetsplanning](doc/flow0.md)
 - [flow 1 : Deelnemerregistratie data for planning exams and tests sent to Toetsplanning](doc/flow1.md)
