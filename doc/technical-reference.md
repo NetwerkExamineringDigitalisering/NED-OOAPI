@@ -28,7 +28,7 @@ Each Party in the NED Ecosystem provides and consumes APIs according to their ro
 | [flow 3 : student results ](flow3.md) | Toetsafname | Toetsplanning |  |
 | [flow 4 : zittingsverslag ](flow4.md) | Toetsafname | Toetsplanning |  |
 | [flow 5 : Test results to SIS](flow5.md) | Toetsplanning | SIS |  |
-| flow 6 : Analisys | ? | ? |  |
+| [flow 6 : Analisys](flow6.md) | SIS | Toetsafname |  |
 
 ## Other relevant standards
 
@@ -36,7 +36,7 @@ TODO: Describe all relevant standards for parties that want to join the ecosyste
 - [OOAPI v5](https://open-education-api.github.io/specification/v5/docs.html) 
 - OAUTH2
 - We are currently investigating the use of [edukoppeling](https://www.edustandaard.nl/app/uploads/2023/07/2023-07-24-Edukoppeling-Secure-API-OAuth-Client-Credentials-profielen-v0.8.pdf) a question here is do we HAVE to useedu_org_id? Do we really want to alllow for all 4 levels of Data Classification or are we only using 2?
- 
+- the [connection to MORA](./connection_MORA.md) has also been made in this project.  
 
 
 
