@@ -1,10 +1,20 @@
 # Flow 6
 Flow 6 is created for analysis purposes, to ensure proper grading and analysis of results per organization / per program characteristic.
 
+Toets Afname (TA) requires information about the programs in which students are enrolled. This information can help with analyses of exam quality and field analyses/grade analyses. Important details about these program enrollments include: crebo number, education type (BOL/BBL), cohort, and location.
+
+The information in Analysis regarding these program enrollments of a student is available in DR/SIS and is compiled upon request, then sent to the test provider in Test Administration (TA) and transferred through Information Flow 6: Analysis.
+
+The data provider for the information objects in 6. Analysis is the system with the Participant Registration functionality. The data consumers are the systems with the Test Administration functionality. The information in 6. Analysis flows from DR/SIS to TA.
+
+In the transfer of 6. Analysis from DR/SIS to TA, TA initiates the request (as soon as more student context is needed for analysis).
+
+Before the data exchange can take place, DR/SIS and TA *must* already be technically connected, including base URL, authentication, etc.. To determine the version of the exchange, the Service Metadata Endpoint can be used. 
+
 This Flow supports the following processes:
 - Flow 6.1 : Request information about the program and organization where the students is currently enrolled
 
-GET /persons/{personId}/associations?associationType=programOffering&expand=offering.program,offering.organization
+`GET /persons/{personId}/associations?associationType=programOffering&expand=offering.program,offering.organization`
 
 ## Flow 6.1 : Request information about the program and organization where the students is currently enrolled
 
@@ -20,6 +30,9 @@ sequenceDiagram
     deactivate DR
 ```
 
+When calling `GET /persons/{personId}/associations` to retrieve enrollments/participations (objects of type Association), only objects of type Program Enrollment (ProgramOfferingAssociation) are allowed in Information Flow 6; objects of type Course Enrollment (CourseOfferingAssociation) and Test Enrollment (ComponentOfferingAssociation) are excluded.
+
+Additionally, there is no possibility to include complete student information (in the Person object) in the response message; this student information *MUST* be retrieved through the regular Information Flow 2.
 
 ### Class diagram of programofferingAssociation in relation to its offering and program for a student with a specific UUID
 
@@ -208,3 +221,19 @@ GET /ooapi/persons/{personId}/associations?associationType=programOffering&expan
         }
     ]
 ```
+
+In this request, the results can be expanded to include the complete information (rather than just the IDs) of the information objects within the Program Enrollment. To achieve this, the query parameter expand must be used. This allows retrieving the necessary information within the Program Enrollment, including:
+	- Information about the Program (ProgramOffering in offering)
+	- Information about the Curriculum (Program in offering.program) and/or
+	- Information about the Organization (Organization in offering.organization)
+
+The required information can be found in the ProgramOfferingAssociation object at the following locations:
+	- Crebo: offering.program.otherCodes.code (if codeType="nationalEducationCode")
+	- Education Type: offering.program.modeOfStudy with values “full-time” (BOL) or “part-time” (BBL)
+	- Cohort: offering.consumer.cohort
+	- Location: offering.consumer.locationCode
+
+Additional information available within an enrollment for analysis includes:
+	- Program Name (offering.name)
+	- Curriculum Name (offering.program.name)
+	- MBO Qualification Level (offering.program.levelOfQualification)
