@@ -12,9 +12,13 @@ The NED implementation is based on these technical principles.
 ## Architecture
 
 
-A simple overview of a generic exchange is as follows, note that while this may look complex at first glance, it is a common pattern used in the B2B software space and is straight forward to implement on both sides of the exchange:
+A simple overview of the exchanges between the three functionalities is as follows, where data objects are depicted in the flows:
 
-![architecture](diagrams/Saas_Vendor_Infrastructure-Big_Picture_Gateways.drawio.svg)
+![architecture of flows](diagrams/Scenario_gegevensobjecten.jpg)
+
+Each functionality is related to one of more MORA reference components:
+
+![data objects in flows](diagrams/Scenario_functioneel_metRCen.jpg)
 
 ## APIs
 
@@ -23,12 +27,12 @@ Each Party in the NED Ecosystem provides and consumes APIs according to their ro
 | API Definition | Service Provider | Services Consuming | Remarks |
 |---|---|---|---|
 | [flow 0 : Test catalogue ](flow0.md) | Toetsafname | SIS & Toetsplanning |  |
-| [flow 1 : Test catalogue](flow1.md) | SIS | Toetsplanning |  |
-| [flow 2 : zittings gegevens ](flow2.md) | Toetsplanning | Toetsafname |  |
-| [flow 3 : student results ](flow3.md) | Toetsafname | Toetsplanning |  |
-| [flow 4 : zittingsverslag ](flow4.md) | Toetsafname | Toetsplanning |  |
-| [flow 5 : Test results to SIS](flow5.md) | Toetsplanning | SIS |  |
-| [flow 6 : Analisys](flow6.md) | SIS | Toetsafname |  |
+| [flow 1 : Test participants](flow1.md) | SIS | Toetsplanning |  |
+| [flow 2 : Test offerings and enrollments](flow2.md) | Toetsplanning | Toetsafname |  |
+| [flow 3 : Test results](flow3.md) | Toetsafname | Toetsplanning |  |
+| [flow 4 : Test offering report](flow4.md) | Toetsafname | Toetsplanning |  |
+| [flow 5 : Student results to SIS](flow5.md) | Toetsplanning | SIS |  |
+| [flow 6 : Analysis](flow6.md) | SIS | Toetsafname |  |
 
 ## Other relevant standards
 
@@ -39,15 +43,16 @@ TODO: Describe all relevant standards for parties that want to join the ecosyste
 - the [connection to MORA](./connection_MORA.md) has also been made in this project.  
 
 
-
 ## Information model
 
-TODO: What is the underlying information model used within the ecosystem? See OOAPI, but focus on offering, component, association
+The information model used within the OKE ecosystem and the translation to OOAPI, with focus on component, offering, association and person.
 
-[10:52] Jos van der Arend
+![information model and data objecten](diagrams/Informatiemodel.jpg)
 
-Let op, in de definitie van de gegevensobjecten zijn genoemde gegevens binnen een object bij aanlevering (PUT of POST) of aflevering (GET) verplicht of optioneel zoals aangegeven in kolom #; de doorgestreepte gegevens (met 0 in kolom #) mogen worden gebruikt maar zullen bij ontvangst worden genegeerd.
+## Generic interaction specs
 
-Bij aanlevering van een wijziging (PATCH) mogen ongewijzigde verplichte gegevens ontbreken. Het weghalen van een optioneel enkelvoudig gegeven kan door de waarde null mee te geven; deze waarde null is dus hiervoor in PATCH toegestaan, ook wanneer dit element niet nullable is (d.w.z. nullable=false). Het weghalen van een optioneel meervoudig gegeven (lijst of array) kan door een lege lijst mee te geven; de lege lijst is dus hiervoor ook toegestaan al is de lijst gedefinieerd als “non-empty” (d.w.z. minItems=1).
+In the definitiob of the data objects are all data within the object at the delivery (POST and PUT) of the distribution (GET) mandatory or recommended/optional as denoted in the specification document. Other data that could be used will be ignored at reception.
 
- 
+At the delivery of a change (PATCH) all unchanged data may be missing. The deletion of a singular data field (must be optional) can be done by delivering the value null (this value null is allowed for PATCH), also when the element is not nullable (nullable=false). The deletion of a plural data element (must be optional) in an array, can be done by delivery of an empty array; an empty array is allowed even when the element is defined as non-empty (minItems=1).
+
+
