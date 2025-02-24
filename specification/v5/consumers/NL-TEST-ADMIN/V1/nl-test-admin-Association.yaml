@@ -74,5 +74,68 @@ properties:
     description: |
       The transaction number for the person within the SIS for example the loopbaannummer or an opleidingsblad 
     format: uuid
+  planningState:
+    type: string
+    description: |
+      Status of participation planning based on the enrollment. The status typically progresses from pending to associated and then to finished (possibly canceled with canceled). Based on enum
+    enum:
+      - associated
+      - canceled
+      - pending
+      - finished 
+  testMomentEnrollmentDetails:
+    type: object
+    properties:
+      startDateTime:
+        type: string
+        description: Planned moment (date and time) of the start of the actual test.
+        format: date-time
+      endDateTime:
+        type: string
+        description: Planned moment (date and time) of the end of the actual test.
+        format: date-time
+      roomName:
+        type: string 
+        description: depiction of the location/room/classroom where the test will take place.
+      executedOfferingName:
+        type: string
+        description: Name of the test moment where the result is obtained.
+      attendance:
+        type: string
+        description: |
+          Indication of the attendance of a student during the test.
+          indication of presence during the test (mandatory). 
+          Possible values are:
+          notKnown (toetsmoment alleen gepland, moment nog niet gestart, nog geen aanwezigheidstoets mogelijk)
+          notPresent (niet aanwezig),
+          notStarted (aanwezig maar niet gestart),
+          notFinished (aanwezig en gestart maar niet afgerond/ingeleverd)
+          and present (aanwezig en afgerond/ingeleverd)"
+        enum:
+          - notKnown
+          - notPresent
+          - notStarted
+          - notFinished
+          - present
+      testDateTime:
+        type: string
+        description: The moment (date and time) when the test of the student has taken place. The last day or time of the actual end of the test, or the hand in of the assignment is used as the value based on ISO 8601 date-time.
+        example: “2020-12-15T08:50:00.000Z”
+      irregularities:
+        type: string
+        description: Additional information about the situation during ht etest, e.g. the irregularities or specifics during which the test took place.
+        example: The student was late because there was a train delay
+      coordinatorId:
+        type: string
+        description: Identifier of the person who coordinated the test.
+        format: uuid
+      coordinatorCode:
+        type: string
+        description: Code of the person who coordinated the test.
+    required:
+      - startDateTime
+      - endDateTime
+      - executedOfferingName  
+
   
 

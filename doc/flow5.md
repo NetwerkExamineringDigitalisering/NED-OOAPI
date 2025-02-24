@@ -36,6 +36,7 @@ sequenceDiagram
 ```mermaid
 classDiagram
     class Association {
+        associationType: string
         consumers : nl-test-admin-Association
     	result : Result
     }
@@ -43,6 +44,8 @@ classDiagram
         consumerKey : string
         orgAssociationId: UUID
         attempt: integer
+        planningState: string
+        testMomentEnrollmentDetails: TestMomentEnrollmentDetails
     }
     class Result {
     	state : string
@@ -55,16 +58,23 @@ classDiagram
     }
     class `nl-test-admin-Result` {
         consumerKey : string
-        attendance : string
-        executedOfferingName: string
         assessorId : string
         assessorCode : string 
-        irregularities : string
         final : boolean 
         rawScore : integer 
         maxRawScore : integer
-        testDate: string
         documents : Document[]
+    }
+    class `TestMomentEnrollmentDetails` {
+        startDateTime: string (date-time)
+        endDateTime: string (date-time)
+        roomName: string
+        executedOfferingName: string
+        attendance : string
+        testDateTime: date-time (string)
+        irregularities : string
+        coordinatorId : string
+        coordinatorCode : string 
     }
     class Document {
         documentId : string
@@ -77,52 +87,56 @@ classDiagram
     `nl-test-admin-Result` o-- Document
 ```
 
-### Example of Send test attendance information for student tot Student Information System
-```
+### Example of Send test attendance information for student to Student Information System
+```json
 PATCH /associations/{associationId}
 
 {
+    "associationType": "componentOfferingAssociation" 
     "consumers": [
     {
       "consumerKey": "nl-test-admin",
       "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
-      "attempt": 2
-    }
-    ],
-    "result": {
-      "state": "in progress",
-      "resultDate": "2020-09-28",
-      "consumers": [
-	     {
-          "consumerKey": "nl-test-admin",
+      "attempt": 2,
+      "planningState": "finished",
+      "testMomentEnrollmentDetails": {
+          "startDateTime": "2024-12-15T08:50:00.000Z",
+          "endDateTime": "2024-12-15T10:50:00.000Z",
+          "roomName": "AZ12",
+          "executedOfferingName": "NL 3F",
           "attendance": "present",
-          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-          "assessorCode": "JAJE",
-          "irregularities": "Jantje heeft gespiekt."
-          "testDate": "2020-09-29",
-          "documents": [
-          {
-            "documentId": "123454",
-            "documentType": "assessmentForm",
-            "documentName": "Assessment form for Jake Doe.pdf"
-          }
-          ]
-	      }
-      ],
-    },
+          "testDateTime": "2024-12-15T10:30:00.000Z",
+          "irregularities": "none",
+          "coordinatorId": "5a52f86b-edcd-4f7f-9ea9-c9999f6043z9",
+          "coordinatorCode": "KetRF"
+      }
+    }
+    ]
 }
 ``` 
 
 ### Example of Send test score for student tot Student Information System
-```
+```json
 PATCH /associations/{associationId}
 
 {
     "consumers": [
     {
       "consumerKey": "nl-test-admin",
-      "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
-      "attempt": 2
+      "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6",
+      "attempt": 2,
+      "planningState": "finished",
+      "testMomentEnrollmentDetails": {
+          "startDateTime": "2024-12-15T08:50:00.000Z",
+          "endDateTime": "2024-12-15T10:50:00.000Z",
+          "roomName": "AZ12",
+          "executedOfferingName": "NL 3F",
+          "attendance": "present",
+          "testDateTime": "2024-12-15T10:30:00.000Z",
+          "irregularities": "none",
+          "coordinatorId": "5a52f86b-edcd-4f7f-9ea9-c9999f6043z9",
+          "coordinatorCode": "KetRF"
+      }
     }
     ],
     "result": {
@@ -130,28 +144,25 @@ PATCH /associations/{associationId}
       "pass": "unknown",
       "comment": "string",
       "score": "9",
-      "resultDate": "2020-09-28",
+      "resultDate": "2024-12-28",
       "consumers": [
 	     {
           "consumerKey": "nl-test-admin",
-          "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",
-          "irregularities": "Jantje heeft gespiekt."
           "final": true,
-          "rawScore": 65,
-          "maxRawScore": 75,
-          "testDate": "2020-09-29",
+          "rawScore": 87,
+          "maxRawScore": 110,
           "documents": [
-          {
-            "documentId": "123454",
-            "documentType": "assessmentForm",
-            "documentName": "Assessment form for Jake Doe.pdf"
-          }
+            {
+                "documentId": "123454",
+                "documentType": "assessmentForm",
+                "documentName": "Assessment form for Jake Doe.pdf"
+            }
           ]
 	      }
       ],
-    },
+    }
 }
 ``` 
 
@@ -183,8 +194,8 @@ classDiagram
 	associationType : associationType
 	role : associationRole
 	state : state
-        consumers : nl-test-admin-Association
-    	result : Result
+    consumers : nl-test-admin-Association
+    result : Result
 	person : personId or Person
 	offering : offeringId
     }
@@ -192,6 +203,8 @@ classDiagram
         consumerKey : string
         orgAssociationId: UUID
         attempt: integer
+        planningState: string
+        testMomentEnrollmentDetails: TestmomentEnrollmentDetails
     }
     class Result {
     	state : string
@@ -215,6 +228,17 @@ classDiagram
         testDate: string
         documents : Document[]
     }
+    class `TestMomentEnrollmentDetails` {
+        startDateTime: string (date-time)
+        endDateTime: string (date-time)
+        roomName: string
+        executedOfferingName: string
+        attendance : string
+        testDateTime: date-time (string)
+        irregularities : string
+        coordinatorId : string
+        coordinatorCode : string 
+    }
     class Document {
         documentId : string
         documentType : string
@@ -222,13 +246,15 @@ classDiagram
     }
     Association o-- Result
     Association o-- `nl-test-admin-Association`
+    `nl-test-admin-Association` o-- `TestEnrollmentDetails`
     Result o-- `nl-test-admin-Result`
     `nl-test-admin-Result` o-- Document
 ```
 
 ### Example of Send attempt result for student tot Student Information System
-```
+```json
 PUT /associations/{associationId}
+
 
 {
     "associationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6",
@@ -238,8 +264,20 @@ PUT /associations/{associationId}
     "consumers": [
     {
       "consumerKey": "nl-test-admin",
-      "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6"
-      "attempt": 2
+      "orgAssociationId": "5a52f86b-edcd-4f7f-9ea9-c8617f6043b6",
+      "attempt": 2,
+      "planningState": "finished",
+      "testMomentEnrollmentDetails": {
+          "startDateTime": "2024-12-15T08:50:00.000Z",
+          "endDateTime": "2024-12-15T10:50:00.000Z",
+          "roomName": "AZ12",
+          "executedOfferingName": "NL 3F",
+          "attendance": "present",
+          "testDateTime": "2024-12-15T10:30:00.000Z",
+          "irregularities": "none",
+          "coordinatorId": "5a52f86b-edcd-4f7f-9ea9-c9999f6043z9",
+          "coordinatorCode": "KetRF"
+      }
     }
     ],
     "result": {
@@ -247,23 +285,21 @@ PUT /associations/{associationId}
       "pass": "unknown",
       "comment": "string",
       "score": "9",
-      "resultDate": "2020-09-28",
+      "resultDate": "2024-12-28",
       "consumers": [
 	     {
           "consumerKey": "nl-test-admin",
-          "attendance": "present",
           "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
           "assessorCode": "JAJE",
-          "irregularities": "Jantje heeft gespiekt."
           "final": true,
-          "rawScore": 65,
-          "maxRawScore": 75,
+          "rawScore": 87,
+          "maxRawScore": 110,
           "documents": [
-          {
-            "documentId": "123454",
-            "documentType": "assessmentForm",
-            "documentName": "Assessment form for Jake Doe.pdf"
-          }
+            {
+                "documentId": "123454",
+                "documentType": "assessmentForm",
+                "documentName": "Assessment form for Jake Doe.pdf"
+            }
           ]
 	      }
       ],

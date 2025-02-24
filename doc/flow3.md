@@ -30,6 +30,8 @@ sequenceDiagram
 classDiagram
   class Association {
   	result : Result
+    consumers: "nl-test-admin-Association"
+    associationType: string
   }
   class Result {
     state : string
@@ -42,15 +44,22 @@ classDiagram
   }
   class `nl-test-admin-Result` {
    	consumerKey : string = "nl-test-admin"
-    attendance : string
     assessorId : string
     assessorCode : string 
-    irregularities : string
     final : boolean 
     rawScore : integer 
     maxRawScore : integer
-    testDate: string
     documents : Document[]
+  }
+  class 'nl-test-admin-association'
+  {
+    consumerKey : string = "nl-test-admin"
+    testMomentEnrollmentDetails = TestmomentEnrollmentDetails
+  }
+      class `TestMomentEnrollmentDetails` {
+        attendance : string
+        testDateTime: date-time (string)
+        irregularities : string
   }
   class Document {
     documentId : string
@@ -58,6 +67,8 @@ classDiagram
     documentName : string
   }
   Association o-- Result
+  Association o-- 'nl-test-admin-association'
+  'nl-test-admin-association' o-- 'TestMomentEnrollmentDetails'
   Result o-- `nl-test-admin-Result`
   `nl-test-admin-Result` o-- Document
 ```
@@ -68,6 +79,16 @@ PATCH /associations/{associationId}
 
 {
    "associationType": "componentOfferingAssociation",
+   "consumers": [
+  	     {
+            "consumerKey": "nl-test-admin",
+            "testEnrollmentDetails": {
+              "attentdance": "present",
+              "testDateTime": "2022-06-21T12:45:00.000Z",
+              "irregularities": "Jantje heeft gespiekt."
+            }
+         }
+   ],
    "result": {
       "state": "completed",
       "pass": "unknown",
@@ -77,14 +98,11 @@ PATCH /associations/{associationId}
       "consumers": [
   	     {
             "consumerKey": "nl-test-admin",
-            "attendance": "present",
             "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
             "assessorCode": "JAJE",
-            "irregularities": "Jantje heeft gespiekt."
             "final": true,
             "rawScore": 65,
             "maxRawScore": 75,
-            "testDate": "2020-09-28",
             "documents": [
             {
               "documentId": "123454",
@@ -96,6 +114,7 @@ PATCH /associations/{associationId}
       ],
       "weight": 100,
     }
+
 }
 ```
 Remarks:
@@ -141,20 +160,24 @@ sequenceDiagram
 ### Class diagram of request A. Send attendance for student directly
 ```mermaid
 classDiagram
-    class Association {
-	result : Result
-    }
-    class Result {
-    	state : string = "in progress"
-      resultDate : date
-      consumers : nl-test-admin-Result
-    }
-    class `nl-test-admin-Result` {
-    	consumerKey : string = "nl-test-admin"
-      attendance : string
-    }
-    Association o-- Result
-    Result o-- `nl-test-admin-Result`
+  class Association {
+    consumers: "nl-test-admin-Association"
+    associationType: string
+  }
+  class 'nl-test-admin-association'
+  {
+    consumerKey : string = "nl-test-admin"
+    testMomentEnrollmentDetails = TestmomentEnrollmentDetails
+  }
+      class `TestMomentEnrollmentDetails` {
+        attendance : string
+        testDateTime: date-time (string)
+        irregularities : string
+  }
+  Association o-- 'nl-test-admin-association'
+  'nl-test-admin-association' o-- 'TestMomentEnrollmentDetails'
+
+
 ```
 
 ### Example of request A. Send attendance for student directly
@@ -163,16 +186,16 @@ PATCH /associations/{associationId}
 
 {
    "associationType": "componentOfferingAssociation",
-   "result": {
-      "state": "in progress",
-      "resultDate": "2020-09-27",
-      "consumers": [
-	     {
-        "consumerKey": "nl-test-admin",
-        "attendance": "present",
-	     }
-      ]
-    }
+   "consumers": [
+  	     {
+            "consumerKey": "nl-test-admin",
+            "testEnrollmentDetails": {
+              "attentdance": "present",
+              "testDateTime": "2022-06-21T12:45:00.000Z",
+              "irregularities": "Jantje heeft gespiekt."
+            }
+         }
+   ]
 }
 ```
 
@@ -192,25 +215,25 @@ PATCH /associations/{associationId}
       "score": "9",
       "resultDate": "2020-09-28",
       "consumers": [
-	     {
-          "consumerKey": "nl-test-admin",
-          "attendance": "present",
-          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-          "assessorCode": "JAJE",
-          "irregularities": "Jantje heeft gespiekt."
-          "final": true,
-          "rawScore": 65,
-          "maxRawScore": 75,
-          "documents": [
-          {
-            "documentId": "123454",
-            "documentType": "assessmentForm",
-            "documentName": "Assessment form for Jake Doe.pdf"
-          }
-          ]
-	      }
+  	     {
+            "consumerKey": "nl-test-admin",
+            "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+            "assessorCode": "JAJE",
+            "final": true,
+            "rawScore": 65,
+            "maxRawScore": 75,
+            "documents": [
+            {
+              "documentId": "123454",
+              "documentType": "assessmentForm",
+              "documentName": "Assessment form for Jake Doe.pdf"
+            }
+            ]
+	        }
       ],
+      "weight": 100,
     }
+
 }
 ``` 
 
@@ -268,44 +291,47 @@ GET /offerings/{offeringId}/associations
     "state": "associated",
     "remoteState": "associated",
     "consumers": [
-    {
-      "consumerKey": "nl-test-admin",
-      "additionalTimeInMin": 30,
-      "personalNeeds": 
-    	[
-            "extraTime",
-            "spoken",
-            "spell-checker-on-screen"
-      ]
-    }
+      {
+        "consumerKey": "nl-test-admin",
+        "additionalTimeInMin": 30,
+        "personalNeeds": 
+        [
+              "extraTime",
+              "spoken",
+              "spell-checker-on-screen"
+        ],
+        "testEnrollmentDetails": {
+          "attentdance": "present",
+          "testDateTime": "2022-06-21T12:45:00.000Z",
+          "irregularities": "Jantje heeft gespiekt."
+        }
+      }
     ],
-    "result": {
+   "result": {
       "state": "completed",
       "pass": "unknown",
       "comment": "string",
       "score": "9",
       "resultDate": "2020-09-28",
-      "weight": 100,
       "consumers": [
-      {
-        "consumerKey": "nl-test-admin",
-        "attendance": "present",
-        "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-        "assessorCode": "JAJE",
-        "irregularities": "Jantje heeft gespiekt."
-        "final": true,
-        "rawScore": 65,
-        "maxRawScore": 75,
-        "documents": [
-        {
-          "documentId": "123454",
-          "documentType": "assessmentForm",
-          "documentName": "Assessment form for Jake Doe.pdf"
-        }
-        ]
-      }
-      ]
-    }
+  	     {
+            "consumerKey": "nl-test-admin",
+            "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+            "assessorCode": "JAJE",
+            "final": true,
+            "rawScore": 65,
+            "maxRawScore": 75,
+            "documents": [
+            {
+              "documentId": "123454",
+              "documentType": "assessmentForm",
+              "documentName": "Assessment form for Jake Doe.pdf"
+            }
+            ]
+	        }
+      ],
+      "weight": 100,
+    },
     "person": "123e4567-e89b-12d3-a456-146734174999",
     "offering": "123e4567-e89b-12d3-a456-134564174000"
   }
@@ -326,43 +352,47 @@ GET /associations/{associationId}
     "consumers": [
       {
         "consumerKey": "nl-test-admin",
-        "extraTimeInMin": 30,
-        "personalNeeds": [
-            "extraTime",
-            "spoken",
-            "spell-checker-on-screen"
-        ]
+        "additionalTimeInMin": 30,
+        "personalNeeds": 
+        [
+              "extraTime",
+              "spoken",
+              "spell-checker-on-screen"
+        ],
+        "testEnrollmentDetails": {
+          "attentdance": "present",
+          "testDateTime": "2022-06-21T12:45:00.000Z",
+          "irregularities": "Jantje heeft gespiekt."
+        }
       }
     ],
-    "result": {
+   "result": {
       "state": "completed",
       "pass": "unknown",
       "comment": "string",
       "score": "9",
       "resultDate": "2020-09-28",
-      "weight": 100,
       "consumers": [
-        {
-          "consumerKey": "nl-test-admin",
-          "attendance": "present",
-          "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
-          "assessorCode": "JAJE",
-          "irregularities": "Jantje heeft gespiekt."
-          "final": true,
-          "rawScore": 65,
-          "maxRawScore": 75,
-          "documents": [
+  	     {
+            "consumerKey": "nl-test-admin",
+            "assessorId": "05035972-0619-4d0b-8a09-7bdb6eee5e6d",
+            "assessorCode": "JAJE",
+            "final": true,
+            "rawScore": 65,
+            "maxRawScore": 75,
+            "documents": [
             {
               "documentId": "123454",
               "documentType": "assessmentForm",
               "documentName": "Assessment form for Jake Doe.pdf"
             }
-          ]
-        }
-      ]
+            ]
+	        }
+      ],
+      "weight": 100,
     },
     "person": "123e4567-e89b-12d3-a456-146734174999",
     "offering": "123e4567-e89b-12d3-a456-134564174000"
-}
+  }
 ``` 
 
