@@ -90,3 +90,4 @@ This standard is developed by members from schools, software partners and NED. T
 | Werner Richelle|Summa College|w.richelle@summacollege.nl|
 | Ronald Ham | Surf	/ R4Arhictecture|	Ronald.ham@r4architecture.nl |
 | Rene Rutte | Xebic | rrutte@xebic.com |
+| Roel Griffioen | Epicenter | roel.griffioen@epicenter.eu|

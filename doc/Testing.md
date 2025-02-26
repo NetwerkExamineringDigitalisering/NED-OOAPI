@@ -4,6 +4,8 @@ The specification is currently tested at a minimal technical level.
 The test includes:
 * rendering the specifcation in a bundle script:
     * ` npx @redocly/cli bundle ./spec.yaml -d -o ../ooapiv5_MBO.yaml`
+* pushing the latest version to the DEV site for evaulation
+    * git push https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI-DEV.git
 * buidling the specification in Maven using the supplied pom.xml 
     * Create new folder working folder to test spec
     * copy spec.yaml and other specification files to folder in directory 
