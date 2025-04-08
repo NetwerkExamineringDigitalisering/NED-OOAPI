@@ -13,6 +13,19 @@ get:
     - $ref: '../parameters/pageNumber.yaml'
     - $ref: '../parameters/consumer.yaml'
     - $ref: '../parameters/search.yaml'
+    - name: componentType
+      in: query
+      description: type of component expected as a result
+      required: false
+      schema:
+        $ref: '../enumerations/componentType.yaml'
+    - name: licensed
+      in: query
+      description: whether the componenttype is licensed for this organization
+      required: false
+      schema:
+        type: boolean
+
     - name: sort
       in: query
       explode: false
