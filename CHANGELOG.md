@@ -5,6 +5,38 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [5.0.0 MBO v1.1 rc] - 2025-04-14
+### Added
+- flow6
+- add consumers testEnrollmentDetails to consumer of assocation
+
+
+### Changed
+- fixed issue enums (in consumers)
+- fixed atempt information
+- changed flow3 and 5
+- changed attempt 
+- update query parameters for components
+- update documentation for flows 3-5-6
+
+### Removed
+- attendance information from consumer on results
+
+
+
+
+# [5.0.0 MBO v1.0] - 2024-09-25
+### Added
+- update readme 
+
+### Changed
+- 
+
+### Removed
+-
+
+
+
 # [5.0.0 MBO v0.9.4] - 2024-08-22
 ### Added
 - 
