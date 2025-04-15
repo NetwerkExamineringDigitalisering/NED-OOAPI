@@ -121,6 +121,7 @@ properties:
           description: |
             The sort of document, this facilitates the document flow 
             enum of the document sort
+          type: string  
           enum:
             - sessionReport
             - attendanceReport

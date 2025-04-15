@@ -45,6 +45,7 @@ properties:
         documentType:
           description: |
             identifies the kind of document; supported values: "assessmentForm" (beoordelingformulier), "assessmentFormWithAnswers" (answers with assessment notes), "assessmentModel" (beoordelingsmodel/-voorschrift), "other" (any document not suitable for the other values).
+          type: string
           enum:
             - assessmentForm
             - assessmentFormWithAnswers
