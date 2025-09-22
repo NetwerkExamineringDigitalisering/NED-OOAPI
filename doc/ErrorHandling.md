@@ -1,8 +1,12 @@
-# Authentication and Error Handling
+# Authentication en beveiliging
 
-##authentication
+Al het netwerk verkeer word standaard beviligd door minimaal TLS-1.3 encryptie.
 
-For authentication and authorization of the endpoints the oauth protocol is used. This is an industry standard (See https://oauth.net/2/) and is supported by many software languages and frameworks.
+Voor authenticatie wordt gebruik gemaakt van oauth2 protocol met client-credentials grant. Dit is een industry standaard (See https://oauth.net/2/) waardoor er standaard ondersteuning is voor veel programmeer talen en frameworks.
+Standaarden als nl-gov en edustandaard zijn hier ook op gebaseerd.
+
+Op dit moment worden er geen eisen aan de gebruikte certificaten gesteld anders dan dat ze geldig, herleidbaar naar de leverancier (domainnaam) en een geldig en controleerbaar root-certificaat moeten hebben.
+Edustandaard werkt aan een REST profiel, waarbij ook TLS 1.3 en client-credential grant de basis zijn. 
 
 ```mermaid
 sequenceDiagram
@@ -14,29 +18,22 @@ sequenceDiagram
 ```
 
 ## scopes
-Each request will need a scope in the auth token. (TO BE DEFINED )
-....
+Each request will need a scope in the auth token. voor OKE zullen deze beginnen met "nl-test-admin".
+de verschillende flows zullen verschillende catagorie scopes krijgen, waardoor er fijnmazig toestemming geven kan worden op niveau een MORA referentie componenten.
+
+zie ook H5 Koppelvlakken in [Implementation documentation](doc/documents/OKE%20MBO-toetsafname%20specs%20v1.0_20240918(definitief).pdf ) en de openapi specificatie [voor OKE](specification/ooapiv5_MBO.yaml)
+
+we onderscheiden de volgende scopes
+* nl-test-admin-flow-0  --> voor uitvragen 
+* nl-test-admin-flow-1-5 --> communicatie tussen sis en toetsplanner
+* nl-test-admin-flow-2-3-4  --> communicatie tussen toetsplanner en toets afname
+* nl-test-admin-flow-6  --> analyse flow in de toekomst
+
 
 ## eror handling
 
-every request will use http response codes. 200 for a successful request, 400 for a unsuccesfull request, both with a response in JSON with more details of the warnings or errors.
+every request will use http response codes. 200 for a successful request, xxx for a unsuccesfull request, both with a response in JSON with more details of the warnings or errors.
 
-### SUCCESS:
-```
-#Bij PUT en PATCH met één object. HTTP status code 200
-{
-"status": 200"
-}
-```
+The OKE will follow the guidelines from OOAPI workgroup en you can find details in : [openAPI spec for OKE](specification/ooapiv5_MBO.yaml)
 
-### ERROR
-```
-Bij error : HTTP status 400, but with a json payload:
 
-{
-  "status": 6,
-  "type": "error",
-  "title": "A short, human-readable summary of the problem type, e.g. 'resource not found'",
-  "detail": "An optional human-readable explanation specific to this occurrence of the problem."
-}
-```
