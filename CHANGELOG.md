@@ -5,6 +5,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+# [5.0.0 MBO 1.0] - 2025-11-19
+### Added
+- 
+
+### Changed
+- update nl-test-admin-Association removed formatting as uuid for sequenceCode
+- formatting of schema now follows best parctice and the example 
+
+### Removed
+-
+
+
+
 # [5.0.0 MBO v0.9.4] - 2024-08-22
 ### Added
 - 

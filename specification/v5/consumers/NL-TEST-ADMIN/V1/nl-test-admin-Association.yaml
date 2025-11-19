@@ -66,6 +66,5 @@ properties:
     type: string
     description: |
       The transaction number for the person within the SIS for example the loopbaannummer or an opleidingsblad 
-    format: uuid
   
 
