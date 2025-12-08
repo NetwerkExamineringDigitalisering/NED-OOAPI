@@ -4,7 +4,7 @@ oneOf:
   - $ref: '../schemas/ComponentOfferingAssociation.yaml'
 properties:
   person:
-    readOnly: true
+#  readOnly: true not immplemented in OKE
     oneOf:
       - $ref: '../schemas/Identifier.yaml'
         title: personId
