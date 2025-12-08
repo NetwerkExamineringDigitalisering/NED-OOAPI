@@ -4623,7 +4623,6 @@ paths:
                   - allOf: *ref_61
                 properties: &ref_140
                   person:
-                    readOnly: true
                     oneOf:
                       - title: personId
                         type: string
