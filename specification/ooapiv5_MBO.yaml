@@ -2550,7 +2550,7 @@ paths:
           in: query
           description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
           required: false
-          schema: &ref_149
+          schema: &ref_147
             type: string
             pattern: ^[a-z]{3}$
             minLength: 3
@@ -2930,7 +2930,7 @@ paths:
                                         consumers:
                                           type: array
                                           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-                                          items: &ref_116
+                                          items: &ref_114
                                             anyOf:
                                               - type: object
                                                 description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
@@ -2938,43 +2938,11 @@ paths:
                                                 properties: *ref_5
                                                 additionalProperties: true
                                               - type: object
-                                                description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
-                                                required: &ref_112
-                                                  - registrationStatus
-                                                  - requiredPermissionRegistration
-                                                  - consumerKey
-                                                properties: &ref_113
-                                                  consumerKey:
-                                                    type: string
-                                                  explanationRequiredPermission:
-                                                    type: string
-                                                    description: |
-                                                      toelichtingVereisteToestemming
-                                                      Is een tekstuele toelichting op de voor aanmelding vereiste toestemming van de onderwijsaanbieder
-                                                  requiredPermissionRegistration:
-                                                    type: string
-                                                    description: |
-                                                      toestemmingVereistVoorAanmelding
-                                                      Geeft aan of een aspirant-student voor een bepaald cohort van een aangeboden opleiding toestemming van de onderwijsaanbieder nodig heeft om zich aan te mogen melden.
-                                                      - yes: JA
-                                                      - no: NEE
-                                                    enum:
-                                                      - 'yes'
-                                                      - 'no'
-                                                  registrationStatus:
-                                                    type: string
-                                                    description: |
-                                                      cohortStatus
-                                                      De toegestane waarden voor de status van een cohort van een aangeboden opleiding. Hiermee kan bijvoorbeeld worden aangegeven of een bepaald cohort open staat voor aanmelding, of dat het gesloten is.
-                                                    enum:
-                                                      - open
-                                                      - closed
-                                              - type: object
                                                 description: nl-test-admin add-on attributes to the offerings
-                                                required: &ref_114
+                                                required: &ref_112
                                                   - offeringState
                                                   - consumerKey
-                                                properties: &ref_115
+                                                properties: &ref_113
                                                   consumerKey:
                                                     type: string
                                                   duration:
@@ -3104,7 +3072,7 @@ paths:
                                                         documentId: dfc9d973-42cf-46f3-bd18-f9b50492cdb5
                                                         documentType: sessionReport
                                                         documentName: Session report on Session tbd.pdf
-                                          example: &ref_117
+                                          example: &ref_115
                                             - consumerKey: nl-test-admin
                                               duration: P1DT30H4S
                                               lastPossibleStartDateTime: '2020-12-15T08:50:00'
@@ -3179,7 +3147,7 @@ paths:
 
                                                   Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
                                                 example: total costs
-                                                x-ooapi-extensible-enum: &ref_118
+                                                x-ooapi-extensible-enum: &ref_116
                                                   - STAP eligible
                                                   - total costs
                                               amount:
@@ -3221,12 +3189,12 @@ paths:
                                         room:
                                           type: object
                                           description: An area within a building where education can take place
-                                          required: &ref_122
+                                          required: &ref_120
                                             - roomId
                                             - roomType
                                             - name
                                             - primaryCode
-                                          properties: &ref_123
+                                          properties: &ref_121
                                             roomId:
                                               type: string
                                               description: Unique id for this room
@@ -3255,7 +3223,7 @@ paths:
                                                 - study room: studieruimte
                                                 - examination room: onderzoekskamer
                                                 - conference room: vergaderkamer
-                                              enum: &ref_119
+                                              enum: &ref_117
                                                 - general purpose
                                                 - lecture room
                                                 - computer room
@@ -3350,12 +3318,12 @@ paths:
                                                 - title: Building object
                                                   type: object
                                                   description: An object describing a building and the properties of a building.
-                                                  required: &ref_120
+                                                  required: &ref_118
                                                     - buildingId
                                                     - name
                                                     - address
                                                     - primaryCode
-                                                  properties: &ref_121
+                                                  properties: &ref_119
                                                     buildingId:
                                                       type: string
                                                       description: Unique id of this building
@@ -3470,7 +3438,7 @@ paths:
                                                 - type: object
                                                   description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
                                                   properties: *ref_41
-                                                - allOf: &ref_125
+                                                - allOf: &ref_123
                                                     - type: object
                                                       description: Either a program, course or component offering which descrbes the program, course or offering in time
                                                       properties: *ref_42
@@ -3544,7 +3512,7 @@ paths:
                                                                 - type: object
                                                                   description: ID of Either a program, course or component offering which descrbes the program, course or offering in time
                                                                   properties: *ref_41
-                                                                - allOf: &ref_124
+                                                                - allOf: &ref_122
                                                                     - type: object
                                                                       description: Either a program, course or component offering which descrbes the program, course or offering in time
                                                                       properties: *ref_42
@@ -4128,7 +4096,7 @@ paths:
                         type: array
                         items:
                           oneOf:
-                            - allOf: &ref_136
+                            - allOf: &ref_134
                                 - allOf: &ref_53
                                     - type: object
                                       properties: &ref_57
@@ -4170,7 +4138,7 @@ paths:
                                           writeOnly: true
                                           type: string
                                           description: The state of this association for the institution performing the request.
-                                          enum: &ref_126
+                                          enum: &ref_124
                                             - pending
                                             - canceled
                                             - denied
@@ -4181,7 +4149,7 @@ paths:
                                         consumers:
                                           description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
                                           type: array
-                                          items: &ref_129
+                                          items: &ref_127
                                             anyOf:
                                               - type: object
                                                 description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
@@ -4190,9 +4158,9 @@ paths:
                                                 additionalProperties: true
                                               - type: object
                                                 description: nl-test-admin add-on attributes to the Association
-                                                required: &ref_127
+                                                required: &ref_125
                                                   - consumerKey
-                                                properties: &ref_128
+                                                properties: &ref_126
                                                   consumerKey:
                                                     type: string
                                                   additionalTimeInMin:
@@ -4256,7 +4224,7 @@ paths:
                                                     type: string
                                                     description: |
                                                       The transaction number for the person within the SIS for example the loopbaannummer or an opleidingsblad 
-                                          example: &ref_130
+                                          example: &ref_128
                                             - consumerKey: nl-test-admin
                                               attendance: notKnown
                                               additionalTimeInMin: 30
@@ -4294,7 +4262,7 @@ paths:
                                             pass:
                                               type: string
                                               description: The state of this result
-                                              enum: &ref_131
+                                              enum: &ref_129
                                                 - unknown
                                                 - passed
                                                 - failed
@@ -4314,7 +4282,7 @@ paths:
                                             consumers:
                                               type: array
                                               description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-                                              items: &ref_134
+                                              items: &ref_132
                                                 anyOf:
                                                   - type: object
                                                     description: Object for communicating data to a specific consumer (destination). This object has no relationship with the `consumer` query parameter.
@@ -4323,10 +4291,10 @@ paths:
                                                     additionalProperties: true
                                                   - type: object
                                                     description: nl-test-admin add-on attributes to the result
-                                                    required: &ref_132
+                                                    required: &ref_130
                                                       - attendance
                                                       - consumerKey
-                                                    properties: &ref_133
+                                                    properties: &ref_131
                                                       consumerKey:
                                                         type: string
                                                       attendance:
@@ -4413,7 +4381,7 @@ paths:
                                                             documentId: dfc9d973-42cf-46f3-bd18-q8z23456ert9
                                                             documentType: assessmentForm
                                                             documentName: assessmentFrom on test information analysis qw12.pdf
-                                              example: &ref_135
+                                              example: &ref_133
                                                 - consumerKey: nl-test-admin
                                                   attendance: present
                                                   executedOfferingName: variant12_Nederlands2F
@@ -4449,7 +4417,7 @@ paths:
                                         - type: object
                                           description: Either a program, course or component offering which descrbes the program, course or offering in time
                                           properties: *ref_42
-                            - allOf: &ref_137
+                            - allOf: &ref_135
                                 - allOf: *ref_53
                                 - type: object
                                   properties:
@@ -4485,7 +4453,7 @@ paths:
                                         - type: object
                                           properties:
                                             result:
-                                              allOf: &ref_138
+                                              allOf: &ref_136
                                                 - type: object
                                                   description: A result as part of an association
                                                   required: *ref_54
@@ -4639,21 +4607,21 @@ paths:
           content:
             application/json:
               schema:
-                oneOf: &ref_141
-                  - allOf: &ref_139
+                oneOf: &ref_139
+                  - allOf: &ref_137
                       - allOf: *ref_53
                       - type: object
                         properties:
                           result:
                             allOf: *ref_59
-                  - allOf: &ref_140
+                  - allOf: &ref_138
                       - allOf: *ref_53
                       - type: object
                         properties:
                           result:
                             allOf: *ref_60
                   - allOf: *ref_61
-                properties: &ref_142
+                properties: &ref_140
                   person:
                     readOnly: true
                     oneOf:
@@ -4727,9 +4695,9 @@ paths:
           application/merge-patch+json:
             schema:
               allOf:
-                - allOf: &ref_143
+                - allOf: &ref_141
                     - allOf: *ref_62
-                  properties: &ref_144
+                  properties: &ref_142
                     person:
                       oneOf:
                         - title: personId
@@ -4814,9 +4782,9 @@ paths:
                     properties: *ref_57
                   - type: object
                     description: A system message as a response to a POST message
-                    required: &ref_145
+                    required: &ref_143
                       - message
-                    properties: &ref_146
+                    properties: &ref_144
                       message:
                         description: information displayed to user
                         type: array
@@ -5467,7 +5435,7 @@ paths:
                         state:
                           type: string
                           description: The state of this membership
-                          enum: &ref_147
+                          enum: &ref_145
                             - canceled
                             - active
                           example: active
@@ -5482,7 +5450,7 @@ paths:
                               - guest: gast
                               - invigilator: surveillant
                               - assessor: beoordelaar
-                          enum: &ref_148
+                          enum: &ref_146
                             - student
                             - lecturer
                             - teaching assistant
@@ -5976,21 +5944,16 @@ components:
         Offerings MAY be be linked to a specific AcademicSession to indicate that the specified Offering takes place during the AcademicSession, however this is not mandatory.
       required: *ref_38
       properties: *ref_39
-    RIO-Offering:
-      type: object
-      description: RIO add-on attributes to the offerings of either a collection of courses or courses that lead to a certifiable learning outcome
-      required: *ref_112
-      properties: *ref_113
     nl-test-admin-Offering:
       type: object
       description: nl-test-admin add-on attributes to the offerings
-      required: *ref_114
-      properties: *ref_115
+      required: *ref_112
+      properties: *ref_113
     ConsumerOnOffering:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: *ref_116
-      example: *ref_117
+      items: *ref_114
+      example: *ref_115
     OfferingProperties:
       type: object
       description: Either a program, course or component offering which descrbes the program, course or offering in time
@@ -6006,7 +5969,7 @@ components:
 
         Implementations are allowed to add additional values to those above, as long as they do not overlap in definition to existing values.
       example: total costs
-      x-ooapi-extensible-enum: *ref_118
+      x-ooapi-extensible-enum: *ref_116
     Cost:
       type: object
       required: *ref_43
@@ -6026,24 +5989,24 @@ components:
         - study room: studieruimte
         - examination room: onderzoekskamer
         - conference room: vergaderkamer
-      enum: *ref_119
+      enum: *ref_117
       example: exam location
     Building:
       type: object
       description: An object describing a building and the properties of a building.
-      required: *ref_120
-      properties: *ref_121
+      required: *ref_118
+      properties: *ref_119
     Room:
       type: object
       description: An area within a building where education can take place
-      required: *ref_122
-      properties: *ref_123
+      required: *ref_120
+      properties: *ref_121
     ProgramOfferingProperties:
-      allOf: *ref_124
+      allOf: *ref_122
     ProgramOffering:
       allOf: *ref_47
     CourseOfferingProperties:
-      allOf: *ref_125
+      allOf: *ref_123
     CourseOffering:
       allOf: *ref_46
     ComponentOfferingProperties:
@@ -6079,18 +6042,18 @@ components:
     remoteAssociationState:
       type: string
       description: The state of this association for the institution performing the request.
-      enum: *ref_126
+      enum: *ref_124
       example: associated
     nl-test-admin-Association:
       type: object
       description: nl-test-admin add-on attributes to the Association
-      required: *ref_127
-      properties: *ref_128
+      required: *ref_125
+      properties: *ref_126
     ConsumerOnAssociation:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: *ref_129
-      example: *ref_130
+      items: *ref_127
+      example: *ref_128
     AssociationProperties:
       type: object
       description: A relationship between a person object and an offering
@@ -6100,18 +6063,18 @@ components:
     passState:
       type: string
       description: The state of this result
-      enum: *ref_131
+      enum: *ref_129
       example: passed
     nl-test-admin-Result:
       type: object
       description: nl-test-admin add-on attributes to the result
-      required: *ref_132
-      properties: *ref_133
+      required: *ref_130
+      properties: *ref_131
     ConsumerOnResult:
       type: array
       description: The additional consumer elements that can be provided, see the [documentation on support for specific consumers](https://open-education-api.github.io/specification/#/consumers) for more information about this mechanism.
-      items: *ref_134
-      example: *ref_135
+      items: *ref_132
+      example: *ref_133
     Result:
       type: object
       description: A result as part of an association
@@ -6122,13 +6085,13 @@ components:
     Offering:
       allOf: *ref_56
     ProgramOfferingAssociationExpanded:
-      allOf: *ref_136
+      allOf: *ref_134
     CourseResult:
       allOf: *ref_60
     CourseOfferingAssociationExpanded:
-      allOf: *ref_137
+      allOf: *ref_135
     ComponentResult:
-      allOf: *ref_138
+      allOf: *ref_136
     ComponentOfferingAssociationProperties:
       allOf: *ref_62
     ComponentOfferingAssociation:
@@ -6137,20 +6100,20 @@ components:
       allOf: *ref_63
       properties: *ref_64
     ProgramOfferingAssociation:
-      allOf: *ref_139
+      allOf: *ref_137
     CourseOfferingAssociation:
-      allOf: *ref_140
+      allOf: *ref_138
     AssociationFull:
-      oneOf: *ref_141
-      properties: *ref_142
+      oneOf: *ref_139
+      properties: *ref_140
     ComponentOfferingAssociationPatch:
-      allOf: *ref_143
-      properties: *ref_144
+      allOf: *ref_141
+      properties: *ref_142
     PostResponse:
       type: object
       description: A system message as a response to a POST message
-      required: *ref_145
-      properties: *ref_146
+      required: *ref_143
+      properties: *ref_144
     Url:
       type: string
       description: Url containing a web address.
@@ -6176,7 +6139,7 @@ components:
     membershipState:
       type: string
       description: The state of this membership
-      enum: *ref_147
+      enum: *ref_145
       example: active
     membershipRole:
       type: string
@@ -6189,7 +6152,7 @@ components:
           - guest: gast
           - invigilator: surveillant
           - assessor: beoordelaar
-      enum: *ref_148
+      enum: *ref_146
       example: student
     MembershipItem:
       type: object
@@ -6254,7 +6217,7 @@ components:
       in: query
       description: Filter by teachingLanguage, which is a string describing the main teaching language, should be a three-letter language code as specified by ISO 639-2.
       required: false
-      schema: *ref_149
+      schema: *ref_147
       example: nld
 x-tagGroups:
   - name: Requests and responses
