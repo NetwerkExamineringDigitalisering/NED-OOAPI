@@ -36,8 +36,6 @@ properties:
     $ref: '../../../enumerations/resultValueType.yaml'
   passFrom: 
     type: string
-    enum:
-      - "5.5"
   retries:
     description: |
       number of retries allowed for this component
