@@ -54,6 +54,7 @@ An adapted and shortend version of the yaml file for the MBO-OKE can be found [h
 | [0.9.3](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/MBO-toetsafname%20specs%20v0.9.3_20240223(reviewversie).pdf) | 10 jan 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | groupmembers added for ad-hoc tests|
 | [0.9.4](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/OKE%20MBO-toetsafname%20specs%20v0.9.4_20240906(reviewversie).pdf) | 6 september 2024 | DRAFT RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | final corrections and clarifications|
 | [1.0](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/OKE%20MBO-toetsafname%20specs%20v1.0_20240918(definitief).pdf) | 18 september 2024 | FINAL RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | final corrections and clarifications|
+| [1.0.1](https://github.com/NetwerkExamineringDigitalisering/NED-OOAPI/blob/main/doc/documents/OKE%20MBO-toetsafname%20specs%20v1.0.1_20260527(definitief).pdf) | 27 mei 2026 | FINAL RELEASE | [@JosVanDerArend](https://github.com/JosVanderArend) and many others | added flow 6 Analysis and specifies how to send the FAO-ID en some corrections and clarifications|
 
 This repository is an initiative of the MBO Digitaal and NED.
 
