@@ -101,7 +101,7 @@ put:
             Create person in remote system:
               value:
                 personId: "123e4567-e89b-12d3-a456-426614174000"
-                primaryCode: 
+                primaryCode:
                   codeType: "identifier"
                   code: "1234qwe12"
                 givenName: "Maartje"
@@ -110,25 +110,25 @@ put:
                 displayName: "Maartje van Damme"
                 initials: "MCW"
                 activeEnrollment: true
-                affiliations: 
+                affiliations:
                 - "student"
                 mail: "vandamme.mcw@universiteitvanharderwijk.nl"
                 languageOfChoice: 
                 - "nl-NL"
-                otherCodes: 
+                otherCodes:
                 - codeType: "eckid"
                   code: "00000"
-                consumers: 
+                consumers:
                 - consumerKey: "nl-test-admin"
                   preferredName: "Maar"                
-                  assignedNeeds:     
+                  assignedNeeds:
                     code: "extraTimeOnlyMath25%"
                     description:
                     - language: nl-NL
                       value: "Extra tijd van 25% bij de totale tijd van een toets waarin rekenen voorkomt"        
                     startDate: "2023-10-25"
                     endDate: "2025-09-30"
-                  idCheckName: "Damme, Maartje van"  
+                  idCheckName: "Damme, Maartje van"
 
   responses:
     '200':

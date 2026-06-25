@@ -270,8 +270,8 @@ paths:
   #   $ref: paths/PersonMe.yaml
   /persons/{personId}:
     $ref: paths/PersonInstance.yaml
-  #/persons/{personId}/associations:
-  #  $ref: paths/PersonAssociationCollection.yaml
+  /persons/{personId}/associations:
+   $ref: paths/PersonAssociationCollection.yaml
   # /persons/{personId}/groups:
   #   $ref: paths/PersonGroupCollection.yaml
   # /organizations:

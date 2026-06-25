@@ -21,7 +21,7 @@ A typical school uses a broad range of exam and testing tools. The aim of this s
 - [flow 3 : Test results are returned to Toetsplanning](doc/flow3.md)
 - [flow 4 : Test session report (Procesverbaal and irregularities) back to Toetsplanning](doc/flow4.md)
 - [flow 5 : Test results to Deelnemerregistratie](doc/flow5.md)
-- flow 6 : analyse information
+- [flow 6 : Analysis information](doc/flow6.md)
 
 - [All flows - Authentication and scopes, error handling](doc/ErrorHandling.md)
 
@@ -87,5 +87,5 @@ This standard is developed by members from schools, software partners and NED. T
 | Ellen Zoegaard | SPL |E.Zoegard@stichtingpraktijkleren.nl|
 | Sjoerd Zonneveld | SPL |szonneveld@bitpatroon.nl|	
 | Werner Richelle|Summa College|w.richelle@summacollege.nl|
-| Ronald Ham | Surf	/ R4Arhictecture|	Ronald.ham@r4architecture.nl |
+| Ronald Ham | Surf	/ R4Architecture|	Ronald.ham@r4architecture.nl |
 | Rene Rutte | Xebic | rrutte@xebic.com |
